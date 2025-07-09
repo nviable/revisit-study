@@ -1,7 +1,15 @@
 // Digital Multimedia Forensics Ontology Application
+// Version 2.3 - Fixed all null DOM element access issues
+console.log('🔄 OntologyApp v2.3 loaded - DOM safety fixes applied!');
 
 class OntologyApp {
     constructor() {
+        // Prevent multiple initializations
+        if (window.ontologyAppInitialized) {
+            console.log('OntologyApp already initialized, skipping...');
+            return;
+        }
+
         this.ontologyData = {};
         this.expandedNodes = new Set();
         this.selectedNode = null;
@@ -15,12 +23,13 @@ class OntologyApp {
 
         // JSON file mappings
         this.categoryMappings = {
-            'Media Modality': 'data/modalities_extended.json',
-            'Manipulation Type': 'data/forensic_goal_extended.json',
-            'Features & Cues': 'data/evidentiary_features_extended.json',
-            'Search Scope': 'data/analysis_scope_extended.json'
+            'Modality': 'data/modalities_extended.json',
+            'Forensic Goal': 'data/forensic_goal_extended.json',
+            'Evidentiary Features': 'data/evidentiary_features_extended.json',
+            'Search & Analysis Scope': 'data/analysis_scope_extended.json'
         };
 
+        window.ontologyAppInitialized = true;
         this.init();
     }
 
@@ -91,23 +100,23 @@ class OntologyApp {
     async loadInitialStructure() {
         // Create initial structure with placeholders
         this.ontologyData = {
-            'Media Modality': {
-                name: 'Media Modality',
+            'Modality': {
+                name: 'Modality',
                 description: 'Types of media content analyzed in digital forensics',
                 children: null // Will be loaded lazily
             },
-            'Manipulation Type': {
-                name: 'Manipulation Type',
+            'Forensic Goal': {
+                name: 'Forensic Goal',
                 description: 'Types of manipulations and alterations detected in media',
                 children: null
             },
-            'Features & Cues': {
-                name: 'Features & Cues',
+            'Evidentiary Features': {
+                name: 'Evidentiary Features',
                 description: 'Technical features and cues used for detection and analysis',
                 children: null
             },
-            'Search Scope': {
-                name: 'Search Scope',
+            'Search & Analysis Scope': {
+                name: 'Search & Analysis Scope',
                 description: 'Analysis scope and target areas in multimedia forensics',
                 children: null
             }
@@ -174,73 +183,93 @@ class OntologyApp {
     }
 
     setupEventListeners() {
+        console.log('Setting up event listeners...');
+
         // Search functionality
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearchBtn');
 
-        searchInput.addEventListener('input', async (e) => {
-            this.searchTerm = e.target.value.toLowerCase();
+        if (searchInput) {
+            searchInput.addEventListener('input', async (e) => {
+                this.searchTerm = e.target.value.toLowerCase();
 
-            // Render the appropriate view based on current view type
-            if (this.currentView === 'tree') {
-                this.renderTree();
-            } else if (this.currentView === 'dendrogram') {
-                await this.renderDendrogram();
-            } else if (this.currentView === 'sunburst') {
-                await this.renderSunburst();
-            }
+                // Render the appropriate view based on current view type
+                if (this.currentView === 'tree') {
+                    this.renderTree();
+                } else if (this.currentView === 'dendrogram') {
+                    await this.renderDendrogram();
+                } else if (this.currentView === 'sunburst') {
+                    await this.renderSunburst();
+                }
 
-            // Show/hide clear button based on input content
-            if (e.target.value.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
-        });
+                // Show/hide clear button based on input content
+                if (clearBtn && e.target.value.length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else if (clearBtn) {
+                    clearBtn.classList.add('hidden');
+                }
+            });
+        }
 
         // Clear search functionality
-        clearBtn.addEventListener('click', async () => {
-            searchInput.value = '';
-            this.searchTerm = '';
-            clearBtn.classList.add('hidden');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', async () => {
+                if (searchInput) {
+                    searchInput.value = '';
+                    this.searchTerm = '';
+                    clearBtn.classList.add('hidden');
 
-            // Render the appropriate view based on current view type
-            if (this.currentView === 'tree') {
-                this.renderTree();
-            } else if (this.currentView === 'dendrogram') {
-                await this.renderDendrogram();
-            } else if (this.currentView === 'sunburst') {
-                await this.renderSunburst();
+                    // Render the appropriate view based on current view type
+                    if (this.currentView === 'tree') {
+                        this.renderTree();
+                    } else if (this.currentView === 'dendrogram') {
+                        await this.renderDendrogram();
+                    } else if (this.currentView === 'sunburst') {
+                        await this.renderSunburst();
+                    }
+
+                    searchInput.focus(); // Return focus to input
+                }
+            });
+        }
+
+        // Helper function to safely add event listeners
+        const safeAddEventListener = (elementId, event, handler) => {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.addEventListener(event, handler);
+                return true;
+            } else {
+                console.error(`Element ${elementId} not found when adding event listener`);
+                return false;
             }
-
-            searchInput.focus(); // Return focus to input
-        });
+        };
 
         // Expand/Collapse all buttons
-        document.getElementById('expandAllBtn').addEventListener('click', () => {
+        safeAddEventListener('expandAllBtn', 'click', () => {
             this.expandAll();
         });
 
-        document.getElementById('collapseAllBtn').addEventListener('click', () => {
+        safeAddEventListener('collapseAllBtn', 'click', () => {
             this.collapseAll();
         });
 
         // Accordion functionality
-        document.getElementById('termsAccordionHeader').addEventListener('click', () => {
+        safeAddEventListener('termsAccordionHeader', 'click', () => {
             this.toggleAccordion('terms');
         });
 
-        document.getElementById('papersAccordionHeader').addEventListener('click', () => {
+        safeAddEventListener('papersAccordionHeader', 'click', () => {
             this.toggleAccordion('papers');
         });
 
         // Modal functionality
-        document.getElementById('modalCloseBtn').addEventListener('click', () => {
+        safeAddEventListener('modalCloseBtn', 'click', () => {
             this.closeModal();
         });
 
         // Close modal on background click
-        document.getElementById('paperModal').addEventListener('click', (e) => {
+        safeAddEventListener('paperModal', 'click', (e) => {
             if (e.target.id === 'paperModal') {
                 this.closeModal();
             }
@@ -254,35 +283,33 @@ class OntologyApp {
         });
 
         // Toggle button functionality
-        document.getElementById('statsToggleBtn').addEventListener('click', async () => {
+        safeAddEventListener('statsToggleBtn', 'click', async () => {
             await this.toggleStats();
         });
 
-        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        safeAddEventListener('themeToggleBtn', 'click', () => {
             this.toggleTheme();
         });
 
-        document.getElementById('sidebarToggleBtn').addEventListener('click', () => {
+        safeAddEventListener('sidebarToggleBtn', 'click', () => {
             this.toggleSidebar();
         });
 
         // View switching functionality
-        document.getElementById('treeViewBtn').addEventListener('click', async () => {
+        safeAddEventListener('treeViewBtn', 'click', async () => {
             await this.switchView('tree');
         });
 
-        document.getElementById('dendrogramViewBtn').addEventListener('click', async () => {
+        safeAddEventListener('dendrogramViewBtn', 'click', async () => {
             await this.switchView('dendrogram');
         });
 
-        document.getElementById('sunburstViewBtn').addEventListener('click', async () => {
+        safeAddEventListener('sunburstViewBtn', 'click', async () => {
             await this.switchView('sunburst');
         });
 
-        // Removed sunburst category navigation since we now show all categories together
-
         // Unified reset zoom functionality for dendrogram and sunburst views
-        document.getElementById('resetZoomBtn').addEventListener('click', () => {
+        safeAddEventListener('resetZoomBtn', 'click', () => {
             if (this.currentView === 'sunburst' && this.sunburstRenderer) {
                 this.sunburstRenderer.resetZoom();
             } else if (this.currentView === 'dendrogram' && this.dendrogramRenderer) {
@@ -293,6 +320,11 @@ class OntologyApp {
 
     renderTree() {
         const treeContainer = document.getElementById('ontologyTree');
+        if (!treeContainer) {
+            console.error('ontologyTree container not found');
+            return;
+        }
+
         treeContainer.innerHTML = '';
 
         Object.keys(this.ontologyData).forEach(rootKey => {
@@ -472,7 +504,7 @@ class OntologyApp {
 
             await this.loadCategoryData(nodeId);
             delete this.ontologyData[nodeId].loading; // Remove loading state
-            
+
             // Re-render after loading is complete
             this.renderTree();
             return; // Exit here because renderTree is already called
@@ -525,6 +557,7 @@ class OntologyApp {
 
         // Update accordion content
         this.updateTermsAccordion(data);
+        this.updateExamplesSection(data);
         this.updatePapersAccordion(data);
 
         // Close all accordions initially
@@ -548,6 +581,25 @@ class OntologyApp {
         } else {
             header.querySelector('span').textContent = 'Associated Terms (0)';
             termsList.innerHTML = '<p class="no-results">No associated terms available.</p>';
+        }
+    }
+
+    updateExamplesSection(data) {
+        const examplesList = document.getElementById('examplesList');
+        const examplesSection = document.getElementById('examplesSection');
+
+        if (data.examples && data.examples.length > 0) {
+            examplesSection.style.display = 'block';
+            examplesList.innerHTML = '';
+
+            data.examples.forEach(example => {
+                const exampleItem = document.createElement('div');
+                exampleItem.className = 'example-item-simple';
+                exampleItem.textContent = example;
+                examplesList.appendChild(exampleItem);
+            });
+        } else {
+            examplesSection.style.display = 'none';
         }
     }
 
@@ -601,6 +653,11 @@ class OntologyApp {
         const header = document.getElementById(`${type}AccordionHeader`);
         const content = document.getElementById(`${type}AccordionContent`);
 
+        if (!header || !content) {
+            console.warn(`Accordion elements for '${type}' not found (header: ${!!header}, content: ${!!content})`);
+            return;
+        }
+
         const isActive = header.classList.contains('active');
 
         if (isActive) {
@@ -616,8 +673,18 @@ class OntologyApp {
         ['terms', 'papers'].forEach(type => {
             const header = document.getElementById(`${type}AccordionHeader`);
             const content = document.getElementById(`${type}AccordionContent`);
-            header.classList.remove('active');
-            content.classList.remove('active');
+
+            if (header) {
+                header.classList.remove('active');
+            } else {
+                console.warn(`Accordion header element '${type}AccordionHeader' not found`);
+            }
+
+            if (content) {
+                content.classList.remove('active');
+            } else {
+                console.warn(`Accordion content element '${type}AccordionContent' not found`);
+            }
         });
     }
 
@@ -707,7 +774,12 @@ class OntologyApp {
     }
 
     closeModal() {
-        document.getElementById('paperModal').classList.add('hidden');
+        const modal = document.getElementById('paperModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        } else {
+            console.warn('Paper modal element not found');
+        }
     }
 
     async expandAll() {
@@ -732,6 +804,15 @@ class OntologyApp {
         const statsContainer = document.getElementById('statsContainer');
         const mainLayout = document.querySelector('.main-layout');
         const toggleBtn = document.getElementById('statsToggleBtn');
+
+        if (!statsContainer || !mainLayout || !toggleBtn) {
+            console.warn('Stats elements not found:', {
+                statsContainer: !!statsContainer,
+                mainLayout: !!mainLayout,
+                toggleBtn: !!toggleBtn
+            });
+            return;
+        }
 
         if (statsContainer.classList.contains('collapsed')) {
             // Expand stats
@@ -765,7 +846,17 @@ class OntologyApp {
     toggleTheme() {
         const html = document.documentElement;
         const toggleBtn = document.getElementById('themeToggleBtn');
+
+        if (!toggleBtn) {
+            console.warn('Theme toggle button not found');
+            return;
+        }
+
         const icon = toggleBtn.querySelector('.btn-icon');
+        if (!icon) {
+            console.warn('Theme toggle icon not found');
+            return;
+        }
 
         const currentTheme = html.getAttribute('data-color-scheme');
 
@@ -784,7 +875,21 @@ class OntologyApp {
         const sidebar = document.getElementById('sidebar');
         const mainLayout = document.querySelector('.main-layout');
         const toggleBtn = document.getElementById('sidebarToggleBtn');
+
+        if (!sidebar || !mainLayout || !toggleBtn) {
+            console.warn('Sidebar elements not found:', {
+                sidebar: !!sidebar,
+                mainLayout: !!mainLayout,
+                toggleBtn: !!toggleBtn
+            });
+            return;
+        }
+
         const icon = toggleBtn.querySelector('.btn-icon');
+        if (!icon) {
+            console.warn('Sidebar toggle icon not found');
+            return;
+        }
 
         if (sidebar.classList.contains('collapsed')) {
             // Expand sidebar
@@ -894,7 +999,7 @@ class OntologyApp {
 
     initializeSunburst() {
         this.sunburstRenderer = new SunburstRenderer(this);
-        this.currentSunburstCategory = 'Media Modality';
+        this.currentSunburstCategory = 'Modality';
     }
 
     async renderSunburst() {
@@ -903,7 +1008,7 @@ class OntologyApp {
         }
 
         // Load all category data
-        const categories = ["Media Modality", "Manipulation Type", "Features & Cues", "Search Scope"];
+        const categories = ["Modality", "Forensic Goal", "Evidentiary Features", "Search & Analysis Scope"];
         for (const category of categories) {
             if (!this.ontologyData[category]) {
                 await this.loadCategoryData(category);
@@ -927,10 +1032,10 @@ class OntologyApp {
 
         // Calculate statistics for each category
         const categories = {
-            "Media Modality": "mediaModalityTerms",
-            "Manipulation Type": "manipulationTypeTerms",
-            "Features & Cues": "featuresCuesTerms",
-            "Search Scope": "searchScopeTerms"
+            "Modality": "mediaModalityTerms",
+            "Forensic Goal": "manipulationTypeTerms",
+            "Evidentiary Features": "featuresCuesTerms",
+            "Search & Analysis Scope": "searchScopeTerms"
         };
 
         Object.keys(categories).forEach(categoryName => {
@@ -1196,10 +1301,10 @@ class DendrogramRenderer {
     getNodeColor(data) {
         const category = data.category;
         const colors = {
-            'Media Modality': '#3B82F6',
-            'Manipulation Type': '#EF4444',
-            'Features & Cues': '#10B981',
-            'Search Scope': '#5D878F'
+            'Modality': '#3B82F6',
+            'Forensic Goal': '#EF4444',
+            'Evidentiary Features': '#10B981',
+            'Search & Analysis Scope': '#5D878F'
         };
         return colors[category] || '#6B7280';
     }
@@ -1369,7 +1474,7 @@ class SunburstRenderer {
         };
 
         // Add all categories as top-level children
-        const categories = ["Media Modality", "Manipulation Type", "Features & Cues", "Search Scope"];
+        const categories = ["Modality", "Forensic Goal", "Evidentiary Features", "Search & Analysis Scope"];
 
         categories.forEach(categoryName => {
             const categoryData = data[categoryName];
@@ -1604,6 +1709,32 @@ class SunburstRenderer {
 }
 
 // Initialize the application when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new OntologyApp();
-});
+function initializeApp() {
+    console.log('Initializing OntologyApp...');
+    try {
+        new OntologyApp();
+    } catch (error) {
+        console.error('Error initializing OntologyApp:', error);
+        // Retry once after a delay
+        setTimeout(() => {
+            try {
+                new OntologyApp();
+            } catch (retryError) {
+                console.error('Failed to initialize OntologyApp after retry:', retryError);
+            }
+        }, 500);
+    }
+}
+
+// Handle different loading scenarios
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Additional delay for iframe context
+        const delay = window.self !== window.top ? 300 : 100;
+        setTimeout(initializeApp, delay);
+    });
+} else {
+    // DOM already loaded
+    const delay = window.self !== window.top ? 300 : 100;
+    setTimeout(initializeApp, delay);
+}
