@@ -1,6 +1,6 @@
 // Digital Visual Media Forensics Ontology Application
-// Version 2.3 - Fixed all null DOM element access issues
-console.log('🔄 OntologyApp v2.3 loaded - DOM safety fixes applied!');
+// Version 2.5 - Updated version for cache busting
+console.log('🔄 OntologyApp v2.5 loaded - Updated version for cache busting!');
 
 // Import Trrack from node_modules
 import { initializeTrrack, Registry, createAction } from '../../../node_modules/@trrack/core/index.mjs';
