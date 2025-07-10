@@ -1,9 +1,9 @@
 // Digital Visual Media Forensics Ontology Application
-// Version 2.5 - Updated version for cache busting
-console.log('🔄 OntologyApp v2.5 loaded - Updated version for cache busting!');
+// Version 2.6 - Fixed MIME type error and DOM element issues
+console.log('🔄 OntologyApp v2.6 loaded - Fixed MIME type error and DOM element issues!');
 
-// Import Trrack from node_modules
-import { initializeTrrack, Registry, createAction } from '../../../node_modules/@trrack/core/index.mjs';
+// Import Trrack from CDN
+import { initializeTrrack, Registry, createAction } from 'https://cdn.jsdelivr.net/npm/@trrack/core@1.3.0/+esm';
 
 class OntologyApp {
     constructor() {
@@ -30,8 +30,8 @@ class OntologyApp {
 
         // JSON file mappings
         this.categoryMappings = {
-            'Modality': 'data/modalities_extended.json',
-            'Forensic Goal': 'data/forensic_goal_extended.json',
+            'Target Modality': 'data/modalities_extended.json',
+            'Forensic Goal & Task': 'data/forensic_goal_extended.json',
             'Evidentiary Features': 'data/evidentiary_features_extended.json',
             'Search & Analysis Scope': 'data/analysis_scope_extended.json'
         };
@@ -311,13 +311,13 @@ class OntologyApp {
     async loadInitialStructure() {
         // Create initial structure with placeholders
         this.ontologyData = {
-            'Modality': {
-                name: 'Modality',
+            'Target Modality': {
+                name: 'Target Modality',
                 description: 'Types of media content analyzed in digital forensics',
                 children: null // Will be loaded lazily
             },
-            'Forensic Goal': {
-                name: 'Forensic Goal',
+            'Forensic Goal & Task': {
+                name: 'Forensic Goal & Task',
                 description: 'Types of manipulations and alterations detected in media',
                 children: null
             },
@@ -1350,7 +1350,7 @@ class OntologyApp {
 
     initializeSunburst() {
         this.sunburstRenderer = new SunburstRenderer(this);
-        this.currentSunburstCategory = 'Modality';
+        this.currentSunburstCategory = 'Target Modality';
     }
 
     async renderSunburst() {
@@ -1375,16 +1375,16 @@ class OntologyApp {
     calculateStatistics() {
         const stats = {
             totalPapers: new Set(),
-            mediaModalityTerms: 0,
-            manipulationTypeTerms: 0,
+            targetModalityTerms: 0,
+            forensicGoalTerms: 0,
             featuresCuesTerms: 0,
             searchScopeTerms: 0
         };
 
         // Calculate statistics for each category
         const categories = {
-            "Target Modality": "mediaModalityTerms",
-            "Forensic Goal & Task": "manipulationTypeTerms",
+            "Target Modality": "targetModalityTerms",
+            "Forensic Goal & Task": "forensicGoalTerms",
             "Evidentiary Features": "featuresCuesTerms",
             "Search & Analysis Scope": "searchScopeTerms"
         };
@@ -1452,12 +1452,18 @@ class OntologyApp {
         console.log('Calculated statistics:', stats);
         console.log('Current ontology data keys:', Object.keys(this.ontologyData));
 
-        // Update the DOM elements
-        document.getElementById('statPapers').textContent = stats.totalPapers.toLocaleString();
-        document.getElementById('statMediaModality').textContent = stats.mediaModalityTerms.toLocaleString();
-        document.getElementById('statManipulationType').textContent = stats.manipulationTypeTerms.toLocaleString();
-        document.getElementById('statFeaturesCues').textContent = stats.featuresCuesTerms.toLocaleString();
-        document.getElementById('statSearchScope').textContent = stats.searchScopeTerms.toLocaleString();
+        // Update the DOM elements with null checks
+        const statPapersEl = document.getElementById('statPapers');
+        const statTargetModalityEl = document.getElementById('statTargetModality');
+        const statForensicGoalEl = document.getElementById('statForensicGoal');
+        const statFeaturesCuesEl = document.getElementById('statFeaturesCues');
+        const statSearchScopeEl = document.getElementById('statSearchScope');
+
+        if (statPapersEl) statPapersEl.textContent = stats.totalPapers.toLocaleString();
+        if (statTargetModalityEl) statTargetModalityEl.textContent = stats.targetModalityTerms.toLocaleString();
+        if (statForensicGoalEl) statForensicGoalEl.textContent = stats.forensicGoalTerms.toLocaleString();
+        if (statFeaturesCuesEl) statFeaturesCuesEl.textContent = stats.featuresCuesTerms.toLocaleString();
+        if (statSearchScopeEl) statSearchScopeEl.textContent = stats.searchScopeTerms.toLocaleString();
     }
 }
 
@@ -1482,11 +1488,17 @@ class DendrogramRenderer {
 
     clearVisualization() {
         const container = document.getElementById('ontologyDendrogram');
-        container.innerHTML = '';
+        if (container) {
+            container.innerHTML = '';
+        }
     }
 
     setupSVG() {
         const container = document.getElementById('ontologyDendrogram');
+        if (!container) {
+            console.warn('ontologyDendrogram container not found');
+            return;
+        }
         const containerRect = container.getBoundingClientRect();
 
         this.width = containerRect.width;
@@ -1652,8 +1664,8 @@ class DendrogramRenderer {
     getNodeColor(data) {
         const category = data.category;
         const colors = {
-            'Modality': '#3B82F6',
-            'Forensic Goal': '#EF4444',
+            'Target Modality': '#3B82F6',
+            'Forensic Goal & Task': '#EF4444',
             'Evidentiary Features': '#10B981',
             'Search & Analysis Scope': '#5D878F'
         };
@@ -1728,11 +1740,17 @@ class SunburstRenderer {
 
     clearVisualization() {
         const container = document.getElementById('sunburstChart');
-        container.innerHTML = '';
+        if (container) {
+            container.innerHTML = '';
+        }
     }
 
     setupSVG() {
         const container = document.getElementById('sunburstChart');
+        if (!container) {
+            console.warn('sunburstChart container not found');
+            return;
+        }
         const containerRect = container.getBoundingClientRect();
 
         this.width = containerRect.width;

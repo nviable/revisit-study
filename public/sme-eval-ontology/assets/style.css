@@ -1027,11 +1027,11 @@ select.form-control {
 }
 
 /* Category-specific colors for dendrogram nodes */
-.dendrogram .node[data-category="Modality"] circle {
+.dendrogram .node[data-category="Target Modality"] circle {
   fill: #3B82F6;
 }
 
-.dendrogram .node[data-category="Forensic Goal"] circle {
+.dendrogram .node[data-category="Forensic Goal & Task"] circle {
   fill: #EF4444;
 }
 
@@ -1182,11 +1182,11 @@ select.form-control {
 }
 
 /* Category-specific colors for sunburst slices */
-.sunburst .slice[data-category="Modality"] {
+.sunburst .slice[data-category="Target Modality"] {
   fill: #3B82F6;
 }
 
-.sunburst .slice[data-category="Forensic Goal"] {
+.sunburst .slice[data-category="Forensic Goal & Task"] {
   fill: #EF4444;
 }
 
@@ -1198,11 +1198,11 @@ select.form-control {
   fill: #5D878F;
 }
 
-.sunburst .slice.child[data-category="Modality"] {
+.sunburst .slice.child[data-category="Target Modality"] {
   fill: #60A5FA;
 }
 
-.sunburst .slice.child[data-category="Forensic Goal"] {
+.sunburst .slice.child[data-category="Forensic Goal & Task"] {
   fill: #F87171;
 }
 
@@ -1312,11 +1312,11 @@ select.form-control {
 }
 
 /* Color coding for different branches */
-.tree-node-content[data-category="Modality"] {
+.tree-node-content[data-category="Target Modality"] {
   border-left: 4px solid #1FB8CD;
 }
 
-.tree-node-content[data-category="Forensic Goal"] {
+.tree-node-content[data-category="Forensic Goal & Task"] {
   border-left: 4px solid #FFC185;
 }
 
