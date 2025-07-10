@@ -682,11 +682,6 @@
           "required": false
         }
       ]
-    },
-    "consent_declined": {
-      "type": "markdown",
-      "path": "sme-eval-ontology/assets/consent_declined.md",
-      "response": []
     }
   },
   "sequence": {
