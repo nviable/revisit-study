@@ -118,14 +118,8 @@
         {
           "id": "exploration_tree",
           "prompt": "Please click **Expand All** on Tree View. How many papers are associated with the **Deepfakes** node?",
-          "type": "radio",
-          "options": [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"
-          ],
+          "type": "shortText",
+          "placeholder": "Enter the number of papers",
           "required": true
         },
         {
@@ -143,7 +137,7 @@
         },
         {
           "id": "exploration_sunburst",
-          "prompt": "Switch to **Sunburst View**. Click on any colored section to zoom in, then use the breadcrumb trail or reset button to return to the full view. Type **completed** when you've tried the zoom-in feature.",
+          "prompt": "Switch to **Sunburst View**. Click on any colored section to zoom in, then use the breadcrumb trail or reset button to return to the full view. Select **completed** when you've tried the zoom-in feature.",
           "location": "belowStimulus",
           "type": "dropdown",
           "placeholder": "Select **completed** when you've tried the zoom-in feature.",
@@ -282,7 +276,7 @@
     "branch_manipulation": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Target Manipulation** branch.",
+      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Forensic Goal & Task** branch.",
       "previousButton": true,
       "response": [
         {
@@ -379,13 +373,13 @@
     "branch_feature": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Target Feature** branch.",
+      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Evidentiary Features** branch.",
       "previousButton": true,
       "response": [
         {
           "id": "feature_organization",
           "prompt": "**[Organization]** The structure and grouping of nodes within the Evidentiary Features branch is logical and effective.",
-          "secondaryText": "Example: Is it reasonable to split this branch into features that model ingest and signs that humans can identify?",
+          "secondaryText": "Example: Is it reasonable to split this branch into mathematical features and signs that humans can identify?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -476,7 +470,7 @@
     "branch_scope": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Target Scope** branch.",
+      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Search & Analysis Scope** branch.",
       "previousButton": true,
       "response": [
         {
@@ -504,7 +498,7 @@
         {
           "id": "scope_completeness",
           "prompt": "**[Completeness]** Are there any particular analysis scopes for digital visual media missing from this branch?",
-          "secondaryText": "Example: Should we consider **Captions**, **Transcripts**, and so on from supportive modalities (Text & Audio) here in this branch? Patch/Block is not included in the current branch, should it be added back under **Spatial Granularity**?",
+          "secondaryText": "Example: Should we consider \"Captions\", \"Transcripts\", and so on from supportive modalities (Text & Audio) here in this branch? Patch/Block is not included in the current branch, should it be added back under \"Spatial Granularity\"?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -524,7 +518,7 @@
         {
           "id": "scope_correctness",
           "prompt": "**[Correctness]** Is anything in this branch misplaced? Does any node belong in a different branch?",
-          "secondaryText": "Example: Should **Full Face** be a standalone node as a **ROI**?",
+          "secondaryText": "Example: Should \"Full Face\" be a standalone node as a \"ROI\"?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -544,7 +538,7 @@
         {
           "id": "scope_naming_clarity",
           "prompt": "**[Naming & Clarity]** Are any of the node names within this branch ambiguous, incorrect, or confusing?",
-          "secondaryText": "Example: Is **Short Window/Segment** intuitive enough? What if the selection is not consecutive frames?",
+          "secondaryText": "Example: Is \"Short Window/Segment\" intuitive enough? What if the selection is not consecutive frames?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -681,9 +675,10 @@
       "response": [
         {
           "id": "optional_name",
-          "prompt": "The study is anonymous, but if you'd like to provide your name for us to contact you later, please enter it below. We will de-identified the data when performing the analysis.",
+          "prompt": "The study is anonymous, but if you'd like to provide your email for us to contact you later, please enter it below. We will de-identified the data when performing the analysis.",
           "location": "belowStimulus",
           "type": "shortText",
+          "placeholder": "Your email address (optional)",
           "required": false
         }
       ]
@@ -711,7 +706,7 @@
             "responseId": "consent_agree",
             "value": "I do not agree to participate in this study.",
             "comparison": "equal",
-            "to": "consent_declined"
+            "to": "thank_you"
           }
         ]
       },
@@ -723,8 +718,7 @@
       "branch_scope",
       "viewer_feedback",
       "final_assessment",
-      "thank_you",
-      "consent_declined"
+      "thank_you"
     ]
   }
 }

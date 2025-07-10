@@ -5,11 +5,3 @@
 .no-last-child-bottom-padding {
   font-weight: 500;
 }
-
-/* Global app background */
-body {
-  background-image: url('./bck-light.png');
-  background-repeat: repeat-x;
-  background-position: top left;
-  background-attachment: fixed;
-}

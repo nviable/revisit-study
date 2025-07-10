@@ -1,4 +1,4 @@
-// Digital Multimedia Forensics Ontology Application
+// Digital Visual Media Forensics Ontology Application
 // Version 2.3 - Fixed all null DOM element access issues
 console.log('🔄 OntologyApp v2.3 loaded - DOM safety fixes applied!');
 
@@ -1359,7 +1359,7 @@ class OntologyApp {
         }
 
         // Load all category data
-        const categories = ["Modality", "Forensic Goal", "Evidentiary Features", "Search & Analysis Scope"];
+        const categories = ["Target Modality", "Forensic Goal & Task", "Evidentiary Features", "Search & Analysis Scope"];
         for (const category of categories) {
             if (!this.ontologyData[category]) {
                 await this.loadCategoryData(category);
@@ -1383,8 +1383,8 @@ class OntologyApp {
 
         // Calculate statistics for each category
         const categories = {
-            "Modality": "mediaModalityTerms",
-            "Forensic Goal": "manipulationTypeTerms",
+            "Target Modality": "mediaModalityTerms",
+            "Forensic Goal & Task": "manipulationTypeTerms",
             "Evidentiary Features": "featuresCuesTerms",
             "Search & Analysis Scope": "searchScopeTerms"
         };
@@ -1584,7 +1584,7 @@ class DendrogramRenderer {
 
     convertToHierarchy(data) {
         const root = {
-            name: 'Digital Multimedia Forensics',
+            name: 'Digital Visual Media Forensics',
             children: []
         };
 
@@ -1820,12 +1820,12 @@ class SunburstRenderer {
 
     convertToHierarchy(data) {
         const root = {
-            name: "Digital Multimedia Forensics",
+            name: "Digital Visual Media Forensics",
             children: []
         };
 
         // Add all categories as top-level children
-        const categories = ["Modality", "Forensic Goal", "Evidentiary Features", "Search & Analysis Scope"];
+        const categories = ["Target Modality", "Forensic Goal & Task", "Evidentiary Features", "Search & Analysis Scope"];
 
         categories.forEach(categoryName => {
             const categoryData = data[categoryName];
@@ -2026,7 +2026,7 @@ class SunburstRenderer {
             this.g.append('text')
                 .attr('class', 'center-text')
                 .attr('text-anchor', 'middle')
-                .text("Digital Multimedia Forensics")
+                .text("Digital Visual Media Forensics")
                 .attr('y', 0);
         }
     }
