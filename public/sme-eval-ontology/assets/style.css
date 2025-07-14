@@ -1824,3 +1824,36 @@ p.example-text {
 .hidden {
   display: none !important;
 }
+
+.visualization-controls #fullscreenDendroBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-12);
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--duration-fast) var(--ease-standard);
+  height: 32px;
+  min-width: 32px;
+}
+
+.visualization-controls #fullscreenDendroBtn:hover {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-primary);
+}
+
+.visualization-controls #fullscreenDendroBtn:focus {
+  outline: var(--focus-outline);
+  outline-offset: 1px;
+}
+
+.visualization-controls #fullscreenDendroBtn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
