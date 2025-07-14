@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Visual Media Forensics Ontology</title>
-    <link rel="stylesheet" href="style.css?v=2.6&t=3">
+    <link rel="stylesheet" href="style.css?v=2.7&t=3">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="../../revisitUtilities/revisit-communicate.js"></script>
 </head>
@@ -99,6 +99,12 @@
                         <button id="collapseAllBtn" class="btn btn--secondary btn--sm">Collapse All</button>
                         <button id="resetZoomBtn" class="btn btn--secondary btn--sm" style="display: none;">Reset
                             Zoom</button>
+                        <button id="fullscreenDendroBtn" class="btn btn--secondary btn--sm" style="display: none;"
+                            title="Full screen dendrogram">
+                            <!-- Tabler Maximize SVG icon will be injected by JS -->
+                            <span id="fullscreenDendroIcon"
+                                style="display: flex; align-items: center; justify-content: center;"></span>
+                        </button>
                     </div>
                 </div>
                 <div class="visualization-content">
@@ -198,7 +204,7 @@
         </div>
     </div>
 
-    <script type="module" src="app.js?v=2.6&t=3"></script>
+    <script type="module" src="app.js?v=2.7&t=3"></script>
 </body>
 
 </html>

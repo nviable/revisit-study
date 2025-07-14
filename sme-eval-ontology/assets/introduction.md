@@ -6,4 +6,9 @@ Even small points of confusion or disagreement are helpful. Please approach this
 
 **Instructions:** The survey starts from gathering some basic demographic information about your expertise, and moves into assessing the proposed ontology from high-level to detailed branch-by-branch view. The survey will wrap up with an evaluation on the interactive viewer that we use to present the ontology and its application potential. We expect the survey to take 45-60 minutes.
 
+**Progress Saving:** Your responses are automatically saved as you move through the survey. You can close the survey and return at any time to continue where you left off.
+
+> If you are using a private or incognito browser window, your progress may not be saved after you close the window. To ensure you can resume the survey later, please copy and save the study URL. Use this URL to return and continue your participation.
+
+
 Please proceed to the next page to view and complete the **Informed Consent Document** for this study. 

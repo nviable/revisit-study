@@ -112,7 +112,7 @@
     "overall_structure": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the overall structure of the ontology. While the study of the ontology is not on the interface, rather the structure of the ontology, it is helpful to understand and make most of it.",
+      "instruction": "## In this section, we will evaluate the overall structure of the ontology. \n\n While the study of the ontology is not on the interface, rather the structure of the ontology, it is helpful to understand and make most of it.",
       "previousButton": true,
       "response": [
         {
@@ -179,7 +179,7 @@
     "branch_modality": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Target Modality** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Target Modality** branch.",
       "previousButton": true,
       "response": [
         {
@@ -276,7 +276,7 @@
     "branch_manipulation": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Forensic Goal & Task** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Forensic Goal & Task** branch.",
       "previousButton": true,
       "response": [
         {

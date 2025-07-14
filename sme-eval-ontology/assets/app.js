@@ -1,6 +1,6 @@
 // Digital Visual Media Forensics Ontology Application
 // Version 2.6 - Fixed MIME type error and DOM element issues
-console.log('🔄 OntologyApp v2.6 loaded - Fixed MIME type error and DOM element issues!');
+console.log('🔄 OntologyApp v2.7 loaded - Fixed MIME type error and DOM element issues!');
 
 // Import Trrack from CDN
 import { initializeTrrack, Registry, createAction } from 'https://cdn.jsdelivr.net/npm/@trrack/core@1.3.0/+esm';
@@ -63,26 +63,26 @@ class OntologyApp {
             startTime: Date.now(),
             userAgent: navigator.userAgent,
             screenResolution: { width: screen.width, height: screen.height },
-            
+
             // Interface state
             currentView: 'tree',
             theme: document.documentElement.getAttribute('data-color-scheme') || 'light',
             sidebarVisible: !document.getElementById('sidebar').classList.contains('collapsed'),
             statsVisible: !document.getElementById('statsContainer').classList.contains('collapsed'),
-            
+
             // Navigation state
             selectedCategory: null,
             selectedNode: null,
             expandedNodes: [],
-            
+
             // Search behavior
             searchQuery: '',
             totalSearches: 0,
-            
+
             // Content exploration
             viewedPapers: [],
             openedAccordions: { terms: false, papers: false },
-            
+
             // Interaction tracking
             totalInteractions: 0,
             categoriesExplored: [],
@@ -130,12 +130,12 @@ class OntologyApp {
                 state.selectedNode = payload.nodeId;
                 state.selectedCategory = payload.category;
                 state.totalInteractions++;
-                
+
                 // Track category exploration
                 if (payload.category && !state.categoriesExplored.includes(payload.category)) {
                     state.categoriesExplored.push(payload.category);
                 }
-                
+
                 state.interactionSequence.push({
                     type: 'node_selection',
                     timestamp: Date.now(),
@@ -213,7 +213,7 @@ class OntologyApp {
             // Send to reVISit
             if (window.Revisit) {
                 window.Revisit.postProvenance(this.trrack.graph.backend);
-                
+
                 // Also send answers for compatibility
                 const currentState = this.trrack.getState();
                 window.Revisit.postAnswers({
@@ -232,7 +232,7 @@ class OntologyApp {
         console.log('📊 Trrack instance:', this.trrack);
         console.log('📋 Initial state:', this.trrack.getState());
         console.log('🔧 Available actions:', Object.keys(this.actions));
-        
+
         // Test that reVISit communication is working
         if (window.Revisit) {
             console.log('🔗 reVISit communication available');
@@ -440,7 +440,7 @@ class OntologyApp {
             clearBtn.addEventListener('click', async () => {
                 if (searchInput) {
                     const previousQuery = this.searchTerm;
-                    
+
                     // Track clear search with provenance
                     if (this.trrack && this.actions && previousQuery.length > 0) {
                         this.trrack.apply('Clear search (button)', this.actions.performSearch({
@@ -544,6 +544,53 @@ class OntologyApp {
         safeAddEventListener('sunburstViewBtn', 'click', async () => {
             await this.switchView('sunburst');
         });
+
+        // Full-screen dendrogram button
+        const fullscreenBtn = document.getElementById('fullscreenDendroBtn');
+        const fullscreenIcon = document.getElementById('fullscreenDendroIcon');
+        const vizContainer = document.querySelector('.visualization-container');
+        // SVGs for Tabler Zoom In/Zoom Out
+        const zoomInSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>`;
+        const zoomOutSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/></svg>`;
+        function updateFullscreenIcon() {
+            if (!fullscreenIcon) return;
+            if (document.fullscreenElement === vizContainer) {
+                fullscreenIcon.innerHTML = zoomOutSVG;
+                fullscreenBtn.title = 'Exit full screen (zoom out)';
+            } else {
+                fullscreenIcon.innerHTML = zoomInSVG;
+                fullscreenBtn.title = 'Full screen dendrogram (zoom in)';
+            }
+        }
+        // Helper to zoom in and center dendrogram
+        function zoomDendrogramFullScreen(isFull) {
+            if (window.ontologyApp && window.ontologyApp.dendrogramRenderer) {
+                if (isFull) {
+                    window.ontologyApp.dendrogramRenderer.zoomInAndCenter(6, true); // animate zoom in
+                } else {
+                    // window.ontologyApp.dendrogramRenderer.zoomToFit(true); // animate zoom out
+                    window.ontologyApp.dendrogramRenderer.zoomInAndCenter(2, true);
+                }
+            }
+        }
+        if (fullscreenBtn && vizContainer) {
+            fullscreenBtn.addEventListener('click', () => {
+                if (document.fullscreenElement === vizContainer) {
+                    document.exitFullscreen();
+                } else {
+                    vizContainer.requestFullscreen();
+                }
+            });
+            document.addEventListener('fullscreenchange', () => {
+                updateFullscreenIcon();
+                if (document.fullscreenElement === vizContainer) {
+                    zoomDendrogramFullScreen(true); // zoom in and center
+                } else {
+                    zoomDendrogramFullScreen(false); // zoom to fit
+                }
+            });
+            updateFullscreenIcon();
+        }
 
         // Unified reset zoom functionality for dendrogram and sunburst views
         safeAddEventListener('resetZoomBtn', 'click', () => {
@@ -1274,7 +1321,7 @@ class OntologyApp {
         if (this.currentView === viewType) return;
 
         const previousView = this.currentView;
-        
+
         // Track view change with provenance
         if (this.trrack && this.actions) {
             this.trrack.apply(`Switch to ${viewType} view`, this.actions.changeView({
@@ -1317,6 +1364,12 @@ class OntologyApp {
             expandBtn.style.display = 'none';
             collapseBtn.style.display = 'none';
             resetZoomBtn.style.display = '';
+        }
+
+        // Show/hide full-screen button for dendrogram only
+        const fullscreenBtn = document.getElementById('fullscreenDendroBtn');
+        if (fullscreenBtn) {
+            fullscreenBtn.style.display = (viewType === 'dendrogram') ? '' : 'none';
         }
 
         // Render the appropriate view
@@ -1711,6 +1764,30 @@ class DendrogramRenderer {
                 .call(this.zoom.transform, d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale));
         }, 100);
     }
+
+    zoomInAndCenter(scaleFactor = 1.5, animate = true) {
+        // Zoom in and center the dendrogram to fill available space x scaleFactor
+        if (!this.g || !this.svg) return;
+        setTimeout(() => {
+            const bounds = this.g.node().getBBox();
+            const fullWidth = this.width;
+            const fullHeight = this.height;
+            const width = bounds.width;
+            const height = bounds.height;
+            const midX = bounds.x + width / 2;
+            const midY = bounds.y + height / 2;
+            if (width === 0 || height === 0) return;
+            // Calculate scale to fill available space, then multiply by scaleFactor
+            const scale = Math.min(fullWidth / width, fullHeight / height) * scaleFactor;
+            const translate = [fullWidth / 1.5 - scale * midX, fullHeight / 2 - scale * midY];
+            const t = d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale);
+            if (animate) {
+                this.svg.transition().duration(750).call(this.zoom.transform, t);
+            } else {
+                this.svg.call(this.zoom.transform, t);
+            }
+        }, 100);
+    }
 }
 
 // Sunburst Renderer Class
@@ -2081,13 +2158,15 @@ class SunburstRenderer {
 function initializeApp() {
     console.log('Initializing OntologyApp...');
     try {
-        new OntologyApp();
+        const appInstance = new OntologyApp();
+        window.ontologyApp = appInstance; // <-- Add this line
     } catch (error) {
         console.error('Error initializing OntologyApp:', error);
         // Retry once after a delay
         setTimeout(() => {
             try {
-                new OntologyApp();
+                const appInstance = new OntologyApp();
+                window.ontologyApp = appInstance; // <-- Add this line here too
             } catch (retryError) {
                 console.error('Failed to initialize OntologyApp after retry:', retryError);
             }
