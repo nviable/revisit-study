@@ -1,6 +1,6 @@
 // Digital Visual Media Forensics Ontology Application
-// Version 2.6 - Fixed MIME type error and DOM element issues
-console.log('🔄 OntologyApp v2.7 loaded - Fixed MIME type error and DOM element issues!');
+// Version 2.8 - Added provenance tracking, updated ontology data
+console.log('🔄 OntologyApp v2.8 loaded - Added provenance tracking, updated ontology data!');
 
 // Import Trrack from CDN
 import { initializeTrrack, Registry, createAction } from 'https://cdn.jsdelivr.net/npm/@trrack/core@1.3.0/+esm';
@@ -549,17 +549,15 @@ class OntologyApp {
         const fullscreenBtn = document.getElementById('fullscreenDendroBtn');
         const fullscreenIcon = document.getElementById('fullscreenDendroIcon');
         const vizContainer = document.querySelector('.visualization-container');
-        // SVGs for Tabler Zoom In/Zoom Out
-        const zoomInSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>`;
-        const zoomOutSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/></svg>`;
+
         function updateFullscreenIcon() {
             if (!fullscreenIcon) return;
             if (document.fullscreenElement === vizContainer) {
-                fullscreenIcon.innerHTML = zoomOutSVG;
-                fullscreenBtn.title = 'Exit full screen (zoom out)';
+                fullscreenIcon.textContent = 'Exit Full Screen';
+                fullscreenBtn.title = 'Exit full screen';
             } else {
-                fullscreenIcon.innerHTML = zoomInSVG;
-                fullscreenBtn.title = 'Full screen dendrogram (zoom in)';
+                fullscreenIcon.textContent = 'Full Screen';
+                fullscreenBtn.title = 'Full screen dendrogram';
             }
         }
         // Helper to zoom in and center dendrogram

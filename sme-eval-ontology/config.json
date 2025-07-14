@@ -117,7 +117,7 @@
       "response": [
         {
           "id": "exploration_tree",
-          "prompt": "Please click **Expand All** on Tree View. How many papers are associated with the **Deepfakes** node?",
+          "prompt": "Click *Expand All* in the **Tree View**, then select the **Deepfakes** node—its description, associated terms, and associated papers will appear in the right-hand panel. How many papers are listed for the **Deepfakes** node?",
           "type": "shortText",
           "placeholder": "Enter the number of papers",
           "required": true
