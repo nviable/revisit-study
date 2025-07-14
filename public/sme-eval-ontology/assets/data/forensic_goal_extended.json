@@ -1,6 +1,6 @@
 {
     "name": "Forensic Goal Task",
-    "description": "Encompasses all high-level objectives and tasks involved in digital media forensics, from detecting alterations to identifying sources and verifying integrity.",
+    "description": "The capability of the analytics, ranging from manipulation detection to device source attribution.",
     "children": [
         {
             "name": "Forgery & Manipulation Detection",
