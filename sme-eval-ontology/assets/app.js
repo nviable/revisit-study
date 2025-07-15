@@ -1,6 +1,6 @@
 // Digital Visual Media Forensics Ontology Application
 // Version 2.8 - Added provenance tracking, updated ontology data
-console.log('🔄 OntologyApp v2.8 loaded - Added provenance tracking, updated ontology data!');
+console.log('🔄 OntologyApp v2.9 loaded - Added provenance tracking, updated ontology data!');
 
 // Import Trrack from CDN
 import { initializeTrrack, Registry, createAction } from 'https://cdn.jsdelivr.net/npm/@trrack/core@1.3.0/+esm';
