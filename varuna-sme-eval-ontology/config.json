@@ -114,7 +114,7 @@
       "path": "varuna-sme-eval-ontology/assets/viewer-overview.mp4",
       "forceCompletion": false,
       "withTimeline": true,
-      "instruction": "Please watch the entire video above. Once the video finishes, press Next to continue.\n\nIf the video is not visible, please refresh the page.\n\nAlternatively, you can open the video in a new browser window by clicking the link below:\n\n[Overview Video on YouTube](https://www.youtube.com/watch?v=m3-eLk1L3oM)",
+      "instruction": "Please watch the entire video above. Once the video finishes, press Next to continue.\n\nIf the video is not visible, please refresh the page.\n\nAlternatively, you can open the video in a new browser window by clicking the link below:\n\n[Overview Video on YouTube](https://www.youtube.com/watch?v=m3-eLk1L3oM) *(Please open in a new tab, or use the browser back button to return to the survey)*",
       "response": []
     },
     "overall_structure": {
