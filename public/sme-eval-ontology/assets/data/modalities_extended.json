@@ -1,6 +1,6 @@
 {
     "name": "Media Modality",
-    "description": "Types of media content analyzed.",
+    "description": "Media modality is the type of media that is being used to represent the content.",
     "children": [
         {
             "name": "Still Image",
@@ -76,6 +76,7 @@
                 "ad06cfce1401ad61916a13f2457a8cfed36b5b75",
                 "ead2fa2384ddb04076799ac80d8cd0c1ebbe8842",
                 "446cad138bd54a12281ccb93b043683ab231f290",
+                "dcf0af5e1fc8c9419d550eaeb114f6cbeae0a4f2",
                 "d4abc59c270a0251a549b18d32d79288cebcef1c",
                 "15cda7c4604c983fce3f037b14791e0fa629d355",
                 "51cd05dc52aa348f988d91a549c292a653dcdaca",
@@ -119,6 +120,7 @@
                 "a3dfbcc1fa783c291748b20963ec2cfdc00bcc7e",
                 "91425ace0d1cd3ff144184b85b7e55ba865ae82a",
                 "a7c2b9ec19dc13711a1ba50a4a45087f62a4482a",
+                "601c4ce8ecbf84ff18f7f829e9698a46e75e3e5d",
                 "e00fe96691218e64d2f4c4891425e87864cce02f",
                 "27f45012acd0c304a198456b9b4163ed15c18e1a",
                 "7d6d34612dba3bcc09bede925d5d91332c0654d4",
@@ -186,6 +188,7 @@
                 "real-time"
             ],
             "associated_papers": [
+                "93542ad44c40160db215eb0e7004f8bfa12c67f3",
                 "966a74d33101e8387ee373996e0d3c06557dd32a",
                 "03b98f1d5b872484469bbcee2a31a2c1ab126d05",
                 "d00f0c46e8e34be5b417593039f7ceb309045214",
@@ -197,6 +200,8 @@
                 "1cf16975ad7bccd7792a674711e8a0ba8118f974",
                 "350d7cfe8d291ee535698ca37633486ff5602234",
                 "4a1fd9950a56b12bc210ebfc4fe39992e45e2c4e",
+                "17821ae52a83e230f1b4eb8c223394a9ffed9ffd",
+                "fc1ae7b6d06f1a7132c2d3058fbf4fa7f6991748",
                 "47273d769687ebeaaaa30d4ed6cf2cd9ad3631b1",
                 "cf4ee08b8f571cc40f5c0e07906c49caf0ac023d",
                 "862b9f03aee26a0200079638fd359d5eeacf5766",
@@ -226,6 +231,7 @@
                 "9cd483ace0faec5dff2abf4842bb24747d3f65a5",
                 "bdae1b866f6863143780bfbd69fea199947226e4",
                 "66970c48758b65a36d77c0fa9add1198d36ecd59",
+                "1537faa9593d0d20e62055e4e6af6d382a26d313",
                 "23af0df79d2067d5020779f8326121848b4535a3",
                 "64266a2bea58937799631bfecda250f85b44bed1",
                 "29edb72285832acdbcd0dfb78754bf9d9ee827b0",
@@ -244,6 +250,7 @@
                 "ddb645fd661bf4475bcf289e957c1461193e2096",
                 "3da2ebabc5e624fb8c5bdf8114eabbe4394dcccd",
                 "eb752fd572ca2c984b56a06c9974fdfdf951acb6",
+                "dcf0af5e1fc8c9419d550eaeb114f6cbeae0a4f2",
                 "195608bc28010cdaabc49b683c89c9aff34bff93",
                 "d797999184cfa4316611a1d2e23b358de02d763d",
                 "fb218c1904211531acac7ef1f55f5be660b38859",
@@ -264,6 +271,7 @@
                 "ae9031848f86409f94f880a9d3d1ff9b4b76810d",
                 "e63665665902cda65863f2d78959e915329b8936",
                 "9790016cee11395d3000eca16d4229822a926a8a",
+                "22ab17a947b8417c2f17fcc0a2b3ddcafb34b8a3",
                 "2c929659578d1fe4726d30f082d8b9604920f5d5",
                 "ce7ac6191a6ad0f09d5d4ec470f7a281f9a71397",
                 "6386480d8d7099bc51ec97df55459378a6eaa448",
@@ -285,6 +293,7 @@
                 "25abd66331728743e329e6254b42e62a03355ff1",
                 "c0adad8942e8d8b16315985ddd42efc1997873ee",
                 "b6644e452cbc3014e6be31707b3426b0832658b9",
+                "d909bad68c0165566bfc7a8ed1066b7435254707",
                 "aebf0aa3751d321f4ebbc50c24845e7ce2301b79",
                 "7c640a85c26145218df952fd3fd14e9f269376cd",
                 "53b09951e13f6e23af65db5bdc08f7bf4a2def9a",
@@ -308,6 +317,7 @@
                 "3031753892f70c040dca1d3cf1d024835a313a90",
                 "7105378af541b2b6df10bc9a9c7f569a1a2852ab",
                 "9f152ac298b7b98a8a0704a684f28f2b9bea3724",
+                "293282fedd6904ac878bd77520d8199751a7362c",
                 "11bb3a3b071f7bc394f68816ba88fb05f3d7e14e",
                 "52bb62e004d4f793ec7ada2b0290f4df6f792712",
                 "30092c986fb08a64c04b5e3a1df533f39d45ed18"
@@ -325,8 +335,27 @@
                 "multimodal (text, video, audio)"
             ],
             "associated_papers": [
+                "966a74d33101e8387ee373996e0d3c06557dd32a",
+                "03b98f1d5b872484469bbcee2a31a2c1ab126d05",
+                "5bf257b56d91b4a055ce7aabde119ba70e074528",
+                "86b10e1ad2bed9c230f6d9ec171fcb3abd9bf504",
+                "78bbdf7c04151ecaab04d5ddd21f3db597caf10c",
+                "703dc51b138e49efa554e8dd5817e966b6a18c91",
+                "92ac9389fd065c535d666b30bd416ea7597d2acc",
+                "66970c48758b65a36d77c0fa9add1198d36ecd59",
                 "569d56db5a41bec03e810e71baa7f1c6c9daaebc",
-                "307aea867ea8f93d7eb919af30ecd397515f1622"
+                "ddb645fd661bf4475bcf289e957c1461193e2096",
+                "3d0164cd742d7242cdb35e430835774691b31675",
+                "c74db89fd744a2b42702820fcb52cbc56b67b0ff",
+                "e63665665902cda65863f2d78959e915329b8936",
+                "22ab17a947b8417c2f17fcc0a2b3ddcafb34b8a3",
+                "601c4ce8ecbf84ff18f7f829e9698a46e75e3e5d",
+                "a7f14b2b0c6330b9fa61fda0b431de22dce90f84",
+                "a4b03ff87322570e0ad26e37582ec4150d4d89f7",
+                "53b09951e13f6e23af65db5bdc08f7bf4a2def9a",
+                "307aea867ea8f93d7eb919af30ecd397515f1622",
+                "14bb44b0479ebb4e332c6b5e6af6fc4120681eb9",
+                "9f152ac298b7b98a8a0704a684f28f2b9bea3724"
             ]
         },
         {
@@ -357,7 +386,9 @@
                 "a9c27bcf111818155ef66e47ee4595fdf0315cd2",
                 "31d1e0735693bb0fc8d848123aa4b5a369d2bd45",
                 "ba1823889a80c231966a0f24e57c6cf4a569ff8c",
+                "ecc47b499e294640cce9e5f00e12d89dc8d2315f",
                 "5bba1210ea95b8d17cf3ed32728468b37c01c0c9",
+                "601c4ce8ecbf84ff18f7f829e9698a46e75e3e5d",
                 "27f45012acd0c304a198456b9b4163ed15c18e1a",
                 "7d6d34612dba3bcc09bede925d5d91332c0654d4",
                 "411980f6b8e2e0ddb3a971b3fb1a56cb94d6dca4",

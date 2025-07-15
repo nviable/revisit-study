@@ -179,7 +179,7 @@
     "branch_modality": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Target Modality** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Target Modality** branch. \n\n Please spend some time to understand the structure of this branch though your preferred view.",
       "previousButton": true,
       "response": [
         {
@@ -276,7 +276,7 @@
     "branch_manipulation": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Forensic Goal & Task** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Forensic Goal & Task** branch. \n\n Please spend some time to understand the structure of this branch though your preferred view.",
       "previousButton": true,
       "response": [
         {
@@ -373,7 +373,7 @@
     "branch_feature": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Evidentiary Features** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Evidentiary Features** branch. \n\n Please spend some time to understand the structure of this branch though your preferred view.",
       "previousButton": true,
       "response": [
         {
@@ -401,7 +401,7 @@
         {
           "id": "feature_completeness",
           "prompt": "**[Completeness]** Are there any significant feature families or specific forensic cues for digital visual media missing from this branch?",
-          "secondaryText": "Example: Should there be a dedicated category for \"Scene Semantics\", especially for detecting inconsistencies in scene composition? Any \"Temporal Domain Features\" other than \"Optical Flow Field\"?",
+          "secondaryText": "Example: Should there be a dedicated category for \"Scene Semantics\", especially for detecting inconsistencies in scene composition? Any other specific \"Temporal Features\" other than \"Optical Flow Field\" should be treated as a standalone node?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -421,7 +421,7 @@
         {
           "id": "feature_correctness",
           "prompt": "**[Correctness]** Is anything in this branch misplaced? Does any node belong in a different branch?",
-          "secondaryText": "Example: Should \"Compression Artifacts\" be a standalone node under \"Hand-crafted Features\"? Should \"MFCC\" be placed under \"Frequency Domain Features\" or \"Temporal Domain Features\"?",
+          "secondaryText": "Example: Should \"Compression Artifacts\" be placed under \"Metadata & File Structure\"? Should \"MFCC\" be placed under \"Frequency Features\" or \"Temporal Features\"?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -441,7 +441,7 @@
         {
           "id": "feature_naming_clarity",
           "prompt": "**[Naming & Clarity]** Are any of the node names within this branch ambiguous, incorrect, or confusing?",
-          "secondaryText": "Example: Should \"Deep Features\" be changed to \"Deep Learning Features\"? Does \"High-level Semantic Features\" vs \"Low-level Signal Features\" sound clearer?",
+          "secondaryText": "Example: Does \"High-level Semantic Features\" vs \"Low-level Signal Features\" sound clearer than the current first level splitting?",
           "location": "belowStimulus",
           "type": "radio",
           "options": [
@@ -470,7 +470,7 @@
     "branch_scope": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
-      "instruction": "In this section, we will evaluate the structure and grouping of nodes within the **Search & Analysis Scope** branch.",
+      "instruction": "## In this section, we will evaluate the structure and grouping of nodes within the **Search & Analysis Scope** branch. \n\n Please spend some time to understand the structure of this branch though your preferred view.",
       "previousButton": true,
       "response": [
         {
