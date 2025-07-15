@@ -8,7 +8,7 @@
       "path": "tutorial/config.json"
     },
     "varuna-sme-eval-ontology": {
-      "path": "sme-eval-ontology/config.json"
+      "path": "varuna-sme-eval-ontology/config.json"
     },
     "example-brush-interactions": {
       "path": "example-brush-interactions/config.json"

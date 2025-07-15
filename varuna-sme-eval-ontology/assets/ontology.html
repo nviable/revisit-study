@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Visual Media Forensics Ontology</title>
+    <link rel="stylesheet" href="style.css?v=2.9&t=2">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="../../revisitUtilities/revisit-communicate.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Digital Visual Media Forensics Ontology</h1>
+            <p class="subtitle">Interactive visualization of forensics terminology and concepts</p>
+        </header>
+
+        <!-- Control Header -->
+        <div class="control-header">
+            <div class="control-left">
+                <button type="button" id="statsToggleBtn" class="control-btn stats-toggle-btn"
+                    title="Toggle statistics panel">
+                    <span class="btn-icon">📊</span>
+                    <span class="btn-text">Stats</span>
+                </button>
+
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search terms..." />
+                    <button type="button" id="clearSearchBtn" class="search-clear-btn hidden" title="Clear search">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="view-type-buttons">
+                    <button type="button" id="treeViewBtn" class="view-btn active" title="Tree view">
+                        Tree
+                    </button>
+                    <button type="button" id="dendrogramViewBtn" class="view-btn" title="Dendrogram view">
+                        Dendrogram
+                    </button>
+                    <button type="button" id="sunburstViewBtn" class="view-btn" title="Sunburst view">
+                        Sunburst
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-right">
+                <button type="button" id="themeToggleBtn" class="control-btn theme-toggle-btn"
+                    title="Toggle dark/light theme">
+                    <span class="btn-icon">🌙</span>
+                </button>
+
+                <button type="button" id="sidebarToggleBtn" class="control-btn sidebar-toggle-btn"
+                    title="Toggle sidebar">
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <div class="stats-container collapsed" id="statsContainer">
+                <div class="stats-header">
+                    <h3>Statistics</h3>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" id="statPapers">-</span>
+                            <span class="stat-label">Papers Analyzed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statTargetModality">-</span>
+                            <span class="stat-label">Target Modality Terms</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statForensicGoal">-</span>
+                            <span class="stat-label">Forensic Goal & Task</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statFeaturesCues">-</span>
+                            <span class="stat-label">Features & Cues</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="statSearchScope">-</span>
+                            <span class="stat-label">Search Scope Terms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualization-container">
+                <div class="visualization-header">
+                    <h2>Ontology Structure</h2>
+                    <div class="visualization-controls">
+                        <button id="expandAllBtn" class="btn btn--secondary btn--sm">Expand All</button>
+                        <button id="collapseAllBtn" class="btn btn--secondary btn--sm">Collapse All</button>
+                        <button id="resetZoomBtn" class="btn btn--secondary btn--sm" style="display: none;">Reset
+                            Zoom</button>
+                        <button id="fullscreenDendroBtn" class="btn btn--secondary btn--sm" style="display: none;"
+                            title="Full screen dendrogram">
+                            <!-- Tabler Maximize SVG icon will be injected by JS -->
+                            <span id="fullscreenDendroIcon"
+                                style="display: flex; align-items: center; justify-content: center;"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="visualization-content">
+                    <div id="ontologyTree" class="tree visualization-view active"></div>
+                    <div id="ontologyDendrogram" class="dendrogram visualization-view"></div>
+                    <div id="ontologySunburst" class="sunburst visualization-view">
+                        <div class="sunburst-navigation">
+                            <div class="sunburst-nav-controls">
+                                <!-- Reset zoom button moved to visualization header -->
+                            </div>
+                            <div id="sunburstBreadcrumb" class="sunburst-breadcrumb"></div>
+                        </div>
+                        <div id="sunburstChart" class="sunburst-chart"></div>
+                        <div id="sunburstTooltip" class="sunburst-tooltip"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-content">
+                    <div id="defaultInfo" class="info-panel">
+                        <h3>Digital Visual Media Forensics Ontology</h3>
+                        <p>This ontology organizes terminology from a collection of research papers in digital Media
+                            forensics into four main categories:</p>
+                        <ul>
+                            <li><strong>Target Modality:</strong> Types of media content analyzed.</li>
+                            <li><strong>Forensic Goal & Task:</strong> The capability of the analytics, ranging from
+                                manipulation detection to device source attribution.</li>
+                            <li><strong>Features & Cues:</strong> The computational and human-understandable features
+                                used by the analytics to complete the task.</li>
+                            <li><strong>Search Scope:</strong> The scope of the analysis being applied spatially and
+                                temporally.</li>
+                        </ul>
+                        <p>Click on any category to explore the hierarchy and see detailed information about terms and
+                            their relationships.</p>
+                    </div>
+
+                    <div id="categoryInfo" class="info-panel hidden">
+                        <h3 id="categoryTitle"></h3>
+                        <p id="categoryDescription"></p>
+
+                        <!-- Examples section - moved out of accordion -->
+                        <div id="examplesSection" class="examples-section">
+                            <h4 class="examples-heading">Examples</h4>
+                            <div id="examplesList" class="examples-list-simple"></div>
+                        </div>
+
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <button class="accordion-header" id="termsAccordionHeader">
+                                    <span>Associated Terms</span>
+                                    <span class="accordion-icon">+</span>
+                                </button>
+                                <div class="accordion-content" id="termsAccordionContent">
+                                    <div id="termsList" class="terms-list"></div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header" id="papersAccordionHeader">
+                                    <span>Papers</span>
+                                    <span class="accordion-icon">+</span>
+                                </button>
+                                <div class="accordion-content" id="papersAccordionContent">
+                                    <div id="papersList" class="papers-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paper Details Modal -->
+    <div id="paperModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalPaperTitle"></h3>
+                <button class="modal-close" id="modalCloseBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="paper-meta">
+                    <div class="paper-year" id="modalPaperYear"></div>
+                    <div class="paper-venue" id="modalPaperVenue"></div>
+                    <div class="paper-citations" id="modalPaperCitations"></div>
+                </div>
+
+                <div class="paper-authors" id="modalPaperAuthors"></div>
+
+                <div class="paper-links">
+                    <h4>Access Links</h4>
+                    <div class="link-group" id="modalSemanticScholarLink"></div>
+                    <div class="link-group" id="modalDoiLink"></div>
+                    <div class="link-group" id="modalOpenAccessLink"></div>
+                </div>
+
+                <div class="paper-access-info" id="modalAccessInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js?v=2.9&t=2"></script>
+</body>
+
+</html>
