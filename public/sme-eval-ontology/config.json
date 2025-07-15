@@ -109,6 +109,14 @@
         }
       ]
     },
+    "overview_video": {
+      "type": "video",
+      "path": "https://www.youtube.com/watch?v=m3-eLk1L3oM",
+      "forceCompletion": true,
+      "withTimeline": true,
+      "instruction": "Please watch the entire video above. Once the video finishes, press Next to continue.",
+      "response": []
+    },
     "overall_structure": {
       "type": "website",
       "path": "sme-eval-ontology/assets/ontology.html",
@@ -706,6 +714,7 @@
         ]
       },
       "expertise",
+      "overview_video",
       "overall_structure",
       "branch_modality",
       "branch_manipulation",
