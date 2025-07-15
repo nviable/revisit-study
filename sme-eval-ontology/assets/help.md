@@ -104,7 +104,7 @@ The interactive viewer is crucial for understanding the ontology structure. It o
 ### **Troubleshooting**
 - **Viewer not loading?** Try refreshing the page
 - **Can't see all content?** Check your zoom level
-- **Navigation issues?** Use browser back/forward buttons
+- **Navigation issues?** Use Previous/Next buttons at the bottom of the page
 - **Lost progress?** The survey auto-saves responses
 
 ## Navigation Tips
@@ -143,7 +143,7 @@ The interactive viewer is crucial for understanding the ontology structure. It o
 ## Privacy & Confidentiality
 
 - All responses are confidential and anonymous by default
-- Optional name field at the end for follow-up contact only
+- Optional email field at the end for follow-up contact only
 - Data will be de-identified for analysis
 - Your expertise level helps contextualize feedback but won't identify you
 

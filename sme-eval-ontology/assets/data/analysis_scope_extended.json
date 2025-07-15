@@ -1,6 +1,6 @@
 {
     "name": "Search & Analysis Scope",
-    "description": "The scope of the analysis being applied spatially and temporally.",
+    "description": "Defines the boundaries and focus of a forensic examination, specifying where and at what level of detail the analysis is conducted.",
     "children": [
         {
             "name": "Spatial Granularity",
@@ -45,6 +45,7 @@
                     "associated_papers": [
                         "b6ea3fbc50476a1be3b7cb7e013edd2461a5409f",
                         "b09b127187c7f587f994c1f22abd4956c7791818",
+                        "45394b7248a492f974d4ec0b42ba10b46a0bbbbd",
                         "a1f0436ef71ae4699f481021bbe548e5ca6f2475",
                         "a14db9b48dc6ff8567d7042726ab67b543890fe8",
                         "f583b553a96f18a8607266ab2b84f6de78483ada",
@@ -54,8 +55,10 @@
                         "08561b46633e2fd7ca6caca41879f64d037316c2",
                         "7494d53a4ddbc33620f35f3f8bcb3b10704c1eee",
                         "5449602f06747f0cac58c4989c3ff6043971679b",
+                        "daa6e6ccc1704cbc01484fba0fed919654cc29ce",
                         "38ff6bae846d70d341c8732717c0f593180f318b",
                         "9db8faf20e9a80cca90d4f430c8289a18d75233a",
+                        "7a24cae4b0640a34eadb561b2078cb54ec30b27e",
                         "350d7cfe8d291ee535698ca37633486ff5602234",
                         "8305072793905475f5037b5b74489575d3cb1d64",
                         "4915a3ca61e6cdcfcaa47297ad269958bec37a5d",
@@ -73,6 +76,7 @@
                         "96704efeb471a64178a3356662c5fb42e451f16e",
                         "f4c6c2f4385612ca3800e96edd656d2e0ee4814a",
                         "c75b2f8227a5dc3d3ce82edfc233f430ac6d46e8",
+                        "8450c27a2edc8ce36e4e4135989250b44624049d",
                         "34882c09c24dbb570044047b026ab294ebb92f5d",
                         "3ab09c991fd9b5132965c2ebb2c3e0c96660aa0d",
                         "a68f9ad83eab98d2cb6445093c834c9500d5e841",
@@ -87,12 +91,19 @@
                         "1ea0adf245289135753eeb97f2ce9fb93a421cba",
                         "55e4cdf5639d3e43324f2d3a9586ccf3ab4836c4",
                         "662b4cab33d9ab4bb75bbcb906284019148adeae",
+                        "d41f82000822bc43e51f10b9de30b2980a2d0293",
                         "135e027c20e2291558b210646f3271eef00ecdff",
                         "a9c27bcf111818155ef66e47ee4595fdf0315cd2",
+                        "0bddd6d9ef05d2e7a86965b5a5b37216c330dac6",
                         "31d1e0735693bb0fc8d848123aa4b5a369d2bd45",
                         "41f1050e8c6550817d8bda92bd6371c6678a01ab",
                         "5cedf945674c3cf3024e64614496d82bea8d3c4c",
+                        "f373ba05eb7cf93041615f2bcb095118ecacadfe",
+                        "aeeebb3f0671626b046d76767bef12ad4ad202c2",
+                        "d859ed3c48867e31faf2350ca716a46f0b7da890",
+                        "77cdbb1ed5ae6604dadc83f16e6d193bb5b35750",
                         "2d7da0d62768a99fb086cc4bbd5d4d2bb973dd03",
+                        "3532970dfe79da265e4eb70a227dd2aeb90acaa6",
                         "ba1823889a80c231966a0f24e57c6cf4a569ff8c",
                         "ab315965c20e8cbdec6d19c4e97217f5be8fe443",
                         "339489f84d360666f6f8773416a35383c2f88978",
@@ -111,6 +122,7 @@
                         "a3dfbcc1fa783c291748b20963ec2cfdc00bcc7e",
                         "91425ace0d1cd3ff144184b85b7e55ba865ae82a",
                         "a7c2b9ec19dc13711a1ba50a4a45087f62a4482a",
+                        "601c4ce8ecbf84ff18f7f829e9698a46e75e3e5d",
                         "e00fe96691218e64d2f4c4891425e87864cce02f",
                         "27f45012acd0c304a198456b9b4163ed15c18e1a",
                         "7d6d34612dba3bcc09bede925d5d91332c0654d4",
@@ -118,17 +130,22 @@
                         "411980f6b8e2e0ddb3a971b3fb1a56cb94d6dca4",
                         "c98fc25e411665541763c8d65802c743c3cf6ce7",
                         "49dbe6806eaa5a5686355b49b6f796f5fda8f255",
+                        "9b991f8e9a247c3ff0aeaae18354fb45fb079851",
+                        "ef2352611302f7f7a5ab5aec4d014df2b838402c",
                         "05dab940b4d26053d07b34f9cc9805ea26b37b09",
                         "6ae4c9c58adabf2741ee36bc7354a5cdbe78efa6",
                         "3495c49a807bbb2620d62a3035aa58795d0c1095",
                         "5a7932ebb0fb404735bdc22f374a7caed9e78166",
+                        "2dea5ec6d6ad560d7a7d124fc2d686a4f6af26db",
                         "c0adad8942e8d8b16315985ddd42efc1997873ee",
                         "b6e9a253f36b13ee48ab441f4e7b0937c73982f5",
                         "c7bde2b7b3f0139dc8fc888523106c6fe229fe2c",
+                        "3717e40f0fe1a528f5be87f6022f6be771fe836c",
                         "352b08d4a972d4461ac66981a05c3de5eeab0c52",
                         "7e3b3d82df3c22cb90f10921f28c2a3f6c07e77f",
                         "f1b716658721539ff99ef07dd5bbcf151f6beabc",
                         "793c52446e15b12e50ea34b376d48bc1fc8020f2",
+                        "0df4cec837ce53db955d698dfbc972d76c1abfdf",
                         "95cdc4f6f828a4c55790306c88e565dbc1d71915",
                         "e8b67284e45221a848794d49cef249cc171ea7f1",
                         "f98e89ae858b6073b86244d1ba7dcd0ea5c740bb",
@@ -146,7 +163,8 @@
                         "696323496c53811e3324246d16dc524e686cfa05",
                         "7b3a430caf62d8c63457c586b39f078a3bca2bd7",
                         "7105378af541b2b6df10bc9a9c7f569a1a2852ab",
-                        "c3659e3249946630ef009a0aecca58414d8da2c6"
+                        "c3659e3249946630ef009a0aecca58414d8da2c6",
+                        "cbf1cf177ea6c4be00fa697b39b6f2fccd6ba22e"
                     ]
                 },
                 {
@@ -228,6 +246,7 @@
                                         "3c233de0f1bf308019b52920bae654043579491e",
                                         "93542ad44c40160db215eb0e7004f8bfa12c67f3",
                                         "03b98f1d5b872484469bbcee2a31a2c1ab126d05",
+                                        "d00f0c46e8e34be5b417593039f7ceb309045214",
                                         "535987021e5412d64a106899cedfc1630669893a",
                                         "3a7dfd504abcd673e68c12b2ebd2a0beef5f52ab",
                                         "5449602f06747f0cac58c4989c3ff6043971679b",
@@ -239,6 +258,8 @@
                                         "fc1ae7b6d06f1a7132c2d3058fbf4fa7f6991748",
                                         "47273d769687ebeaaaa30d4ed6cf2cd9ad3631b1",
                                         "862b9f03aee26a0200079638fd359d5eeacf5766",
+                                        "c5411e31699f9e4afcbe247bf8358c40ab4614d9",
+                                        "af787675e84760ac383555ef9c760dd3fadf6e18",
                                         "3916cb5c5ead76dc3a3c126fb41d68bc21571a1b",
                                         "fe8002513d5e006473975a5e908a550ef7e3f3ad",
                                         "584c84f7b842a0a94605ed2a73f76004ee3afbd3",
@@ -270,6 +291,7 @@
                                         "6d9369ce9788fb8703427ab1ee1ff01c0acf6b6d",
                                         "64266a2bea58937799631bfecda250f85b44bed1",
                                         "601efcd42a4a6a8911e4c679f866453d5a8cdc37",
+                                        "1fdf904230ab4dabaa1f8f09c2549dcf61ee1bc1",
                                         "a963409107c15b9148e1fedbce20c136f34e2ecc",
                                         "75fdece24fe6efd7d52cd05f181bff84aa0e8957",
                                         "ad225e780144a20d0d2100a60117eba594bfcd94",
@@ -278,6 +300,7 @@
                                         "ac34eb68eafd5548a6332b17d912b2d66d595ce6",
                                         "5b2d801b525a0fd29f43dd3b57df95026406e8f2",
                                         "0e95ab55fbccc38710599fa604ab980005e1894d",
+                                        "fa0eb73fa2c3cf855aab35068f8091ad43a8a770",
                                         "25af3000258b2aca058582372aecfaf09e68fdcd",
                                         "ad06cfce1401ad61916a13f2457a8cfed36b5b75",
                                         "3da2ebabc5e624fb8c5bdf8114eabbe4394dcccd",
@@ -288,6 +311,8 @@
                                         "fc4defdfb3410bc0ebda8ffc7d7a9258519c6cd8",
                                         "985c4c6b6dd50ebb9871792d5e8d47a5161f87de",
                                         "44b42a3a2ca7176df19625e53c5ef7cd998c4a02",
+                                        "649b3575b51c8f22afcb725707957111eaa92d7c",
+                                        "5b422386d8944f7ab10ec5e2067d596b8cc8a3bb",
                                         "46521a35610a11ccf65ef81cdfafc32a2b7bbf9d",
                                         "fddbfdb795cccf12aa9ca51398a04e305a0fb89b",
                                         "3d0164cd742d7242cdb35e430835774691b31675",
@@ -320,7 +345,10 @@
                                         "d909bad68c0165566bfc7a8ed1066b7435254707",
                                         "aebf0aa3751d321f4ebbc50c24845e7ce2301b79",
                                         "7c640a85c26145218df952fd3fd14e9f269376cd",
+                                        "53b09951e13f6e23af65db5bdc08f7bf4a2def9a",
                                         "72158d16aba68c3f05a2307370f777af27657633",
+                                        "45187881878cd6c21b944312b77e62cefed46b39",
+                                        "e086490b8d12ad311c216b2bc39bc5055657c0b3",
                                         "af9b38362157c62119259ede4ffa205cb7602d3d",
                                         "c5cf56de10f74bb8cd9818f145ca0bfd33f9d961",
                                         "ebea7a580eda3939bf84cb3af073f51c655ae2ef",
@@ -537,7 +565,8 @@
                     "associated_papers": [
                         "66970c48758b65a36d77c0fa9add1198d36ecd59",
                         "ddb645fd661bf4475bcf289e957c1461193e2096",
-                        "e9991314d96a93e841cb3b6b80a0eb1cae9988b5"
+                        "e9991314d96a93e841cb3b6b80a0eb1cae9988b5",
+                        "30092c986fb08a64c04b5e3a1df533f39d45ed18"
                     ]
                 },
                 {
@@ -555,7 +584,6 @@
                     "associated_papers": [
                         "5449602f06747f0cac58c4989c3ff6043971679b",
                         "350d7cfe8d291ee535698ca37633486ff5602234",
-                        "af787675e84760ac383555ef9c760dd3fadf6e18",
                         "496fc58cd1c9be43f03980404490012d0cbb0ffa",
                         "49032618b997a60abab157f146af3790f1bd8f78",
                         "14bb44b0479ebb4e332c6b5e6af6fc4120681eb9"
@@ -609,7 +637,10 @@
                 "3d0164cd742d7242cdb35e430835774691b31675",
                 "ae9031848f86409f94f880a9d3d1ff9b4b76810d",
                 "e63665665902cda65863f2d78959e915329b8936",
-                "a4b03ff87322570e0ad26e37582ec4150d4d89f7"
+                "601c4ce8ecbf84ff18f7f829e9698a46e75e3e5d",
+                "a4b03ff87322570e0ad26e37582ec4150d4d89f7",
+                "53b09951e13f6e23af65db5bdc08f7bf4a2def9a",
+                "14bb44b0479ebb4e332c6b5e6af6fc4120681eb9"
             ]
         },
         {
@@ -694,6 +725,7 @@
                 "31d1e0735693bb0fc8d848123aa4b5a369d2bd45",
                 "3d0164cd742d7242cdb35e430835774691b31675",
                 "ba1823889a80c231966a0f24e57c6cf4a569ff8c",
+                "ecc47b499e294640cce9e5f00e12d89dc8d2315f",
                 "5bba1210ea95b8d17cf3ed32728468b37c01c0c9",
                 "27f45012acd0c304a198456b9b4163ed15c18e1a",
                 "7d6d34612dba3bcc09bede925d5d91332c0654d4",
