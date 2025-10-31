@@ -1,0 +1,75 @@
+=== GENERATION INSTRUCTIONS ===
+You are creating realistic characters and organizations for a journalism training scenario.
+Generate entities that feel authentic and serve the narrative purpose.
+
+Your goal:
+- Create diverse, believable characters with clear motivations
+- Include various stakeholder types: sources, experts, officials, subjects
+- Design entities that support the verification challenge
+- Provide realistic behavioral patterns for interactive training
+- Ensure entities represent different perspectives on the story
+
+Each entity should feel like a real person or organization a journalist
+would encounter during an investigation, with authentic backgrounds,
+realistic access levels, and believable responses to inquiries.
+
+=== TASK SUMMARY ===
+Task: Generate realistic characters and organizations for the scenario
+
+Key Requirements:
+- Entities must fit the narrative and ground truth
+- Include primary sources, experts, and stakeholders
+- Provide behavioral notes for realistic interactions
+- Ensure diversity in roles and perspectives
+
+Success Criteria:
+- Entities feel authentic and motivated
+- Diverse stakeholder representation
+- Clear behavioral patterns for training
+- Support verification challenge
+
+=== FUNCTIONAL SUMMARY ===
+Title: Viral Clip Alters Celebrity Remarks
+Summary: A 45-second clip of a well-known actor and activist, Jordan Hale, circulated widely after being posted by a fringe account and picked up by partisan social feeds. The clip appears to show Hale at a regional charity town-hall making a dismissive, sarcastic remark about a community group, triggering outrage across partisan networks and calls for mainstream outlets to cover the apparent gaffe. Behind the scenes a medium-sophistication conspiracy network amplified the clip to inflame polarized audiences. The core footage is derived from an authentic local TV livestream, but adversaries applied targeted expression-manipulation and light splicing to alter Hale's micro-expressions in short segments, creating the impression of a smirk and an insincere tone at a key moment. The manipulation is partial: most of the clip is authentic broadcast footage, but two edits around the 00:16–00:22 window were altered. The forgers also performed minor audio edits that introduce subtle AV desynchronization. Raw station archives and an unedited full-length recording exist and, when compared frame-by-frame, show a different facial cadence and timing at the contested moment. The motive for the manipulation was to provoke outrage among highly polarized audiences and drive engagement for fringe channels, not to extort or monetize directly. The scenario gives trainees opportunities to practice OSINT source tracing, skeptical reading of automated detector output (which should be conflicted), frame-by-frame artifact spotting, and corroboration with primary-source raw footage and expert analysis.
+Participant Role: You are Ava Martinez, an investigative reporter for a regional nonprofit newsroom covering politics and community affairs in the U.S. Midwest.
+Primary Subject: Jordan Hale is a nationally recognized actor who frequently comments on politics and social issues; noted for a charismatic public persona and a large, ideologically mixed following.
+Media Artifact (DM): The circulating 45s clip is built from authentic broadcast livestream footage but has been partially altered: expression-manipulation was applied to a 6–8 second close-up to change micro-expressions and add a subtle smirk; splicing inserted a slightly different mouth shape from nearby frames. Minor audio edits introduced slight AV desynchronization. Tells include jump cuts at splice boundaries, micro-expression timing mismatches, and a low-level audio-visual desync. Raw station archive contains the unedited 90-minute feed showing a different expression cadence at the contested timestamp.
+
+=== GROUND TRUTH ===
+is_fake=True | manipulation_type=None | motive=A medium-sophistication conspiracy network created a partial deepfake (expression manipulation + splicing) to inflame polarized audiences and drive viral engagement.
+
+=== DIRECTIVES (REFERENCE ONLY) ===
+(These were generated or provided elsewhere; do not generate directives here.)
+
+=== DIRECTIVES: KEY MOMENTS ===
+- KM-01 (objective=DEEPFAKE-01): Trainee locates and obtains the full unedited regional TV livestream/archive recording that contains the original scene.
+- KM-02 (objective=DEEPFAKE-03): Trainee performs frame-by-frame comparison between the viral clip and the unedited feed, identifying micro-expression timing differences at ~00:16–00:22.
+- KM-03 (objective=CRITICAL-03): Trainee navigates social amplification: identifies the fringe account that first posted the clip and traces its network of shares to understand motive and potential bad-faith actors.
+
+=== DIRECTIVES: REQUIRED BEHAVIORS ===
+- CB-01 (objective=DEEPFAKE-03, role=Station Archivist): Reluctant but ultimately cooperative; provides the unedited feed after verification of the reporter's credentials and a short wait.
+- CB-02 (objective=CRITICAL-03, role=Fringe Amplifier/Forum Moderator): Amplifies clip with inflammatory commentary and uses logical fallacies (whataboutism, straw man) in replies; refuses direct sourcing requests.
+- CB-03 (objective=DEEPFAKE-01, role=Celebrity Publicist): Issues a rapid public denial and requests verification from outlets, but declines to provide private raw phone footage initially.
+
+=== DIRECTIVES: INFORMATION TO EMBED ===
+- IE-01 (objective=DEEPFAKE-03, type=Public Information): Initial automated detection tools yield conflicting results: one flags likely fake, one says likely real, and another is inconclusive to demonstrate tool limits.
+- IE-02 (objective=DEEPFAKE-01, type=Hidden Clue): Frame 00:18:12 of the raw archive shows a different micro-expression and natural blink timing, which contradicts the viral clip's facial pacing.
+- IE-03 (objective=DEEPFAKE-03, type=Expert Opinion): A facial forensics expert provides a brief note explaining expression-manipulation artifacts such as temporal micro-expression mismatch and boundary flicker around the mouth.
+
+=== SEED ATTRIBUTES (FOR ENTITY CONTEXT) ===
+Geographic: country=United States, setting_type=Regional
+Adversary: type=Conspiracy Network, sophistication=Medium, motive=None
+Political: stability=5/5 (very stable), polarization=5/5 (extreme polarization)
+
+Guidance:
+- Generate a diverse set of entities that fit the narrative, including at least one Organization.
+- Total target: up to 8 entities (mix decided by plausibility).
+- Each entity must have: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs should be stable slugs or realistic identifiers (the model may generate them).
+
+Constraints:
+- Generate up to 8 entities total and ensure at least one Organization.
+- Each entity must include: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs may be generated by the model; keep them stable and slug-like.
+
+Return only valid JSON for the requested schema.

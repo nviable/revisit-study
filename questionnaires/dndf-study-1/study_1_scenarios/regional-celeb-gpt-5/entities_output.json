@@ -1,0 +1,66 @@
+[
+  {
+    "entity_id": "jordan-hale",
+    "entity_type": "Person",
+    "name": "Jordan Hale",
+    "role": "Nationally recognized actor and activist whose public remarks are widely followed and debated.",
+    "description": "A high-profile actor known for vocal commentary on social issues and a charismatic on-screen persona; followed by an ideologically mixed audience. Frequently speaks at regional charity and community events and relies on a small team (publicist/legal) to manage press; unlikely to engage directly with unvetted inquiries about circulated clips.",
+    "behavioral_notes_for_dm": "Will not provide private raw footage personally and will direct reporters to the publicist; expects outlets to seek verification before publishing and will likely issue a concise public statement through the PR team."
+  },
+  {
+    "entity_id": "emily-cho-wklm-archivist",
+    "entity_type": "Person",
+    "name": "Emily Cho",
+    "role": "Senior archivist at WKLM-TV who manages livestream and broadcast archives for the region.",
+    "description": "Custodian of WKLM-TV's broadcast archives, including the unedited 90-minute town-hall feed that contains the contested segment; notes that frame 00:18:12 of the raw archive shows different micro-expression timing and a natural blink cadence that contradicts the viral clip. Responsible for metadata, timecodes, and official file transfers.",
+    "behavioral_notes_for_dm": "Reluctant at first and asks for newsroom credentials and a short verification wait, but ultimately cooperative (will provide the unedited feed after verifying identity and email/assignment)."
+  },
+  {
+    "entity_id": "maya-santos-publicist",
+    "entity_type": "Person",
+    "name": "Maya Santos",
+    "role": "Publicist and spokesperson for Jordan Hale who manages crisis responses and media relations.",
+    "description": "Experienced PR professional who quickly issues official denials or clarifications on behalf of the client and coordinates legal/press responses. Will push outlets to confirm sources before amplifying online accusations and prefers statements to come through her office.",
+    "behavioral_notes_for_dm": "Issues a rapid public denial and requests verification from reporters, but declines to provide private raw phone or personal footage initially and asks for formal written requests for any additional material."
+  },
+  {
+    "entity_id": "red-oak-collective",
+    "entity_type": "Organization",
+    "name": "Red Oak Collective",
+    "role": "A medium-sophistication conspiracy/amplifier network and the fringe account cluster that first circulated the altered clip.",
+    "description": "Operates a cluster of partisan channels, message boards, and social accounts that specialize in rapid amplification of inflammatory media; uses targeted reposting and coordinated captions to stoke outrage rather than to monetize directly. Known to splice authentic sources with altered segments to increase shareability.",
+    "behavioral_notes_for_dm": "Posts provocative commentary and uses logical fallacies (whataboutism, straw man) in replies; refuses direct sourcing requests and will deflect or delete messages rather than hand over provenance."
+  },
+  {
+    "entity_id": "samir-patel-deepscan",
+    "entity_type": "Person",
+    "name": "Samir Patel (DeepScan Labs)",
+    "role": "Analyst at DeepScan Labs who ran an automated deepfake detection scan on the circulating clip.",
+    "description": "Represents a commercial forensic-AI vendor; DeepScan's automated report flagged the clip as likely manipulated, citing temporal micro-expression inconsistencies and boundary artefacts near the mouth. The analyst provides a summary-level readout rather than raw models or internal thresholds.",
+    "behavioral_notes_for_dm": "Quick to report the 'likely fake' result and highlights specific flags, but will caveat the output with limits of automated detection and decline to share proprietary model details."
+  },
+  {
+    "entity_id": "olivia-park-veracityai",
+    "entity_type": "Person",
+    "name": "Olivia Park (VeracityAI)",
+    "role": "Senior analyst at VeracityAI who evaluated the same clip with a different automated pipeline.",
+    "description": "VeracityAI's tool assessed global coherence and returned a classification of likely authentic for the clip, based on broader scene-and-audio consistency metrics; the analyst emphasizes different algorithmic priorities than competitors. Will provide a short report explaining their confidence metrics.",
+    "behavioral_notes_for_dm": "Defends the tool's 'likely real' result and cites methodological differences; willing to share a brief explanation but stands by the output and notes it may conflict with other tools."
+  },
+  {
+    "entity_id": "signalcheck-consortium",
+    "entity_type": "Institution",
+    "name": "SignalCheck Consortium",
+    "role": "Independent research consortium running an open-source AV authentication tool that evaluated the clip.",
+    "description": "A neutral academic/industry consortium that examines audiovisual artefacts; its automated pipeline flagged minor AV desynchronization and potential splice boundaries but returned an inconclusive verdict pending frame-by-frame primary-source comparison. The consortium recommends corroboration with raw station archives and expert analysis.",
+    "behavioral_notes_for_dm": "Provides cautious, neutral statements, emphasizes methodological caveats, and encourages obtaining the unedited archive and consulting a facial-forensics specialist for a definitive assessment."
+  },
+  {
+    "entity_id": "dr-alejandro-kim",
+    "entity_type": "Person",
+    "name": "Dr. Alejandro Kim",
+    "role": "Associate professor of computer vision and a facial-forensics consultant who analyzes expression-manipulation artefacts.",
+    "description": "Expert in micro-expression timing and AV forensics who can identify signs of expression-manipulation such as temporal micro-expression mismatch, boundary flicker around the mouth, and subtle AV desynchronization; notes that the viral clip shows telltale timing shifts in the 00:16–00:22 window that differ from the raw archive.",
+    "behavioral_notes_for_dm": "Will provide a succinct technical readout on observable tells and can walk trainees through a frame-by-frame comparison; emphasizes that expert analysis should be paired with primary-source archival comparison to reach a robust conclusion."
+  }
+]

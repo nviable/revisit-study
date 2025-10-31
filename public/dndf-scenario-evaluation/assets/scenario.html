@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Scenario</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html { 
+        font-family: Arial, sans-serif; 
+        line-height: 1.55; 
+        margin: 0; 
+        padding: 0;
+        height: auto;
+        overflow-y: visible;
+      }
+      body { 
+        font-family: Arial, sans-serif;
+        line-height: 1.55;
+        margin: 0; 
+        padding: 20px;
+        height: auto;
+        min-height: auto;
+        overflow-y: visible;
+      }
+      .container { 
+        max-width: 900px; 
+        margin: 0 auto;
+        height: auto;
+        min-height: auto;
+      }
+      h2 { margin: 0 0 8px; font-size: 20px; color: #2c3e50; }
+      h1 { font-size: 22px; color: #1f2d3d; margin: 0 0 16px; }
+      .section { margin: 18px 0; }
+      .muted { color: #666; font-size: 13px; }
+      ul { padding-left: 18px; }
+      .tag { display: inline-block; background: #eef3ff; color: #2c4cff; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 8px; }
+      .separator { height: 1px; background: #eee; margin: 16px 0; }
+      .small { font-size: 12px; color: #6b7280; }
+      .gt { background: #fff7ed; border: 1px solid #ffedd5; padding: 12px; border-radius: 6px; }
+    </style>
+    <script src="../../revisitUtilities/revisit-communicate.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="root">
+        <div class="section muted">Loading scenario…</div>
+      </div>
+    </div>
+
+    <script>
+      function el(tag, attrs = {}, children = []) {
+        const e = document.createElement(tag);
+        Object.entries(attrs).forEach(([k, v]) => (e[k] = v));
+        children.forEach((c) => (typeof c === 'string' ? e.appendChild(document.createTextNode(c)) : e.appendChild(c)));
+        return e;
+      }
+
+      function updateIframeHeight() {
+        // Calculate the actual content height
+        const height = Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight
+        );
+        
+        // Set explicit height on body/html to help iframe sizing
+        document.documentElement.style.height = height + 'px';
+        document.body.style.height = height + 'px';
+        
+        // Notify parent iframe of content height (if reVISit listens for this)
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ 
+            type: 'resize', 
+            height: height,
+            source: 'revisit-website-component'
+          }, '*');
+        }
+        
+        console.log('Content height calculated:', height + 'px');
+      }
+
+      async function renderScenario(root, data) {
+        const title = data.scenario_title || 'Scenario';
+        const brief = data.participant_briefing || {};
+        const gt = data.ground_truth || {};
+
+        root.innerHTML = '';
+
+        root.appendChild(el('h1', {}, [title]));
+        root.appendChild(el('div', { className: 'small' }, ['Part A: Scenario Evaluation']));
+        root.appendChild(el('div', { className: 'separator' }));
+
+        if (brief.role_introduction) {
+          root.appendChild(el('div', { className: 'section' }, [el('h2', {}, ['Role:']), el('div', {}, [brief.role_introduction])]));
+        }
+        if (brief.scenario_trigger) {
+          root.appendChild(el('div', { className: 'section' }, [el('h2', {}, ['Scenario:']), el('div', {}, [brief.scenario_trigger])]));
+        }
+        if (brief.media_artifact_description) {
+          root.appendChild(el('div', { className: 'section' }, [el('h2', {}, ['Video/Media:']), el('div', {}, [brief.media_artifact_description])]));
+        }
+        if (Array.isArray(brief.initial_context_clues) && brief.initial_context_clues.length) {
+          const list = el('ul');
+          brief.initial_context_clues.forEach((c) => list.appendChild(el('li', {}, [c])));
+          root.appendChild(el('div', { className: 'section' }, [el('h2', {}, ['Initial Clues & Context:']), list]));
+        }
+        if (brief.verification_stakes) {
+          root.appendChild(el('div', { className: 'section' }, [el('h2', {}, ['Stakes:']), el('div', {}, [brief.verification_stakes])]));
+        }
+
+        // Ground truth – shown to evaluator only per your template
+        if (gt && (typeof gt.is_fake !== 'undefined' || gt.true_motive)) {
+          const gtBox = el('div', { className: 'gt section' });
+          gtBox.appendChild(el('div', { className: 'small' }, ['[The below information is not visible to participants engaging with the scenario during the training simulation, however it\'s shown to you for better context]']));
+          if (typeof gt.is_fake !== 'undefined') {
+            gtBox.appendChild(el('div', {}, [`Ground Truth: ${gt.is_fake ? 'Video is Fake' : 'Video is Authentic'}`]));
+          }
+          if (gt.true_motive) {
+            gtBox.appendChild(el('div', {}, [`True Motive: ${gt.true_motive}`]));
+          }
+          root.appendChild(gtBox);
+        }
+
+        // Update iframe height after rendering - use multiple timeouts to ensure DOM is ready
+        setTimeout(updateIframeHeight, 0);
+        setTimeout(updateIframeHeight, 100);
+        setTimeout(updateIframeHeight, 500);
+      }
+
+      async function bootstrap() {
+        const root = document.getElementById('root');
+        
+        // Initial height update for loading state
+        updateIframeHeight();
+        
+        Revisit.onDataReceive(async (data) => {
+          try {
+            // According to reVISit docs, parameters are passed directly in the data object
+            // e.g., if parameters: { scenarioPath: "..." } then data.scenarioPath contains the value
+            const scenarioPath = data && data.scenarioPath;
+            
+            if (!scenarioPath) {
+              // Debug: Show what we received
+              console.error('Missing scenarioPath. Received data:', data);
+              root.innerHTML = '<div class="section">Error: Missing scenarioPath parameter.<br><small>Debug: ' + JSON.stringify(data, null, 2) + '</small></div>';
+              return;
+            }
+            
+            console.log('Loading scenario from:', scenarioPath);
+            const res = await fetch(`../../${scenarioPath}`);
+            if (!res.ok) throw new Error(`Failed to load scenario JSON: ${res.status} ${res.statusText}`);
+            const json = await res.json();
+            await renderScenario(root, json);
+          } catch (e) {
+            console.error('Error loading scenario:', e);
+            root.innerHTML = `<div class="section">Error loading scenario: ${e.message}</div>`;
+          }
+        });
+      }
+      bootstrap();
+      
+      // Update height on window resize
+      window.addEventListener('resize', updateIframeHeight);
+      
+      // Use MutationObserver to watch for content changes
+      const observer = new MutationObserver(updateIframeHeight);
+      observer.observe(document.body, { childList: true, subtree: true });
+    </script>
+  </body>
+  </html>
+
+

@@ -1,0 +1,75 @@
+=== GENERATION INSTRUCTIONS ===
+You are creating realistic characters and organizations for a journalism training scenario.
+Generate entities that feel authentic and serve the narrative purpose.
+
+Your goal:
+- Create diverse, believable characters with clear motivations
+- Include various stakeholder types: sources, experts, officials, subjects
+- Design entities that support the verification challenge
+- Provide realistic behavioral patterns for interactive training
+- Ensure entities represent different perspectives on the story
+
+Each entity should feel like a real person or organization a journalist
+would encounter during an investigation, with authentic backgrounds,
+realistic access levels, and believable responses to inquiries.
+
+=== TASK SUMMARY ===
+Task: Generate realistic characters and organizations for the scenario
+
+Key Requirements:
+- Entities must fit the narrative and ground truth
+- Include primary sources, experts, and stakeholders
+- Provide behavioral notes for realistic interactions
+- Ensure diversity in roles and perspectives
+
+Success Criteria:
+- Entities feel authentic and motivated
+- Diverse stakeholder representation
+- Clear behavioral patterns for training
+- Support verification challenge
+
+=== FUNCTIONAL SUMMARY ===
+Title: Star Athlete Lipsync Scandal
+Summary: A short clip circulates nationally showing Marcus Vale, a top-tier professional athlete, speaking during a televised interview and making a heated, off-script endorsement of a new streaming sponsor while criticizing a competing platform. The video appears to be taken from an actual evening sports program but the audio line about the sponsor is not present in the archived broadcaster feed. The clip is amplified by partisan sports channels and fan networks during a high-stakes round of streaming rights negotiations, quickly driving headlines and sponsor calls. Internal analysis reveals the audio was replaced using a sophisticated lipsync edit: engineers aligned new phonemes to Vale's lip movements and adjusted prosody to match the original delivery, leaving subtle mismatches. The manipulation was produced by a corporate PR firm working for an emerging streaming start-up to seed favorable commentary ahead of contract talks. The deception is high-sophistication and partial (only specific lines were edited), and the perpetrators also altered metadata to obscure provenance. The scenario creates realistic pressures: broadcaster credibility, commercial contract consequences, and a polarized fanbase demanding action. Trainees will need to combine OSINT (trace first posts and archives), frame-level audiovisual analysis (breathing and micro-expressions vs. audio cues), and editorial judgment under time pressure, while navigating conflicting automated tool outputs and an aggressive PR push to have the clip removed or amplified.
+Participant Role: You are Elena Park, a staff verification reporter at a national sports news outlet based in New York, covering sports media and industry business.
+Primary Subject: Marcus Vale, 28, is a high-profile professional athlete and frequent commercial spokesperson with a polished public persona; his statements carry significant commercial weight and fan influence.
+Media Artifact (DM): Partial lipsync edit layered onto legitimate broadcast footage: the manipulators replaced a short spoken segment to create a fabricated endorsement while preserving original visual frames. High technical quality—phoneme alignment, matched intonation, and slight denoising—was used to reduce obvious artifacts; metadata was altered to hide upload origin. Discoverable tells include emotional mismatch in audio vs. facial micro-expressions, subtle unnatural eye movement patterns at cut boundaries, and irregular breathing cadence that doesn't align with mouth movements.
+
+=== GROUND TRUTH ===
+is_fake=True | manipulation_type=None | motive=A corporate PR agency produced a partial lipsync edit to insert praise for a client streaming sponsor and discredit a competitor, aiming to create favorable media buzz ahead of negotiations.
+
+=== DIRECTIVES (REFERENCE ONLY) ===
+(These were generated or provided elsewhere; do not generate directives here.)
+
+=== DIRECTIVES: KEY MOMENTS ===
+- KM-01 (objective=DEEPFAKE-03): Automated detection tools return conflicting results for the clip.
+- KM-02 (objective=DEEPFAKE-01): A raw archival feed from the broadcaster lacks the contested audio line.
+- KM-03 (objective=CRITICAL-03): An editor pressures you to publish quickly citing commercial and competitive reasons.
+
+=== DIRECTIVES: REQUIRED BEHAVIORS ===
+- CB-01 (objective=DEEPFAKE-03, role=Tech Producer): Warns the team that detection tools are fallible and recommends OSINT and frame-level checks rather than relying solely on tool outputs.
+- CB-02 (objective=CRITICAL-03, role=Social Editor): Amplifies partisan reactions and posts inflammatory takes that escalate public pressure, pushing the trainee to respond strategically to fallacious arguments in comment threads.
+- CB-03 (objective=DEEPFAKE-01, role=Athlete Publicist): Provides a terse denial and an offer to supply studio raw footage under embargo, but requests the outlet to coordinate removal with platforms.
+
+=== DIRECTIVES: INFORMATION TO EMBED ===
+- IE-01 (objective=DEEPFAKE-03, type=Public Information): Detection tools should show conflicting confidence scores to demonstrate dataset rot and tool limitations.
+- IE-02 (objective=DEEPFAKE-01, type=Hidden Clue): A timecoded archive clip shows a mismatch between mouth openings and the alleged audio phonemes during the contested line.
+- IE-03 (objective=CRITICAL-03, type=Expert Opinion): A quoted verification expert notes that breathing cadence and micro-expressions are reliable indicators in high-quality lipsync edits when metadata is altered.
+
+=== SEED ATTRIBUTES (FOR ENTITY CONTEXT) ===
+Geographic: country=United States, setting_type=National
+Adversary: type=Corporate PR, sophistication=Very High, motive=None
+Political: stability=4/5 (stable), polarization=5/5 (extreme polarization)
+
+Guidance:
+- Generate a diverse set of entities that fit the narrative, including at least one Organization.
+- Total target: up to 8 entities (mix decided by plausibility).
+- Each entity must have: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs should be stable slugs or realistic identifiers (the model may generate them).
+
+Constraints:
+- Generate up to 8 entities total and ensure at least one Organization.
+- Each entity must include: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs may be generated by the model; keep them stable and slug-like.
+
+Return only valid JSON for the requested schema.

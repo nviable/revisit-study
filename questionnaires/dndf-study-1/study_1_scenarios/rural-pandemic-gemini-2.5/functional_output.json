@@ -1,0 +1,144 @@
+{
+  "scenario_title": "Rural Health Official's Emotional Outburst: Deepfake or Decontextualized?",
+  "scenario_summary": "An authentic video of Dr. Evelyn Reed, a highly respected public health official in a rural US county, showing her in a moment of emotional distress, has gone viral. She appears to be expressing frustration about a new pandemic-related health mandate. A sophisticated online conspiracy network, known for its anti-establishment stance, has picked up the video and is widely disseminating it, falsely claiming it is an AI-generated deepfake designed by 'the establishment' to manipulate public opinion and discredit local health authorities. They point to her raw, authentic emotional micro-expressions as 'unnatural' or 'edited' to provoke a reaction. The ground truth is that the video is entirely authentic, recorded by a concerned citizen on their phone after a particularly contentious public meeting where Dr. Reed faced intense backlash. She was expressing personal anguish over the difficult decisions and public pressure, not making an official statement. The conspiracy network's motive is to sow distrust in public institutions by misrepresenting genuine content as fabricated, playing into public fears about AI and governmental overreach, even though their primary goal is disruption rather than a specific political outcome in this instance.",
+  "ground_truth": {
+    "is_fake": false,
+    "true_motive": "The video is authentic. It was recorded during a private, emotional moment, and the conspiracy network is deliberately misrepresenting it as a deepfake to discredit public health officials and fuel anti-mandate sentiment, exploiting public fears about AI."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Alex Chen, an investigative reporter for 'The Heartland Beacon,' a non-profit news organization dedicated to local journalism in rural communities across the United States. You are based in a small town in the Midwest.",
+    "scenario_trigger": "October 15, Current Year | A video featuring Dr. Evelyn Reed, a prominent public health official in neighboring Willow Creek County, has exploded across social media. The video shows Dr. Reed visibly upset, appearing to make a highly emotional statement regarding the county's new pandemic health mandate. The video is being heavily shared by an influential online conspiracy network, which claims it's an AI-generated deepfake meant to mislead the public.",
+    "media_artifact_description": "The video, approximately 45 seconds long, shows a woman identified as Dr. Evelyn Reed. She is indoors, possibly in a hallway or a back room, speaking directly to someone off-camera. Her face is clearly visible, and she appears to be in a state of distress, with her voice wavering and her facial expressions conveying strong emotion. She makes several statements that, without context, could be interpreted as contradictory or highly critical of the new health mandate. The lighting is somewhat dim, and the footage appears to be shot on a mobile phone.",
+    "initial_context_clues": [
+      "Willow Creek County has recently implemented a controversial new health mandate, leading to significant public debate and protests.",
+      "Dr. Evelyn Reed is a well-respected figure in the community, known for her calm demeanor and dedication to public health.",
+      "The conspiracy network promoting the video has a history of amplifying content that questions government authority and scientific consensus, often claiming 'deepfakes' are being used against them."
+    ],
+    "verification_stakes": "The claims of a deepfake could severely undermine public trust in health officials and exacerbate tensions around the new mandate. Verifying the video's authenticity and true context is crucial to prevent further misinformation and ensure accurate reporting for your community."
+  },
+  "primary_subject_description": "Dr. Evelyn Reed is a dedicated public health official in Willow Creek County, known for her scientific rigor and community engagement. She is currently under immense pressure due to a contentious new pandemic health mandate.",
+  "media_artifact_details": {
+    "dm_summary": "The video is entirely authentic, captured on a citizen's phone. Dr. Reed's emotional display is genuine, reflecting her personal anguish and frustration after a grueling public meeting, not an official statement. The conspiracy network is using this authentic, decontextualized footage to falsely claim it's a deepfake, leveraging her genuine micro-expressions as 'evidence' of manipulation.",
+    "manipulation_types": [
+      "none"
+    ],
+    "discoverable_characteristics": [
+      "authentic emotion micro-expressions",
+      "mobile phone camera artifacts",
+      "natural lighting inconsistencies",
+      "background audio indicating a public gathering nearby"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 3,
+    "amount_facing_camera": 80.0,
+    "manipulation_length": "none",
+    "original_source_type": "entity",
+    "original_source_identifier": "entity:concerned_citizen_A via direct interview/request for original file"
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "SOURCE-02",
+      "IMG-03",
+      "CRITICAL-01",
+      "VID-03",
+      "VID-02"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "Rural"
+    },
+    "adversary_profile": {
+      "type": "Conspiracy Network",
+      "sophistication_level": "Very High",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 5,
+      "polarization": 1
+    },
+    "journalistic_freedom_level": 2,
+    "social_climate_tags": [
+      "Pandemic"
+    ],
+    "scenario_tone_tags": [
+      "AI Governance"
+    ],
+    "time_frame": "Current",
+    "manipulation_type": "none",
+    "discoverable_characteristics": [
+      "authentic emotion micro-expressions"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "denied",
+    "source_cooperation": "medium",
+    "credibility_score": 40,
+    "public_pressure": "high",
+    "narrative_consensus": "contested"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-001",
+        "linked_objective": "CRITICAL-01",
+        "description": "Participant initiates the verification process by systematically applying the '5 Ws' to the viral video, focusing on identifying the true source, location, and timing.",
+        "implementation_notes": "The initial investigation should reveal conflicting information about the video's origin, pushing the participant to dig deeper into Who, What, Where, When, Why."
+      },
+      {
+        "directive_id": "KM-002",
+        "linked_objective": "VID-02",
+        "description": "Participant discovers the original context of the video, revealing that it was not an official statement but a private, emotional moment, thus identifying it as 'out of context' content.",
+        "implementation_notes": "This discovery should come through persistent investigation, perhaps by contacting community members or attendees of the public meeting, leading to the person who recorded it."
+      },
+      {
+        "directive_id": "KM-003",
+        "linked_objective": "SOURCE-02",
+        "description": "Participant encounters a source (e.g., a community member influenced by the conspiracy network) who is deceptive or evasive about their knowledge of the video's spread or alleged manipulation.",
+        "implementation_notes": "The source should provide emotional appeals or vague details, requiring the participant to employ empathetic but skeptical questioning techniques to extract verifiable information or confirm inconsistencies."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-001",
+        "linked_objective": "SOURCE-02",
+        "character_role": "Conspiracy Network Influencer/Spreader",
+        "behavior": "Claim the video is a deepfake without specific technical evidence, relying instead on emotional appeals and vague accusations of 'unnatural' expressions or 'hidden agendas'. Will be evasive when pressed for verifiable details about the video's origin or manipulation process."
+      },
+      {
+        "directive_id": "CB-002",
+        "linked_objective": "VID-02",
+        "character_role": "Dr. Evelyn Reed",
+        "behavior": "Initially deny the video's authenticity or refuse to comment publicly due to distress and fear of further misrepresentation, but privately confirm it was a personal moment if approached with sensitivity and evidence of good faith by the journalist."
+      },
+      {
+        "directive_id": "CB-003",
+        "linked_objective": "IMG-03",
+        "character_role": "Original Video Recorder (Concerned Citizen)",
+        "behavior": "Be hesitant to share the original file due to fear of repercussions, but eventually provide it to the journalist after trust is established, allowing for metadata analysis."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "IE-001",
+        "linked_objective": "VID-03",
+        "info_type": "Public Information",
+        "content": "Online discussions and comments about the viral video frequently mention 'shallowfake' techniques, suggesting the video might have been slowed down or audio pitch altered, even though it hasn't been. This requires the participant to actively disprove these claims."
+      },
+      {
+        "directive_id": "IE-002",
+        "linked_objective": "IMG-03",
+        "info_type": "Hidden Clue",
+        "content": "The original video file, once obtained, contains intact metadata (date, time, device model) that accurately reflects when and where it was recorded, contradicting the deepfake claims and providing a crucial 'When' for the 5 Ws."
+      },
+      {
+        "directive_id": "IE-003",
+        "linked_objective": "CRITICAL-01",
+        "info_type": "Expert Opinion",
+        "content": "An expert in digital forensics, if consulted, confirms the video shows no signs of sophisticated AI manipulation, but notes the presence of 'authentic emotion micro-expressions' which are extremely difficult to fake, reinforcing its authenticity. They also highlight common 'shallowfake' characteristics are absent."
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "scenario_id": "7c34a298-d651-41ac-a07c-8db845b9767f",
+  "llm_provider": "openai",
+  "amagen_version": "1.0",
+  "generation_timestamp": "2025-10-11T17:53:30.788924",
+  "functional_seed": {
+    "learning_objectives": [
+      "SOURCE-02",
+      "IMG-03",
+      "CRITICAL-01",
+      "VID-03",
+      "VID-02"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "Rural"
+    },
+    "adversary_profile": {
+      "type": "Conspiracy Network",
+      "sophistication_level": "Very High",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 5,
+      "polarization": 1
+    },
+    "journalistic_freedom_level": 2,
+    "social_climate_tags": [
+      "Pandemic"
+    ],
+    "scenario_tone_tags": [
+      "AI Governance"
+    ],
+    "time_frame": "Current",
+    "manipulation_type": "none",
+    "discoverable_characteristics": [
+      "authentic emotion micro-expressions"
+    ]
+  },
+  "logical_seed": null
+}

@@ -1,0 +1,147 @@
+{
+  "scenario_title": "Viral Clip Alters Celebrity Remarks",
+  "scenario_summary": "A 45-second clip of a well-known actor and activist, Jordan Hale, circulated widely after being posted by a fringe account and picked up by partisan social feeds. The clip appears to show Hale at a regional charity town-hall making a dismissive, sarcastic remark about a community group, triggering outrage across partisan networks and calls for mainstream outlets to cover the apparent gaffe. Behind the scenes a medium-sophistication conspiracy network amplified the clip to inflame polarized audiences. The core footage is derived from an authentic local TV livestream, but adversaries applied targeted expression-manipulation and light splicing to alter Hale's micro-expressions in short segments, creating the impression of a smirk and an insincere tone at a key moment. The manipulation is partial: most of the clip is authentic broadcast footage, but two edits around the 00:16–00:22 window were altered. The forgers also performed minor audio edits that introduce subtle AV desynchronization. Raw station archives and an unedited full-length recording exist and, when compared frame-by-frame, show a different facial cadence and timing at the contested moment. The motive for the manipulation was to provoke outrage among highly polarized audiences and drive engagement for fringe channels, not to extort or monetize directly. The scenario gives trainees opportunities to practice OSINT source tracing, skeptical reading of automated detector output (which should be conflicted), frame-by-frame artifact spotting, and corroboration with primary-source raw footage and expert analysis.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A medium-sophistication conspiracy network created a partial deepfake (expression manipulation + splicing) to inflame polarized audiences and drive viral engagement."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Ava Martinez, an investigative reporter for a regional nonprofit newsroom covering politics and community affairs in the U.S. Midwest.",
+    "scenario_trigger": "Current | A short clip of actor-activist Jordan Hale at a local charity town-hall has gone viral overnight after being amplified by partisan social feeds and a popular conspiracy forum. Your editor has asked you to verify whether the clip is authentic before publishing a reaction piece.",
+    "media_artifact_description": "Video (≈45s) | Close-up shots of Jordan Hale at a community town-hall intercut with audience reaction shots. At ~00:16–00:22 there's a brief close-up where Hale appears to smirk and make a dismissive remark; audio includes audience murmurs and a moderator's question offscreen. The post caption frames the clip as evidence of Hale's contempt for the community group.",
+    "initial_context_clues": [
+      "Hale is a polarizing public figure who recently criticized one of the community groups in an op-ed.",
+      "The clip was first posted by a fringe account with a history of amplifying conspiratorial content.",
+      "Local TV station X aired a livestream of the event; the station's full feed may still be archived.",
+      "Hale's publicist has not yet issued a detailed statement on the specific clip."
+    ],
+    "verification_stakes": "If the clip is false and is reported as genuine, it could damage Hale's reputation and escalate tensions between polarized communities; if true, failing to verify would harm your outlet's credibility."
+  },
+  "primary_subject_description": "Jordan Hale is a nationally recognized actor who frequently comments on politics and social issues; noted for a charismatic public persona and a large, ideologically mixed following.",
+  "media_artifact_details": {
+    "dm_summary": "The circulating 45s clip is built from authentic broadcast livestream footage but has been partially altered: expression-manipulation was applied to a 6–8 second close-up to change micro-expressions and add a subtle smirk; splicing inserted a slightly different mouth shape from nearby frames. Minor audio edits introduced slight AV desynchronization. Tells include jump cuts at splice boundaries, micro-expression timing mismatches, and a low-level audio-visual desync. Raw station archive contains the unedited 90-minute feed showing a different expression cadence at the contested timestamp.",
+    "manipulation_types": [
+      "expression_manipulation",
+      "splicing",
+      "audio_editing",
+      "metadata_tampering"
+    ],
+    "discoverable_characteristics": [
+      "audio-visual desync",
+      "jump cuts at splice points",
+      "micro-expression timing inconsistencies",
+      "subtle boundary flicker around mouth/cheek during transition"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 4,
+    "amount_facing_camera": 75.0,
+    "manipulation_length": "partial",
+    "original_source_type": "news_site",
+    "original_source_identifier": "news_site:RegionalTVChannel_X livestream archive (full 90-minute feed) accessible via station archive and request to station archivist"
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "CRITICAL-03",
+      "DEEPFAKE-03",
+      "DEEPFAKE-01"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "Regional"
+    },
+    "adversary_profile": {
+      "type": "Conspiracy Network",
+      "sophistication_level": "Medium",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 5,
+      "polarization": 5
+    },
+    "journalistic_freedom_level": 4,
+    "social_climate_tags": [
+      "Celebrity Scandal"
+    ],
+    "scenario_tone_tags": [
+      "Investigative"
+    ],
+    "time_frame": "Current",
+    "manipulation_type": "expression_manipulation",
+    "discoverable_characteristics": [
+      "audio-visual desync",
+      "jump cuts"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "medium",
+    "credibility_score": 40,
+    "public_pressure": "high",
+    "narrative_consensus": "fragmented"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-01",
+        "linked_objective": "DEEPFAKE-01",
+        "description": "Trainee locates and obtains the full unedited regional TV livestream/archive recording that contains the original scene.",
+        "implementation_notes": "Provide an accessible station archive record and a cooperative archivist who can confirm timestamps after a targeted search request."
+      },
+      {
+        "directive_id": "KM-02",
+        "linked_objective": "DEEPFAKE-03",
+        "description": "Trainee performs frame-by-frame comparison between the viral clip and the unedited feed, identifying micro-expression timing differences at ~00:16–00:22.",
+        "implementation_notes": "Ensure the unedited feed clearly shows alternative micro-expressions; embed a hidden clue noting a subtle difference at a precise frame."
+      },
+      {
+        "directive_id": "KM-03",
+        "linked_objective": "CRITICAL-03",
+        "description": "Trainee navigates social amplification: identifies the fringe account that first posted the clip and traces its network of shares to understand motive and potential bad-faith actors.",
+        "implementation_notes": "Include visible repost chains and commentary with fallacious arguments to practice classifying logical fallacies in audience responses."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-01",
+        "linked_objective": "DEEPFAKE-03",
+        "character_role": "Station Archivist",
+        "behavior": "Reluctant but ultimately cooperative; provides the unedited feed after verification of the reporter's credentials and a short wait."
+      },
+      {
+        "directive_id": "CB-02",
+        "linked_objective": "CRITICAL-03",
+        "character_role": "Fringe Amplifier/Forum Moderator",
+        "behavior": "Amplifies clip with inflammatory commentary and uses logical fallacies (whataboutism, straw man) in replies; refuses direct sourcing requests."
+      },
+      {
+        "directive_id": "CB-03",
+        "linked_objective": "DEEPFAKE-01",
+        "character_role": "Celebrity Publicist",
+        "behavior": "Issues a rapid public denial and requests verification from outlets, but declines to provide private raw phone footage initially."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "IE-01",
+        "linked_objective": "DEEPFAKE-03",
+        "info_type": "Public Information",
+        "content": "Initial automated detection tools yield conflicting results: one flags likely fake, one says likely real, and another is inconclusive to demonstrate tool limits."
+      },
+      {
+        "directive_id": "IE-02",
+        "linked_objective": "DEEPFAKE-01",
+        "info_type": "Hidden Clue",
+        "content": "Frame 00:18:12 of the raw archive shows a different micro-expression and natural blink timing, which contradicts the viral clip's facial pacing."
+      },
+      {
+        "directive_id": "IE-03",
+        "linked_objective": "DEEPFAKE-03",
+        "info_type": "Expert Opinion",
+        "content": "A facial forensics expert provides a brief note explaining expression-manipulation artifacts such as temporal micro-expression mismatch and boundary flicker around the mouth."
+      }
+    ]
+  }
+}

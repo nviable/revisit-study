@@ -1,0 +1,66 @@
+[
+  {
+    "entity_id": "county_health_director_sara_martinez",
+    "entity_type": "Person",
+    "name": "Sara Martinez",
+    "role": "County Health Director overseeing vaccine distribution across a largely rural Midwestern county.",
+    "description": "Mid-40s public health professional with a decade of experience in local health administration; known locally for blunt, direct communication and hands-on management of immunization clinics. In the leaked clip she appears emotional but coherent, conveying operational frustrations and the ethical weight of prioritization decisions.",
+    "behavioral_notes_for_dm": "Responds guardedly to reporters — defensive about leaks and protective of staff — but will provide clarifying context if spoken to with empathy about pressures she faced; prefers email or scheduled calls and may ask that sensitive personnel matters be treated off the record."
+  },
+  {
+    "entity_id": "anonymous_staffer_source_jordan_davis",
+    "entity_type": "Person",
+    "name": "Jordan Davis",
+    "role": "Health department data coordinator who forwarded the original MP4 file to an anonymous reporter contact.",
+    "description": "Mid-30s operations/data staffer with routine access to meeting recordings and chat logs; politically risk-averse and fearful of retaliation. Claims to have pulled the recording from an internal meeting folder and emailed an MP4 along with a partial participant list and chat excerpt.",
+    "behavioral_notes_for_dm": "Provides the original file but is evasive about chain of custody and how they accessed it; responds slowly, insists on anonymity and requests careful handling to avoid exposing their identity."
+  },
+  {
+    "entity_id": "county_spokesperson_alan_reeves",
+    "entity_type": "Person",
+    "name": "Alan Reeves",
+    "role": "County Communications Officer and official spokesperson for the county government.",
+    "description": "Experienced municipal communications professional who balances transparency with legal and privacy constraints; accustomed to media scrutiny but risk-averse when internal records are requested. Will confirm whether a meeting occurred and its general topic but resists releasing internal minutes or raw recordings without internal review.",
+    "behavioral_notes_for_dm": "Reluctant to release internal records immediately and will cite policy and legal concerns; willing to confirm meeting date/time/topic and point to published materials but likely to route detailed record requests through formal channels or counsel."
+  },
+  {
+    "entity_id": "conspiracy_network_sunrise_watch",
+    "entity_type": "Organization",
+    "name": "Sunrise Watch Network",
+    "role": "Online amplification network that reposted the cropped clip with provocative captions alleging favoritism in vaccine distribution.",
+    "description": "Small, highly active online group with strong social-media reach among regional audiences; uses rapid reposting, caption-driven narratives, and fringe forums to maximize distrust. The group has technical know-how to crop and re-encode clips for virality and coordinates messaging across platforms.",
+    "behavioral_notes_for_dm": "Will repost and amplify without engaging with corrections or requests for context; if contacted publicly, they will deflect and double down on provocative claims rather than provide provenance."
+  },
+  {
+    "entity_id": "local_it_specialist_maya_chen",
+    "entity_type": "Person",
+    "name": "Maya Chen",
+    "role": "Independent IT specialist and digital-forensics consultant with experience on local election and public-records cases.",
+    "description": "Late-20s consultant who runs metadata and video-forensics checks for local reporters and civic groups; comfortable extracting EXIF/MP4 metadata, timestamps and platform headers. Notes that automated detection tools can flag a clip as 'edited' when headers or UI elements are removed and compression artifacts vary, producing conflicting confidence scores.",
+    "behavioral_notes_for_dm": "Cooperative and willing to analyze original MP4 and accompanying files, but will explain technical limitations plainly; likely to volunteer that a creation timestamp and platform metadata should be extractable from the supplied original file."
+  },
+  {
+    "entity_id": "meeting_attendee_kyle_parker",
+    "entity_type": "Person",
+    "name": "Kyle Parker",
+    "role": "Immunization clinic supervisor who attended the closed staff meeting.",
+    "description": "Frontline clinic nurse and supervisor who runs mobile clinics in outlying townships; present in the meeting and remembers discussion of scheduling, supply constraints and prioritization. Has a practical memory of operational tradeoffs but not verbatim recollection of the director's remarks.",
+    "behavioral_notes_for_dm": "Willing to speak but memory is fuzzy and recollections may conflict with others; emphasizes logistical constraints and will deny that the director was admitting intentional favoritism."
+  },
+  {
+    "entity_id": "meeting_attendee_dr_elaine_roberts",
+    "entity_type": "Person",
+    "name": "Dr. Elaine Roberts",
+    "role": "County hospital epidemiologist and invited attendee at the staff meeting.",
+    "description": "Senior clinician and epidemiologist who advised on prioritization based on limited supply and outreach barriers; took ad hoc notes and remembers the director clarifying that prioritization was logistical rather than preferential. Familiar with the county's published prioritization policy and scheduling spreadsheets.",
+    "behavioral_notes_for_dm": "Generally cooperative and willing to share her notes or point to public scheduling documents; cautious about releasing internal meeting minutes but will help contextualize the director's remarks."
+  },
+  {
+    "entity_id": "marigold_county_public_health_department",
+    "entity_type": "Institution",
+    "name": "Marigold County Public Health Department",
+    "role": "Local health authority responsible for vaccine distribution and public communications in the county.",
+    "description": "Small county health department managing dispersed clinics and limited cold-chain logistics; maintains public-facing materials including a vaccination schedule PDF and press releases detailing prioritization policies. Internally holds meeting recordings, chat logs and participant lists but typically treats those as restricted records.",
+    "behavioral_notes_for_dm": "Official channels will point reporters to published schedules and press releases; internal records requests are handled formally and may be delayed or routed through counsel, though staff may privately confirm high-level facts about meetings."
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "scenario_id": "0a5d7ef0-f31e-48c8-99e2-ce0dbc544d19",
+  "llm_provider": "gemini",
+  "amagen_version": "1.0",
+  "generation_timestamp": "2025-10-15T11:33:19.566105",
+  "functional_seed": {
+    "learning_objectives": [
+      "CRITICAL-03",
+      "DEEPFAKE-03",
+      "DEEPFAKE-01"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "National"
+    },
+    "adversary_profile": {
+      "type": "Corporate PR",
+      "sophistication_level": "Very High",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 4,
+      "polarization": 5
+    },
+    "journalistic_freedom_level": 5,
+    "social_climate_tags": [
+      "Sports",
+      "Entertainment"
+    ],
+    "scenario_tone_tags": [
+      "Human Interest"
+    ],
+    "time_frame": "Near Future",
+    "manipulation_type": "lipsync",
+    "discoverable_characteristics": [
+      "voice emotional mismatch",
+      "unnatural eye movements",
+      "breathing pattern anomalies"
+    ]
+  },
+  "logical_seed": null
+}

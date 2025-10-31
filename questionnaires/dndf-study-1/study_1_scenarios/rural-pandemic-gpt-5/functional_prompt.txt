@@ -1,0 +1,116 @@
+=== GENERATION INSTRUCTIONS ===
+You are generating a functional scenario blueprint for a journalism training experience focused on deepfake detection and media verification.
+
+What to produce (functional stage only):
+- A cohesive narrative foundation that feels authentic and newsworthy
+- A clear verification challenge with realistic stakes and constraints
+- Ground truth that supports effective training (truth about authenticity and motive)
+- High-level elements that naturally create opportunities to practice skills aligned with the learning objectives
+
+How to use the inputs:
+- Learning objectives are guidance for what the trainee should have chances to practice. Use them to shape the scenario’s opportunities and decision-points, but do not treat them as hard constraints. The story should feel organic, not checklist-driven.
+- Seed inputs (geographic setting, adversary profile, political climate, tone, etc.) should inform the world-building, stakes, and plausibility. Use them to anchor characters, venues, and pressures.
+- Example scenario (if provided) is a reference for tone and structure. You may borrow its genre/shape, but create a fresh narrative consistent with the current seeds and objectives.
+
+Important:
+- Keep the narrative self-contained and internally consistent with the seed inputs and ground truth.
+- Write for a professional journalism training context. Favor plausibility, believable motivations, and realistic complications.
+
+=== TASK SUMMARY ===
+Task: Generate an engaging, realistic scenario for journalism deepfake training
+
+Key Requirements:
+- Create compelling narrative that fits the learning objectives
+- Include realistic characters and organizations
+- Provide clear ground truth for verification training
+- Design pedagogical moments that teach specific skills
+
+Success Criteria:
+- Narrative feels authentic and newsworthy
+- Learning objectives naturally integrated
+- Clear verification challenge with stakes
+- Ground truth supports training goals
+
+=== SEED INPUTS ===
+Geographic: country=United States, setting_type=Rural
+Adversary: type=Conspiracy Network, sophistication=Very High, motive=None
+Political: stability=5/5 (very stable), polarization=1/5 (minimal polarization)
+Journalistic freedom: 2/5 (restricted)
+Social tags: Pandemic
+Tone tags: AI Governance
+Time frame: Current
+Manipulation type: none
+Discoverable characteristics: authentic emotion micro-expressions
+
+
+=== LEARNING OBJECTIVES ===
+(Each learning objective includes an example application - use these as inspiration, but create diverse scenarios that teach the same skill in different contexts)
+- SOURCE-02: Handling a Potentially Deceptive Source
+  Example: You are interviewing a subject for a story who is providing a compelling, emotional account. However, some of their details seem inconsistent, and they are evasive when you ask for specific, verifiable facts. How do you manage the interview and assess their reliability?
+  Material: Deceptive sources may use emotion to bypass critical thinking. It is crucial to remain empathetic but skeptical. Pay close attention to their language—are they using non-committal phrasing or providing vague details? When you encounter inconsistencies, ask for clarification in a non-confrontational manner. For example, 'Can you help me understand this part better?' Instead of asking if something happened, ask them to describe *how* it happened. A truthful person recalls an event; a liar has to invent one, which is more cognitively demanding. Always seek independent corroboration for any claims made.
+- IMG-03: Analyzing Image Metadata (EXIF)
+  Example: A source sends you an image file directly, claiming they took it themselves just moments ago. They say they haven't altered it. What hidden data within the image file itself could help you verify parts of their claim?
+  Material: Image files often contain hidden Exchangeable Image File Format (EXIF) data. This metadata can include the date and time the photo was taken, the make and model of the camera or phone used, and sometimes even the GPS coordinates of the location. While this data is powerful, be cautious. EXIF data can be easily stripped or altered. Furthermore, social media platforms almost always remove EXIF data when a photo is uploaded. Therefore, the presence of EXIF data is most useful when you receive an original file directly from a source. The absence of it, especially online, is not necessarily suspicious.
+- CRITICAL-01: Applying the '5 Ws' of Verification
+  Example: You are looking at a user-generated video of a flash flood. Before you can use it in a report, you need to establish the basic facts. What core questions form the foundation of your verification process?
+  Material: The '5 Ws' of journalism (Who, What, Where, When, Why) are also the foundation of verification. **Who** created this content? (Check the user's profile and history). **What** exactly does it show? (Analyze the content frame by frame). **Where** was it created? (Use geolocation techniques). **When** was it created? (Use reverse image search and check metadata). **Why** was it created? (Assess the creator's potential motivation). A sixth 'W' is also crucial: **How** was it created, and has it been manipulated? Systematically answering these questions builds a strong, defensible verification checklist for any piece of content.
+- VID-03: Identifying 'Shallowfakes' and Simple Manipulations
+  Example: A video of a politician speaking at a conference is going viral. The caption claims she is drunk, as her speech is slurred and slow. How can you determine if the video has been simply slowed down to create a false impression?
+  Material: 'Shallowfakes' or 'cheapfakes' are a common form of disinformation that don't require sophisticated AI. They involve simple manipulations like slowing down or speeding up footage, cropping it to remove context, or adding misleading captions or audio. To detect a slowed video, look for clues in the background: are people moving unnaturally slowly? Does the audio have an artificially low pitch? Cross-reference the clip with original footage of the event if available. Always question the context and be aware that the most impactful disinformation is often the easiest to create.
+- VID-02: Identifying 'Out of Context' Video
+  Example: A video clip showing chaotic scenes of looting is being shared with the claim that it is from a protest that happened last night in your city. How would you verify if the video is recent and from the correct event?
+  Material: Video footage is frequently decontextualized—a real video from a past event is presented as happening now. Your verification process should combine reverse video search with geolocation. Use tools like the InVID/WeVerify plugin to extract keyframes from the video and run reverse image searches on them. This can help you find older instances of the video online. Simultaneously, use geolocation techniques: look for street signs, weather conditions (is it raining in the video but sunny today?), and other clues to match the location and time to the claimed event.
+
+=== EXAMPLE SCENARIO ===
+Title: Biden Campaign Manager Health Claims Deepfake
+Summary: A video allegedly shows Biden's former campaign manager claiming Biden is severely ill and using painkillers at rallies, requiring verification during a critical election period.
+
+Constraints:
+- scenario_title: short, punchy title (<= 12 words).
+- scenario_summary: ~200-250 words (internal DM summary with ground truth context).
+- primary_subject_description: 1-3 sentences (internal description).
+- ground_truth: 1 sentence.
+- directives: concise, but specific and actionable; limit to 3 of each type.
+
+Participant Briefing (no spoilers):
+- role_introduction: 1-2 sentences with realistic name matching geographic setting.
+- scenario_trigger: 2-3 sentences with date/event/context that kicks off investigation.
+- media_artifact_description: 2-4 sentences describing only what's visible/audible, no interpretation.
+- initial_context_clues: 2-4 brief ambiguous facts (optional).
+- verification_stakes: 1-2 sentences explaining why verification matters without revealing answer.
+
+Media Artifact Details (technical/DM):
+- dm_summary: 2-3 sentences describing the media from DM perspective.
+  * For fake media: Include manipulation specifics (method, quality, tells).
+  * For authentic media: Include notable characteristics (artifacts, source).
+- manipulation_types: List of manipulation techniques. Empty list or ['none'] for authentic.
+  Can include multiple (e.g., ['faceswap', 'voice_cloning']).
+  Options: faceswap, lipsync, puppetmaster, fully_synthetic, expression_manipulation,
+  inpainting, ai_removal, copy_move, splicing, cropping, voice_cloning, impersonator,
+  tts_synthesis, audio_editing, fully_synthetic_audio, metadata_tampering, none.
+- discoverable_characteristics: List of observable tells/artifacts (2-4 items).
+- compression (1-5): 1=minimal/high quality, 5=extreme/very low quality.
+- blur (1-5): 1=sharp/crystal clear, 5=extremely blurry.
+- face_size (1-5): 1=very distant/tiny, 5=extreme close-up.
+- amount_facing_camera: Percentage 0-100.
+- manipulation_length: none/partial/full.
+- If is_fake=True and original exists: specify original_source_type and original_source_identifier.
+
+**Scenario Directives - Tool Behavior:**
+When learning objectives involve tool limitations (DEEPFAKE-03, BIAS-02), consider adding
+a directive in 'information_to_embed' specifying whether detection tools should:
+- Show false positive results (authentic media flagged as fake)
+- Show false negative results (fake media not detected)
+- Give conflicting results
+Example: 'Detection tools should show conflicting confidence scores to demonstrate dataset rot.'
+
+Scenario State (operational context):
+- virality_level: low/medium/high/critical
+- time_pressure: low/medium/high/critical
+- subject_response_status: none/pending/denied/confirmed
+- source_cooperation: unknown/low/medium/high
+- credibility_score: 0-100 (starting value)
+- public_pressure: low/medium/high/critical
+- narrative_consensus: fragmented/contested/forming/stable
+
+Return only valid JSON for the requested schema.

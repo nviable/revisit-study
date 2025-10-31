@@ -1,0 +1,147 @@
+{
+  "scenario_title": "Star Athlete Lipsync Scandal",
+  "scenario_summary": "A short clip circulates nationally showing Marcus Vale, a top-tier professional athlete, speaking during a televised interview and making a heated, off-script endorsement of a new streaming sponsor while criticizing a competing platform. The video appears to be taken from an actual evening sports program but the audio line about the sponsor is not present in the archived broadcaster feed. The clip is amplified by partisan sports channels and fan networks during a high-stakes round of streaming rights negotiations, quickly driving headlines and sponsor calls. Internal analysis reveals the audio was replaced using a sophisticated lipsync edit: engineers aligned new phonemes to Vale's lip movements and adjusted prosody to match the original delivery, leaving subtle mismatches. The manipulation was produced by a corporate PR firm working for an emerging streaming start-up to seed favorable commentary ahead of contract talks. The deception is high-sophistication and partial (only specific lines were edited), and the perpetrators also altered metadata to obscure provenance. The scenario creates realistic pressures: broadcaster credibility, commercial contract consequences, and a polarized fanbase demanding action. Trainees will need to combine OSINT (trace first posts and archives), frame-level audiovisual analysis (breathing and micro-expressions vs. audio cues), and editorial judgment under time pressure, while navigating conflicting automated tool outputs and an aggressive PR push to have the clip removed or amplified.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A corporate PR agency produced a partial lipsync edit to insert praise for a client streaming sponsor and discredit a competitor, aiming to create favorable media buzz ahead of negotiations."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Elena Park, a staff verification reporter at a national sports news outlet based in New York, covering sports media and industry business.",
+    "scenario_trigger": "Today, 14 May (near-future) | An edited clip of an evening interview with NBA All-Star Marcus Vale has begun trending across social platforms and sports forums, claiming he publicly endorsed a streaming sponsor and criticized a rival. Your desk assigns you to verify the clip before an editor considers publishing an explainer story.",
+    "media_artifact_description": "Video context | A 22-second excerpt purports to be taken from a recorded studio interview on a national sports program. The athlete sits center-frame and speaks directly to the interviewer; audio contains a 6-second line praising a streaming sponsor and criticizing a competing platform. Visuals show natural studio lighting, occasional camera cuts, and the subject breathing audibly between phrases.",
+    "initial_context_clues": [
+      "The clip was first shared by an anonymous sports highlight account with a large following.",
+      "Broadcaster A posted a short statement saying they are 'reviewing an altered excerpt' but did not confirm details.",
+      "Vale's publicist has not yet issued a full response but 'acknowledged' seeing the clip and asked platforms to review it."
+    ],
+    "verification_stakes": "Confirming the clip's authenticity matters because it could influence multi-million-dollar streaming deals and damage the athlete's reputation; publishing without verification risks spreading manufactured endorsements."
+  },
+  "primary_subject_description": "Marcus Vale, 28, is a high-profile professional athlete and frequent commercial spokesperson with a polished public persona; his statements carry significant commercial weight and fan influence.",
+  "media_artifact_details": {
+    "dm_summary": "Partial lipsync edit layered onto legitimate broadcast footage: the manipulators replaced a short spoken segment to create a fabricated endorsement while preserving original visual frames. High technical quality—phoneme alignment, matched intonation, and slight denoising—was used to reduce obvious artifacts; metadata was altered to hide upload origin. Discoverable tells include emotional mismatch in audio vs. facial micro-expressions, subtle unnatural eye movement patterns at cut boundaries, and irregular breathing cadence that doesn't align with mouth movements.",
+    "manipulation_types": [
+      "lipsync",
+      "audio_editing",
+      "metadata_tampering"
+    ],
+    "discoverable_characteristics": [
+      "voice emotional mismatch",
+      "unnatural eye movements",
+      "breathing pattern anomalies",
+      "cut-boundary micro-jitter"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 4,
+    "amount_facing_camera": 85.0,
+    "manipulation_length": "partial",
+    "original_source_type": "news_site",
+    "original_source_identifier": "news_site:WMRT evening program raw feed (archive timecode 00:12:10–00:12:45) available via broadcaster archive request"
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "CRITICAL-03",
+      "DEEPFAKE-03",
+      "DEEPFAKE-01"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "National"
+    },
+    "adversary_profile": {
+      "type": "Corporate PR",
+      "sophistication_level": "Very High",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 4,
+      "polarization": 5
+    },
+    "journalistic_freedom_level": 5,
+    "social_climate_tags": [
+      "Sports",
+      "Entertainment"
+    ],
+    "scenario_tone_tags": [
+      "Human Interest"
+    ],
+    "time_frame": "Near Future",
+    "manipulation_type": "lipsync",
+    "discoverable_characteristics": [
+      "voice emotional mismatch",
+      "unnatural eye movements",
+      "breathing pattern anomalies"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "unknown",
+    "credibility_score": 45,
+    "public_pressure": "high",
+    "narrative_consensus": "contested"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-01",
+        "linked_objective": "DEEPFAKE-03",
+        "description": "Automated detection tools return conflicting results for the clip.",
+        "implementation_notes": "Simulate at least two popular detection tools: one flags high likelihood of manipulation, another reports low confidence/likely authentic, and a third is inconclusive."
+      },
+      {
+        "directive_id": "KM-02",
+        "linked_objective": "DEEPFAKE-01",
+        "description": "A raw archival feed from the broadcaster lacks the contested audio line.",
+        "implementation_notes": "Provide timecoded broadcaster archive showing different mouth movements and absent sponsor line; make this retrievable via a simulated archive request."
+      },
+      {
+        "directive_id": "KM-03",
+        "linked_objective": "CRITICAL-03",
+        "description": "An editor pressures you to publish quickly citing commercial and competitive reasons.",
+        "implementation_notes": "Create a short internal message from an editor urging publication before competitors; this forces trainees to justify verification steps under organizational pressure."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-01",
+        "linked_objective": "DEEPFAKE-03",
+        "character_role": "Tech Producer",
+        "behavior": "Warns the team that detection tools are fallible and recommends OSINT and frame-level checks rather than relying solely on tool outputs."
+      },
+      {
+        "directive_id": "CB-02",
+        "linked_objective": "CRITICAL-03",
+        "character_role": "Social Editor",
+        "behavior": "Amplifies partisan reactions and posts inflammatory takes that escalate public pressure, pushing the trainee to respond strategically to fallacious arguments in comment threads."
+      },
+      {
+        "directive_id": "CB-03",
+        "linked_objective": "DEEPFAKE-01",
+        "character_role": "Athlete Publicist",
+        "behavior": "Provides a terse denial and an offer to supply studio raw footage under embargo, but requests the outlet to coordinate removal with platforms."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "IE-01",
+        "linked_objective": "DEEPFAKE-03",
+        "info_type": "Public Information",
+        "content": "Detection tools should show conflicting confidence scores to demonstrate dataset rot and tool limitations."
+      },
+      {
+        "directive_id": "IE-02",
+        "linked_objective": "DEEPFAKE-01",
+        "info_type": "Hidden Clue",
+        "content": "A timecoded archive clip shows a mismatch between mouth openings and the alleged audio phonemes during the contested line."
+      },
+      {
+        "directive_id": "IE-03",
+        "linked_objective": "CRITICAL-03",
+        "info_type": "Expert Opinion",
+        "content": "A quoted verification expert notes that breathing cadence and micro-expressions are reliable indicators in high-quality lipsync edits when metadata is altered."
+      }
+    ]
+  }
+}

@@ -1,0 +1,176 @@
+You are generating a list of verification actions for a journalism training scenario in a SINGLE structured response.
+
+Goals:
+- Produce a diverse, coherent set of actions that a trainee could take in flexible order.
+- Include realistic technical outputs when applicable (e.g., DeFake.app).
+- Ensure closing publication-decision actions are present with narrative-only text responses.
+
+Output contract:
+- Return an object with an 'items' array of ActionResponse objects.
+- Use stable action_ids like action_001, action_002, ... and ensure prerequisites reference only earlier ids.
+- Use response_type consistent with action_type. For publication-decision actions, response_type must be 'text'.
+- Use source_entity_id values exactly as listed under entities.
+- Set source_entity_id to null if no entity is involved.
+
+=== TASK SUMMARY ===
+Task: Generate 15 actions in a single structured response
+
+Key Requirements:
+- Generate a diverse, coherent pool that fits directives and state
+- Include closing publication-decision actions (text-only responses)
+- Include one DeFake.app technical analysis action
+- Use realistic prerequisites and consistent response types
+
+Success Criteria:
+- Total count matches target
+- Includes required publication actions and DeFake item
+- Logical prerequisites and realistic outputs
+- Schema-valid ActionResponse objects
+
+=== FUNCTIONAL SUMMARY ===
+Title: County Health Meeting Leak
+Summary: In a rural Midwestern county, a short video clip surfaces on local message boards and is quickly amplified by an online conspiracy network claiming it proves preferential vaccine distribution and cover-ups during the pandemic. The clip shows the county health director speaking in a visibly emotional tone during what appears to be an internal meeting; viewers interpret fragments of the remarks as an admission of misconduct. Your newsroom is asked to verify the clip amid low local journalistic freedom and rising community anxiety about vaccine access. The clip is authentic footage recorded from a closed staff meeting but was leaked without context and cropped to emphasize a handful of lines. There is no deepfake or technical audio manipulation — the subject’s micro-expressions and affect are genuine — but the excerpt omits surrounding clarifications that explain operational prioritization decisions and logistical constraints. A sophisticated conspiracy network with technical reach amplifies the clip to maximize distrust, while county officials are wary of releasing internal records. The realistic training challenge is to (1) treat the source with skeptical empathy, asking for original files and corroboration; (2) analyze metadata and meeting logs where available; (3) geolocate and timestamp the recording; and (4) contextualize the remarks by contacting attendees and reviewing scheduling documents. The scenario gives trainees chances to practice source handling, EXIF/metadata checks, the 5 Ws, and out-of-context verification under time pressure and constrained access.
+Participant Role: You are Samira Cole, an investigative reporter at a regional nonprofit newsroom covering rural public health in the United States.
+Primary Subject: County health director in her mid-40s who oversees vaccine distribution across a largely rural county; experienced public health official known locally for direct communication. In the clip she appears emotional but coherent, suggesting genuine concern rather than scripted performance.
+Media Artifact (DM): The clip is an authentic extract from a closed staff meeting recorded via a common videoconference platform; no AI-driven facial or voice manipulation detected. Tells include visible meeting UI elements and continuous ambient audio; the edit appears to be a simple crop rather than a splice or synthetic replacement.
+
+=== GROUND TRUTH ===
+is_fake=False | manipulation_type=None | motive=A genuine clip from a closed staff meeting was leaked and amplified out of context to provoke public fear and distrust about local vaccine rollout.
+
+=== DIRECTIVES: KEY MOMENTS ===
+- KM-01 (objective=CRITICAL-01): An anonymous user forwards the cropped clip and a short caption claiming 'watch the director admit favoritism'—the participant must extract frames and run reverse searches and metadata checks.
+- KM-02 (objective=SOURCE-02): A staffer (source) contacts the reporter offering the original meeting recording but is evasive about how it was obtained; participant must request provenance and technical files.
+- KM-03 (objective=VID-02): Participant reaches out to two meeting attendees who give partially conflicting recollections; accessing meeting minutes clarifies missing context.
+
+=== DIRECTIVES: REQUIRED BEHAVIORS ===
+- CB-01 (objective=SOURCE-02, role=Anonymous Staffer Source): Provides original file but is evasive about chain of custody; responds slowly and requests anonymity for fear of reprisal.
+- CB-02 (objective=CRITICAL-01, role=County Officials Spokesperson): Reluctant to release internal records immediately, citing policy and legal concerns, but willing to confirm whether a meeting took place and its general topic.
+- CB-03 (objective=VID-03, role=Conspiracy Network Amplifier): Reposts the clip with provocative captions and refuses to engage in corrections; public messaging escalates tension regardless of verification.
+
+=== DIRECTIVES: INFORMATION TO EMBED ===
+- IE-01 (objective=IMG-03, type=Hidden Clue): Original MP4 emailed by a staffer contains embedded creation timestamp and platform metadata; meeting participant list and partial chat log accompany the file.
+- IE-02 (objective=CRITICAL-01, type=Public Information): County vaccination schedule PDF and public press release about prioritization policies are publicly available and help contextualize the remarks.
+- IE-03 (objective=VID-03, type=Expert Opinion): A local IT specialist provides analysis that automated detection tools may flag the cropped clip as 'edited' due to removed headers and compression, producing conflicting tool confidence scores.
+
+=== ENTITIES ===
+- [Person] Sara Martinez (ID: county_health_director_sara_martinez) — County Health Director overseeing vaccine distribution across a largely rural Midwestern county.
+  Description: Mid-40s public health professional with a decade of experience in local health administration; known locally for blunt, direct communication and hands-on management of immunization clinics. In the leaked clip she appears emotional but coherent, conveying operational frustrations and the ethical weight of prioritization decisions.
+  Behavior: Responds guardedly to reporters — defensive about leaks and protective of staff — but will provide clarifying context if spoken to with empathy about pressures she faced; prefers email or scheduled calls and may ask that sensitive personnel matters be treated off the record.
+- [Person] Jordan Davis (ID: anonymous_staffer_source_jordan_davis) — Health department data coordinator who forwarded the original MP4 file to an anonymous reporter contact.
+  Description: Mid-30s operations/data staffer with routine access to meeting recordings and chat logs; politically risk-averse and fearful of retaliation. Claims to have pulled the recording from an internal meeting folder and emailed an MP4 along with a partial participant list and chat excerpt.
+  Behavior: Provides the original file but is evasive about chain of custody and how they accessed it; responds slowly, insists on anonymity and requests careful handling to avoid exposing their identity.
+- [Person] Alan Reeves (ID: county_spokesperson_alan_reeves) — County Communications Officer and official spokesperson for the county government.
+  Description: Experienced municipal communications professional who balances transparency with legal and privacy constraints; accustomed to media scrutiny but risk-averse when internal records are requested. Will confirm whether a meeting occurred and its general topic but resists releasing internal minutes or raw recordings without internal review.
+  Behavior: Reluctant to release internal records immediately and will cite policy and legal concerns; willing to confirm meeting date/time/topic and point to published materials but likely to route detailed record requests through formal channels or counsel.
+- [Organization] Sunrise Watch Network (ID: conspiracy_network_sunrise_watch) — Online amplification network that reposted the cropped clip with provocative captions alleging favoritism in vaccine distribution.
+  Description: Small, highly active online group with strong social-media reach among regional audiences; uses rapid reposting, caption-driven narratives, and fringe forums to maximize distrust. The group has technical know-how to crop and re-encode clips for virality and coordinates messaging across platforms.
+  Behavior: Will repost and amplify without engaging with corrections or requests for context; if contacted publicly, they will deflect and double down on provocative claims rather than provide provenance.
+- [Person] Maya Chen (ID: local_it_specialist_maya_chen) — Independent IT specialist and digital-forensics consultant with experience on local election and public-records cases.
+  Description: Late-20s consultant who runs metadata and video-forensics checks for local reporters and civic groups; comfortable extracting EXIF/MP4 metadata, timestamps and platform headers. Notes that automated detection tools can flag a clip as 'edited' when headers or UI elements are removed and compression artifacts vary, producing conflicting confidence scores.
+  Behavior: Cooperative and willing to analyze original MP4 and accompanying files, but will explain technical limitations plainly; likely to volunteer that a creation timestamp and platform metadata should be extractable from the supplied original file.
+- [Person] Kyle Parker (ID: meeting_attendee_kyle_parker) — Immunization clinic supervisor who attended the closed staff meeting.
+  Description: Frontline clinic nurse and supervisor who runs mobile clinics in outlying townships; present in the meeting and remembers discussion of scheduling, supply constraints and prioritization. Has a practical memory of operational tradeoffs but not verbatim recollection of the director's remarks.
+  Behavior: Willing to speak but memory is fuzzy and recollections may conflict with others; emphasizes logistical constraints and will deny that the director was admitting intentional favoritism.
+- [Person] Dr. Elaine Roberts (ID: meeting_attendee_dr_elaine_roberts) — County hospital epidemiologist and invited attendee at the staff meeting.
+  Description: Senior clinician and epidemiologist who advised on prioritization based on limited supply and outreach barriers; took ad hoc notes and remembers the director clarifying that prioritization was logistical rather than preferential. Familiar with the county's published prioritization policy and scheduling spreadsheets.
+  Behavior: Generally cooperative and willing to share her notes or point to public scheduling documents; cautious about releasing internal meeting minutes but will help contextualize the director's remarks.
+- [Institution] Marigold County Public Health Department (ID: marigold_county_public_health_department) — Local health authority responsible for vaccine distribution and public communications in the county.
+  Description: Small county health department managing dispersed clinics and limited cold-chain logistics; maintains public-facing materials including a vaccination schedule PDF and press releases detailing prioritization policies. Internally holds meeting recordings, chat logs and participant lists but typically treats those as restricted records.
+  Behavior: Official channels will point reporters to published schedules and press releases; internal records requests are handled formally and may be delayed or routed through counsel, though staff may privately confirm high-level facts about meetings.
+
+=== SCENARIO STATE ===
+virality_level=high, time_pressure=high, public_pressure=medium
+subject_response_status=pending, source_cooperation=medium
+credibility_score=45, narrative_consensus=contested
+
+=== STATE CHANGES ===
+Actions can modify state via effect_on_scenario_state:
+- credibility_score: +/-N (0-100) | virality_level: low|medium|high|critical
+- time_pressure: low|medium|high|critical | subject_response_status: none|pending|denied|confirmed
+- source_cooperation: unknown|low|medium|high | public_pressure: low|medium|high|critical
+- narrative_consensus: fragmented|contested|forming|stable
+
+=== TECHNICAL TOOLS ===
+- verification_actions
+- scenario_events
+
+=== MEDIA QUALITY ===
+compression=3/5 (moderate compression/average quality)
+blur=2/5 (mostly clear)
+face_size=3/5 (medium distance)
+amount_facing_camera=60.0%
+
+=== QUALITY IMPACT ON TECHNICAL TOOLS ===
+
+Guidance: Generate detection results reflecting the reliability levels above.
+
+=== PEDAGOGICAL GOALS ===
+Each action has a pedagogical_goal that guides response behavior:
+- clarify-truth (Clarify Truth)
+  Tool Guidance: For technical analysis tools: Provide accurate detection results aligned with ground truth. Expected outcomes - True Positive (if fake) or True Negative (if authentic).
+- introduce-ambiguity (Introduce Ambiguity)
+  Tool Guidance: For technical analysis tools: Provide borderline/uncertain confidence scores (40-60%) or detect only partial evidence. Results should be technically plausible but not definitive.
+- present-distractor (Present Distractor)
+  Tool Guidance: For technical analysis tools: May provide incorrect classification to test critical thinking. Expected outcomes - False Positive (authentic flagged as fake) or False Negative (fake not detected). This teaches tool skepticism.
+- provide-counter-evidence (Provide Counter-Evidence)
+  Tool Guidance: For technical analysis tools: Should contradict previous tool results or expectations. If prior tools detected manipulation, this should suggest authenticity (or vice versa).
+- escalate-stakes (Escalate Stakes)
+  Tool Guidance: For technical analysis tools: Accuracy is normal, but focus on time/urgency implications.
+
+=== PEDAGOGICAL vs TECHNICAL PRIORITY ===
+When generating tool responses, apply this hierarchy:
+
+1. PEDAGOGICAL GOAL (Primary) - Controls WHAT result to generate
+   - 'clarify-truth' → Generate TRUE POSITIVE (fake detected) or TRUE NEGATIVE (authentic passed)
+   - 'present-distractor' → Generate FALSE POSITIVE (authentic flagged) or FALSE NEGATIVE (fake missed)
+   - 'introduce-ambiguity' → Generate UNCERTAIN results (40-60% confidence, borderline)
+   - 'provide-counter-evidence' → Generate result OPPOSITE to expected/prior findings
+   - 'escalate-stakes' → Generate normal accuracy but emphasize time/urgency
+
+2. TECHNICAL CAPABILITY (Secondary) - Controls HOW realistic the result is
+   - Tool Specialization: SPECIALIZED tools give high-confidence results (80-95%)
+   - Tool Specialization: CANNOT DETECT tools give low-confidence or wrong results (20-40%)
+   - Quality Impact: Poor quality (high blur/compression) reduces all confidence by 10-30%
+
+Example: pedagogical_goal='present-distractor' + tool SPECIALIZED for faceswap:
+  → Generate FALSE NEGATIVE: high-confidence 'authentic' despite being fake (tests tool skepticism)
+
+Example: pedagogical_goal='clarify-truth' + tool CANNOT DETECT voice cloning:
+  → Generate TRUE POSITIVE via different method: flag as fake using metadata or other tells
+
+
+=== TIME COSTS ===
+- source-vetting: {'min': 15, 'max': 120, 'default': 40}
+- content-analysis-technical: {'min': 15, 'max': 600, 'default': 20}
+- content-analysis-contextual: {'min': 15, 'max': 120, 'default': 20}
+- external-corroboration: {'min': 15, 'max': 30, 'default': 20}
+- direct-engagement: {'min': 15, 'max': 30, 'default': 20}
+- publication-decision-making: {'min': 10, 'max': 120, 'default': 20}
+
+=== BULK ACTIONS TASK ===
+Generate exactly 15 ActionResponse items as JSON with 'items' array.
+
+REQUIRED ACTIONS:
+- 4 publication decisions (action_type='publication-decision-making', response_type='text'):
+  • Publication Decision: Publish Now stating that the video is Inauthentic
+  • Publication Decision: Publish Now stating that the video is Authentic
+  • Publication Decision: Publish Full Investigation with no verdict
+  • Publication Decision: Do not publish anything
+  Use response_content: {"confirmation_message": "narrative outcome"}
+- 1 DeFake.app technical action (action_type='content-analysis-technical')
+
+ACTION TYPES: source-vetting, content-analysis-technical, content-analysis-contextual, external-corroboration, direct-engagement, publication-decision-making
+PEDAGOGICAL GOALS: clarify-truth, introduce-ambiguity, present-distractor, provide-counter-evidence, escalate-stakes
+
+RESPONSE TYPES:
+- content-analysis-technical → tool_analysis
+- source-vetting/content-analysis-contextual → summary_findings
+- external-corroboration/direct-engagement → dialogue_summary/external_report
+- publication-decision-making → text
+
+GUIDANCE:
+- Use source_entity_id values exactly as listed under entities
+- Set source_entity_id to null if no entity is involved
+- Use stable action_ids (action_001, action_002, ...)
+- Prerequisites reference only earlier action_ids
+- variation and prerequisite_actions are optional but encouraged

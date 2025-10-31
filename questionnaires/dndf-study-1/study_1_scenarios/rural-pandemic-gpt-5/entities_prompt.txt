@@ -1,0 +1,75 @@
+=== GENERATION INSTRUCTIONS ===
+You are creating realistic characters and organizations for a journalism training scenario.
+Generate entities that feel authentic and serve the narrative purpose.
+
+Your goal:
+- Create diverse, believable characters with clear motivations
+- Include various stakeholder types: sources, experts, officials, subjects
+- Design entities that support the verification challenge
+- Provide realistic behavioral patterns for interactive training
+- Ensure entities represent different perspectives on the story
+
+Each entity should feel like a real person or organization a journalist
+would encounter during an investigation, with authentic backgrounds,
+realistic access levels, and believable responses to inquiries.
+
+=== TASK SUMMARY ===
+Task: Generate realistic characters and organizations for the scenario
+
+Key Requirements:
+- Entities must fit the narrative and ground truth
+- Include primary sources, experts, and stakeholders
+- Provide behavioral notes for realistic interactions
+- Ensure diversity in roles and perspectives
+
+Success Criteria:
+- Entities feel authentic and motivated
+- Diverse stakeholder representation
+- Clear behavioral patterns for training
+- Support verification challenge
+
+=== FUNCTIONAL SUMMARY ===
+Title: County Health Meeting Leak
+Summary: In a rural Midwestern county, a short video clip surfaces on local message boards and is quickly amplified by an online conspiracy network claiming it proves preferential vaccine distribution and cover-ups during the pandemic. The clip shows the county health director speaking in a visibly emotional tone during what appears to be an internal meeting; viewers interpret fragments of the remarks as an admission of misconduct. Your newsroom is asked to verify the clip amid low local journalistic freedom and rising community anxiety about vaccine access. The clip is authentic footage recorded from a closed staff meeting but was leaked without context and cropped to emphasize a handful of lines. There is no deepfake or technical audio manipulation — the subject’s micro-expressions and affect are genuine — but the excerpt omits surrounding clarifications that explain operational prioritization decisions and logistical constraints. A sophisticated conspiracy network with technical reach amplifies the clip to maximize distrust, while county officials are wary of releasing internal records. The realistic training challenge is to (1) treat the source with skeptical empathy, asking for original files and corroboration; (2) analyze metadata and meeting logs where available; (3) geolocate and timestamp the recording; and (4) contextualize the remarks by contacting attendees and reviewing scheduling documents. The scenario gives trainees chances to practice source handling, EXIF/metadata checks, the 5 Ws, and out-of-context verification under time pressure and constrained access.
+Participant Role: You are Samira Cole, an investigative reporter at a regional nonprofit newsroom covering rural public health in the United States.
+Primary Subject: County health director in her mid-40s who oversees vaccine distribution across a largely rural county; experienced public health official known locally for direct communication. In the clip she appears emotional but coherent, suggesting genuine concern rather than scripted performance.
+Media Artifact (DM): The clip is an authentic extract from a closed staff meeting recorded via a common videoconference platform; no AI-driven facial or voice manipulation detected. Tells include visible meeting UI elements and continuous ambient audio; the edit appears to be a simple crop rather than a splice or synthetic replacement.
+
+=== GROUND TRUTH ===
+is_fake=False | manipulation_type=None | motive=A genuine clip from a closed staff meeting was leaked and amplified out of context to provoke public fear and distrust about local vaccine rollout.
+
+=== DIRECTIVES (REFERENCE ONLY) ===
+(These were generated or provided elsewhere; do not generate directives here.)
+
+=== DIRECTIVES: KEY MOMENTS ===
+- KM-01 (objective=CRITICAL-01): An anonymous user forwards the cropped clip and a short caption claiming 'watch the director admit favoritism'—the participant must extract frames and run reverse searches and metadata checks.
+- KM-02 (objective=SOURCE-02): A staffer (source) contacts the reporter offering the original meeting recording but is evasive about how it was obtained; participant must request provenance and technical files.
+- KM-03 (objective=VID-02): Participant reaches out to two meeting attendees who give partially conflicting recollections; accessing meeting minutes clarifies missing context.
+
+=== DIRECTIVES: REQUIRED BEHAVIORS ===
+- CB-01 (objective=SOURCE-02, role=Anonymous Staffer Source): Provides original file but is evasive about chain of custody; responds slowly and requests anonymity for fear of reprisal.
+- CB-02 (objective=CRITICAL-01, role=County Officials Spokesperson): Reluctant to release internal records immediately, citing policy and legal concerns, but willing to confirm whether a meeting took place and its general topic.
+- CB-03 (objective=VID-03, role=Conspiracy Network Amplifier): Reposts the clip with provocative captions and refuses to engage in corrections; public messaging escalates tension regardless of verification.
+
+=== DIRECTIVES: INFORMATION TO EMBED ===
+- IE-01 (objective=IMG-03, type=Hidden Clue): Original MP4 emailed by a staffer contains embedded creation timestamp and platform metadata; meeting participant list and partial chat log accompany the file.
+- IE-02 (objective=CRITICAL-01, type=Public Information): County vaccination schedule PDF and public press release about prioritization policies are publicly available and help contextualize the remarks.
+- IE-03 (objective=VID-03, type=Expert Opinion): A local IT specialist provides analysis that automated detection tools may flag the cropped clip as 'edited' due to removed headers and compression, producing conflicting tool confidence scores.
+
+=== SEED ATTRIBUTES (FOR ENTITY CONTEXT) ===
+Geographic: country=United States, setting_type=Rural
+Adversary: type=Conspiracy Network, sophistication=Very High, motive=None
+Political: stability=5/5 (very stable), polarization=1/5 (minimal polarization)
+
+Guidance:
+- Generate a diverse set of entities that fit the narrative, including at least one Organization.
+- Total target: up to 8 entities (mix decided by plausibility).
+- Each entity must have: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs should be stable slugs or realistic identifiers (the model may generate them).
+
+Constraints:
+- Generate up to 8 entities total and ensure at least one Organization.
+- Each entity must include: name (real-sounding), role (1 sentence), description (1–3 sentences), behavioral_notes_for_dm (1–2 sentences).
+- IDs may be generated by the model; keep them stable and slug-like.
+
+Return only valid JSON for the requested schema.

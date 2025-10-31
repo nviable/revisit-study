@@ -1,11 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.1.1/src/parser/GlobalConfigSchema.json",
   "configsList": [
-    "varuna-sme-eval-ontology"
+    "dndf-scenario-evaluation"
   ],
   "configs": {
     "tutorial": {
       "path": "tutorial/config.json"
+    },
+    "dndf-scenario-evaluation": {
+      "path": "dndf-scenario-evaluation/config.json"
     },
     "varuna-sme-eval-ontology": {
       "path": "varuna-sme-eval-ontology/config.json"

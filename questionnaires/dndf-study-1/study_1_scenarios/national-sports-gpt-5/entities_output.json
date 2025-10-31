@@ -1,0 +1,66 @@
+[
+  {
+    "entity_id": "marcus-vale",
+    "entity_type": "Person",
+    "name": "Marcus Vale",
+    "role": "Primary subject: a 28-year-old top-tier professional athlete and frequent commercial spokesperson whose public statements influence commercial deals and fan opinion.",
+    "description": "Marcus Vale is a high-profile athlete with a polished public persona and a long history of brand endorsements. He is negotiating with multiple streaming platforms and is sensitive to anything that could affect contract leverage or fan sentiment.",
+    "behavioral_notes_for_dm": "Restrained and media-trained — prefers terse, controlled responses and will defer to his publicist; when confronted he is likely to express surprise and request that the outlet coordinate with his team before publishing."
+  },
+  {
+    "entity_id": "capital-sports-network",
+    "entity_type": "Institution",
+    "name": "Capital Sports Network (CSN)",
+    "role": "Broadcaster: the national evening sports program whose archived feed lacks the contested audio line in the circulating clip.",
+    "description": "CSN is a high-profile sports broadcaster with a centralized archive system and strict on-air editing logs. Their editorial credibility is at stake because the clip appears to originate from one of their evening shows even though their archive shows a different audio track.",
+    "behavioral_notes_for_dm": "Responsive but legally cautious — will confirm archive discrepancies and provide timecoded feeds to trusted outlets, but may delay public comment until legal and compliance review is complete."
+  },
+  {
+    "entity_id": "silverline-communications",
+    "entity_type": "Organization",
+    "name": "Silverline Communications",
+    "role": "Corporate PR firm: an outside agency retained by an emerging streaming start-up and later identified as producing the partial lipsync edit.",
+    "description": "Silverline is a boutique PR and media operations firm known for aggressive digital campaigns and deep technical resources; internal traces suggest they executed a targeted, high-sophistication edit to seed favorable commentary for a client.",
+    "behavioral_notes_for_dm": "Deniable and evasive — spokespeople will issue generic praise-of-client statements and attempt to shift blame, request takedowns or negotiations privately, and avoid admitting technical involvement."
+  },
+  {
+    "entity_id": "oliver-chae",
+    "entity_type": "Person",
+    "name": "Oliver Chae",
+    "role": "Tech producer at Elena's outlet who oversees verification tools and audiovisual analysis workflows.",
+    "description": "Oliver runs the verification desk's tooling and is familiar with both automated detectors and frame-level forensic techniques. He understands the limits of machine scores and prioritizes cross-checking with OSINT and frame-by-frame inspection.",
+    "behavioral_notes_for_dm": "Warns the team that detection tools can return conflicting results and will push the trainee toward OSINT and frame-level checks rather than relying solely on automated outputs."
+  },
+  {
+    "entity_id": "maya-sanders",
+    "entity_type": "Person",
+    "name": "Maya Sanders",
+    "role": "Social editor at the outlet who curates headlines and pushes posts to social channels under time pressure.",
+    "description": "Maya is focused on engagement metrics and often amplifies viral narratives; she responds quickly to emerging trends and can escalate partisan reactions by pushing inflammatory takes to hit traffic targets.",
+    "behavioral_notes_for_dm": "Aggressive amplification — will push for a quick publish and promote hot takes across channels, escalating public pressure and forcing the reporter to manage fast-moving, fallacious commentary in threads."
+  },
+  {
+    "entity_id": "riley-cortez",
+    "entity_type": "Person",
+    "name": "Riley Cortez",
+    "role": "Athlete publicist representing Marcus Vale who manages press responses and legal coordination.",
+    "description": "Riley is a seasoned publicist who specializes in crisis management for high-profile athletes; their priority is protecting client relationships and minimizing commercial fallout with sponsors and broadcasters.",
+    "behavioral_notes_for_dm": "Provides a terse denial and offers to supply studio raw footage under embargo, but insists the outlet coordinate removal requests with platforms and may push for embargoed handling."
+  },
+  {
+    "entity_id": "dr-amelia-brooks",
+    "entity_type": "Person",
+    "name": "Dr. Amelia Brooks",
+    "role": "Independent verification expert specializing in audiovisual forensics, micro-expression analysis, and detection of synthetic edits.",
+    "description": "Dr. Brooks is an academic-turned-consultant who routinely assists newsrooms and legal teams in analyzing suspected deepfakes; she emphasizes physiological cues like breathing cadence and micro-expressions when metadata is altered.",
+    "behavioral_notes_for_dm": "Helpful but cautious — will explain that breathing patterns and micro-expressions are reliable indicators in high-quality lipsync edits, provide timecoded observations, and warn about over-reliance on automated detector confidence scores."
+  },
+  {
+    "entity_id": "valefansnet",
+    "entity_type": "Organization",
+    "name": "ValeFansNet",
+    "role": "Online fan network and partisan sports channel that rapidly amplifies the clip and organizes grassroots calls for action.",
+    "description": "ValeFansNet is a large, highly engaged online community and influencer channel with a history of mobilizing fans around perceived slights; it often shares unverified material and frames stories in partisan terms.",
+    "behavioral_notes_for_dm": "Amplifying and combustible — will share the clip widely, seed inflammatory narratives, and push followers to demand sponsor and broadcaster responses, increasing public pressure on the newsroom."
+  }
+]

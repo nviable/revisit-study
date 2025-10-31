@@ -1,0 +1,40 @@
+{
+  "scenario_id": "edb80751-a213-4970-bdc5-e6d0396b0eb0",
+  "llm_provider": "gemini",
+  "amagen_version": "1.0",
+  "generation_timestamp": "2025-10-15T11:33:54.287675",
+  "functional_seed": {
+    "learning_objectives": [
+      "CRITICAL-03",
+      "DEEPFAKE-03",
+      "DEEPFAKE-01"
+    ],
+    "geographic_setting": {
+      "country": "United States",
+      "setting_type": "Regional"
+    },
+    "adversary_profile": {
+      "type": "Conspiracy Network",
+      "sophistication_level": "Medium",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 5,
+      "polarization": 5
+    },
+    "journalistic_freedom_level": 4,
+    "social_climate_tags": [
+      "Celebrity Scandal"
+    ],
+    "scenario_tone_tags": [
+      "Investigative"
+    ],
+    "time_frame": "Current",
+    "manipulation_type": "expression_manipulation",
+    "discoverable_characteristics": [
+      "audio-visual desync",
+      "jump cuts"
+    ]
+  },
+  "logical_seed": null
+}

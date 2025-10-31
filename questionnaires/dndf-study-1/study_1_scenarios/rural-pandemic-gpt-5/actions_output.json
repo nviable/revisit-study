@@ -1,0 +1,486 @@
+[
+  {
+    "action_id": "action_001",
+    "action_title": "Request Original",
+    "action_description": "Ask the anonymous staffer for the original MP4, chat export, and any metadata; document chain-of-custody and request provenance details.",
+    "action_type": "source-vetting",
+    "time_cost_minutes": 30,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "summary_findings",
+    "response_content": {
+      "credibility_assessment": "Anonymous staffer (Jordan Davis) emailed an MP4 plus a partial participant list and chat excerpt. File appears to be an export from the department meeting folder; chain of custody is unclear because staffer is evasive about retrieval method.",
+      "key_findings": [
+        "Original MP4 file was provided via email; file header and container look intact at first glance.",
+        "Partial participant list and chat excerpt were included, which helps establish meeting attendees and nearby timestamps.",
+        "Staffer insists on anonymity and requests careful handling; responses are slow and uncertain about how the file was accessed."
+      ],
+      "red_flags": [
+        "No clear provenance or explanation for how the file left official folders.",
+        "Evasive answers about chain-of-custody raise risk of tampering after export.",
+        "Partial chat excerpt may have been cherry-picked to support the cropped clip."
+      ]
+    },
+    "prerequisite_actions": null,
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "medium",
+      "credibility_score": "+5",
+      "public_pressure": "medium",
+      "narrative_consensus": "contested"
+    },
+    "source_entity_id": "anonymous_staffer_source_jordan_davis"
+  },
+  {
+    "action_id": "action_002",
+    "action_title": "DeFake Analysis",
+    "action_description": "Run the supplied MP4 through DeFake.app to check for intra-frame/inter-frame anomalies, lip-sync or generated audio signals.",
+    "action_type": "content-analysis-technical",
+    "time_cost_minutes": 45,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "tool_analysis",
+    "response_content": {
+      "tool_name": "DeFake.app",
+      "high_level_info": {
+        "overall_score": 12,
+        "intra_frame_detection": [
+          {
+            "time_start": 4,
+            "time_end": 9,
+            "fakeness": "low",
+            "description": "Minor blockiness and compression artifacts around the director's hand movements; consistent with typical re-encoding and cropping, not facial replacement."
+          }
+        ],
+        "inter_frame_detection": [],
+        "lip_sync_detection": [],
+        "generated_audio_detection": [],
+        "biometric_behavior_recognition": "Facial micro-expressions and affect consistent with genuine emotional response; no synthetic facial motion detected."
+      }
+    },
+    "prerequisite_actions": [
+      "action_001"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "medium",
+      "credibility_score": "+10",
+      "public_pressure": "medium",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": null
+  },
+  {
+    "action_id": "action_003",
+    "action_title": "Metadata Check",
+    "action_description": "Have the IT specialist extract container and platform metadata, creation timestamps, and any software tags from the MP4 and accompanying exports.",
+    "action_type": "content-analysis-technical",
+    "time_cost_minutes": 30,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "tool_analysis",
+    "response_content": {
+      "tool_name": "Metadata Analyzer",
+      "high_level_info": {
+        "creation_date_plausibility": "Plausible",
+        "software_tags": [
+          "Zoom",
+          "mp4box",
+          "Adobe-FFmpeg"
+        ],
+        "geolocation_status": "Not Present"
+      }
+    },
+    "prerequisite_actions": [
+      "action_001"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "medium",
+      "credibility_score": "+8",
+      "public_pressure": "medium",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "local_it_specialist_maya_chen"
+  },
+  {
+    "action_id": "action_004",
+    "action_title": "Ask Spokesperson",
+    "action_description": "Contact the county communications officer to confirm whether the meeting occurred, its date/time/topic, and to request official records or a statement.",
+    "action_type": "direct-engagement",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "escalate-stakes",
+    "response_type": "dialogue_summary",
+    "response_content": {
+      "source_response_summary": "Alan Reeves confirms a closed staff meeting took place on the stated date and that the meeting covered vaccine logistics and prioritization. He is reluctant to release internal recordings or minutes immediately and says requests must go through formal channels.",
+      "key_quotes": [
+        "Yes \u2014 that meeting occurred on Tuesday; it was an internal operations session about prioritization.",
+        "We can't release internal minutes or raw recordings without legal review; I can confirm the meeting but not produce internal files on short notice."
+      ],
+      "source_stance": "reluctant"
+    },
+    "prerequisite_actions": [
+      "action_001"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "low",
+      "credibility_score": "+0",
+      "public_pressure": "medium",
+      "narrative_consensus": "contested"
+    },
+    "source_entity_id": "county_spokesperson_alan_reeves"
+  },
+  {
+    "action_id": "action_005",
+    "action_title": "Contact Director",
+    "action_description": "Reach out to Sara Martinez with empathetic sourcing language; ask for her account and whether she'll provide a clarifying statement or take a scheduled call.",
+    "action_type": "direct-engagement",
+    "time_cost_minutes": 25,
+    "pedagogical_goal_assigned": "provide-counter-evidence",
+    "response_type": "dialogue_summary",
+    "response_content": {
+      "source_response_summary": "Sara Martinez responds cautiously but agrees to provide clarifying context by email and to schedule a call. She emphasizes that her remarks were about logistical prioritization under supply constraints, not intentional favoritism.",
+      "key_quotes": [
+        "I was talking about operational tradeoffs and the difficulty of limited supply \u2014 not about giving anyone special treatment.",
+        "I'm willing to clarify on background or on the record, but please be mindful of staff safety; I prefer to do a scheduled call or email."
+      ],
+      "source_stance": "cautious/clarifying"
+    },
+    "prerequisite_actions": [
+      "action_004"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+12",
+      "public_pressure": "medium",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "county_health_director_sara_martinez"
+  },
+  {
+    "action_id": "action_006",
+    "action_title": "Talk to Kyle",
+    "action_description": "Interview immunization clinic supervisor Kyle Parker for an operational recollection of the meeting and whether he observed any admission of favoritism.",
+    "action_type": "direct-engagement",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "introduce-ambiguity",
+    "response_type": "dialogue_summary",
+    "response_content": {
+      "source_response_summary": "Kyle is willing to speak but has a fuzzy memory of exact phrasing. He recalls logistical discussions about mobile clinics and supply constraints and does not remember an admission of intentional favoritism.",
+      "key_quotes": [
+        "We talked about who we could reach with the mobile units and where cold-chain logistics were limiting us.",
+        "I don't remember the director saying she favored specific people \u2014 it felt like problem-solving around distribution barriers."
+      ],
+      "source_stance": "cooperative, uncertain"
+    },
+    "prerequisite_actions": [
+      "action_005"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+4",
+      "public_pressure": "medium",
+      "narrative_consensus": "fragmented"
+    },
+    "source_entity_id": "meeting_attendee_kyle_parker"
+  },
+  {
+    "action_id": "action_007",
+    "action_title": "Interview Epidemiologist",
+    "action_description": "Speak with Dr. Elaine Roberts to obtain clinical context, any notes she took, and pointers to public prioritization policy that informed the meeting.",
+    "action_type": "direct-engagement",
+    "time_cost_minutes": 25,
+    "pedagogical_goal_assigned": "provide-counter-evidence",
+    "response_type": "dialogue_summary",
+    "response_content": {
+      "source_response_summary": "Dr. Roberts provides her ad hoc notes and explains the meeting focused on prioritization driven by supply constraints and outreach barriers. She says the director clarified that prioritization was logistical rather than preferential.",
+      "key_quotes": [
+        "My notes show the director explaining supply allocation to reach high-risk populations first because of cold-chain and staffing limits.",
+        "There was discussion of reassigning clinics based on geography and need; nothing in my notes suggests intentional favoritism."
+      ],
+      "source_stance": "helpful"
+    },
+    "prerequisite_actions": [
+      "action_005"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+8",
+      "public_pressure": "medium",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "meeting_attendee_dr_elaine_roberts"
+  },
+  {
+    "action_id": "action_008",
+    "action_title": "Track Amplification",
+    "action_description": "Search social platforms and fringe forums for reposts of the cropped clip; identify main amplifiers and note recurring captions and framing.",
+    "action_type": "external-corroboration",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "escalate-stakes",
+    "response_type": "external_report",
+    "response_content": {
+      "sources_found_count": 34,
+      "consensus_status": "contested",
+      "summary_of_findings": "Multiple reposts across social platforms and fringe forums were found; Sunrise Watch Network and affiliated accounts reposted the cropped clip with captions alleging favoritism. Reposts amplified the clip rapidly in the last 12 hours; few amplifiers link to original materials or context."
+    },
+    "prerequisite_actions": [
+      "action_002"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "critical",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "-5",
+      "public_pressure": "high",
+      "narrative_consensus": "fragmented"
+    },
+    "source_entity_id": "conspiracy_network_sunrise_watch"
+  },
+  {
+    "action_id": "action_009",
+    "action_title": "Pull Public Records",
+    "action_description": "Gather public vaccination schedule PDF and press releases on prioritization to contextualize meeting remarks; request meeting minutes via official channels.",
+    "action_type": "content-analysis-contextual",
+    "time_cost_minutes": 30,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "summary_findings",
+    "response_content": {
+      "credibility_assessment": "Publicly available scheduling PDFs and a press release on prioritization confirm the department's stated criteria. Officials decline immediate release of internal minutes without formal request.",
+      "key_findings": [
+        "Public schedule PDF lists prioritization criteria and clinic assignments consistent with what attendees described.",
+        "A press release outlines logistical prioritization driven by supply and access factors.",
+        "Formal records requests are required for internal minutes; spokesperson indicated legal review is needed."
+      ],
+      "red_flags": [
+        "Internal minutes and raw recordings are not being provided immediately.",
+        "Public materials provide context but do not contain verbatim remarks from the meeting."
+      ]
+    },
+    "prerequisite_actions": [
+      "action_004"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "low",
+      "credibility_score": "+7",
+      "public_pressure": "high",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "marigold_county_public_health_department"
+  },
+  {
+    "action_id": "action_010",
+    "action_title": "Review Chat & File",
+    "action_description": "Analyze the attached chat excerpt and original MP4 timestamps to find the omitted surrounding remarks that provide context for the clipped lines.",
+    "action_type": "content-analysis-contextual",
+    "time_cost_minutes": 40,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "summary_findings",
+    "response_content": {
+      "credibility_assessment": "Timestamps in the MP4 and chat excerpt align; the chat log shows clarifying remarks occurring immediately before and after the cropped segment. The clip was a crop, not a splice.",
+      "key_findings": [
+        "Chat timestamps match the MP4 creation timestamp and in-meeting remarks; a clarifying remark appears ~6 seconds after the cropped end.",
+        "The cropped clip removes context where the director explains logistical prioritization and mentions supply constraints.",
+        "MP4 file creation timestamp is consistent with the meeting date confirmed by county spokesperson."
+      ],
+      "red_flags": [
+        "Chat excerpt is partial \u2014 full chat may reveal more clarifications that were withheld in the cropped public clip.",
+        "Chain-of-custody for the MP4 remains incomplete despite matching technical indicators."
+      ]
+    },
+    "prerequisite_actions": [
+      "action_001"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "critical",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+12",
+      "public_pressure": "high",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "anonymous_staffer_source_jordan_davis"
+  },
+  {
+    "action_id": "action_011",
+    "action_title": "Expert Interpretation",
+    "action_description": "Ask Maya Chen to interpret conflicting automated tool outputs and explain whether editing flags indicate synthetic manipulation or simple cropping/re-encoding.",
+    "action_type": "direct-engagement",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "introduce-ambiguity",
+    "response_type": "dialogue_summary",
+    "response_content": {
+      "source_response_summary": "Maya explains that automated detectors often flag edited clips when headers or UI elements are removed and when re-encoding changes compression signatures. She finds no evidence of face/voice synthesis; flags appear consistent with cropping and re-encoding.",
+      "key_quotes": [
+        "Automated tools can return 'edited' for many innocuous reasons \u2014 cropping out headers or re-saving with different codecs will trigger detections.",
+        "I don't see artifacts consistent with face replacement or voice cloning; artifacts align with re-encoding and UI removal."
+      ],
+      "source_stance": "technical/neutral"
+    },
+    "prerequisite_actions": [
+      "action_002",
+      "action_003"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "critical",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+5",
+      "public_pressure": "high",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": "local_it_specialist_maya_chen"
+  },
+  {
+    "action_id": "action_012",
+    "action_title": "Publish: Inauthentic",
+    "action_description": "Editor asks for a quick breaking post labeling the clip inauthentic and calling out alleged doctored admission (publication-decision as a distractor option).",
+    "action_type": "publication-decision-making",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "present-distractor",
+    "response_type": "text",
+    "response_content": {
+      "confirmation_message": "Publish breaking: Video is inauthentic / doctored \u2014 director did not admit favoritism; publish short piece asserting the clip is doctored and highlight the misleading edit.",
+      "source_response_summary": null,
+      "key_quotes": null,
+      "source_stance": null
+    },
+    "prerequisite_actions": [
+      "action_008"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "critical",
+      "time_pressure": "critical",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "low",
+      "credibility_score": "-30",
+      "public_pressure": "critical",
+      "narrative_consensus": "fragmented"
+    },
+    "source_entity_id": null
+  },
+  {
+    "action_id": "action_013",
+    "action_title": "Publish: Authentic",
+    "action_description": "Editor asks for a breaking report stating the clip is authentic but cropped and providing context (correct/verifiable outcome).",
+    "action_type": "publication-decision-making",
+    "time_cost_minutes": 20,
+    "pedagogical_goal_assigned": "clarify-truth",
+    "response_type": "text",
+    "response_content": {
+      "confirmation_message": "Publish breaking: Video is authentic \u2014 footage from a closed staff meeting. Context matters: the clip was cropped and omits clarifying remarks about logistical prioritization. Publish original files and the chat excerpt alongside analysis.",
+      "source_response_summary": null,
+      "key_quotes": null,
+      "source_stance": null
+    },
+    "prerequisite_actions": [
+      "action_010",
+      "action_011"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+30",
+      "public_pressure": "medium",
+      "narrative_consensus": "forming"
+    },
+    "source_entity_id": null
+  },
+  {
+    "action_id": "action_014",
+    "action_title": "Publish: Full Investig.",
+    "action_description": "Publish an in-depth investigation that presents evidence, transcripts, interviews and original materials without issuing a definitive verdict, emphasizing transparency.",
+    "action_type": "publication-decision-making",
+    "time_cost_minutes": 30,
+    "pedagogical_goal_assigned": "escalate-stakes",
+    "response_type": "text",
+    "response_content": {
+      "confirmation_message": "Publish an in-depth investigation piece: include the original MP4, chat excerpts, metadata findings, interviews with attendees and the director, plus public schedules. Present evidence and context without issuing a definitive verdict; invite public scrutiny and provide links to original files.",
+      "source_response_summary": null,
+      "key_quotes": null,
+      "source_stance": null
+    },
+    "prerequisite_actions": [
+      "action_010",
+      "action_007",
+      "action_009"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "medium",
+      "credibility_score": "+10",
+      "public_pressure": "medium",
+      "narrative_consensus": "contested"
+    },
+    "source_entity_id": null
+  },
+  {
+    "action_id": "action_015",
+    "action_title": "Hold Publication",
+    "action_description": "Recommend not publishing yet \u2014 wait for formal records release and additional corroboration; prepare an editor's note explaining the hold.",
+    "action_type": "publication-decision-making",
+    "time_cost_minutes": 15,
+    "pedagogical_goal_assigned": "introduce-ambiguity",
+    "response_type": "text",
+    "response_content": {
+      "confirmation_message": "Do not publish at this time. Hold pending formal release of internal records; prepare an editor's note summarizing current findings and the rationale for withholding a public report until chain-of-custody and additional corroboration are secured.",
+      "source_response_summary": null,
+      "key_quotes": null,
+      "source_stance": null
+    },
+    "prerequisite_actions": [
+      "action_001",
+      "action_004"
+    ],
+    "variation": null,
+    "effect_on_scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "critical",
+      "subject_response_status": "confirmed",
+      "source_cooperation": "low",
+      "credibility_score": "-5",
+      "public_pressure": "medium",
+      "narrative_consensus": "contested"
+    },
+    "source_entity_id": null
+  }
+]

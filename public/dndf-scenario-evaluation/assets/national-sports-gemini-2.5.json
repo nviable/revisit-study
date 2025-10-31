@@ -1,0 +1,149 @@
+{
+    "scenario_title": "Sports Legend's Controversial Endorsement: Deepfake or Betrayal?",
+    "scenario_summary": "A video surfaces online featuring David 'The Dynamo' Miller, a beloved retired basketball star and renowned philanthropist, passionately endorsing 'VitaBoost,' a new, highly controversial energy drink linked to a corporation with a dubious ethical record. The video depicts Miller speaking with an uncharacteristically aggressive and commercial tone, praising VitaBoost's 'revolutionary formula' and dismissing health concerns. The ground truth is that the video is a highly sophisticated lipsync deepfake, created by VitaBoost's corporate PR firm, 'Synergy Solutions,' to leverage Miller's trusted image and boost sales amidst public skepticism. Synergy Solutions, known for its aggressive and ethically questionable marketing tactics, aims to create a viral sensation before Miller or his team can debunk it, counting on the extreme polarization around corporate ethics and celebrity endorsements to fuel debate and obscure the truth. The deepfake exhibits subtle artifacts like a mismatch between the voice's emotional delivery and Miller's facial expressions, unnatural eye movements, and slight breathing pattern anomalies, which are difficult for automated tools to consistently detect.",
+    "ground_truth": {
+      "is_fake": true,
+      "true_motive": "A corporate PR firm created a lipsync deepfake of a beloved sports figure to endorse a controversial product, aiming to boost sales and counter negative public perception by leveraging his image."
+    },
+    "participant_briefing": {
+      "role_introduction": "You are Alex Chen, an investigative journalist for 'The Whistleblower,' an independent news organization based in New York City, known for its in-depth reporting on corporate accountability and public figures.",
+      "scenario_trigger": "Yesterday, a video went viral across social media platforms. It features David 'The Dynamo' Miller, the recently retired basketball legend and prominent humanitarian, delivering an impassioned, almost aggressive endorsement for 'VitaBoost,' a new energy drink. This comes as a shock, as Miller has always been a vocal advocate for ethical health practices and has publicly criticized predatory marketing.",
+      "media_artifact_description": "The video, approximately 45 seconds long, shows David Miller in what appears to be a professional studio setting. He is speaking directly to the camera, gesturing emphatically as he describes the 'revolutionary benefits' of VitaBoost. His voice is clear and distinct, matching his known vocal patterns, but his tone is unusually forceful and overtly commercial. The background is a minimalist grey, with the VitaBoost logo subtly visible in the corner.",
+      "initial_context_clues": [
+        "David Miller's foundation recently launched a national campaign promoting healthy lifestyles, specifically warning against highly processed foods and sugary drinks.",
+        "VitaBoost is a new product from 'NutriCorp Holdings,' a conglomerate with a history of environmental violations and aggressive lobbying against stricter food regulations.",
+        "Miller's agent has not yet responded to inquiries regarding the endorsement, which is unusual given his normally proactive media team.",
+        "Social media is already ablaze with reactions, split between fans expressing disappointment and others accusing Miller of being a 'sellout' or praising him for 'embracing capitalism.'"
+      ],
+      "verification_stakes": "Miller's reputation, built over decades of athletic achievement and philanthropic work, is on the line. If this endorsement is fake, failing to expose it could severely damage public trust in media and allow a deceptive corporate campaign to succeed. If it's real, it represents a significant shift for a public icon, and the public deserves to know the truth."
+    },
+    "primary_subject_description": "David 'The Dynamo' Miller is a highly respected, recently retired professional basketball player. Known for his athletic prowess, charisma, and extensive philanthropic work, particularly in youth health and education, he is a beloved public figure in the United States.",
+    "media_artifact_details": {
+      "dm_summary": "The media artifact is a 45-second lipsync deepfake video of David Miller endorsing 'VitaBoost.' The manipulation is of very high quality, making it difficult to detect with a casual viewing. The lipsync is excellent, but subtle tells include an emotional mismatch between Miller's typically calm demeanor and the aggressive tone of the voice, slight unnatural movements around his eyes during intense expressions, and minor inconsistencies in his breathing patterns that don't quite align with the forceful speech. The video was created by 'Synergy Solutions' to appear authentic and go viral quickly.",
+      "manipulation_types": [
+        "lipsync"
+      ],
+      "discoverable_characteristics": [
+        "voice emotional mismatch",
+        "unnatural eye movements",
+        "breathing pattern anomalies"
+      ],
+      "compression": 2,
+      "blur": 1,
+      "face_size": 4,
+      "amount_facing_camera": 95.0,
+      "manipulation_length": "full",
+      "original_source_type": "entity",
+      "original_source_identifier": "entity:David Miller's official YouTube channel (for older, authentic interviews)"
+    },
+    "filled_seed_attributes": {
+      "learning_objectives": [
+        "CRITICAL-03",
+        "DEEPFAKE-03",
+        "DEEPFAKE-01"
+      ],
+      "geographic_setting": {
+        "country": "United States",
+        "setting_type": "National"
+      },
+      "adversary_profile": {
+        "type": "Corporate PR",
+        "sophistication_level": "Very High",
+        "motive": "Boost sales and counter negative press for a controversial product by leveraging a trusted public figure's image."
+      },
+      "political_climate": {
+        "stability": 4,
+        "polarization": 5
+      },
+      "journalistic_freedom_level": 5,
+      "social_climate_tags": [
+        "Sports",
+        "Entertainment",
+        "Celebrity Culture",
+        "Corporate Ethics"
+      ],
+      "scenario_tone_tags": [
+        "Human Interest",
+        "Controversial",
+        "Urgent"
+      ],
+      "time_frame": "Near Future",
+      "manipulation_type": "lipsync",
+      "discoverable_characteristics": [
+        "voice emotional mismatch",
+        "unnatural eye movements",
+        "breathing pattern anomalies"
+      ]
+    },
+    "scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "low",
+      "credibility_score": 60,
+      "public_pressure": "high",
+      "narrative_consensus": "contested"
+    },
+    "scenario_directives": {
+      "key_moments": [
+        {
+          "directive_id": "KM-01",
+          "linked_objective": "DEEPFAKE-01",
+          "description": "Participant visually inspects the video for subtle deepfake artifacts, focusing on facial expressions, eye movements, and breathing.",
+          "implementation_notes": "The video asset should clearly exhibit the specified 'discoverable_characteristics' upon close examination. Provide tools or prompts that encourage frame-by-frame analysis."
+        },
+        {
+          "directive_id": "KM-02",
+          "linked_objective": "DEEPFAKE-03",
+          "description": "Participant attempts to use automated deepfake detection tools, receiving conflicting and inconclusive results.",
+          "implementation_notes": "Simulate responses from multiple deepfake detection tools where one flags it as fake, another as real, and a third as inconclusive, reinforcing the limits of automated detection."
+        },
+        {
+          "directive_id": "KM-03",
+          "linked_objective": "CRITICAL-03",
+          "description": "Participant encounters social media or corporate statements that employ logical fallacies to defend the video or attack critics.",
+          "implementation_notes": "Introduce social media comments or a press release from NutriCorp that uses 'ad hominem' attacks against David Miller's past or 'straw man' arguments against critics of VitaBoost, forcing the participant to identify and navigate these tactics."
+        }
+      ],
+      "required_character_behaviors": [
+        {
+          "directive_id": "CB-01",
+          "linked_objective": "DEEPFAKE-03",
+          "character_role": "NutriCorp/Synergy Solutions Spokesperson",
+          "behavior": "Initially deny any manipulation, then pivot to questioning the motives of anyone doubting the video, suggesting a 'conspiracy' against innovation."
+        },
+        {
+          "directive_id": "CB-02",
+          "linked_objective": "CRITICAL-03",
+          "character_role": "Social Media Influencer (Pro-VitaBoost)",
+          "behavior": "Engage in 'whataboutism' on social media, deflecting criticism of VitaBoost by pointing to other unhealthy products or celebrity endorsements."
+        },
+        {
+          "directive_id": "CB-03",
+          "linked_objective": "DEEPFAKE-01",
+          "character_role": "David Miller's Agent",
+          "behavior": "Initially be unreachable or evasive, then express 'shock and confusion' when contacted, but provide limited concrete evidence immediately, forcing the participant to do the legwork."
+        }
+      ],
+      "information_to_embed": [
+        {
+          "directive_id": "IE-01",
+          "linked_objective": "DEEPFAKE-03",
+          "info_type": "Hidden Clue",
+          "content": "Automated deepfake detection tools should yield conflicting results: one tool (e.g., 'DeepTrace Analytics') shows a 40% fake probability, another (e.g., 'VeriFace AI') shows a 65% real probability, and a third (e.g., 'MediaGuard') shows 'inconclusive' due to high quality and novel manipulation techniques."
+        },
+        {
+          "directive_id": "IE-02",
+          "linked_objective": "DEEPFAKE-01",
+          "info_type": "Public Information",
+          "content": "A publicly available, older interview of David Miller from two years prior, where he discusses his philanthropic work and ethical stances, should be easily discoverable through a simple search. This video should show his genuine demeanor and serve as a baseline for comparison with the deepfake."
+        },
+        {
+          "directive_id": "IE-03",
+          "linked_objective": "CRITICAL-03",
+          "info_type": "Expert Opinion",
+          "content": "An independent media ethics expert, when interviewed, should comment on the prevalence of 'ad hominem' attacks and 'gaslighting' in modern corporate PR strategies, subtly guiding the participant to identify these tactics in the scenario."
+        }
+      ]
+    }
+  }

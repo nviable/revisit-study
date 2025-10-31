@@ -1,0 +1,110 @@
+=== GENERATION INSTRUCTIONS ===
+You are generating a functional scenario blueprint for a journalism training experience focused on deepfake detection and media verification.
+
+What to produce (functional stage only):
+- A cohesive narrative foundation that feels authentic and newsworthy
+- A clear verification challenge with realistic stakes and constraints
+- Ground truth that supports effective training (truth about authenticity and motive)
+- High-level elements that naturally create opportunities to practice skills aligned with the learning objectives
+
+How to use the inputs:
+- Learning objectives are guidance for what the trainee should have chances to practice. Use them to shape the scenario’s opportunities and decision-points, but do not treat them as hard constraints. The story should feel organic, not checklist-driven.
+- Seed inputs (geographic setting, adversary profile, political climate, tone, etc.) should inform the world-building, stakes, and plausibility. Use them to anchor characters, venues, and pressures.
+- Example scenario (if provided) is a reference for tone and structure. You may borrow its genre/shape, but create a fresh narrative consistent with the current seeds and objectives.
+
+Important:
+- Keep the narrative self-contained and internally consistent with the seed inputs and ground truth.
+- Write for a professional journalism training context. Favor plausibility, believable motivations, and realistic complications.
+
+=== TASK SUMMARY ===
+Task: Generate an engaging, realistic scenario for journalism deepfake training
+
+Key Requirements:
+- Create compelling narrative that fits the learning objectives
+- Include realistic characters and organizations
+- Provide clear ground truth for verification training
+- Design pedagogical moments that teach specific skills
+
+Success Criteria:
+- Narrative feels authentic and newsworthy
+- Learning objectives naturally integrated
+- Clear verification challenge with stakes
+- Ground truth supports training goals
+
+=== SEED INPUTS ===
+Geographic: country=United States, setting_type=National
+Adversary: type=Corporate PR, sophistication=Very High, motive=None
+Political: stability=4/5 (stable), polarization=5/5 (extreme polarization)
+Journalistic freedom: 5/5 (free press)
+Social tags: Sports, Entertainment
+Tone tags: Human Interest
+Time frame: Near Future
+Manipulation type: lipsync
+Discoverable characteristics: voice emotional mismatch, unnatural eye movements, breathing pattern anomalies
+
+
+=== LEARNING OBJECTIVES ===
+(Each learning objective includes an example application - use these as inspiration, but create diverse scenarios that teach the same skill in different contexts)
+- CRITICAL-03: Recognizing Logical Fallacies in Disinformation
+  Example: In a heated online debate about your recent article, a commenter attacks your argument by saying, 'You ignore the real problem, which is X!' This shifts the topic and attacks a point you never made. What kind of tactic is this, and how should you respond?
+  Material: This is an example of a logical fallacy, a flaw in reasoning used to make a deceptive argument. The example uses a 'straw man' (misrepresenting your argument to make it easier to attack) and 'whataboutism' (deflecting criticism by pointing to a different issue). Disinformation agents use fallacies to derail productive conversation. As a journalist, your role is to recognize these tactics, not necessarily to win the argument. The best response is often to refuse to engage with the fallacy and calmly restate your original, evidence-based point. Understanding fallacies helps you identify bad-faith arguments and maintain the integrity of the discourse.
+- DEEPFAKE-03: The Limits of Automated Detection
+  Example: A suspected deepfake video is circulating. Several online detection tools give conflicting results: one says it's likely fake, another says it's likely real, and a third is inconclusive. How do you proceed?
+  Material: The inconsistent results highlight the unreliability of automated tools. This is often due to 'dataset rot'—the tools were trained on older deepfakes and can't recognize newer methods. Never rely on a single tool or treat its output as definitive proof. The most reliable verification method remains traditional, open-source intelligence (OSINT). Investigate the source of the video. Who first posted it? What is their agenda? Look for contextual clues. Does the event depicted in the video align with other known facts? Focus on the story and the source, not just the pixels.
+- DEEPFAKE-01: Understanding Deepfake Limitations and Artifacts
+  Example: You are examining a suspected deepfake video of a world leader. The face looks convincing at first glance, but something feels 'off.' What subtle, unnatural visual artifacts should you be looking for?
+  Material: While deepfake technology is improving, it often leaves behind tell-tale artifacts. Look for issues with the face and head: unnatural blinking patterns (too much or too little), or a lack of emotion that doesn't match the tone of voice. Check the edges where the deepfaked face meets the hair, neck, or background for flickering or distortion. Pay attention to lighting and shadows on the face; do they match the rest of the scene? Also look for unnaturally smooth or waxy skin and inconsistencies in facial hair or moles.
+
+=== EXAMPLE SCENARIO ===
+Title: Biden Campaign Manager Health Claims Deepfake
+Summary: A video allegedly shows Biden's former campaign manager claiming Biden is severely ill and using painkillers at rallies, requiring verification during a critical election period.
+
+Constraints:
+- scenario_title: short, punchy title (<= 12 words).
+- scenario_summary: ~200-250 words (internal DM summary with ground truth context).
+- primary_subject_description: 1-3 sentences (internal description).
+- ground_truth: 1 sentence.
+- directives: concise, but specific and actionable; limit to 3 of each type.
+
+Participant Briefing (no spoilers):
+- role_introduction: 1-2 sentences with realistic name matching geographic setting.
+- scenario_trigger: 2-3 sentences with date/event/context that kicks off investigation.
+- media_artifact_description: 2-4 sentences describing only what's visible/audible, no interpretation.
+- initial_context_clues: 2-4 brief ambiguous facts (optional).
+- verification_stakes: 1-2 sentences explaining why verification matters without revealing answer.
+
+Media Artifact Details (technical/DM):
+- dm_summary: 2-3 sentences describing the media from DM perspective.
+  * For fake media: Include manipulation specifics (method, quality, tells).
+  * For authentic media: Include notable characteristics (artifacts, source).
+- manipulation_types: List of manipulation techniques. Empty list or ['none'] for authentic.
+  Can include multiple (e.g., ['faceswap', 'voice_cloning']).
+  Options: faceswap, lipsync, puppetmaster, fully_synthetic, expression_manipulation,
+  inpainting, ai_removal, copy_move, splicing, cropping, voice_cloning, impersonator,
+  tts_synthesis, audio_editing, fully_synthetic_audio, metadata_tampering, none.
+- discoverable_characteristics: List of observable tells/artifacts (2-4 items).
+- compression (1-5): 1=minimal/high quality, 5=extreme/very low quality.
+- blur (1-5): 1=sharp/crystal clear, 5=extremely blurry.
+- face_size (1-5): 1=very distant/tiny, 5=extreme close-up.
+- amount_facing_camera: Percentage 0-100.
+- manipulation_length: none/partial/full.
+- If is_fake=True and original exists: specify original_source_type and original_source_identifier.
+
+**Scenario Directives - Tool Behavior:**
+When learning objectives involve tool limitations (DEEPFAKE-03, BIAS-02), consider adding
+a directive in 'information_to_embed' specifying whether detection tools should:
+- Show false positive results (authentic media flagged as fake)
+- Show false negative results (fake media not detected)
+- Give conflicting results
+Example: 'Detection tools should show conflicting confidence scores to demonstrate dataset rot.'
+
+Scenario State (operational context):
+- virality_level: low/medium/high/critical
+- time_pressure: low/medium/high/critical
+- subject_response_status: none/pending/denied/confirmed
+- source_cooperation: unknown/low/medium/high
+- credibility_score: 0-100 (starting value)
+- public_pressure: low/medium/high/critical
+- narrative_consensus: fragmented/contested/forming/stable
+
+Return only valid JSON for the requested schema.

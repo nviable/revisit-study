@@ -1,0 +1,144 @@
+{
+    "scenario_title": "County Health Meeting Leak",
+    "scenario_summary": "In a rural Midwestern county, a short video clip surfaces on local message boards and is quickly amplified by an online conspiracy network claiming it proves preferential vaccine distribution and cover-ups during the pandemic. The clip shows the county health director speaking in a visibly emotional tone during what appears to be an internal meeting; viewers interpret fragments of the remarks as an admission of misconduct. Your newsroom is asked to verify the clip amid low local journalistic freedom and rising community anxiety about vaccine access. The clip is authentic footage recorded from a closed staff meeting but was leaked without context and cropped to emphasize a handful of lines. There is no deepfake or technical audio manipulation — the subject’s micro-expressions and affect are genuine — but the excerpt omits surrounding clarifications that explain operational prioritization decisions and logistical constraints. A sophisticated conspiracy network with technical reach amplifies the clip to maximize distrust, while county officials are wary of releasing internal records. The realistic training challenge is to (1) treat the source with skeptical empathy, asking for original files and corroboration; (2) analyze metadata and meeting logs where available; (3) geolocate and timestamp the recording; and (4) contextualize the remarks by contacting attendees and reviewing scheduling documents. The scenario gives trainees chances to practice source handling, EXIF/metadata checks, the 5 Ws, and out-of-context verification under time pressure and constrained access.",
+    "ground_truth": {
+      "is_fake": false,
+      "true_motive": "A genuine clip from a closed staff meeting was leaked and amplified out of context to provoke public fear and distrust about local vaccine rollout."
+    },
+    "participant_briefing": {
+      "role_introduction": "You are Samira Cole, an investigative reporter at a regional nonprofit newsroom covering rural public health in the United States.",
+      "scenario_trigger": "Today | You receive a forwarded short video clip from an anonymous user on a local message board claiming the county health director admitted to prioritizing vaccinations for political allies. The clip is already circulating on community forums.",
+      "media_artifact_description": "Video | A one-minute clip of a middle-aged woman seated at a conference table speaking with a tense, emotional tone. Zoom/meeting UI is visible in the corner; a few other participants are partially visible off-camera. The audio contains phrases about prioritization and limited vaccine supply; several sentences are cut off mid-thought. No overlays or captions are present in the file you were sent.",
+      "initial_context_clues": [
+        "The county has had slow vaccine rollout and local frustration about access.",
+        "The clip was shared by an anonymous account known to repost anti-government content.",
+        "Local news access to county internal records is limited by administrative gatekeeping."
+      ],
+      "verification_stakes": "Verifying this clip matters because publishing a mischaracterized recording could damage the director’s credibility and inflame vaccine hesitancy in a community with constrained local reporting. Accurate context could calm tensions and correct misleading narratives."
+    },
+    "primary_subject_description": "County health director in her mid-40s who oversees vaccine distribution across a largely rural county; experienced public health official known locally for direct communication. In the clip she appears emotional but coherent, suggesting genuine concern rather than scripted performance.",
+    "media_artifact_details": {
+      "dm_summary": "The clip is an authentic extract from a closed staff meeting recorded via a common videoconference platform; no AI-driven facial or voice manipulation detected. Tells include visible meeting UI elements and continuous ambient audio; the edit appears to be a simple crop rather than a splice or synthetic replacement.",
+      "manipulation_types": [
+        "none"
+      ],
+      "discoverable_characteristics": [
+        "Visible videoconference UI and timestamp markers",
+        "Continuous ambient audio with room noise and overlapping speech",
+        "Authentic micro-expressions and emotional cues visible in high-frame analysis",
+        "Simple cropping that removes preceding & following clarifying remarks"
+      ],
+      "compression": 3,
+      "blur": 2,
+      "face_size": 3,
+      "amount_facing_camera": 60.0,
+      "manipulation_length": "none",
+      "original_source_type": null,
+      "original_source_identifier": null
+    },
+    "filled_seed_attributes": {
+      "learning_objectives": [
+        "SOURCE-02",
+        "IMG-03",
+        "CRITICAL-01",
+        "VID-03",
+        "VID-02"
+      ],
+      "geographic_setting": {
+        "country": "United States",
+        "setting_type": "Rural"
+      },
+      "adversary_profile": {
+        "type": "Conspiracy Network",
+        "sophistication_level": "Very High",
+        "motive": null
+      },
+      "political_climate": {
+        "stability": 5,
+        "polarization": 1
+      },
+      "journalistic_freedom_level": 2,
+      "social_climate_tags": [
+        "Pandemic"
+      ],
+      "scenario_tone_tags": [
+        "AI Governance"
+      ],
+      "time_frame": "Current",
+      "manipulation_type": "none",
+      "discoverable_characteristics": [
+        "authentic emotion micro-expressions"
+      ]
+    },
+    "scenario_state": {
+      "virality_level": "high",
+      "time_pressure": "high",
+      "subject_response_status": "pending",
+      "source_cooperation": "medium",
+      "credibility_score": 45,
+      "public_pressure": "medium",
+      "narrative_consensus": "contested"
+    },
+    "scenario_directives": {
+      "key_moments": [
+        {
+          "directive_id": "KM-01",
+          "linked_objective": "CRITICAL-01",
+          "description": "An anonymous user forwards the cropped clip and a short caption claiming 'watch the director admit favoritism'—the participant must extract frames and run reverse searches and metadata checks.",
+          "implementation_notes": "Provide an attached MP4 with visible meeting UI; ensure keyframes yield results linking to an older scheduling PDF in search results if the participant reverse-searches."
+        },
+        {
+          "directive_id": "KM-02",
+          "linked_objective": "SOURCE-02",
+          "description": "A staffer (source) contacts the reporter offering the original meeting recording but is evasive about how it was obtained; participant must request provenance and technical files.",
+          "implementation_notes": "Source should provide an original MP4 via email with accompanying meeting log text; make the source cooperative but nervous, supplying limited metadata unless pressed."
+        },
+        {
+          "directive_id": "KM-03",
+          "linked_objective": "VID-02",
+          "description": "Participant reaches out to two meeting attendees who give partially conflicting recollections; accessing meeting minutes clarifies missing context.",
+          "implementation_notes": "Embed a public county vaccination schedule PDF and non-sensitive meeting minutes that contextualize the comments; one attendee confirms the topic was logistics, not favoritism."
+        }
+      ],
+      "required_character_behaviors": [
+        {
+          "directive_id": "CB-01",
+          "linked_objective": "SOURCE-02",
+          "character_role": "Anonymous Staffer Source",
+          "behavior": "Provides original file but is evasive about chain of custody; responds slowly and requests anonymity for fear of reprisal."
+        },
+        {
+          "directive_id": "CB-02",
+          "linked_objective": "CRITICAL-01",
+          "character_role": "County Officials Spokesperson",
+          "behavior": "Reluctant to release internal records immediately, citing policy and legal concerns, but willing to confirm whether a meeting took place and its general topic."
+        },
+        {
+          "directive_id": "CB-03",
+          "linked_objective": "VID-03",
+          "character_role": "Conspiracy Network Amplifier",
+          "behavior": "Reposts the clip with provocative captions and refuses to engage in corrections; public messaging escalates tension regardless of verification."
+        }
+      ],
+      "information_to_embed": [
+        {
+          "directive_id": "IE-01",
+          "linked_objective": "IMG-03",
+          "info_type": "Hidden Clue",
+          "content": "Original MP4 emailed by a staffer contains embedded creation timestamp and platform metadata; meeting participant list and partial chat log accompany the file."
+        },
+        {
+          "directive_id": "IE-02",
+          "linked_objective": "CRITICAL-01",
+          "info_type": "Public Information",
+          "content": "County vaccination schedule PDF and public press release about prioritization policies are publicly available and help contextualize the remarks."
+        },
+        {
+          "directive_id": "IE-03",
+          "linked_objective": "VID-03",
+          "info_type": "Expert Opinion",
+          "content": "A local IT specialist provides analysis that automated detection tools may flag the cropped clip as 'edited' due to removed headers and compression, producing conflicting tool confidence scores."
+        }
+      ]
+    }
+  }
