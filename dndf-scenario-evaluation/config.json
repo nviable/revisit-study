@@ -1,0 +1,1003 @@
+{
+  "$schema": "https://raw.githubusercontent.com/revisit-studies/study/dev/src/parser/StudyConfigSchema.json",
+  "studyMetadata": {
+    "title": "Evaluating AI-Generated Scenarios for Journalistic Verification Training",
+    "version": "pilot",
+    "authors": [
+      "Saniat Javid Sohrawardi",
+      "Dr. Matthew Wright",
+      "Dr. Andrea Hickerson",
+      "Y. Kelly Wu"
+    ],
+    "date": "2024-12-19",
+    "description": "You are being invited to participate in a research study to help us evaluate the quality and effectiveness of AI-generated journalistic training scenarios for journalists. The purpose of this study is to assess the scenarios created by an AI system (AMaGen) for the purpose of simulating plausible investigation situations.",
+    "organizations": [
+      "Rochester Institute of Technology",
+      "University of Mississippi"
+    ]
+  },
+  "uiConfig": {
+    "contactEmail": "saniat.s@mail.rit.edu",
+    "logoPath": "revisitAssets/revisitLogoSquare.svg",
+    "withProgressBar": true,
+    "sidebar": true,
+    "sidebarWidth": 500,
+    "enumerateQuestions": true
+  },
+  "baseComponents": {
+    "scenarioWebsite": {
+      "type": "website",
+      "path": "dndf-scenario-evaluation/assets/scenario.html",
+      "nextButtonLocation": "sidebar",
+      "style": {
+        "minHeight": "600px",
+        "height": "auto"
+      }
+    }
+  },
+  "components": {
+    "consent": {
+      "type": "website",
+      "path": "dndf-scenario-evaluation/assets/consent.html",
+      "response": [
+        {
+          "id": "consentApproval",
+          "type": "radio",
+          "prompt": "Do you agree to participate in this research study?",
+          "location": "sidebar",
+          "options": [
+            "I Agree",
+            "I Do Not Agree"
+          ]
+        }
+      ]
+    },
+    "introduction": {
+      "type": "markdown",
+      "path": "dndf-scenario-evaluation/assets/introduction.md",
+      "response": []
+    },
+    "scenario-national-sports-gpt-5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/national-sports-gpt-5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "scenario-national-sports-gemini-2.5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/national-sports-gemini-2.5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "scenario-regional-celeb-gpt-5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/regional-celeb-gpt-5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "scenario-regional-celeb-gemini-2.5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/regional-celeb-gemini-2.5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "scenario-rural-pandemic-gpt-5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/rural-pandemic-gpt-5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "scenario-rural-pandemic-gemini-2.5": {
+      "baseComponent": "scenarioWebsite",
+      "parameters": {
+        "scenarioPath": "dndf-scenario-evaluation/assets/rural-pandemic-gemini-2.5.json"
+      },
+      "response": [
+        {
+          "id": "scenario-understanding-1",
+          "type": "shortText",
+          "prompt": "What is the name of the primary subject of the content?",
+          "location": "sidebar",
+          "placeholder": "Enter the name",
+          "required": false
+        },
+        {
+          "id": "scenario-understanding-2",
+          "type": "shortText",
+          "prompt": "What is the name of the source of the content (if any)?",
+          "location": "sidebar",
+          "placeholder": "Enter the source name",
+          "required": false
+        },
+        {
+          "id": "narrative-clarity",
+          "type": "likert",
+          "prompt": "Clarity: The scenario's setup and the information presented are clear and easy to understand.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-coherence",
+          "type": "likert",
+          "prompt": "Coherence: The scenario's elements (characters, stakes, timeline, responses) fit together logically.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-engagement",
+          "type": "likert",
+          "prompt": "Engagement: The scenario is interesting and compelling.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-newsworthy",
+          "type": "likert",
+          "prompt": "Newsworthy: The scenario offers compelling news material, making it worth my time to investigate further.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "narrative-plausibility",
+          "type": "likert",
+          "prompt": "Plausibility & Authenticity: The scenario presents a plausible situation that feels authentic to the challenges of modern journalism.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-richness",
+          "type": "likert",
+          "prompt": "Investigative Richness: The scenario provides a rich set of clues and details that would support a thorough investigation.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-critical-thinking",
+          "type": "likert",
+          "prompt": "Stimulation of Critical Thinking: The scenario is structured in a way that encourages critical thinking and strategic decision-making.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-consistency",
+          "type": "likert",
+          "prompt": "Consistency: The scenario details and clues are internally consistent without contradictions.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-complexity",
+          "type": "likert",
+          "prompt": "Complexity: The complexity level is appropriate for a senior journalism student without being overwhelming.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "investigative-flexibility",
+          "type": "likert",
+          "prompt": "Investigative Flexibility: The scenario seems to allow for multiple valid approaches or strategies to uncover the truth.",
+          "location": "sidebar",
+          "numItems": 5,
+          "leftLabel": "Strongly Disagree",
+          "rightLabel": "Strongly Agree",
+          "required": false
+        },
+        {
+          "id": "open-ended-strengths",
+          "type": "longText",
+          "prompt": "What is the strongest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        },
+        {
+          "id": "open-ended-weaknesses",
+          "type": "longText",
+          "prompt": "What is the weakest aspect of the scenario as a training tool for journalists?",
+          "location": "sidebar",
+          "placeholder": "Enter your response",
+          "required": false
+        }
+      ]
+    },
+    "demographics": {
+      "type": "questionnaire",
+      "response": [
+        {
+          "id": "demographics-content",
+          "type": "textOnly",
+          "prompt": "# Thank You for Completing the Scenarios\n\nThank you for evaluating the three scenarios. Your feedback is valuable for improving AI-generated training materials for journalists.\n\nPlease answer a few brief questions about your background on the sidebar. This information will be kept confidential and used only for analysis.",
+          "location": "aboveStimulus",
+          "restartEnumeration": true
+        },
+        {
+          "id": "year-of-study",
+          "type": "radio",
+          "prompt": "What is your current year of study?",
+          "location": "sidebar",
+          "options": [
+            "First Year",
+            "Second Year",
+            "Third Year",
+            "Fourth Year",
+            "Graduate Student (Master's/PhD)"
+          ],
+          "required": false
+        },
+        {
+          "id": "journalism-courses",
+          "type": "radio",
+          "prompt": "How many university-level courses have you completed related to journalism ethics, investigative reporting, or media verification?",
+          "location": "sidebar",
+          "options": [
+            "Zero",
+            "One",
+            "Two",
+            "Three or more"
+          ],
+          "required": false
+        },
+        {
+          "id": "verification-experience",
+          "type": "radio",
+          "prompt": "Do you have any experience with verification of manipulated images, video, or audio? (e.g. deepfakes, AI generated videos or speech)",
+          "location": "sidebar",
+          "options": [
+            "Yes",
+            "Yes, through formal courses",
+            "No"
+          ],
+          "required": false
+        },
+        {
+          "id": "follow-up-participation",
+          "type": "radio",
+          "prompt": "Would you be willing to participate in a follow-up study to playtest a verification simulator training simulator for journalists?",
+          "location": "sidebar",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "required": true
+        },
+        {
+          "id": "email-contact",
+          "type": "shortText",
+          "prompt": "If yes, please provide your email address below for us to contact you.",
+          "location": "sidebar",
+          "placeholder": "Enter your email address",
+          "required": false
+        }
+      ]
+    }
+  },
+  "sequence": {
+    "order": "fixed",
+    "components": [
+      {
+        "order": "fixed",
+        "components": ["consent"],
+        "skip": [{
+          "name": "consent",
+          "check": "response",
+          "responseId": "consentApproval",
+          "value": "I Do Not Agree",
+          "comparison": "equal",
+          "to": "end"
+        }]
+      },
+      "introduction",
+      {
+        "order": "latinSquare",
+        "numSamples": 3,
+        "components": [
+          "scenario-national-sports-gpt-5",
+          "scenario-national-sports-gemini-2.5",
+          "scenario-regional-celeb-gpt-5",
+          "scenario-regional-celeb-gemini-2.5",
+          "scenario-rural-pandemic-gpt-5",
+          "scenario-rural-pandemic-gemini-2.5"
+        ]
+      },
+      "demographics"
+    ]
+  }
+}
