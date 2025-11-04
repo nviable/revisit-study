@@ -40,6 +40,29 @@
       .separator { height: 1px; background: #eee; margin: 16px 0; }
       .small { font-size: 12px; color: #6b7280; }
       .gt { background: #fff7ed; border: 1px solid #ffedd5; padding: 12px; border-radius: 6px; }
+      .scroll-indicator {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+        padding: 12px 20px;
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+        border-top: 1px solid #e0e0e0;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .scroll-indicator.hidden {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      body {
+        padding-bottom: 50px; /* Add padding to prevent content from being hidden behind indicator */
+      }
     </style>
     <script src="../../revisitUtilities/revisit-communicate.js"></script>
   </head>
@@ -49,6 +72,9 @@
         <div class="section muted">Loading scenario…</div>
       </div>
     </div>
+    <div id="scroll-indicator" class="scroll-indicator hidden">
+      Scroll down to see more information ↓
+    </div>
 
     <script>
       function el(tag, attrs = {}, children = []) {
@@ -56,6 +82,31 @@
         Object.entries(attrs).forEach(([k, v]) => (e[k] = v));
         children.forEach((c) => (typeof c === 'string' ? e.appendChild(document.createTextNode(c)) : e.appendChild(c)));
         return e;
+      }
+
+      function updateScrollIndicator() {
+        const indicator = document.getElementById('scroll-indicator');
+        if (!indicator) return;
+        
+        const windowHeight = window.innerHeight;
+        const documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight
+        );
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollBottom = scrollTop + windowHeight;
+        
+        // Show indicator if there's more content below and user hasn't scrolled to bottom (with 50px threshold)
+        const isAtBottom = scrollBottom >= documentHeight - 50;
+        const hasScrollableContent = documentHeight > windowHeight;
+        
+        if (hasScrollableContent && !isAtBottom) {
+          indicator.classList.remove('hidden');
+        } else {
+          indicator.classList.add('hidden');
+        }
       }
 
       function updateIframeHeight() {
@@ -70,6 +121,9 @@
         // Set explicit height on body/html to help iframe sizing
         document.documentElement.style.height = height + 'px';
         document.body.style.height = height + 'px';
+        
+        // Update scroll indicator
+        updateScrollIndicator();
         
         // Notify parent iframe of content height (if reVISit listens for this)
         if (window.parent && window.parent !== window) {
@@ -164,10 +218,19 @@
       bootstrap();
       
       // Update height on window resize
-      window.addEventListener('resize', updateIframeHeight);
+      window.addEventListener('resize', () => {
+        updateIframeHeight();
+        updateScrollIndicator();
+      });
+      
+      // Update scroll indicator on scroll
+      window.addEventListener('scroll', updateScrollIndicator);
       
       // Use MutationObserver to watch for content changes
-      const observer = new MutationObserver(updateIframeHeight);
+      const observer = new MutationObserver(() => {
+        updateIframeHeight();
+        updateScrollIndicator();
+      });
       observer.observe(document.body, { childList: true, subtree: true });
     </script>
   </body>
