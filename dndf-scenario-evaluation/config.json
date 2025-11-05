@@ -967,10 +967,10 @@
         {
           "id": "email-contact",
           "type": "shortText",
-          "prompt": "If yes, please provide your email address below for us to contact you.",
+          "prompt": "Please provide your email address below for us to contact you for the study compensation and follow-up conversation (if you are interested)",
           "location": "sidebar",
           "placeholder": "Enter your email address",
-          "required": false
+          "required": true
         }
       ]
     }
