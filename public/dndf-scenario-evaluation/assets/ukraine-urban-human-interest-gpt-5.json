@@ -1,0 +1,145 @@
+{
+  "scenario_title": "Kyiv Faceswap Allegation",
+  "scenario_summary": "In the weeks following a public procurement dispute between a major Ukrainian telecom and a boutique cybersecurity firm, a short video clip goes viral on messaging apps and social platforms. The clip appears to show Dmytro Hladky, a Kyiv-based security consultant, accepting an envelope from two men in a stairwell and making offhand comments implying he was paid to suppress a vulnerability report. The post is amplified by a recently created account with ties to commercial PR chatter and is picked up by partisan channels. The newsroom is asked to verify the clip before competitors and political actors further weaponize it. Behind the scenes, a low-sophistication corporate PR operation—tasked with protecting the telecom’s market position—commissioned a cheaply produced faceswap to discredit the consultant after his firm publicly published a vulnerability affecting the telecom’s infrastructure. The manipulated head is composited onto footage from a separate, unrelated corporate event; audio is minimally edited to match lip movements. Detectable artifacts include breathing-sync oddities, unnatural speech cadence, and abrupt jump cuts where frames were spliced. The training scenario gives reporters opportunities to apply frame-by-frame analysis, assess tool limitations (particularly on talking-head detection), interrogate metadata and provenance claims, and manage source interactions under political pressure and limited press freedom.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A low-sophistication corporate PR effort produced a faceswapped clip to discredit a cybersecurity consultant who had embarrassed the telecom client."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Olena Bondarenko, an investigative reporter at an independent Kyiv newsroom that focuses on cybercrime and corporate accountability.",
+    "scenario_trigger": "Three days ago an anonymous account posted a 45-second video alleging that Dmytro Hladky accepted a cash envelope from two men after a private meeting. Within 24 hours the clip spread through Telegram channels and was used in conversations about a recent telecom procurement. Your editor asks you to verify the video before the story is pushed by partisan outlets.",
+    "media_artifact_description": "The clip is approximately 45 seconds long. It shows a man who appears to be Dmytro meeting two men in a stairwell, exchanging a brown envelope, and speaking while looking toward the camera. Audio is present but partially muffled; the footage contains several abrupt visual jumps and brief cuts, and at times the subject's breathing and mouth movements seem out of sync with the audio.",
+    "initial_context_clues": [
+      "The consultant recently published a technical report implicating a major telecom vendor.",
+      "The posting account is newly created and primarily shares commercial PR material.",
+      "Local press freedom is constrained and some outlets have accepted sponsored content in past procurement disputes."
+    ],
+    "verification_stakes": "Publishing without verification could destroy the consultant's reputation and be used to influence a high-value procurement; failing to debunk a real wrongdoing could damage public trust in your newsroom."
+  },
+  "primary_subject_description": "Dmytro Hladky is a mid-career cybersecurity consultant based in Kyiv who recently published a vulnerability report affecting a national telecom. He is known in industry circles and has no prior public bribery allegations.",
+  "media_artifact_details": {
+    "dm_summary": "45-second clip produced using a low-sophistication faceswap: the target's head was composited onto a different body and spliced into footage from an unrelated corporate event. Manipulation quality is uneven—mouth-sync is roughly aligned but breathing micro-patterns and subtle facial boundaries exhibit inconsistencies; multiple jump cuts and compression artifacts are present.",
+    "manipulation_types": [
+      "faceswap",
+      "splicing"
+    ],
+    "discoverable_characteristics": [
+      "breathing pattern anomalies",
+      "unnatural speech patterns",
+      "jump cuts",
+      "facial boundary inconsistencies"
+    ],
+    "compression": 4,
+    "blur": 2,
+    "face_size": 4,
+    "amount_facing_camera": 70.0,
+    "manipulation_length": "partial",
+    "original_source_type": "entity",
+    "original_source_identifier": "entity:conference_b_roll_internal footage from vendor event obtained via a whistleblower in the vendor's communications team (timestamped internal file)."
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "CRITICAL-03",
+      "VID-01",
+      "DEEPFAKE-04"
+    ],
+    "geographic_setting": {
+      "country": "Ukraine",
+      "setting_type": "Urban"
+    },
+    "adversary_profile": {
+      "type": "Corporate PR",
+      "sophistication_level": "Low",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 3,
+      "polarization": 4
+    },
+    "journalistic_freedom_level": 2,
+    "social_climate_tags": [
+      "Cybercrime Allegations"
+    ],
+    "scenario_tone_tags": [
+      "Human Interest"
+    ],
+    "time_frame": "Recent Past",
+    "manipulation_type": "faceswap",
+    "discoverable_characteristics": [
+      "breathing pattern anomalies",
+      "unnatural speech patterns",
+      "jump cuts"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "medium",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "low",
+    "credibility_score": 40,
+    "public_pressure": "medium",
+    "narrative_consensus": "contested"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-01",
+        "linked_objective": "VID-01",
+        "description": "Trainee discovers an original, longer clip from a vendor event that shows the same body footage without the subject's head.",
+        "implementation_notes": "Include a timestamped B-roll file from the vendor as a separate source; ensure frame-by-frame differences make compositing evident when compared."
+      },
+      {
+        "directive_id": "KM-02",
+        "linked_objective": "DEEPFAKE-04",
+        "description": "Forensic tools return conflicting confidence scores on the clip, requiring manual inspection.",
+        "implementation_notes": "Have one automated detector flag the clip as likely authentic while another flags it as manipulated; present both reports to the trainee."
+      },
+      {
+        "directive_id": "KM-03",
+        "linked_objective": "CRITICAL-03",
+        "description": "An online commenter launches a diversionary attack using a logical fallacy to discredit the reporter rather than address evidence.",
+        "implementation_notes": "Script a comment using whataboutism and straw-man language that appears during the trainee's reporting cadence to simulate social pressure."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-01",
+        "linked_objective": "VID-01",
+        "character_role": "Whistleblower Source",
+        "behavior": "Cautious and slow to share original files; demands anonymity and provides a single sample B-roll clip with metadata."
+      },
+      {
+        "directive_id": "CB-02",
+        "linked_objective": "DEEPFAKE-04",
+        "character_role": "Corporate PR Representative",
+        "behavior": "Issues a terse denial and circulates the manipulated clip via affiliated channels while claiming 'authenticity,' increasing pressure to publish quickly."
+      },
+      {
+        "directive_id": "CB-03",
+        "linked_objective": "CRITICAL-03",
+        "character_role": "Online Partisan Actor",
+        "behavior": "Posts diversionary, emotionally loaded comments and attempts to shift conversation from technical verification to personal attacks."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "INFO-01",
+        "linked_objective": "VID-01",
+        "info_type": "Hidden Clue",
+        "content": "File metadata on the whistleblower clip shows mismatched camera IDs and editing timestamps inconsistent with the claimed recording device."
+      },
+      {
+        "directive_id": "INFO-02",
+        "linked_objective": "DEEPFAKE-04",
+        "info_type": "Expert Opinion",
+        "content": "A consulting forensic analyst provides a short note explaining that automated detectors can fail on partial composites and low-quality transcodes, recommending frame-by-frame inspection."
+      },
+      {
+        "directive_id": "INFO-03",
+        "linked_objective": "CRITICAL-03",
+        "info_type": "Public Information",
+        "content": "The anonymous posting account has a short history of amplifying commercial PR content tied to telecom vendors."
+      }
+    ]
+  }
+}
