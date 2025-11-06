@@ -967,7 +967,8 @@
         {
           "id": "email-contact",
           "type": "shortText",
-          "prompt": "Please provide your email address below for us to contact you for the study compensation and follow-up conversation (if you are interested)",
+          "prompt": "Please provide your email address below",
+          "secondaryText": "This email address will be used for us to contact you for the study compensation and in case you are interested in participating in the follow-up study",
           "location": "sidebar",
           "placeholder": "Enter your email address",
           "required": true
