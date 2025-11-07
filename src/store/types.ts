@@ -70,7 +70,7 @@ Each item in the window event is given a time, a position an event name, and som
 export interface StoredAnswer {
   /** Object whose keys are the "id"s in the Response list of the component in the StudyConfig and whose value is the inputted value from the participant. */
   answer: Record<string, string | number | boolean | string[]>;
-
+  identifier: string;
   componentName: string;
   /** The order of the trial in the sequence. */
   trialOrder: string;
@@ -173,8 +173,15 @@ export interface StoreState {
   analysisProvState: Record<ConfigResponseBlockLocation, FormElementProvenance | undefined> & { stimulus: unknown | undefined };
   analysisIsPlaying: boolean;
   analysisHasAudio: boolean;
+  analysisHasScreenRecording: boolean;
+  analysisCanPlayScreenRecording: boolean;
+  provenanceJumpTime: number;
   analysisHasProvenance: boolean;
   modes: Record<REVISIT_MODE, boolean>;
   matrixAnswers: Record<string, Record<string, string>>;
+  rankingAnswers: Record<string, Record<string, string>>;
   funcSequence: Record<string, string[]>;
+  completed: boolean;
+  clickedPrevious: boolean;
+  storageEngineFailedToConnect: boolean;
 }

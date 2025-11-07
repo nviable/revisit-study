@@ -1,5 +1,7 @@
 import { Alert, Button, Group } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  JSX, useEffect, useMemo, useState,
+} from 'react';
 import { IconInfoCircle, IconAlertTriangle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router';
 import { useNextStep } from '../store/hooks/useNextStep';
@@ -10,7 +12,7 @@ import { PreviousButton } from './PreviousButton';
 type Props = {
   label?: string;
   disabled?: boolean;
-  configInUse?: IndividualComponent;
+  config?: IndividualComponent;
   location?: ResponseBlockLocation;
   checkAnswer: JSX.Element | null;
 };
@@ -18,7 +20,7 @@ type Props = {
 export function NextButton({
   label = 'Next',
   disabled = false,
-  configInUse,
+  config,
   location,
   checkAnswer,
 }: Props) {
@@ -26,8 +28,9 @@ export function NextButton({
   const studyConfig = useStudyConfig();
   const navigate = useNavigate();
 
-  const nextButtonDisableTime = configInUse?.nextButtonDisableTime;
-  const nextButtonEnableTime = configInUse?.nextButtonEnableTime || 0;
+  const nextButtonDisableTime = useMemo(() => config?.nextButtonDisableTime ?? studyConfig.uiConfig.nextButtonDisableTime, [config, studyConfig]);
+  const nextButtonEnableTime = useMemo(() => config?.nextButtonEnableTime ?? studyConfig.uiConfig.nextButtonEnableTime ?? 0, [config, studyConfig]);
+
   const [timer, setTimer] = useState<number | undefined>(undefined);
   // Start a timer on first render, update timer every 100ms
   useEffect(() => {
@@ -40,6 +43,7 @@ export function NextButton({
       clearInterval(interval);
     };
   }, []);
+
   useEffect(() => {
     if (timer && nextButtonDisableTime && timer >= nextButtonDisableTime && studyConfig.uiConfig.timeoutReject) {
       navigate('./../__timedOut');
@@ -55,6 +59,8 @@ export function NextButton({
     [nextButtonDisableTime, nextButtonEnableTime, timer],
   );
 
+  const nextOnEnter = useMemo(() => config?.nextOnEnter ?? studyConfig.uiConfig.nextOnEnter, [config, studyConfig]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Enter' && !disabled && !isNextDisabled && buttonTimerSatisfied) {
@@ -62,23 +68,24 @@ export function NextButton({
       }
     };
 
-    if (studyConfig.uiConfig.nextOnEnter) {
+    if (nextOnEnter) {
       window.addEventListener('keydown', handleKeyDown);
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-    return () => { };
-  }, [disabled, isNextDisabled, buttonTimerSatisfied, goToNextStep, studyConfig.uiConfig.nextOnEnter]);
+    return () => {};
+  }, [disabled, isNextDisabled, buttonTimerSatisfied, goToNextStep, nextOnEnter]);
 
   const nextButtonDisabled = useMemo(() => disabled || isNextDisabled || !buttonTimerSatisfied, [disabled, isNextDisabled, buttonTimerSatisfied]);
+  const previousButtonText = useMemo(() => config?.previousButtonText ?? studyConfig.uiConfig.previousButtonText ?? 'Previous', [config, studyConfig]);
 
   return (
     <>
-      <Group justify="right" gap="xs">
-        {configInUse?.previousButton && (
+      <Group justify="right" gap="xs" mt="sm">
+        {config?.previousButton && (
           <PreviousButton
-            label={configInUse.previousButtonText || 'Previous'}
+            label={previousButtonText}
             px={location === 'sidebar' && checkAnswer ? 8 : undefined}
           />
         )}

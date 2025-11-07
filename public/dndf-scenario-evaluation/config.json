@@ -20,7 +20,7 @@
     "contactEmail": "saniat.s@mail.rit.edu",
     "logoPath": "revisitAssets/revisitLogoSquare.svg",
     "withProgressBar": true,
-    "sidebar": true,
+    "withSidebar": true,
     "sidebarWidth": 500,
     "enumerateQuestions": true
   },

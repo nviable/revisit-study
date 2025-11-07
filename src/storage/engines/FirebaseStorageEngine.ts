@@ -14,28 +14,34 @@ import {
   CollectionReference,
   DocumentData,
   Firestore,
+  Timestamp,
   collection,
   doc,
   enableNetwork,
   getDoc,
   getDocs,
   initializeFirestore,
+  onSnapshot,
   serverTimestamp,
   setDoc,
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
 import { ReCaptchaV3Provider, initializeAppCheck } from '@firebase/app-check';
-import { getAuth, signInAnonymously } from '@firebase/auth';
+import {
+  browserPopupRedirectResolver, getAuth, GoogleAuthProvider, onAuthStateChanged, signInAnonymously, signInWithPopup, signOut,
+} from '@firebase/auth';
 import {
   CloudStorageEngine,
-  StoredUser,
   REVISIT_MODE,
   StorageObjectType,
   StorageObject,
   UserManagementData,
   SequenceAssignment,
+  SnapshotDocContent,
+  StoredUser,
 } from './types';
+import { EditedText, TaglessEditedText } from '../../analysis/individualStudy/thinkAloud/types';
 
 export interface SnapshotNameItem {
   originalName: string;
@@ -51,8 +57,8 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
 
   private storage: FirebaseStorage;
 
-  constructor() {
-    super('firebase');
+  constructor(testing: boolean = false) {
+    super('firebase', testing);
 
     const firebaseConfig = hjsonParse(import.meta.env.VITE_FIREBASE_CONFIG);
     const firebaseApp = initializeApp(firebaseConfig);
@@ -150,7 +156,7 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
       'configHash',
     );
     const configHashDocData = await getDoc(configHashDoc);
-    return configHashDocData.exists() ? configHashDocData.data().configHash : null;
+    return configHashDocData.exists() ? configHashDocData.data().configHash as string : null;
   }
 
   protected async _setCurrentConfigHash(configHash: string) {
@@ -162,7 +168,7 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     await setDoc(configHashDoc, { configHash });
   }
 
-  protected async _getAllSequenceAssignments(studyId: string) {
+  public async getAllSequenceAssignments(studyId: string) {
     const studyCollection = collection(
       this.firestore,
       `${this.collectionPrefix}${studyId}`,
@@ -174,10 +180,45 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     );
 
     const sequenceAssignments = await getDocs(sequenceAssignmentCollection);
-    return Object.fromEntries(sequenceAssignments.docs.map((d) => [d.id, d.data() as SequenceAssignment]));
+    return sequenceAssignments.docs
+      .map((d) => d.data())
+      .map((data) => ({
+        ...data,
+        timestamp: data.timestamp instanceof Timestamp ? data.timestamp.toMillis() : data.timestamp,
+        createdTime: data.createdTime instanceof Timestamp ? data.createdTime.toMillis() : data.createdTime,
+        completed: data.completed instanceof Timestamp ? data.completed.toMillis() : data.completed,
+      } as SequenceAssignment))
+      .sort((a, b) => a.timestamp - b.timestamp);
   }
 
-  protected async _createSequenceAssignment(participantId: string, sequenceAssignment: SequenceAssignment) {
+  // Set up realtime listener for sequence assignments
+  _setupSequenceAssignmentListener(studyId: string, callback: (assignments: SequenceAssignment[]) => void) {
+    const studyCollection = collection(
+      this.firestore,
+      `${this.collectionPrefix}${studyId}`,
+    );
+    const sequenceAssignmentDoc = doc(studyCollection, 'sequenceAssignment');
+    const sequenceAssignmentCollection = collection(
+      sequenceAssignmentDoc,
+      'sequenceAssignment',
+    );
+
+    return onSnapshot(sequenceAssignmentCollection, (snapshot) => {
+      const assignments = snapshot.docs
+        .map((d) => d.data())
+        .map((data) => ({
+          ...data,
+          timestamp: data.timestamp instanceof Timestamp ? data.timestamp.toMillis() : data.timestamp,
+          createdTime: data.createdTime instanceof Timestamp ? data.createdTime.toMillis() : data.createdTime,
+          completed: data.completed instanceof Timestamp ? data.completed.toMillis() : data.completed,
+        } as SequenceAssignment))
+        .sort((a, b) => a.timestamp - b.timestamp);
+
+      callback(assignments);
+    });
+  }
+
+  protected async _createSequenceAssignment(participantId: string, sequenceAssignment: SequenceAssignment, withServerTimestamp: boolean = false) {
     if (this.studyId === undefined) {
       throw new Error('Study ID is not set');
     }
@@ -192,10 +233,19 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
       participantId,
     );
 
-    await setDoc(participantSequenceAssignmentDoc, sequenceAssignment);
+    const toUpload = withServerTimestamp ? { ...sequenceAssignment, timestamp: serverTimestamp() } : sequenceAssignment;
+    await setDoc(participantSequenceAssignmentDoc, { ...toUpload, createdTime: serverTimestamp() });
   }
 
   protected async _completeCurrentParticipantRealtime() {
+    await this.verifyStudyDatabase();
+    if (!this.currentParticipantId) {
+      throw new Error('Participant not initialized');
+    }
+    if (!this.studyId) {
+      throw new Error('Study ID is not set');
+    }
+
     const sequenceAssignmentDoc = doc(this.studyCollection, 'sequenceAssignment');
     const sequenceAssignmentCollection = collection(
       sequenceAssignmentDoc,
@@ -209,6 +259,11 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
   }
 
   protected async _rejectParticipantRealtime(participantId: string) {
+    await this.verifyStudyDatabase();
+    if (!this.studyId) {
+      throw new Error('Study ID is not set');
+    }
+
     const studyCollection = collection(
       this.firestore,
       `${this.collectionPrefix}${this.studyId}`,
@@ -227,7 +282,41 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     await updateDoc(participantSequenceAssignmentDoc, { rejected: true });
   }
 
+  protected async _undoRejectParticipantRealtime(participantId: string) {
+    await this.verifyStudyDatabase();
+    if (!this.currentParticipantId) {
+      throw new Error('Participant not initialized');
+    }
+    if (!this.studyId) {
+      throw new Error('Study ID is not set');
+    }
+
+    const studyCollection = collection(
+      this.firestore,
+      `${this.collectionPrefix}${this.studyId}`,
+    );
+
+    const sequenceAssignmentDoc = doc(studyCollection, 'sequenceAssignment');
+    const sequenceAssignmentCollection = collection(
+      sequenceAssignmentDoc,
+      'sequenceAssignment',
+    );
+    const participantSequenceAssignmentDoc = doc(
+      sequenceAssignmentCollection,
+      participantId,
+    );
+    await updateDoc(participantSequenceAssignmentDoc, { rejected: false });
+  }
+
   protected async _claimSequenceAssignment(participantId: string) {
+    await this.verifyStudyDatabase();
+    if (!this.currentParticipantId) {
+      throw new Error('Participant not initialized');
+    }
+    if (!this.studyId) {
+      throw new Error('Study ID is not set');
+    }
+
     const sequenceAssignmentDoc = doc(this.studyCollection, 'sequenceAssignment');
     const sequenceAssignmentCollection = collection(
       sequenceAssignmentDoc,
@@ -244,9 +333,17 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
   async initializeStudyDb(studyId: string) {
     try {
       const auth = getAuth();
+      await auth.authStateReady();
+
       if (!auth.currentUser) {
-        await signInAnonymously(auth);
-        if (!auth.currentUser) throw new Error('Login failed with firebase');
+        try {
+          await signInAnonymously(auth);
+          if (!auth.currentUser) {
+            throw new Error('Login failed with firebase');
+          }
+        } catch (error) {
+          console.error('Firebase anonymous sign-in failed:', error);
+        }
       }
 
       // Create or retrieve database for study
@@ -303,6 +400,15 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     return await setDoc(revisitModesDoc, { [mode]: value }, { merge: true });
   }
 
+  protected async _setModesDocument(studyId: string, modesDocument: Record<string, unknown>): Promise<void> {
+    const revisitModesDoc = doc(
+      this.firestore,
+      `${this.collectionPrefix}${studyId}`,
+      'modes',
+    );
+    await setDoc(revisitModesDoc, modesDocument, { merge: true });
+  }
+
   protected async _getAudioUrl(
     task: string,
     participantId: string,
@@ -318,96 +424,38 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     }
   }
 
-  // Gets data from the user-management collection based on the inputted string
-  async getUserManagementData(key: 'authentication'): Promise<{ isEnabled: boolean } | undefined>;
+  protected async _getScreenRecordingUrl(
+    task: string,
+    participantId: string,
+  ): Promise<string | null> {
+    const storage = getStorage();
+    const screenRecordingRef = ref(storage, `${this.collectionPrefix}${this.studyId}/screenRecording/${participantId}_${task}`);
 
-  async getUserManagementData(key: 'adminUsers'): Promise<{ adminUsersList: StoredUser[] } | undefined>;
-
-  async getUserManagementData(
-    key: 'authentication' | 'adminUsers',
-  ): Promise<{ isEnabled: boolean } | { adminUsersList: StoredUser[] } | undefined> {
-    if (Object.keys(this.userManagementData).length === 0) {
-      // Get the user-management collection in Firestore
-      const userManagementCollection = collection(
-        this.firestore,
-        'user-management',
-      );
-      // Grabs all user-management data and returns data based on key
-      const querySnapshot = await getDocs(userManagementCollection);
-      // Converts querySnapshot data to Object
-      const docsObject = Object.fromEntries(
-        querySnapshot.docs.map((queryDoc) => [queryDoc.id, queryDoc.data()]),
-      );
-      this.userManagementData = docsObject as UserManagementData;
-    }
-    if (key in this.userManagementData) {
-      // Type narrowing to ensure correct return type
-      if (key === 'authentication') {
-        const value = this.userManagementData[key];
-        if (value && typeof value === 'object' && 'isEnabled' in value) {
-          return value as { isEnabled: boolean };
-        }
-      } else if (key === 'adminUsers') {
-        const value = this.userManagementData[key];
-        if (value && typeof value === 'object' && 'adminUsersList' in value) {
-          return value as { adminUsersList: StoredUser[] };
-        }
-      }
-    }
-    return undefined;
-  }
-
-  protected async _updateAdminUsersList(adminUsers: { adminUsersList: StoredUser[] }) {
-    await setDoc(
-      doc(this.firestore, 'user-management', 'adminUsers'),
-      {
-        adminUsersList: adminUsers.adminUsersList,
-      },
-    );
-  }
-
-  async changeAuth(bool: boolean) {
-    await setDoc(doc(this.firestore, 'user-management', 'authentication'), {
-      isEnabled: bool,
-    });
-  }
-
-  async addAdminUser(user: StoredUser) {
-    const adminUsers = await this.getUserManagementData('adminUsers');
-    if (adminUsers?.adminUsersList) {
-      const adminList = adminUsers.adminUsersList;
-      const isInList = adminList.find(
-        (storedUser: StoredUser) => storedUser.email === user.email,
-      );
-      if (!isInList) {
-        adminList.push({ email: user.email, uid: user.uid });
-        await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
-          adminUsersList: adminList,
-        });
-      }
-    } else {
-      await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
-        adminUsersList: [{ email: user.email, uid: user.uid }],
-      });
+    try {
+      return await getDownloadURL(screenRecordingRef);
+    } catch {
+      console.warn(`Screen recording for task ${task} and participant ${participantId} not found.`);
+      return null;
     }
   }
 
-  async removeAdminUser(email: string) {
-    const adminUsers = await this.getUserManagementData('adminUsers');
-    if (adminUsers?.adminUsersList && adminUsers.adminUsersList.length > 1) {
-      if (
-        adminUsers.adminUsersList.find(
-          (storedUser: StoredUser) => storedUser.email === email,
-        )
-      ) {
-        adminUsers.adminUsersList = adminUsers?.adminUsersList.filter(
-          (storedUser: StoredUser) => storedUser.email !== email,
-        );
-        await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
-          adminUsersList: adminUsers?.adminUsersList,
-        });
-      }
+  protected async _getTranscriptUrl(
+    task: string,
+    participantId: string,
+  ): Promise<string | null> {
+    const storage = getStorage();
+    const transcriptRef = ref(storage, `${this.collectionPrefix}${this.studyId}/audio/${participantId}_${task}.wav_transcription.txt`);
+
+    try {
+      return await getDownloadURL(transcriptRef);
+    } catch {
+      console.warn(`Transcript for task ${task} and participant ${participantId} not found.`);
+      return null;
     }
+  }
+
+  protected async _testingReset() {
+    throw new Error('Testing reset not implemented for FirebaseStorageEngine');
   }
 
   async getSnapshots(studyId: string) {
@@ -416,37 +464,9 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
       const snapshotsData = await getDoc(snapshotsDoc);
 
       if (snapshotsData.exists()) {
-        const collections = snapshotsData.data();
-        const matchingCollections = Object.keys(collections)
-          .filter((directoryName) => directoryName.startsWith(
-            `${this.collectionPrefix}${studyId}-snapshot`,
-          ))
-          .map((directoryName) => {
-            const value = collections[directoryName];
-            let transformedValue;
-            if (typeof value === 'boolean') {
-              transformedValue = directoryName;
-            } else if (
-              value
-              && typeof value === 'object'
-              && value.enabled === true
-            ) {
-              transformedValue = value.name as string;
-            } else {
-              transformedValue = null;
-            }
-            return {
-              originalName: directoryName,
-              alternateName: transformedValue,
-            };
-          })
-          .filter((item) => item.alternateName !== null);
-        const sortedCollections = matchingCollections
-          .sort((a, b) => a.originalName.localeCompare(b.originalName))
-          .reverse(); // Reverse the sorted array if needed
-        return sortedCollections;
+        return snapshotsData.data() as SnapshotDocContent;
       }
-      return [];
+      return {};
     } catch (error) {
       console.error('Error listing collections with prefix:', error);
       throw error;
@@ -572,12 +592,12 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
   }
 
   // Function to add collection name to metadata
-  protected async _addDirectoryNameToMetadata(directoryName: string) {
+  protected async _addDirectoryNameToSnapshots(directoryName: string) {
     try {
       const snapshotDoc = doc(this.firestore, `${this.collectionPrefix}${this.studyId}`, 'snapshots');
       await setDoc(
         snapshotDoc,
-        { [directoryName]: { enabled: true, name: directoryName } },
+        { [directoryName]: { name: directoryName } } as SnapshotDocContent,
         { merge: true },
       );
     } catch (error) {
@@ -586,7 +606,7 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     }
   }
 
-  protected async _removeNameFromMetadata(directoryName: string) {
+  protected async _removeDirectoryNameFromSnapshots(directoryName: string) {
     try {
       const snapshotDoc = doc(this.firestore, `${this.collectionPrefix}${this.studyId}`, 'snapshots');
       const snapshotData = await getDoc(snapshotDoc);
@@ -608,16 +628,16 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     }
   }
 
-  protected async _changeNameInMetadata(oldName: string, newName: string) {
+  protected async _changeDirectoryNameInSnapshots(oldName: string, newName: string) {
     const snapshotDoc = doc(this.firestore, `${this.collectionPrefix}${this.studyId}`, 'snapshots');
     await setDoc(
       snapshotDoc,
-      { [oldName]: { enabled: true, name: newName } },
+      { [oldName]: { name: newName } },
       { merge: true },
     );
   }
 
-  protected async _copyFile(sourceFilePath: string, targetFilePath: string) {
+  private async _copyFile(sourceFilePath: string, targetFilePath: string) {
     try {
       const sourceFileRef = ref(this.storage, sourceFilePath);
       const targetFileRef = ref(this.storage, targetFilePath);
@@ -630,5 +650,152 @@ export class FirebaseStorageEngine extends CloudStorageEngine {
     } catch (error) {
       console.error('Error copying file:', error);
     }
+  }
+
+  // Gets data from the user-management collection based on the inputted string
+  async getUserManagementData(key: 'authentication'): Promise<{ isEnabled: boolean } | undefined>;
+
+  async getUserManagementData(key: 'adminUsers'): Promise<{ adminUsersList: StoredUser[] } | undefined>;
+
+  async getUserManagementData(
+    key: 'authentication' | 'adminUsers',
+  ): Promise<{ isEnabled: boolean } | { adminUsersList: StoredUser[] } | undefined> {
+    if (Object.keys(this.userManagementData).length === 0) {
+      // Get the user-management collection in Firestore
+      const userManagementCollection = collection(
+        this.firestore,
+        'user-management',
+      );
+      // Grabs all user-management data and returns data based on key
+      const querySnapshot = await getDocs(userManagementCollection);
+      // Converts querySnapshot data to Object
+      const docsObject = Object.fromEntries(
+        querySnapshot.docs.map((queryDoc) => [queryDoc.id, queryDoc.data()]),
+      );
+      this.userManagementData = docsObject as UserManagementData;
+    }
+    if (key in this.userManagementData) {
+      // Type narrowing to ensure correct return type
+      if (key === 'authentication') {
+        const value = this.userManagementData[key];
+        if (value && typeof value === 'object' && 'isEnabled' in value) {
+          return value as { isEnabled: boolean };
+        }
+      } else if (key === 'adminUsers') {
+        const value = this.userManagementData[key];
+        if (value && typeof value === 'object' && 'adminUsersList' in value) {
+          return value as { adminUsersList: StoredUser[] };
+        }
+      }
+    }
+    return undefined;
+  }
+
+  protected async _updateAdminUsersList(adminUsers: { adminUsersList: StoredUser[] }) {
+    await setDoc(
+      doc(this.firestore, 'user-management', 'adminUsers'),
+      {
+        adminUsersList: adminUsers.adminUsersList,
+      },
+    );
+  }
+
+  async changeAuth(bool: boolean) {
+    await setDoc(doc(this.firestore, 'user-management', 'authentication'), {
+      isEnabled: bool,
+    });
+  }
+
+  async addAdminUser(user: StoredUser) {
+    const adminUsers = await this.getUserManagementData('adminUsers');
+    if (adminUsers?.adminUsersList) {
+      const adminList = adminUsers.adminUsersList;
+      const isInList = adminList.find(
+        (storedUser: StoredUser) => storedUser.email === user.email,
+      );
+      if (!isInList) {
+        adminList.push({ email: user.email, uid: user.uid });
+        await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
+          adminUsersList: adminList,
+        });
+      }
+    } else {
+      await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
+        adminUsersList: [{ email: user.email, uid: user.uid }],
+      });
+    }
+  }
+
+  async removeAdminUser(email: string) {
+    const adminUsers = await this.getUserManagementData('adminUsers');
+    if (adminUsers?.adminUsersList && adminUsers.adminUsersList.length > 1) {
+      if (
+        adminUsers.adminUsersList.find(
+          (storedUser: StoredUser) => storedUser.email === email,
+        )
+      ) {
+        adminUsers.adminUsersList = adminUsers?.adminUsersList.filter(
+          (storedUser: StoredUser) => storedUser.email !== email,
+        );
+        await setDoc(doc(this.firestore, 'user-management', 'adminUsers'), {
+          adminUsersList: adminUsers?.adminUsersList,
+        });
+      }
+    }
+  }
+
+  async login() {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider, browserPopupRedirectResolver);
+
+    return {
+      email: auth.currentUser?.email || null,
+      uid: auth.currentUser?.uid || null,
+    };
+  }
+
+  unsubscribe(callback: (cloudUser: StoredUser | null) => Promise<void>) {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (cloudUser) => await callback(cloudUser));
+    return () => unsubscribe();
+  }
+
+  async logout() {
+    const auth = getAuth();
+    await signOut(auth);
+  }
+
+  async getTranscription(taskName: string, participantId: string) {
+    return await this._getFromStorage(`audio/${participantId}_${taskName}.wav`, 'transcription.txt');
+  }
+
+  async getEditedTranscript(participantId: string, authEmail: string, task: string) {
+    const transcript = await this._getFromStorage(`audio/transcriptAndTags/${authEmail}/${participantId}/${task}`, 'editedText');
+
+    if (Array.isArray(transcript)) {
+      const tags = await this.getTags('text');
+
+      if (tags) {
+        // loop over the transcript and merge the tags
+        transcript.forEach((line) => {
+          line.selectedTags = line.selectedTags.map((tag) => {
+            const matchingTag = tags.find((t) => t.id === tag.id);
+            return matchingTag!;
+          });
+        });
+      }
+
+      return transcript as EditedText[];
+    }
+
+    this.saveEditedTranscript(participantId, authEmail, task, []);
+    return [];
+  }
+
+  async saveEditedTranscript(participantId: string, authEmail: string, task: string, editedText: EditedText[]) {
+    const taglessTranscript = editedText.map((line) => ({ ...line, selectedTags: line.selectedTags.filter((tag) => tag !== undefined) })) as TaglessEditedText[];
+
+    return this._pushToStorage(`audio/transcriptAndTags/${authEmail}/${participantId}/${task}`, 'editedText', taglessTranscript);
   }
 }

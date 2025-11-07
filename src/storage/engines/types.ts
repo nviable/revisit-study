@@ -1,5 +1,3 @@
-import { User } from '@firebase/auth';
-import { Timestamp } from 'firebase/firestore';
 import localforage from 'localforage';
 import { v4 as uuidv4 } from 'uuid';
 import throttle from 'lodash.throttle';
@@ -8,22 +6,17 @@ import { ParticipantMetadata, Sequence } from '../../store/types';
 import { ParticipantData } from '../types';
 import { hash, isParticipantData } from './utils';
 import { RevisitNotification } from '../../utils/notifications';
+import {
+  ParticipantTags, Tag, TaglessEditedText, TranscribedAudio,
+} from '../../analysis/individualStudy/thinkAloud/types';
 
 export interface StoredUser {
-  email: string,
+  email: string | null,
   uid: string | null,
 }
 
-export interface LocalStorageUser {
-  name: string,
-  email: string,
-  uid: string,
-}
-
-export type UserOptions = User | LocalStorageUser | null;
-
 export interface UserWrapped {
-  user: UserOptions,
+  user: StoredUser | null,
   determiningStatus: boolean,
   isAdmin: boolean,
   adminVerification: boolean
@@ -31,27 +24,80 @@ export interface UserWrapped {
 
 export type SequenceAssignment = {
   participantId: string;
-  timestamp: Timestamp | number; // Use Timestamp for Firebase, number for local storage
+  timestamp: number; // Use Timestamp for Firebase, number for local storage
   rejected: boolean;
   claimed: boolean;
-  completed: Timestamp | number | null;
-  createdTime: Timestamp | number;
+  completed: number | null;
+  createdTime: number;
+  total: number; // Total number of questions/steps
+  answered: string[]; // Number of answered questions
+  isDynamic: boolean; // Whether the study contains dynamic blocks
+  stage: string; // The stage of the participant in the study
 };
 
 export type REVISIT_MODE = 'dataCollectionEnabled' | 'studyNavigatorEnabled' | 'studyNavigatorPubliclyAccessible' | 'analyticsInterfacePubliclyAccessible';
 
+export interface StageInfo {
+  stageName: string;
+  color: string;
+}
+
+interface StageData {
+  currentStage: StageInfo;
+  allStages: StageInfo[];
+}
+
+const defaultStageColor = '#F05A30';
+
 export type StorageObjectType = 'sequenceArray' | 'participantData' | 'config' | string;
 export type StorageObject<T extends StorageObjectType> =
   T extends 'sequenceArray'
-  ? Sequence[]
-  : T extends 'participantData'
-  ? ParticipantData
-  : T extends 'config'
-  ? StudyConfig
-  : Blob; // Fallback for any random string
+    ? Sequence[]
+    : T extends 'participantData'
+    ? ParticipantData
+    : T extends 'config'
+    ? StudyConfig
+    : T extends 'transcription.txt'
+    ? TranscribedAudio
+    : T extends 'editedText'
+    ? TaglessEditedText[]
+    : T extends 'participantTags'
+    ? ParticipantTags
+    : T extends 'tags'
+    ? Tag[]
+    : Blob; // Fallback for any random string
+
+interface CloudStorageEngineError {
+  title: string;
+  message: string;
+  details?: string;
+}
+
+// Success response always has list of notifications which are then presented to user. Notifications can contain pieces which are individual errors from upstream functions.
+interface ActionResponseSuccess {
+  status: 'SUCCESS';
+  error?: undefined;
+  notifications?: RevisitNotification[];
+}
+
+// Failed responses never take notifications, only report error. Notifications will be handled in downstream functions.
+interface ActionResponseFailed {
+  status: 'FAILED';
+  error: CloudStorageEngineError;
+  notifications?: undefined;
+}
+
+export type ActionResponse =
+  | ActionResponseSuccess
+  | ActionResponseFailed;
+
+// Represents a snapshot name item with an original name and an optional alternate (renamed) name.
+export type SnapshotDocContent = Record<string, { name: string; }>;
 
 export abstract class StorageEngine {
-  protected engine: string;
+  protected engine: 'localStorage' | 'supabase' | 'firebase';
+
+  protected testing: boolean;
 
   protected cloudEngine: boolean = false;
 
@@ -69,8 +115,12 @@ export abstract class StorageEngine {
 
   protected participantData: ParticipantData | undefined;
 
-  constructor(engine: string) {
+  // Ids of assets (eg. audio/screen recording) being uploaded.
+  protected uploadingAssetIds: string[] = [];
+
+  constructor(engine: typeof this.engine, testing: boolean) {
     this.engine = engine;
+    this.testing = testing;
   }
 
   isConnected() {
@@ -107,23 +157,26 @@ export abstract class StorageEngine {
   protected abstract _verifyStudyDatabase(): Promise<void>;
 
   // Gets the current config hash from the storage engine using the engine's realtime database.
-  protected abstract _getCurrentConfigHash(): Promise<string>;
+  protected abstract _getCurrentConfigHash(): Promise<string | null>;
 
   // Sets the current config hash in the storage engine using the engine's realtime database.
   protected abstract _setCurrentConfigHash(configHash: string): Promise<void>;
 
   /* General/Realtime ---------------------------------------------------- */
-  // Gets all sequence assignments for the given studyId.
-  protected abstract _getAllSequenceAssignments(studyId: string): Promise<Record<string, SequenceAssignment>>;
+  // Gets all sequence assignments for the given studyId. The sequence assignments are sorted ascending by timestamp.
+  public abstract getAllSequenceAssignments(studyId: string): Promise<SequenceAssignment[]>;
 
-  // Creates a sequence assignment for the given participantId and sequenceAssignment.
-  protected abstract _createSequenceAssignment(participantId: string, sequenceAssignment: SequenceAssignment): Promise<void>;
+  // Creates a sequence assignment for the given participantId and sequenceAssignment. Cloud storage engines should use the realtime database to create the sequence assignment and should use the server to prevent race conditions (i.e. using server timestamps).
+  protected abstract _createSequenceAssignment(participantId: string, sequenceAssignment: SequenceAssignment, withServerTimestamp: boolean): Promise<void>;
 
   // Sets the participant to completed in the sequence assignments in the realtime database.
   protected abstract _completeCurrentParticipantRealtime(): Promise<void>;
 
   // Rejects the participant in the realtime database sequence assignments. This must also reverse any claimed sequence assignments.
   protected abstract _rejectParticipantRealtime(participantId: string): Promise<void>;
+
+  // Unrejects the participant in the realtime database sequence assignments. This must also reverse any claimed sequence assignments.
+  protected abstract _undoRejectParticipantRealtime(participantId: string): Promise<void>;
 
   // Helper function to claim a sequence assignment of the given participant in the realtime database.
   protected abstract _claimSequenceAssignment(participantId: string, sequenceAssignment: SequenceAssignment): Promise<void>;
@@ -136,19 +189,72 @@ export abstract class StorageEngine {
   abstract connect(): Promise<void>;
 
   // Gets the modes for the given studyId. The modes are stored as a record with the mode name as the key and a boolean value indicating whether the mode is enabled or not.
-  abstract getModes(studyId: string): Promise<Record<REVISIT_MODE, boolean>>;
+  abstract getModes(studyId: string): Promise<Record<REVISIT_MODE, boolean> & { stage?: StageData }>;
 
   // Sets the mode for the given studyId. The mode is stored as a record with the mode name as the key and a boolean value indicating whether the mode is enabled or not.
   abstract setMode(studyId: string, mode: REVISIT_MODE, value: boolean): Promise<void>;
 
+  // Protected helper: Sets the full modes document (including stage data and mode flags)
+  protected abstract _setModesDocument(studyId: string, modesDocument: Record<REVISIT_MODE, boolean> & { stage?: StageData }): Promise<void>;
+
   // Gets the audio URL for the given task and participantId. This method is used to fetch the audio file from the storage engine.
   protected abstract _getAudioUrl(task: string, participantId?: string): Promise<string | null>;
+
+  // Gets the screen recording URL for the given task and participantId. This method is used to fetch the screen recording video file from the storage engine.
+  protected abstract _getScreenRecordingUrl(task: string, participantId?: string): Promise<string | null>;
+
+  // Gets the transcript URL for the given task and participantId. (Optional - not all storage engines need to implement this, only if they generate transcripts).
+  protected _getTranscriptUrl?(task: string, participantId?: string): Promise<string | null>;
+
+  // Resets the entire study database for testing purposes. This is used to reset the study database to a clean state for testing.
+  protected abstract _testingReset(studyId: string): Promise<void>;
+
+  /* Snapshots ----------------------------------------------------------- */
+  // Gets the snapshot doc for the given studyId.
+  abstract getSnapshots(studyId: string): Promise<SnapshotDocContent>;
+
+  // Checks if the storage directory to see if the given path exists.
+  protected abstract _directoryExists(path: string): Promise<boolean>;
+
+  // Copies a storage directory and all its contents.
+  protected abstract _copyDirectory(source: string, target: string): Promise<void>;
+
+  // Deletes a storage directory and all its contents.
+  protected abstract _deleteDirectory(path: string): Promise<void>;
+
+  // Copies the realtime data from the source to the target. This is used by createSnapshot to copy the realtime data associated with a snapshot.
+  protected abstract _copyRealtimeData(source: string, target: string): Promise<void>;
+
+  // Deletes the realtime data for the given target. This is used by removeSnapshotOrLive to delete the realtime data associated with a snapshot or live data.
+  protected abstract _deleteRealtimeData(path: string): Promise<void>;
+
+  // Adds a directory name to the metadata. This is used by createSnapshot
+  protected abstract _addDirectoryNameToSnapshots(directoryName: string, studyId: string): Promise<void>;
+
+  // Removes a snapshot from the metadata. This is used by removeSnapshotOrLive
+  protected abstract _removeDirectoryNameFromSnapshots(directoryName: string, studyId: string): Promise<void>;
+
+  // Updates a snapshot in the metadata. This is used by renameSnapshot
+  protected abstract _changeDirectoryNameInSnapshots(oldName: string, newName: string, studyId: string): Promise<void>;
 
   /*
   * THROTTLED METHODS
   * These methods are used to throttle the calls to the storage engine's methods that can be called frequently.
   */
-  private __throttleVerifyStudyDatabase = throttle(async () => { await this._verifyStudyDatabase(); }, 10000);
+  private __throttleVerifyStudyDatabase = throttle(
+    () => new Promise<void>((resolve, reject) => {
+      this._verifyStudyDatabase()
+        .then(() => {
+          resolve();
+        })
+        .catch((e) => {
+          this.connected = false;
+          console.error('Error verifying study database:', e);
+          reject(e);
+        });
+    }),
+    10000,
+  );
 
   private __throttleSaveAnswers = throttle(async () => { await this._saveAnswers(); }, 3000);
 
@@ -160,6 +266,82 @@ export abstract class StorageEngine {
   // Verify study database using provided primitive from storage engine with a throttle of 10 seconds.
   protected async verifyStudyDatabase() {
     return await this.__throttleVerifyStudyDatabase();
+  }
+
+  async getStageData(studyId: string): Promise<StageData> {
+    const modesDoc = await this.getModes(studyId);
+
+    if (modesDoc && modesDoc.stage) {
+      return modesDoc.stage as StageData;
+    }
+
+    // Set default stage data if it doesn't exist
+    const defaultStageData: StageData = {
+      currentStage: { stageName: 'DEFAULT', color: defaultStageColor },
+      allStages: [{ stageName: 'DEFAULT', color: defaultStageColor }],
+    };
+    await this.setCurrentStage(studyId, 'DEFAULT', defaultStageColor);
+    return defaultStageData;
+  }
+
+  // Setting current stage
+  async setCurrentStage(studyId: string, stageName: string, color: string = defaultStageColor): Promise<void> {
+    const modesDoc = await this.getModes(studyId);
+
+    // Initialize if doesn't exist or invalid
+    if (!modesDoc.stage) {
+      modesDoc.stage = {
+        currentStage: { stageName: 'DEFAULT', color: defaultStageColor },
+        allStages: [{ stageName: 'DEFAULT', color: defaultStageColor }],
+      };
+    }
+
+    // Check if stage already exists in allStages
+    const existingStageIndex = modesDoc.stage.allStages.findIndex(
+      (s) => s.stageName === stageName,
+    );
+
+    if (existingStageIndex === -1) {
+      modesDoc.stage.allStages.push({ stageName, color });
+    }
+
+    modesDoc.stage.currentStage = { stageName, color };
+
+    const updatedModesDoc = {
+      ...modesDoc,
+      stage: modesDoc.stage,
+    };
+
+    await this._setModesDocument(studyId, updatedModesDoc);
+  }
+
+  // Updating stage color
+  async updateStageColor(studyId: string, stageName: string, color: string): Promise<void> {
+    const modesDoc = await this.getModes(studyId);
+
+    if (!modesDoc.stage) {
+      throw new Error('Stage data not initialized');
+    }
+
+    const updatedAllStages = modesDoc.stage.allStages.map(
+      (s) => (s.stageName === stageName ? { ...s, color } : s),
+    );
+
+    const updatedCurrentStage = modesDoc.stage.currentStage.stageName === stageName
+      ? { ...modesDoc.stage.currentStage, color }
+      : modesDoc.stage.currentStage;
+
+    const updatedStageData = {
+      currentStage: updatedCurrentStage,
+      allStages: updatedAllStages,
+    };
+
+    const updatedModesDoc = {
+      ...modesDoc,
+      stage: updatedStageData,
+    };
+
+    await this._setModesDocument(studyId, updatedModesDoc);
   }
 
   // Saves the new config for the study. This will overwrite the existing sequence array so that the new sequences are compatible with the new config.
@@ -252,17 +434,18 @@ export abstract class StorageEngine {
     if (this.studyId === undefined) {
       throw new Error('Study ID is not set');
     }
-    let sequenceAssignments = await this._getAllSequenceAssignments(this.studyId);
+    let sequenceAssignments = await this.getAllSequenceAssignments(this.studyId);
 
     const modes = await this.getModes(this.studyId);
+    const stageData = await this.getStageData(this.studyId);
+    const currentStage = stageData.currentStage.stageName;
 
     // Find all rejected documents
-    const rejectedDocs = Object.entries(sequenceAssignments)
-      .sort((a, b) => (a[1].timestamp as number) - (b[1].timestamp as number))
-      .filter(([_, doc]) => doc.rejected && !doc.claimed);
+    const rejectedDocs = sequenceAssignments
+      .filter((doc) => doc.rejected && !doc.claimed);
     if (rejectedDocs.length > 0) {
       const firstReject = rejectedDocs[0];
-      const firstRejectTime = firstReject[1].timestamp;
+      const firstRejectTime = firstReject.timestamp;
       if (modes.dataCollectionEnabled) {
         // Make the sequence assignment document for the participant
         const participantSequenceAssignmentData: SequenceAssignment = {
@@ -271,30 +454,36 @@ export abstract class StorageEngine {
           rejected: false,
           claimed: false,
           completed: null,
-          createdTime: new Date().getTime(),
+          createdTime: new Date().getTime(), // Placeholder, will be set to server timestamp in cloud engines
+          total: 0,
+          answered: [],
+          isDynamic: false,
+          stage: currentStage,
         };
         // Mark the first reject as claimed
-        await this._claimSequenceAssignment(firstReject[0], firstReject[1]);
+        await this._claimSequenceAssignment(firstReject.participantId, firstReject);
         // Set the participant's sequence assignment document
-        await this._createSequenceAssignment(this.currentParticipantId, participantSequenceAssignmentData);
+        await this._createSequenceAssignment(this.currentParticipantId, participantSequenceAssignmentData, false);
       }
     } else if (modes.dataCollectionEnabled) {
       const timestamp = new Date().getTime();
       const participantSequenceAssignmentData: SequenceAssignment = {
         participantId: this.currentParticipantId,
-        timestamp,
+        timestamp, // Placeholder, will be set to server timestamp in cloud engines
         rejected: false,
         claimed: false,
         completed: null,
-        createdTime: timestamp,
+        createdTime: timestamp, // Placeholder, will be set to server timestamp in cloud engines
+        total: 0,
+        answered: [],
+        isDynamic: false,
+        stage: currentStage,
       };
-      await this._createSequenceAssignment(this.currentParticipantId, participantSequenceAssignmentData);
+      await this._createSequenceAssignment(this.currentParticipantId, participantSequenceAssignmentData, true);
     }
 
     // Query all the intents to get a sequence and find our position in the queue
-    sequenceAssignments = await this._getAllSequenceAssignments(this.studyId);
-    const intents = Object.values(sequenceAssignments)
-      .sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
+    sequenceAssignments = await this.getAllSequenceAssignments(this.studyId);
 
     // Get the latin square
     const sequenceArray = await this.getSequenceArray();
@@ -303,8 +492,8 @@ export abstract class StorageEngine {
     }
 
     // Get the current row
-    const intentIndex = intents.filter((intent) => !intent.rejected).findIndex(
-      (intent) => intent.participantId === this.currentParticipantId,
+    const intentIndex = sequenceAssignments.filter((assignment) => !assignment.rejected).findIndex(
+      (assignment) => assignment.participantId === this.currentParticipantId,
     ) % sequenceArray.length;
     if (sequenceArray.length === 0) {
       throw new Error('Something really bad happened with sequence assignment');
@@ -322,9 +511,9 @@ export abstract class StorageEngine {
       throw new Error('Latin square is empty');
     }
 
-    const creationSorted = intents.sort((a, b) => (a.createdTime as number) - (b.createdTime as number));
+    const creationSorted = sequenceAssignments.sort((a, b) => a.createdTime - b.createdTime);
 
-    const creationIndex = creationSorted.findIndex((intent) => intent.participantId === this.currentParticipantId) + 1;
+    const creationIndex = creationSorted.findIndex((assignment) => assignment.participantId === this.currentParticipantId) + 1;
 
     return { currentRow, creationIndex };
   }
@@ -356,6 +545,8 @@ export abstract class StorageEngine {
 
     // Get modes
     const modes = await this.getModes(this.studyId);
+    const stageData = await this.getStageData(this.studyId);
+    const currentStage = stageData.currentStage.stageName;
 
     if (isParticipantData(participant)) {
       // Participant already initialized
@@ -376,6 +567,7 @@ export abstract class StorageEngine {
       completed: false,
       rejected: false,
       participantTags: [],
+      stage: currentStage,
     };
 
     if (modes.dataCollectionEnabled) {
@@ -390,12 +582,37 @@ export abstract class StorageEngine {
   }
 
   // Gets all participant IDs for the given studyId
-  async getAllParticipantIds() {
-    if (!this.studyId) {
+  async getAllParticipantIds(studyId?: string) {
+    const studyIdToUse = this.studyId || studyId;
+    if (studyIdToUse === undefined) {
       throw new Error('Study ID is not set');
     }
-    const sequenceAssignments = await this._getAllSequenceAssignments(this.studyId);
-    return Object.keys(sequenceAssignments);
+    const sequenceAssignments = await this.getAllSequenceAssignments(studyIdToUse);
+    return sequenceAssignments.map((assignment) => assignment.participantId);
+  }
+
+  async saveTags(tags: Tag[], tagType: string) {
+    await this._pushToStorage(`audio/transcriptAndTags/${tagType}`, 'tags', tags);
+  }
+
+  async getTags(tagType: string) {
+    return await this._getFromStorage(`audio/transcriptAndTags/${tagType}`, 'tags');
+  }
+
+  async getAllParticipantAndTaskTags(authEmail: string, participantId: string) {
+    const tags = await this._getFromStorage(`audio/transcriptAndTags/${authEmail}/${participantId}`, 'participantTags');
+
+    if (tags?.participantTags) {
+      return tags;
+    }
+
+    this.saveAllParticipantAndTaskTags(authEmail, participantId, { participantTags: [], taskTags: {} });
+
+    return { participantTags: [], taskTags: {} };
+  }
+
+  async saveAllParticipantAndTaskTags(authEmail: string, participantId: string, participantTags: ParticipantTags) {
+    return this._pushToStorage(`audio/transcriptAndTags/${authEmail}/${participantId}`, 'participantTags', participantTags);
   }
 
   // Gets the participant data for the current participant or a specific participantId.
@@ -458,11 +675,10 @@ export abstract class StorageEngine {
   }
 
   // Rejects a participant with the given participantId and reason.
-  async rejectParticipant(participantId: string, reason: string, studyId?: string) {
+  async rejectParticipant(participantId: string, reason: string) {
     const participant = await this._getFromStorage(
       `participants/${participantId}`,
       'participantData',
-      studyId,
     );
 
     try {
@@ -500,11 +716,45 @@ export abstract class StorageEngine {
     return await this.rejectParticipant(this.currentParticipantId, reason);
   }
 
-  // Gets all participant IDs for the current studyId or a provided studyId.
-  async getAllParticipantsData(studyId?: string) {
-    await this.verifyStudyDatabase();
+  // Un-rejects a participant with the given participantId.
+  async undoRejectParticipant(participantId: string) {
+    const participant = await this._getFromStorage(
+      `participants/${participantId}`,
+      'participantData',
+    );
 
-    const participantIds = await this.getAllParticipantIds();
+    try {
+      // If the user doesn't exist, return
+      if (!participant || !isParticipantData(participant)) {
+        return;
+      }
+
+      // set reject flag to false
+      participant.rejected = false;
+
+      await this._pushToStorage(
+        `participants/${participantId}`,
+        'participantData',
+        participant,
+      );
+      await this._undoRejectParticipantRealtime(participantId);
+    } catch (error) {
+      console.warn('Error undoing participant rejection:', error);
+    }
+  }
+
+  // Un-rejects the current participant.
+  async undoRejectCurrentParticipant() {
+    if (!this.currentParticipantId) {
+      throw new Error('Participant not initialized');
+    }
+
+    return await this.undoRejectParticipant(this.currentParticipantId);
+  }
+
+  // Gets all participant IDs for the current studyId or a provided studyId.
+  async getAllParticipantsData(studyId: string) {
+    const participantIds = await this.getAllParticipantIds(studyId);
     const participantsData: ParticipantData[] = [];
 
     const participantPulls = participantIds.map(async (participantId) => {
@@ -525,15 +775,13 @@ export abstract class StorageEngine {
   }
 
   async getParticipantsStatusCounts(studyId: string) {
-    const sequenceAssignments = this._getAllSequenceAssignments(studyId);
-    const sequenceAssignmentsData = Object.values(sequenceAssignments)
-      .sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
+    const sequenceAssignments = await this.getAllSequenceAssignments(studyId);
 
-    const completed = sequenceAssignmentsData.filter((assignment) => assignment.completed && !assignment.rejected).length;
-    const rejected = sequenceAssignmentsData.filter((assignment) => assignment.rejected).length;
-    const inProgress = sequenceAssignmentsData.length - completed - rejected;
-    const minTime = sequenceAssignmentsData.length > 0 ? sequenceAssignmentsData[0].timestamp : null;
-    const maxTime = sequenceAssignmentsData.length > 0 ? sequenceAssignmentsData.at(-1)!.timestamp : null;
+    const completed = sequenceAssignments.filter((assignment) => assignment.completed && !assignment.rejected).length;
+    const rejected = sequenceAssignments.filter((assignment) => assignment.rejected).length;
+    const inProgress = sequenceAssignments.length - completed - rejected;
+    const minTime = sequenceAssignments.length > 0 ? sequenceAssignments[0].timestamp : null;
+    const maxTime = sequenceAssignments.length > 0 ? sequenceAssignments.at(-1)!.timestamp : null;
 
     return {
       completed,
@@ -575,6 +823,44 @@ export abstract class StorageEngine {
     await this.__throttleSaveAnswers(answers);
   }
 
+  // Updates the progress data in the sequence assignment
+  async updateProgressData(
+    progressData: { total: number; answered: string[]; isDynamic: boolean },
+    participantId?: string,
+  ) {
+    if (!this.studyId) {
+      throw new Error('Study ID is not set');
+    }
+
+    if (this.getEngine() !== 'firebase') {
+      return;
+    }
+
+    const targetParticipantId = participantId || this.currentParticipantId;
+    if (!targetParticipantId) {
+      throw new Error('Participant not initialized');
+    }
+
+    const sequenceAssignments = await this.getAllSequenceAssignments(this.studyId);
+    const existingAssignment = sequenceAssignments.find(
+      (assignment) => assignment.participantId === targetParticipantId,
+    );
+
+    if (existingAssignment) {
+      // Ensure backward compatibility by providing default values if fields don't exist
+      const updatedAssignment: SequenceAssignment = {
+        ...existingAssignment,
+        total: existingAssignment.total ?? progressData.total,
+        answered: existingAssignment.answered ?? progressData.answered,
+        isDynamic: existingAssignment.isDynamic ?? progressData.isDynamic,
+      };
+      updatedAssignment.total = progressData.total;
+      updatedAssignment.answered = progressData.answered;
+      updatedAssignment.isDynamic = progressData.isDynamic;
+      await this._createSequenceAssignment(targetParticipantId, updatedAssignment, false);
+    }
+  }
+
   // Verifies if the current participant has completed the study. Checks that the throttled answers are saved and marks the participant as complete if so.
   async verifyCompletion() {
     await this.verifyStudyDatabase();
@@ -593,6 +879,12 @@ export abstract class StorageEngine {
       throw new Error('Participant not initialized');
     }
 
+    // Check for remaining assets uploads
+    const hasUploadsRemaining = this.uploadingAssetIds.length > 0;
+    if (hasUploadsRemaining) {
+      return false;
+    }
+
     if (participantData.completed) {
       return true;
     }
@@ -605,6 +897,8 @@ export abstract class StorageEngine {
     if (this.participantData && serverEndTime === localEndTime) {
       this.participantData.completed = true;
       if (modes.dataCollectionEnabled) {
+        await this._completeCurrentParticipantRealtime();
+
         await this._pushToStorage(
           `participants/${this.currentParticipantId}`,
           'participantData',
@@ -614,8 +908,6 @@ export abstract class StorageEngine {
           `participants/${this.currentParticipantId}`,
           'participantData',
         );
-
-        await this._completeCurrentParticipantRealtime();
       }
 
       return true;
@@ -624,17 +916,12 @@ export abstract class StorageEngine {
     return false;
   }
 
-  // Gets the audio for a specific task and participantId.
-  async getAudio(
-    task: string,
-    participantId: string,
-  ) {
-    const url = await this._getAudioUrl(task, participantId);
+  async getAsset(url:string | null) {
     if (!url) {
       return null;
     }
 
-    const allAudioList = new Promise<string>((resolve) => {
+    const asset = new Promise<string>((resolve) => {
       const xhr = new XMLHttpRequest();
       xhr.responseType = 'blob';
       xhr.onload = () => {
@@ -648,31 +935,85 @@ export abstract class StorageEngine {
       xhr.send();
     });
 
-    return allAudioList;
+    return asset;
   }
 
-  // Saves the audio stream to the storage engine. This method is used to save the audio data from a MediaRecorder stream.
-  async saveAudio(
-    audioStream: MediaRecorder,
+  // Gets the audio for a specific task and participantId.
+  async getAudio(
+    task: string,
+    participantId: string,
+  ) {
+    const url = await this._getAudioUrl(task, participantId);
+    return await this.getAsset(url);
+  }
+
+  // Gets the audio download URL
+  async getAudioUrl(
+    task: string,
+    participantId: string,
+  ) {
+    const url = await this._getAudioUrl(task, participantId);
+    if (!url) {
+      return null;
+    }
+    return url;
+  }
+
+  // Gets the transcript download URL (currently only supported by Firebase)
+  async getTranscriptUrl(
+    task: string,
+    participantId: string,
+  ) {
+    if (!this._getTranscriptUrl) {
+      return null;
+    }
+
+    const url = await this._getTranscriptUrl(task, participantId);
+    if (!url) {
+      return null;
+    }
+    return url;
+  }
+
+  async saveAsset(
+    prefix: string,
+    blob: Blob,
     taskName: string,
   ) {
-    let debounceTimeout: NodeJS.Timeout | null = null;
+    const assetKey = `${prefix}/${taskName}`;
+    const participantKey = `${prefix}/${this.currentParticipantId}`;
 
-    const listener = async (data: BlobEvent) => {
-      if (debounceTimeout) {
-        return;
-      }
+    this.uploadingAssetIds.push(assetKey);
 
-      debounceTimeout = setTimeout(async () => {
-        await this._pushToStorage(`audio/${this.currentParticipantId}`, taskName, data.data);
-        await this._cacheStorageObject(`audio/${this.currentParticipantId}`, taskName);
-      }, 500);
-    };
+    await this._pushToStorage(participantKey, taskName, blob);
+    await this._cacheStorageObject(participantKey, taskName);
 
-    audioStream.addEventListener('dataavailable', listener);
-    audioStream.requestData();
+    this.uploadingAssetIds = this.uploadingAssetIds.filter((id) => id !== assetKey);
+  }
 
-    // Don't clean up the listener. The stream will be destroyed.
+  // Saves the audio stream to the storage engine. This method is used to save the audio recorded data from a MediaRecorder stream.
+  async saveAudioRecording(
+    blob: Blob,
+    taskName: string,
+  ) {
+    return this.saveAsset('audio', blob, taskName);
+  }
+
+  // Gets the screen recording for a specific task and participantId.
+  async getScreenRecording(
+    task: string,
+    participantId: string,
+  ) {
+    const url = await this._getScreenRecordingUrl(task, participantId);
+    return this.getAsset(url);
+  }
+
+  // Saves the video stream to the storage engine. This method is used to save the screen recorded video data from a MediaRecorder stream.
+  async saveScreenRecording(
+    blob: Blob,
+    taskName: string,
+  ) {
+    return this.saveAsset('screenRecording', blob, taskName);
   }
 
   // Gets the sequence array from the storage engine.
@@ -693,142 +1034,15 @@ export abstract class StorageEngine {
 
     await this._pushToStorage('', 'sequenceArray', latinSquare);
   }
-}
 
-export interface CloudStorageEngineError {
-  title: string;
-  message: string;
-  details?: string;
-}
+  protected async __testingReset() {
+    this.currentParticipantId = undefined;
+    this.participantData = undefined;
 
-// Success response always has list of notifications which are then presented to user. Notifications can contain pieces which are individual errors from upstream functions.
-interface ActionResponseSuccess {
-  status: 'SUCCESS';
-  error?: undefined;
-  notifications?: RevisitNotification[];
-}
-
-// Failed responses never take notifications, only report error. Notifications will be handled in downstream functions.
-interface ActionResponseFailed {
-  status: 'FAILED';
-  error: CloudStorageEngineError;
-  notifications?: undefined;
-}
-
-export type ActionResponse =
-  | ActionResponseSuccess
-  | ActionResponseFailed;
-
-// Represents a snapshot name item with an original name and an optional alternate (renamed) name.
-export interface SnapshotNameItem {
-  originalName: string;
-  alternateName: string | null;
-}
-
-export type UserManagementData = { authentication?: { isEnabled: boolean }; adminUsers?: { adminUsersList: StoredUser[] } };
-
-// A StorageEngine that is specifically designed to work with cloud storage solutions like Firebase, Supabase, etc.
-// It extends the StorageEngine class and provides additional methods for cloud storage operations (such as authentication, snapshots, etc.).
-export abstract class CloudStorageEngine extends StorageEngine {
-  protected cloudEngine = true;
-
-  protected userManagementData: UserManagementData = {};
-
-  /*
-  * PRIMITIVE METHODS
-  * These methods are provided by the storage engine implementation and are used by the higher-level methods.
-  */
-  /* User management ----------------------------------------------------- */
-  // Gets the user management data for the given key. This is used to get the authentication state or admin users list.
-  abstract getUserManagementData<T extends 'authentication' | 'adminUsers'>(key: T): Promise<(T extends 'authentication' ? { isEnabled: boolean } : { adminUsersList: StoredUser[] }) | undefined>;
-
-  // Updates the user management data for the given key. This is used to update the authentication state or admin users list.
-  protected abstract _updateAdminUsersList(adminUsers: { adminUsersList: StoredUser[] }): Promise<void>;
-
-  // Changes the authentication state of the storage engine. This will enable or disable authentication for the storage engine.
-  abstract changeAuth(bool: boolean): Promise<void>;
-
-  // Adds an admin user to the storage engine. The user is identified by their email and UID.
-  abstract addAdminUser(user: StoredUser): Promise<void>;
-
-  // Removes the admin user with the given email from the storage engine.
-  abstract removeAdminUser(email: string): Promise<void>;
-
-  /* Snapshots ----------------------------------------------------------- */
-  // Gets all snapshots for the given studyId. This will return an array of objects with the original name and alternate name (if available) of the snapshots.
-  abstract getSnapshots(studyId: string): Promise<SnapshotNameItem[]>;
-
-  // Checks if the storage directory for the given source exists.
-  protected abstract _directoryExists(source: string): Promise<boolean>;
-
-  // Copies a storage directory and all its contents.
-  protected abstract _copyDirectory(source: string, target: string): Promise<void>;
-
-  // Deletes a storage directory and all its contents.
-  protected abstract _deleteDirectory(target: string): Promise<void>;
-
-  // Copies the realtime data from the source to the target. This is used by createSnapshot to copy the realtime data associated with a snapshot.
-  protected abstract _copyRealtimeData(source: string, target: string): Promise<void>;
-
-  // Deletes the realtime data for the given target. This is used by removeSnapshotOrLive to delete the realtime data associated with a snapshot or live data.
-  protected abstract _deleteRealtimeData(target: string): Promise<void>;
-
-  // Adds a directory name to the metadata. This is used by createSnapshot
-  protected abstract _addDirectoryNameToMetadata(target: string): Promise<void>;
-
-  // Removes a snapshot from the metadata. This is used by removeSnapshotOrLive
-  protected abstract _removeNameFromMetadata(target: string): Promise<void>;
-
-  // Updates a snapshot in the metadata. This is used by renameSnapshot
-  protected abstract _changeNameInMetadata(oldName: string, newName: string): Promise<void>;
-
-  /*
-  * HIGHER-LEVEL METHODS
-  * These methods are used by the application to interact with the storage engine and provide consistent behavior across different storage engines.
-  * They are built on top of the primitive methods and provide a more user-friendly interface.
-  */
-  /* User management --------------------------------------------------- */
-  // Gets the user management data for the given key. This is used to get the authentication
-  async validateUser(user: UserWrapped | null, refresh = false) {
-    if (refresh) {
-      this.userManagementData = {};
-    }
-
-    if (user?.user) {
-      // Case 1: Database exists
-      const authInfo = await this.getUserManagementData('authentication');
-      if (authInfo?.isEnabled) {
-        const adminUsers = await this.getUserManagementData('adminUsers');
-        if (adminUsers && adminUsers.adminUsersList) {
-          const adminUsersObject = Object.fromEntries(
-            adminUsers.adminUsersList.map((storedUser: StoredUser) => [
-              storedUser.email,
-              storedUser.uid,
-            ]),
-          );
-          // Verifies that, if the user has signed in and thus their UID is added to the Firestore, that the current UID matches the Firestore entries UID. Prevents impersonation (otherwise, users would be able to alter email to impersonate).
-          const isAdmin = user.user.email
-            && (adminUsersObject[user.user.email] === user.user.uid
-              || adminUsersObject[user.user.email] === null);
-          if (isAdmin) {
-            // Add UID to user in collection if not existent.
-            if (user.user.email && adminUsersObject[user.user.email] === null) {
-              const adminUser: StoredUser | undefined = adminUsers.adminUsersList.find(
-                (u: StoredUser) => u.email === user.user!.email,
-              );
-              if (adminUser) {
-                adminUser.uid = user.user.uid;
-              }
-              await this._updateAdminUsersList(adminUsers);
-            }
-            return true;
-          }
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
+    this.localForage.setItem(
+      `${this.collectionPrefix}${this.studyId}/currentParticipantId`,
+      undefined,
+    );
   }
 
   /* Snapshots --------------------------------------------------------- */
@@ -838,8 +1052,7 @@ export abstract class CloudStorageEngine extends StorageEngine {
     deleteData: boolean,
   ): Promise<ActionResponse> {
     const sourceName = `${this.collectionPrefix}${studyId}`;
-
-    if (!(await this._directoryExists(sourceName))) {
+    if (!(await this._directoryExists(`${sourceName}/participants`))) {
       console.warn(`Source directory ${sourceName} does not exist.`);
 
       return {
@@ -864,21 +1077,21 @@ export abstract class CloudStorageEngine extends StorageEngine {
 
     const targetName = `${this.collectionPrefix}${studyId}-snapshot-${formattedDate}`;
 
-    await this._copyDirectory(`${sourceName}/configs`, `${targetName}/configs`);
-    await this._copyDirectory(
-      `${sourceName}/participants`,
-      `${targetName}/participants`,
-    );
-    await this._copyDirectory(sourceName, targetName);
-    await this._copyRealtimeData(sourceName, targetName);
-    await this._addDirectoryNameToMetadata(targetName);
+    if (this.getEngine() === 'localStorage') {
+      await this._copyDirectory(`${sourceName}/`, `${targetName}/`);
+    } else {
+      await this._copyDirectory(`${sourceName}/configs`, `${targetName}/configs`);
+      await this._copyDirectory(`${sourceName}/participants`, `${targetName}/participants`);
+      await this._copyDirectory(`${sourceName}/audio`, `${targetName}/audio`);
+      await this._copyDirectory(`${sourceName}/screenRecording`, `${targetName}/screenRecording`);
+      await this._copyDirectory(sourceName, targetName);
+      await this._copyRealtimeData(sourceName, targetName);
+    }
+    await this._addDirectoryNameToSnapshots(targetName, studyId);
 
     const createSnapshotSuccessNotifications: RevisitNotification[] = [];
     if (deleteData) {
-      const removeSnapshotResponse = await this.removeSnapshotOrLive(
-        sourceName,
-        false,
-      );
+      const removeSnapshotResponse = await this.removeSnapshotOrLive(sourceName, studyId);
       if (removeSnapshotResponse.status === 'FAILED') {
         createSnapshotSuccessNotifications.push({
           title: removeSnapshotResponse.error.title,
@@ -907,21 +1120,23 @@ export abstract class CloudStorageEngine extends StorageEngine {
   // Removes a snapshot or live data from the storage engine. This will delete the directory and all its contents, including the configs and participants directories.
   async removeSnapshotOrLive(
     targetName: string,
-    includeMetadata: boolean,
+    studyId: string,
   ): Promise<ActionResponse> {
+    const deletionTarget = targetName.startsWith(this.collectionPrefix) ? targetName : `${this.collectionPrefix}${targetName}`;
     try {
-      const targetNameWithPrefix = targetName.startsWith(this.collectionPrefix)
-        ? targetName
-        : `${this.collectionPrefix}${targetName}`;
-
-      await this._deleteDirectory(`${targetNameWithPrefix}/configs`);
-      await this._deleteDirectory(`${targetNameWithPrefix}/participants`);
-      await this._deleteDirectory(targetNameWithPrefix);
-      await this._deleteRealtimeData(targetNameWithPrefix);
-
-      if (includeMetadata) {
-        await this._removeNameFromMetadata(targetNameWithPrefix);
+      if (this.getEngine() === 'localStorage') {
+        await this._deleteDirectory(`${deletionTarget}/`);
+      } else {
+        await this._deleteDirectory(`${deletionTarget}/configs`);
+        await this._deleteDirectory(`${deletionTarget}/participants`);
+        await this._deleteDirectory(`${deletionTarget}/audio`);
+        await this._deleteDirectory(`${deletionTarget}/screenRecording`);
+        await this._deleteDirectory(deletionTarget);
+        await this._deleteRealtimeData(deletionTarget);
       }
+
+      await this._removeDirectoryNameFromSnapshots(deletionTarget, studyId);
+
       return {
         status: 'SUCCESS',
         notifications: [
@@ -977,6 +1192,14 @@ export abstract class CloudStorageEngine extends StorageEngine {
         `${snapshotName}/participants`,
         `${originalName}/participants`,
       );
+      await this._copyDirectory(
+        `${snapshotName}/audio`,
+        `${originalName}/audio`,
+      );
+      await this._copyDirectory(
+        `${snapshotName}/screenRecording`,
+        `${originalName}/screenRecording`,
+      );
       await this._copyDirectory(snapshotName, originalName);
       await this._copyRealtimeData(snapshotName, originalName);
       successNotifications.push({
@@ -1003,11 +1226,12 @@ export abstract class CloudStorageEngine extends StorageEngine {
 
   // Renames a snapshot in the metadata
   async renameSnapshot(
-    oldName: string,
+    key: string,
     newName: string,
+    studyId: string,
   ): Promise<ActionResponse> {
     try {
-      await this._changeNameInMetadata(oldName, newName);
+      await this._changeDirectoryNameInSnapshots(key, newName, studyId);
       return {
         status: 'SUCCESS',
         notifications: [
@@ -1028,5 +1252,90 @@ export abstract class CloudStorageEngine extends StorageEngine {
         },
       };
     }
+  }
+}
+
+export type UserManagementData = { authentication?: { isEnabled: boolean }; adminUsers?: { adminUsersList: StoredUser[] } };
+
+// A StorageEngine that is specifically designed to work with cloud storage solutions like Firebase, Supabase, etc.
+// It extends the StorageEngine class and provides additional methods for cloud storage operations (such as authentication, snapshots, etc.).
+export abstract class CloudStorageEngine extends StorageEngine {
+  protected cloudEngine = true;
+
+  protected userManagementData: UserManagementData = {};
+
+  /*
+  * PRIMITIVE METHODS
+  * These methods are provided by the storage engine implementation and are used by the higher-level methods.
+  */
+  /* User management ----------------------------------------------------- */
+  // Gets the user management data for the given key. This is used to get the authentication state or admin users list.
+  abstract getUserManagementData<T extends 'authentication' | 'adminUsers'>(key: T): Promise<(T extends 'authentication' ? { isEnabled: boolean } : { adminUsersList: StoredUser[] }) | undefined>;
+
+  // Updates the user management data for the given key. This is used to update the authentication state or admin users list.
+  protected abstract _updateAdminUsersList(adminUsers: { adminUsersList: StoredUser[] }): Promise<void>;
+
+  // Changes the authentication state of the storage engine. This will enable or disable authentication for the storage engine.
+  abstract changeAuth(bool: boolean): Promise<void>;
+
+  // Adds an admin user to the storage engine. The user is identified by their email and UID.
+  abstract addAdminUser(user: StoredUser): Promise<void>;
+
+  // Removes the admin user with the given email from the storage engine.
+  abstract removeAdminUser(email: string): Promise<void>;
+
+  abstract login(): Promise<StoredUser | null | void>;
+
+  abstract unsubscribe(callback: (user: StoredUser | null) => Promise<void>): () => void;
+
+  abstract logout(): Promise<void>;
+
+  /*
+  * HIGHER-LEVEL METHODS
+  * These methods are used by the application to interact with the storage engine and provide consistent behavior across different storage engines.
+  * They are built on top of the primitive methods and provide a more user-friendly interface.
+  */
+  /* User management --------------------------------------------------- */
+  // Gets the user management data for the given key. This is used to get the authentication
+  async validateUser(user: UserWrapped | null, refresh = false) {
+    if (refresh) {
+      this.userManagementData = {};
+    }
+
+    if (user?.user) {
+      // Case 1: Database exists
+      const authInfo = await this.getUserManagementData('authentication');
+      if (authInfo?.isEnabled) {
+        const adminUsers = await this.getUserManagementData('adminUsers');
+        if (adminUsers && adminUsers.adminUsersList) {
+          const adminUsersObject = Object.fromEntries(
+            adminUsers.adminUsersList.map((storedUser: StoredUser) => [
+              storedUser.email,
+              storedUser.uid,
+            ]),
+          );
+          // Verifies that, if the user has signed in and thus their UID is added to the Firestore, that the current UID matches the Firestore entries UID. Prevents impersonation (otherwise, users would be able to alter email to impersonate).
+          const isAdmin = user.user.email
+            && (adminUsersObject[user.user.email] === user.user.uid
+              || adminUsersObject[user.user.email] === null);
+          if (isAdmin) {
+            // Add UID to user in collection if not existent.
+            if (user.user.email && adminUsersObject[user.user.email] === null) {
+              const adminUser: StoredUser | undefined = adminUsers.adminUsersList.find(
+                (u: StoredUser) => u.email === user.user!.email,
+              );
+              if (adminUser) {
+                adminUser.uid = user.user.uid;
+              }
+              await this._updateAdminUsersList(adminUsers);
+            }
+            return true;
+          }
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 }

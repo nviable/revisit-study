@@ -1,6 +1,9 @@
-import { AppShell, Button } from '@mantine/core';
+import { AppShell, Button, Flex } from '@mantine/core';
 import { Outlet } from 'react-router';
-import { useEffect, useMemo, useRef } from 'react';
+import {
+  useEffect, useMemo, useRef,
+  useState,
+} from 'react';
 import debounce from 'lodash.debounce';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { AppAside } from './interface/AppAside';
@@ -15,20 +18,38 @@ import { useStoreSelector, useStoreDispatch, useStoreActions } from '../store/st
 import { AnalysisFooter } from './interface/AnalysisFooter';
 import { useIsAnalysis } from '../store/hooks/useIsAnalysis';
 import { useAuth } from '../store/hooks/useAuth';
+import { studyComponentToIndividualComponent } from '../utils/handleComponentInheritance';
+import { useCurrentComponent } from '../routes/utils';
 import { ResolutionWarning } from './interface/ResolutionWarning';
+import { useFetchStylesheet } from '../utils/fetchStylesheet';
+import { ScreenRecordingContext, useScreenRecording } from '../store/hooks/useScreenRecording';
+import { ScreenRecordingRejection } from './interface/ScreenRecordingRejection';
 
 export function StepRenderer() {
   const windowEvents = useRef<EventType[]>([]);
   const dispatch = useStoreDispatch();
   const { toggleStudyBrowser } = useStoreActions();
 
+  const isAnalysis = useIsAnalysis();
   const studyConfig = useStudyConfig();
-  const windowEventDebounceTime = studyConfig.uiConfig.windowEventDebounceTime ?? 100;
+  const currentComponent = useCurrentComponent();
+
+  const componentConfig = useMemo(() => studyComponentToIndividualComponent(studyConfig.components[currentComponent] || {}, studyConfig), [currentComponent, studyConfig]);
+
+  const windowEventDebounceTime = useMemo(() => componentConfig.windowEventDebounceTime ?? studyConfig.uiConfig.windowEventDebounceTime ?? 100, [componentConfig, studyConfig]);
+
+  useFetchStylesheet(studyConfig?.uiConfig.stylesheetPath);
 
   const showStudyBrowser = useStoreSelector((state) => state.showStudyBrowser);
-  const analysisHasAudio = useStoreSelector((state) => state.analysisHasAudio);
   const modes = useStoreSelector((state) => state.modes);
   const { user } = useAuth();
+
+  const screenRecording = useScreenRecording();
+
+  const { isRejected: isScreenRecordingUserRejected } = screenRecording;
+
+  const analysisHasScreenRecording = useStoreSelector((state) => state.analysisHasScreenRecording);
+  const analysisCanPlayScreenRecording = useStoreSelector((state) => state.analysisCanPlayScreenRecording);
 
   // Attach event listeners
   useEffect(() => {
@@ -105,8 +126,6 @@ export function StepRenderer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const sidebarWidth = studyConfig.uiConfig.sidebarWidth ?? 300;
-
   // Safely destructure modes, handling potential missing properties
   const { studyNavigatorEnabled, dataCollectionEnabled, studyNavigatorPubliclyAccessible } = useMemo(() => modes, [modes]);
 
@@ -116,51 +135,58 @@ export function StepRenderer() {
     [studyNavigatorEnabled, studyNavigatorPubliclyAccessible, user.isAdmin],
   );
 
-  const isAnalysis = useIsAnalysis();
+  // No default value for withSidebar since it's a required field in uiConfig
+  const sidebarOpen = useMemo(() => (((analysisHasScreenRecording && analysisCanPlayScreenRecording) || currentComponent === 'end') ? false : (componentConfig.withSidebar ?? studyConfig.uiConfig.withSidebar)), [analysisHasScreenRecording, analysisCanPlayScreenRecording, currentComponent, componentConfig.withSidebar, studyConfig.uiConfig.withSidebar]);
+  const sidebarWidth = useMemo(() => componentConfig?.sidebarWidth ?? studyConfig.uiConfig.sidebarWidth ?? 300, [componentConfig, studyConfig]);
+  const showTitleBar = useMemo(() => componentConfig.showTitleBar ?? studyConfig.uiConfig.showTitleBar ?? true, [componentConfig, studyConfig]);
 
   const asideOpen = useMemo(() => {
     if (isAnalysis) return true;
     return finalStudyNavigatorVisible && showStudyBrowser;
   }, [isAnalysis, finalStudyNavigatorVisible, showStudyBrowser]);
 
+  const [hasAudio, setHasAudio] = useState<boolean>();
+
   return (
     <WindowEventsContext.Provider value={windowEvents}>
-      <AppShell
-        padding="md"
-        header={{ height: studyConfig.uiConfig.showTitleBar === false ? 0 : 70 }}
-        navbar={{ width: sidebarWidth, breakpoint: 'xs', collapsed: { desktop: !studyConfig.uiConfig.sidebar, mobile: !studyConfig.uiConfig.sidebar } }}
-        aside={{ width: 360, breakpoint: 'xs', collapsed: { desktop: !asideOpen, mobile: !asideOpen } }}
-        footer={{ height: (isAnalysis ? 75 : 0) + (analysisHasAudio ? 50 : 0) }}
-      >
-        <AppNavBar />
-        <AppAside />
-        {studyConfig.uiConfig.showTitleBar !== false && (
-          <AppHeader
-            studyNavigatorEnabled={finalStudyNavigatorVisible}
-            dataCollectionEnabled={dataCollectionEnabled}
-          />
-        )}
-        <ResolutionWarning />
-        <HelpModal />
-        <AlertModal />
-        <AppShell.Main>
-          {studyConfig.uiConfig.showTitleBar === false && !showStudyBrowser && studyNavigatorEnabled && (
-            <Button
-              variant="transparent"
-              leftSection={<IconArrowLeft size={14} />}
-              onClick={() => dispatch(toggleStudyBrowser())}
-              size="xs"
-              style={{ position: 'fixed', top: '10px', right: '10px' }}
-            >
-              Study Browser
-            </Button>
+      <ScreenRecordingContext.Provider value={screenRecording}>
+        <AppShell
+          padding="md"
+          header={{ height: showTitleBar ? 70 : 0 }}
+          aside={{ width: 360, breakpoint: 'xs', collapsed: { desktop: !asideOpen, mobile: !asideOpen } }}
+          footer={{ height: isAnalysis ? 125 + (hasAudio ? 55 : 0) : 0 }}
+        >
+          <AppAside />
+          {showTitleBar && (
+          <AppHeader studyNavigatorEnabled={finalStudyNavigatorVisible} dataCollectionEnabled={dataCollectionEnabled} />
           )}
-          <Outlet />
-        </AppShell.Main>
-        {isAnalysis && (
-          <AnalysisFooter />
-        )}
-      </AppShell>
+          <ResolutionWarning />
+          {isScreenRecordingUserRejected && <ScreenRecordingRejection />}
+          <HelpModal />
+          <AlertModal />
+          <Flex direction="row" gap="xs">
+            <AppNavBar width={sidebarWidth} top={showTitleBar ? 70 : 0} sidebarOpen={sidebarOpen} />
+            {/* 10px is the gap between the sidebar and the main content */}
+            <AppShell.Main className="main" style={{ display: 'flex', flexDirection: 'column' }} w={sidebarOpen ? `calc(100% - ${sidebarWidth}px - 10px)` : '100%'}>
+              {!showTitleBar && !showStudyBrowser && studyNavigatorEnabled && (
+              <Button
+                variant="subtle"
+                leftSection={<IconArrowLeft size={14} />}
+                onClick={() => dispatch(toggleStudyBrowser())}
+                size="xs"
+                style={{ position: 'fixed', top: '10px', right: '10px' }}
+              >
+                Study Browser
+              </Button>
+              )}
+              <Outlet />
+            </AppShell.Main>
+          </Flex>
+          {isAnalysis && (
+          <AnalysisFooter setHasAudio={setHasAudio} />
+          )}
+        </AppShell>
+      </ScreenRecordingContext.Provider>
     </WindowEventsContext.Provider>
   );
 }
