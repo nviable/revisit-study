@@ -910,7 +910,7 @@
         {
           "id": "demographics-content",
           "type": "textOnly",
-          "prompt": "# Thank You for Completing the Scenarios\n\nThank you for evaluating the three scenarios. Your feedback is valuable for improving AI-generated training materials for journalists.\n\nPlease answer a few brief questions about your background on the sidebar. This information will be kept confidential and used only for analysis.",
+          "prompt": "# Thank You for Completing the Scenarios\n\nThank you for evaluating the three scenarios. Your feedback is valuable for improving AI-generated training materials for journalists.\n\nPlease answer a few brief questions about your background on the sidebar. This information will be kept confidential and used only for analysis.\n\nGift card codes will be sent on December 1st after the full survey closes so we can process the bulk purchase. Thank you for your patience!",
           "location": "aboveStimulus",
           "restartEnumeration": true
         },
