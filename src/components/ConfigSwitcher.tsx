@@ -22,6 +22,7 @@ import { getSequenceConditions } from '../utils/handleConditionLogic';
 import { useStudyRecordings } from '../utils/useStudyRecordings';
 import { useDeviceRules } from '../utils/useDeviceRules';
 import { getUnmetDeviceRestrictionLines, getUnmetDeviceRestrictionTooltip } from './interface/DeviceRestrictionString';
+import { isStudyVisibleOnLanding, shouldShowTestStudiesOnLanding } from '../utils/studyLandingVisibility';
 
 function StudyCard({
   configName,
@@ -383,7 +384,18 @@ export function ConfigSwitcher({
     [configsList, studyConfigs],
   );
   const isLoadingStudies = isLoadingVisibility || isLoadingStudyConfigs;
-  const configsFiltered = useMemo(() => configsList.filter((configName) => studyVisibility[configName] || user.isAdmin), [configsList, studyVisibility, user]);
+  const showTestStudies = shouldShowTestStudiesOnLanding();
+  const configsFiltered = useMemo(
+    () => configsList.filter((configName) => isStudyVisibleOnLanding({
+      configName,
+      globalConfig,
+      isAdmin: user.isAdmin,
+      dataSharingEnabled: studyVisibility[configName],
+      isCloudStorage: !!storageEngine && isCloudStorageEngine(storageEngine),
+      showTestStudies,
+    })),
+    [configsList, globalConfig, showTestStudies, storageEngine, studyVisibility, user.isAdmin],
+  );
 
   const demos = useMemo(() => configsFiltered.filter((configName) => configName.startsWith('demo-')), [configsFiltered]);
   const tutorials = useMemo(() => configsFiltered.filter((configName) => configName.startsWith('tutorial')), [configsFiltered]);

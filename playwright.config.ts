@@ -13,6 +13,13 @@ export default defineConfig({
     reuseExistingServer: !isCI,
     stdout: 'ignore',
     stderr: 'pipe',
+    // Keep demo/example/test studies visible on the landing page for e2e navigation.
+    // Use localStorage so CI does not depend on Firebase modes/auth for landing + analysis.
+    env: {
+      ...process.env,
+      VITE_SHOW_TEST_STUDIES: 'true',
+      VITE_STORAGE_ENGINE: 'localStorage',
+    },
   },
 
   testDir: './tests',

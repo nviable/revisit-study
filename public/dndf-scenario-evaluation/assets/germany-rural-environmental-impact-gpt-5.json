@@ -1,0 +1,146 @@
+{
+  "scenario_title": "Coach Confession Deepfake",
+  "scenario_summary": "In a rural region of Germany a 40-second video surfaces showing Lukas Berger, the long-time coach of SV Hinterwald, apparently confessing to taking payments from a nearby chemical firm to allow illegal dumping on community land — including the club’s training pitch. The clip is posted by an anonymous activist channel and spreads quickly through local social feeds and WhatsApp groups, triggering anger from residents and demands for an inquiry. Internally, investigators should know the clip is a full faceswap deepfake produced by a high-sophistication activist group that intended to force public attention on suspected pollution by the chemical firm, not to personally target Berger. Technical artifacts include background warping around window frames, odd color banding under fluorescent lighting, and subtle unnatural speech cadence because the original audio track was retained while a faceswapped head was composited. The group sourced an unaltered club livestream and a separate interview clip of Berger to generate the swap; they then posted the manipulated version on an anonymous social account. Journalists in this scenario must balance rapid public interest, tool limitations (forensic tools give mixed confidence scores), a cooperative-but-nervous club, and ethics about how to correct or amplify the content. The case creates training opportunities across spotting physical/temporal inconsistencies, interviewing evasive sources, weighing harms when debunking, and maintaining a skeptical verification workflow under time pressure.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A high-sophistication activist group created the faceswap to force attention and a public inquiry into alleged illegal chemical dumping affecting the village and football pitch; the coach did not confess."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Anna Schmidt, an investigative reporter at Nordbayerischer Regionalpost covering rural communities in Bavaria.",
+    "scenario_trigger": "12 March 2026 | Today an anonymous channel posted a 40-second video that has been widely shared in the Hinterwald valley. The clip appears to show the local football coach admitting he accepted money from a chemical company to allow illegal waste disposal on community land.",
+    "media_artifact_description": "Video | A man who appears to be Lukas Berger sits at a kitchen table and speaks directly to camera for about 40 seconds, describing taking payments and naming a nearby chemical firm. The setting includes a wooden table, a window with a deciduous tree visible outside, and a club pennant pinned to a wall behind him. Audio is a single continuous speech track; there are no onscreen captions or metadata visible in the posted clip.",
+    "initial_context_clues": [
+      "SV Hinterwald has fielded persistent community complaints about strange odors near training grounds.",
+      "A local environmental NGO has previously accused the chemical plant of lax disposal practices, but offered only circumstantial evidence.",
+      "The club livestreamed a match two nights earlier — that recording is publicly archived on the club's Facebook page."
+    ],
+    "verification_stakes": "Publishing the confession without verification could destroy a well-known local figure's reputation and inflame the community; failing to expose real dumping, if true, would leave residents at environmental risk."
+  },
+  "primary_subject_description": "Lukas Berger, 48, is the head coach of SV Hinterwald, a respected local amateur football coach and public figure in a small rural community; he is not a politician but has local influence.",
+  "media_artifact_details": {
+    "dm_summary": "The clip is a full faceswap deepfake: a high-quality face compositing of Berger onto a sourced speech clip with the original audio preserved. Tells include background warping near window frames and edges, color banding under indoor lighting, and subtly unnatural speech cadence where mouth movement and prosody occasionally misalign.",
+    "manipulation_types": [
+      "faceswap"
+    ],
+    "discoverable_characteristics": [
+      "background warping",
+      "unnatural speech patterns",
+      "color banding"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 3,
+    "amount_facing_camera": 80.0,
+    "manipulation_length": "full",
+    "original_source_type": "social_media",
+    "original_source_identifier": "social_media:@HinterwaldWatch (anonymous activist upload); original unmanipulated club livestream archived on SV Hinterwald Facebook page (2026-03-10 19:02 CET) used as a source for face/angle reference"
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "DEEPFAKE-05",
+      "SOURCE-02",
+      "ETHICS-01",
+      "CRITICAL-02"
+    ],
+    "geographic_setting": {
+      "country": "Germany",
+      "setting_type": "Rural"
+    },
+    "adversary_profile": {
+      "type": "Activist Group",
+      "sophistication_level": "High",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 5,
+      "polarization": 2
+    },
+    "journalistic_freedom_level": 4,
+    "social_climate_tags": [
+      "Crisis",
+      "Sports"
+    ],
+    "scenario_tone_tags": [
+      "Environmental Impact",
+      "Corruption"
+    ],
+    "time_frame": "Near Future",
+    "manipulation_type": "faceswap",
+    "discoverable_characteristics": [
+      "background warping",
+      "unnatural speech patterns",
+      "color banding"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "none",
+    "source_cooperation": "unknown",
+    "credibility_score": 40,
+    "public_pressure": "high",
+    "narrative_consensus": "fragmented"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-01",
+        "linked_objective": "DEEPFAKE-05",
+        "description": "Trainee discovers the club's archived livestream and compares background elements to the viral clip, revealing mismatched window reflections and an altered pennant position.",
+        "implementation_notes": "Present the archived livestream as retrievable from the club's Facebook page; highlight small but verifiable differences in background and timing."
+      },
+      {
+        "directive_id": "KM-02",
+        "linked_objective": "SOURCE-02",
+        "description": "Trainee conducts an on-the-record request to the coach; the coach issues a cautious denial and requests privacy, offering to provide statements only through his lawyer.",
+        "implementation_notes": "Make the coach evasive but not openly hostile; provide partial cooperation details (dates at which he was elsewhere) when pressed for verifiable facts."
+      },
+      {
+        "directive_id": "KM-03",
+        "linked_objective": "ETHICS-01",
+        "description": "Trainee must decide on timing and framing of a corrective piece while balancing risk of amplifying the manipulated confession.",
+        "implementation_notes": "Create a deadline pressure (local council meeting scheduled the next day) to force consideration of ethical framing and headline choices."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-01",
+        "linked_objective": "SOURCE-02",
+        "character_role": "Club Official",
+        "behavior": "Evasive and protective—answers high-level questions but refuses unscheduled on-camera statements and asks for time to consult counsel."
+      },
+      {
+        "directive_id": "CB-02",
+        "linked_objective": "CRITICAL-02",
+        "character_role": "Activist Channel Representative (anonymous)",
+        "behavior": "Provides the clip with an emotional narrative about community harm but declines to disclose production methods or raw source material when asked."
+      },
+      {
+        "directive_id": "CB-03",
+        "linked_objective": "ETHICS-01",
+        "character_role": "Local Resident",
+        "behavior": "Visibly outraged and demanding immediate action; uses social channels to push for resignations and inquiries, increasing public pressure."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "IT-01",
+        "linked_objective": "DEEPFAKE-05",
+        "info_type": "Hidden Clue",
+        "content": "An archived club livestream shows Berger speaking briefly in a different room with a distinct lampshade and a darker pennant; timeline and window reflections differ from the viral clip."
+      },
+      {
+        "directive_id": "IT-02",
+        "linked_objective": "DEEPFAKE-05",
+        "info_type": "Expert Opinion",
+        "content": "Forensic detection tools should return conflicting results for the clip (one tool reports high fake confidence ~90%, another reports low confidence ~15%) to demonstrate tool limitations and the need for corroboration."
+      },
+      {
+        "directive_id": "IT-03",
+        "linked_objective": "ETHICS-01",
+        "info_type": "Public Information",
+        "content": "A regional environmental lab report from six months earlier flagged trace contaminants near the plant but did not conclusively link them to illegal dumping; this information is public but ambiguous."
+      }
+    ]
+  }
+}

@@ -56,6 +56,7 @@ test('Test questionnaire component with responses and randomizing questions and 
   });
 
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Demo Studies', exact: true }).click();
   await page.getByLabel('Demo Studies').locator('div').filter({ hasText: 'Form Elements Demo' })
     .getByText('Go to Study')
     .click();

@@ -1,0 +1,144 @@
+{
+  "scenario_title": "Bollywood Deepfake Controversy",
+  "scenario_summary": "A 35-second video clip appears online showing a prominent Mumbai-based Bollywood actor delivering an incendiary remark about a vulnerable community during what looks like a behind-the-scenes stage moment. The clip was first posted by an anonymous account on a microblogging platform and quickly spread through celebrity fan pages and regional WhatsApp groups, prompting angry comments and a small, march-style protest outside a charity event the actor was due to attend. The actor’s publicist denies the footage is genuine and asks reporters to wait for an official statement, while an anonymous contact offers to send a purportedly original high-resolution file via email. Forensics checks on copies available online show signs consistent with a faceswap—subtle biometric anomalies, pixelation along facial boundaries, and mismatched skin texture—while audio tracks remain largely intelligible and unmodified. A commercial deepfake detector returns a moderate confidence score for manipulation, but a university lab running an alternate model reports low confidence, creating conflicting tool outputs. Raw files offered by sources include stripped metadata or are shared over insecure channels, giving trainees opportunities to analyze EXIF data where available, recognize phishing/red-flag elements in urgent emails, and advise sources on secure communication. The real-world stakes include potential damage to the actor’s reputation, public safety concerns if protests escalate, and pressure on a constrained press operating in an environment with limited journalistic freedom.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A politically motivated disinformation operator produced a full faceswap deepfake to portray the actor as making inflammatory remarks, aiming to provoke local backlash and distract attention from a contemporaneous policy controversy."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Aarti Mehra, a multimedia reporter for a city-focused independent outlet based in Mumbai.",
+    "scenario_trigger": "An anonymous microblog post has circulated a short video clip allegedly showing a well-known Bollywood actor making a provocative statement about a marginalized group; the post has been widely shared and local activists have begun mobilizing outside the actor’s charity event.",
+    "media_artifact_description": "Video | A 35-second clip shows the actor on a dimly lit stage area speaking into a microphone for roughly 20 seconds; the camera is mostly focused on their face with handheld movement and visible stage lights behind them. Audio contains a single voice (attributed to the actor) making a short, charged sentence; ambient crowd noise is faint. The clip is circulating in low- and mid-quality reposts across social platforms and messaging groups.",
+    "initial_context_clues": [
+      "The actor has previously expressed sympathy for marginalized communities but has avoided public political endorsements.",
+      "The viral post originated from an anonymous account with no prior history of breaking news.",
+      "A small protest formed near the charity venue hours after the clip spread; police issued a brief, uncertain statement."
+    ],
+    "verification_stakes": "If published as authentic, the clip could seriously damage the actor’s reputation and inflame local tensions; failing to verify under time pressure risks amplifying possible disinformation."
+  },
+  "primary_subject_description": "A leading Bollywood actor in their late 30s with a large national following and a carefully curated, mostly apolitical public image. Known for charitable work and occasional social commentary, the subject carries high visibility across urban audiences.",
+  "media_artifact_details": {
+    "dm_summary": "The artifact is a full-length faceswap deepfake that replaces the original speaker’s face with the actor’s likeness across the entire clip. Tells include facial boundary inconsistencies, slight temporal misalignment between lip movements and audio at certain frames, and pixelation around the jawline and hairline; audio appears to be the original or recycled from other public footage and shows no obvious signs of voice cloning.",
+    "manipulation_types": [
+      "faceswap"
+    ],
+    "discoverable_characteristics": [
+      "biometric anomalies (subtle facial muscle/eye movement mismatches)",
+      "facial boundary inconsistency (pixelation and blurring along edges)",
+      "pixelation around face edges"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 4,
+    "amount_facing_camera": 80.0,
+    "manipulation_length": "full",
+    "original_source_type": "social_media",
+    "original_source_identifier": "social_media:@viralclips via reverse video search; reposts traced to regional WhatsApp groups and a low-activity anonymous account that first uploaded the clip."
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "IMG-03",
+      "CYBER-01",
+      "CYBER-02"
+    ],
+    "geographic_setting": {
+      "country": "India",
+      "setting_type": "Urban"
+    },
+    "adversary_profile": {
+      "type": "Political Disinformation",
+      "sophistication_level": "Medium",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 4,
+      "polarization": 2
+    },
+    "journalistic_freedom_level": 2,
+    "social_climate_tags": [
+      "Entertainment",
+      "Crisis"
+    ],
+    "scenario_tone_tags": [
+      "Human Interest"
+    ],
+    "time_frame": "Recent Past",
+    "manipulation_type": "faceswap",
+    "discoverable_characteristics": [
+      "biometric anomalies",
+      "facial boundary inconsistency",
+      "pixelation around face edges"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "medium",
+    "credibility_score": 35,
+    "public_pressure": "high",
+    "narrative_consensus": "fragmented"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-01",
+        "linked_objective": "IMG-03",
+        "description": "A source offers a purported original high-resolution video file via email attachment and claims it was recorded on their phone minutes before posting.",
+        "implementation_notes": "Include an attached MP4 with stripped or altered EXIF/metadata; embed a hidden EXIF timestamp mismatch in an alternate file the source can provide on request."
+      },
+      {
+        "directive_id": "KM-02",
+        "linked_objective": "CYBER-01",
+        "description": "The newsroom receives an urgent email appearing to be from the source asking the reporter to download a linked 'secure file' to get the original footage.",
+        "implementation_notes": "Make the email include urgency and a suspicious link (hover URL different from displayed), allowing trainees to spot phishing red flags and choose safe verification steps."
+      },
+      {
+        "directive_id": "KM-03",
+        "linked_objective": "CYBER-02",
+        "description": "A cooperating insider offers to share a large, uncompressed original via a secure channel but requests guidance on which app to use.",
+        "implementation_notes": "Provide the opportunity to advise using end-to-end encrypted tools (Signal or SecureDrop) and to request checksums or other provenance indicators."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-01",
+        "linked_objective": "IMG-03",
+        "character_role": "Anonymous Uploader",
+        "behavior": "Refuses direct contact and posts multiple low-quality reposts, preventing straightforward retrieval of a verified original from them."
+      },
+      {
+        "directive_id": "CB-02",
+        "linked_objective": "CYBER-01",
+        "character_role": "Impatient Source",
+        "behavior": "Sends an urgent email with an attachment and later follows up with a message pressuring the reporter to 'publish quickly'—contains phishing indicators."
+      },
+      {
+        "directive_id": "CB-03",
+        "linked_objective": "CYBER-02",
+        "character_role": "Actor’s Publicist",
+        "behavior": "Denies authenticity, offers a low-resolution WhatsApp clip first, and only later offers a possible high-resolution file but through insecure channels."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "INFO-01",
+        "linked_objective": "IMG-03",
+        "info_type": "Hidden Clue",
+        "content": "A hidden EXIF timestamp in one candidate original file does not match the time the charity event actually occurred, indicating possible metadata tampering or a mismatched source."
+      },
+      {
+        "directive_id": "INFO-02",
+        "linked_objective": "CYBER-01",
+        "info_type": "Public Information",
+        "content": "Local CCTV footage (publicly available) shows a different person in the camera angle during the claimed time, but that footage is lower resolution and may be inconclusive."
+      },
+      {
+        "directive_id": "INFO-03",
+        "linked_objective": "IMG-03",
+        "info_type": "Expert Opinion",
+        "content": "An external forensics lab reports facial boundary inconsistencies and moderate manipulation confidence, while a commercial detector returns a lower confidence—intentionally produce conflicting tool outputs."
+      }
+    ]
+  }
+}

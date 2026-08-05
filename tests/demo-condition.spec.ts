@@ -3,6 +3,7 @@ import { test, expect, Page } from '@playwright/test';
 import {
   nextClick,
   resetClientStudyState,
+  selectLandingTab,
   waitForStudyEndMessage,
 } from './utils';
 
@@ -209,9 +210,10 @@ test.describe('Test study condition logic', () => {
 
   test('condition selector on landing page shows condition badges', async ({ page }) => {
     await page.goto('/');
+    const demoSection = await selectLandingTab(page, 'Demo Studies');
 
     // Find the Conditional Blocks Demo card
-    const card = page.getByLabel('Demo Studies').locator('div').filter({ hasText: 'Conditional Blocks Demo' });
+    const card = demoSection.locator('div').filter({ hasText: 'Conditional Blocks Demo' });
     await expect(card.first()).toBeVisible({ timeout: 15000 });
 
     // Condition badges should be visible
