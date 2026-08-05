@@ -28,7 +28,7 @@ describe('isStudyVisibleOnLanding', () => {
       configName: 'demo-html',
       globalConfig,
       isAdmin: false,
-      dataSharingEnabled: true,
+      dataSharingEnabled: false,
       isCloudStorage: true,
       showTestStudies: true,
     })).toBe(true);

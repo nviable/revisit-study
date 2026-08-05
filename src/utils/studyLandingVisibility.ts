@@ -34,7 +34,8 @@ export function isStudyVisibleOnLanding({
     return false;
   }
 
-  if (isAdmin) {
+  // Admins and Playwright (showTestStudies) see all remaining listed studies.
+  if (isAdmin || showTestStudies) {
     return true;
   }
 

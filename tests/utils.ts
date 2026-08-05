@@ -47,6 +47,21 @@ export async function resetClientStudyState(page: Page) {
   });
 }
 
+/**
+ * Landing page tabs keep inactive panels mounted but hidden.
+ * With custom studies present, "Your Studies" is the default tab, so callers
+ * must activate the target tab before interacting with its panel.
+ */
+export async function selectLandingTab(page: Page, sectionLabel: string) {
+  const tab = page.getByRole('tab', { name: sectionLabel, exact: true });
+  await expect(tab).toBeVisible({ timeout: 15000 });
+  await tab.click();
+
+  const section = page.getByLabel(sectionLabel);
+  await expect(section).toBeVisible();
+  return section;
+}
+
 export async function openStudyFromLanding(
   page: Page,
   sectionLabel: string,
@@ -55,8 +70,7 @@ export async function openStudyFromLanding(
   await page.goto('/');
 
   const matchers = Array.isArray(cardTitle) ? cardTitle : [cardTitle];
-  const section = page.getByLabel(sectionLabel);
-  await expect(section).toBeVisible();
+  const section = await selectLandingTab(page, sectionLabel);
 
   for (const matcher of matchers) {
     const studyCard = section.locator('div').filter({ hasText: matcher }).first();
