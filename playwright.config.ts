@@ -13,6 +13,11 @@ export default defineConfig({
     reuseExistingServer: !isCI,
     stdout: 'ignore',
     stderr: 'pipe',
+    // Keep demo/example/test studies visible on the landing page for e2e navigation.
+    env: {
+      ...process.env,
+      VITE_SHOW_TEST_STUDIES: 'true',
+    },
   },
 
   testDir: './tests',

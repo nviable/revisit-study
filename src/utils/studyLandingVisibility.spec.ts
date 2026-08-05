@@ -23,6 +23,17 @@ describe('isStudyVisibleOnLanding', () => {
     })).toBe(false);
   });
 
+  it('shows test studies to non-admins when showTestStudies is enabled', () => {
+    expect(isStudyVisibleOnLanding({
+      configName: 'demo-html',
+      globalConfig,
+      isAdmin: false,
+      dataSharingEnabled: true,
+      isCloudStorage: true,
+      showTestStudies: true,
+    })).toBe(true);
+  });
+
   it('shows test studies to admins', () => {
     expect(isStudyVisibleOnLanding({
       configName: 'demo-html',
