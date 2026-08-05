@@ -412,8 +412,8 @@ export function ConfigSwitcher({
           maw={150}
           mx="auto"
           mb="xl"
-          radius="md"
-          src={`${PREFIX}revisitAssets/revisitLogoSquare.svg`}
+          radius="none"
+          src={`${PREFIX}revisitAssets/defake.svg`}
           alt="reVISit"
         />
         {isLoadingStudies && (
