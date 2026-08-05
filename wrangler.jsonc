@@ -1,6 +1,8 @@
 {
   "name": "defake-revisit-study",
   "compatibility_date": "2026-08-05",
+  // Enable per-commit / per-branch preview URLs from Workers Builds.
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
