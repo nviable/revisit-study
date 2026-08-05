@@ -1,0 +1,146 @@
+{
+  "scenario_title": "Neubrück Mayor Deepfake Sparks Panic",
+  "scenario_summary": "In a near-future Germany facing waves of social unrest, a high-quality, front-facing video of Lena Hofmann, the popular mayor of Neubrück, appears online and rapidly circulates across social platforms. The 48-second clip shows Hofmann speaking directly to camera, using inflammatory language that appears to call for the eviction of a newly opened migrant reception center and hints at tolerating vigilante action. The clip is posted by an anonymous account with a little-followed network of hyperlocal pages and is amplified by local activist channels. Local protests begin to form within hours, and municipal services report threats near the reception center. Internally, the clip contains subtle technical anomalies—visible facial boundary irregularities, mismatched breathing rhythms relative to the mouth movement, and inconsistent shadows—suggesting synthetic generation despite high visual fidelity.\n\nDM-level ground truth: the artifact is a fully synthetic video and audio deepfake produced using consumer generative tools by a low-sophistication influence campaign aiming to discredit local leadership and provoke unrest. The campaign stitched together publicly available press footage and synthetic voice models to craft a plausible 'talking head.' The scenario is designed to force trainees to balance automated detection outputs with classical verification (5 Ws), source protection when receiving tips, and awareness of detection blind spots for talking-head content. Key training moments include secure handling of a sensitive tip, cross-checking mayoral schedules and raw footage, forensic analysis revealing synthetic tells, and communicating uncertainty under time pressure while avoiding amplifying potential harm.",
+  "ground_truth": {
+    "is_fake": true,
+    "true_motive": "A low-sophistication influence campaign created the fully synthetic clip to discredit the mayor and stoke local unrest."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Anna Müller, a senior investigative reporter at DerNeue Tag, a regional newsroom based in North Rhine-Westphalia, Germany.",
+    "scenario_trigger": "Two days ago an anonymous social-media account published a 48-second video allegedly showing Neubrück Mayor Lena Hofmann endorsing the removal of a migrant reception center; within hours the post was shared by several local pages and protests began forming outside the center. Your editor has asked you to verify the clip before publishing a follow-up story, and a tip-line source has offered additional material but insists on secure communication.",
+    "media_artifact_description": "The video is a single, uninterrupted shot of Mayor Lena Hofmann addressing the camera for approximately 48 seconds. She appears in a municipal office setting, speaks in German, and makes direct, forceful statements about the reception center and public safety. The recording includes ambient office noise and a short closing gesture. The post includes no provenance information beyond the anonymous account and a short caption reading 'This is what our mayor wants.'",
+    "initial_context_clues": [
+      "Hofmann faced criticism last month over municipal housing decisions but has publicly condemned violence.",
+      "The posting account is new with few followers but several reposts from local activist pages.",
+      "A minor arson incident at a nearby property occurred the day before the clip surfaced."
+    ],
+    "verification_stakes": "If the clip is authentic, it requires urgent reporting and could alter public safety responses; if false, publishing it would damage the mayor's reputation and risk inflaming tensions."
+  },
+  "primary_subject_description": "Lena Hofmann is the elected mayor of Neubrück, known for community-focused initiatives and regular public addresses. She is a prominent local figure whose words carry weight in civic discourse.",
+  "media_artifact_details": {
+    "dm_summary": "From a content-forensics perspective, the video is a fully synthetic 'talking head'—both video and audio were generated. The visual fidelity is high, but subtle artifacts appear around facial boundaries, the timing of inhalation/exhalation does not match chest motion, and shadow behaviors are inconsistent with the office lighting. The synthetic voice aligns in prosody but shows micro-timing irregularities and spectral cues typical of consumer voice models.",
+    "manipulation_types": [
+      "fully_synthetic",
+      "fully_synthetic_audio"
+    ],
+    "discoverable_characteristics": [
+      "facial boundary inconsistency",
+      "breathing pattern anomalies",
+      "inconsistent shadows",
+      "minor compression artifacts from repeated re-uploads"
+    ],
+    "compression": 2,
+    "blur": 1,
+    "face_size": 4,
+    "amount_facing_camera": 92.0,
+    "manipulation_length": "full",
+    "original_source_type": null,
+    "original_source_identifier": null
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "CYBER-02",
+      "DEEPFAKE-04",
+      "CRITICAL-01"
+    ],
+    "geographic_setting": {
+      "country": "Germany",
+      "setting_type": "National"
+    },
+    "adversary_profile": {
+      "type": "Influence Campaign",
+      "sophistication_level": "Low",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 1,
+      "polarization": 2
+    },
+    "journalistic_freedom_level": 3,
+    "social_climate_tags": [
+      "Social Unrest"
+    ],
+    "scenario_tone_tags": [
+      "Innovation",
+      "Local Community"
+    ],
+    "time_frame": "Near Future",
+    "manipulation_type": "fully_synthetic",
+    "discoverable_characteristics": [
+      "facial boundary inconsistency",
+      "breathing pattern anomalies",
+      "inconsistent shadows"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "medium",
+    "credibility_score": 35,
+    "public_pressure": "high",
+    "narrative_consensus": "contested"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM1",
+        "linked_objective": "CRITICAL-01",
+        "description": "Trainee must establish the 5 Ws quickly: identify who posted, when, where the footage was claimed to be shot, and potential motives.",
+        "implementation_notes": "Provide an anonymous tip with partial metadata and a municipal event calendar to cross-check 'where' and 'when'; require trainees to prioritize actions under time pressure."
+      },
+      {
+        "directive_id": "KM2",
+        "linked_objective": "DEEPFAKE-04",
+        "description": "A forensic lab report returns showing specific synthetic tells (facial boundary, breathing mismatch, shadow anomalies).",
+        "implementation_notes": "Reveal the report only after the trainee requests a forensic analysis step; ensure the report includes technical language but also clear examples for interpretation."
+      },
+      {
+        "directive_id": "KM3",
+        "linked_objective": "CYBER-02",
+        "description": "A confidential source requests secure guidance and supplies an encrypted attachment that may contain an original raw file.",
+        "implementation_notes": "Simulate a secure channel choice and require the trainee to advise the source on best practices; make the attachment available only if secure practices are followed."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB1",
+        "linked_objective": "CYBER-02",
+        "character_role": "Confidential Source",
+        "behavior": "Insists on using end-to-end encrypted messaging and will withhold sensitive files unless the reporter outlines secure steps."
+      },
+      {
+        "directive_id": "CB2",
+        "linked_objective": "DEEPFAKE-04",
+        "character_role": "Local Activist",
+        "behavior": "Rapidly amplifies the clip and pressures the reporter for immediate confirmation, demonstrating public pressure dynamics."
+      },
+      {
+        "directive_id": "CB3",
+        "linked_objective": "CRITICAL-01",
+        "character_role": "Municipal Official",
+        "behavior": "Denies the video's authenticity publicly but cannot immediately provide a raw original recording; offers to make staff available for verification under controlled conditions."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "I1",
+        "linked_objective": "DEEPFAKE-04",
+        "info_type": "Expert Opinion",
+        "content": "Forensic detection tools should return conflicting signals: one tool flags the clip as 'likely synthetic' while another (trained predominantly on frontal talking-head datasets) gives an inconclusive or false-negative score to illustrate detection blind spots."
+      },
+      {
+        "directive_id": "I2",
+        "linked_objective": "CRITICAL-01",
+        "info_type": "Public Information",
+        "content": "A public municipal events calendar and two verified press conference videos from the previous month are available for cross-checking visual details and wardrobe."
+      },
+      {
+        "directive_id": "I3",
+        "linked_objective": "CYBER-02",
+        "info_type": "Hidden Clue",
+        "content": "A raw audio clip (low-quality) exists on a secure source channel that, if retrieved securely, can be compared to the synthetic voice for spectral differences."
+      }
+    ]
+  }
+}

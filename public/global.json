@@ -1,6 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.4.3/src/parser/GlobalConfigSchema.json",
   "configsList": [
+    "varuna-sme-eval-ontology",
+    "dndf-scenario-evaluation",
     "tutorial",
     "tutorial-replication",
     "demo-html",
@@ -63,67 +65,88 @@
       "path": "tutorial/replication-config.json"
     },
     "demo-html": {
-      "path": "demo-html/config.json"
+      "path": "demo-html/config.json",
+      "test": true
     },
     "demo-screen-recording": {
-      "path": "demo-screen-recording/config.json"
+      "path": "demo-screen-recording/config.json",
+      "test": true
     },
     "demo-html-input": {
-      "path": "demo-html-input/config.json"
+      "path": "demo-html-input/config.json",
+      "test": true
     },
     "demo-form-elements": {
-      "path": "demo-form-elements/config.json"
+      "path": "demo-form-elements/config.json",
+      "test": true
     },
     "demo-training": {
-      "path": "demo-training/config.json"
+      "path": "demo-training/config.json",
+      "test": true
     },
     "demo-upset": {
-      "path": "demo-upset/config.json"
+      "path": "demo-upset/config.json",
+      "test": true
     },
     "demo-video": {
-      "path": "demo-video/config.json"
+      "path": "demo-video/config.json",
+      "test": true
     },
     "demo-dynamic": {
-      "path": "demo-dynamic/config.json"
+      "path": "demo-dynamic/config.json",
+      "test": true
     },
     "demo-condition": {
-      "path": "demo-condition/config.json"
+      "path": "demo-condition/config.json",
+      "test": true
     },
     "demo-html-trrack": {
-      "path": "demo-html-trrack/config.json"
+      "path": "demo-html-trrack/config.json",
+      "test": true
     },
     "demo-react-trrack": {
-      "path": "demo-react-trrack/config.json"
+      "path": "demo-react-trrack/config.json",
+      "test": true
     },
     "demo-image": {
-      "path": "demo-image/config.json"
+      "path": "demo-image/config.json",
+      "test": true
     },
     "demo-style": {
-      "path": "demo-style/config.json"
+      "path": "demo-style/config.json",
+      "test": true
     },
     "demo-vega": {
-      "path": "demo-vega/config.json"
+      "path": "demo-vega/config.json",
+      "test": true
     },
     "demo-yaml": {
-      "path": "demo-yaml/config.yaml"
+      "path": "demo-yaml/config.yaml",
+      "test": true
     },
     "demo-ranking-widget": {
-      "path": "demo-ranking-widget/config.json"
+      "path": "demo-ranking-widget/config.json",
+      "test": true
     },
     "demo-choropleth-map": {
-      "path": "demo-choropleth-map/config.json"
+      "path": "demo-choropleth-map/config.json",
+      "test": true
     },
     "example-llm-chatbot": {
-      "path": "example-llm-chatbot/config.json"
+      "path": "example-llm-chatbot/config.json",
+      "test": true
     },
     "example-brush-interactions": {
-      "path": "example-brush-interactions/config.json"
+      "path": "example-brush-interactions/config.json",
+      "test": true
     },
     "example-cleveland": {
-      "path": "example-cleveland/config.json"
+      "path": "example-cleveland/config.json",
+      "test": true
     },
     "example-mvnv": {
-      "path": "example-mvnv/config.json"
+      "path": "example-mvnv/config.json",
+      "test": true
     },
     "library-adaptive-vlat": {
       "path": "library-adaptive-vlat/config.json",
@@ -198,14 +221,16 @@
       "test": true
     },
     "test-device-restriction": {
-      "path": "test-device-restriction/config.json"
+      "path": "test-device-restriction/config.json",
+      "test": true
     },
     "test-library": {
       "path": "test-library/config.json",
       "test": true
     },
     "test-likert-matrix": {
-      "path": "test-likert-matrix/config.json"
+      "path": "test-likert-matrix/config.json",
+      "test": true
     },
     "test-parser-errors": {
       "path": "test-parser-errors/config.json",
@@ -242,6 +267,12 @@
     "example-VLAT-adaptive": {
       "path": "example-VLAT-adaptive/config.json",
       "test": true
+    },
+    "varuna-sme-eval-ontology": {
+      "path": "varuna-sme-eval-ontology/config.json"
+    },
+    "dndf-scenario-evaluation": {
+      "path": "dndf-scenario-evaluation/config.json"
     }
   }
 }

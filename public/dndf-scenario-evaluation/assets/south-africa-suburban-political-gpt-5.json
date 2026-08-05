@@ -1,0 +1,145 @@
+{
+  "scenario_title": "Provincial EMS Chief Confession Video",
+  "scenario_summary": "Two days after a devastating informal-settlement fire that claimed several lives, a short video clip circulates online showing the Provincial Emergency Medical Services (EMS) Chief appearing to say that ambulances were diverted away from the township to protect government facilities. The clip—shot from a press briefing and later reposted by a popular local aggregator—has poor audio, visible lens flare and color banding, and a thin strip of the meeting room cropped out of frame. Social platforms rapidly amplify the clip, prompting outrage from community leaders and calls for resignation. The video is authentic: it was recorded during a municipal press briefing and uploaded by the city’s official press channel, but the published clip is a selective excerpt that omits surrounding remarks and context that change the tenor of the chief’s statement. Confusion stems from audio clarity issues, aggressive cropping, and background noise that make a conditional or technical explanation sound like a deliberate order. The scenario creates opportunities to practice resisting confirmation and automation biases (tools return mixed signals), relying on provenance checks (original upload, timestamps, and metadata), seeking primary sources and corroboration (full briefing transcript and eyewitnesses), and applying skeptical interrogation of a clip that seems to neatly confirm a politically salient narrative about emergency response failures.",
+  "ground_truth": {
+    "is_fake": false,
+    "true_motive": "The clip is authentic but selectively excerpted and cropped; poor audio and selective editing make a technical explanation sound like an admission of deliberate ambulance diversion, generating suspicion."
+  },
+  "participant_briefing": {
+    "role_introduction": "You are Naledi Mbeki, an investigative reporter for a Johannesburg-based regional newsroom covering provincial governance and public safety.",
+    "scenario_trigger": "2 days ago | A short video clip surfaced on social platforms showing the Provincial EMS Chief at a press briefing appearing to admit that ambulances were rerouted away from a township fire. The clip has been widely shared and picked up by a local aggregator page. Your editor asks you to verify the clip before publishing.",
+    "media_artifact_description": "Video context | A 28-second clip shows the Provincial EMS Chief seated at a press briefing table, speaking into a microphone. The frame includes other officials out of focus; there is visible lens flare from stage lighting and color banding at the edges. Audio contains room noise and intermittent crowd murmur; one sentence near the middle is muffled and hard to parse. The clip appears cropped and ends abruptly mid-applause.",
+    "initial_context_clues": [
+      "The chief has publicly defended limited ambulance budgets after recent audits.",
+      "A local community leader tweeted the clip with an accusatory caption before official outlets reported it.",
+      "The city’s official press channel published a longer briefing archive the same morning."
+    ],
+    "verification_stakes": "If published as an admission of wrongdoing, the clip could inflame public outrage, damage emergency services leadership, and pressure officials into hasty policy moves; publishing a false interpretation could unfairly ruin reputations."
+  },
+  "primary_subject_description": "Provincial EMS Chief Thabo Nkosi, late 40s, career civil servant and public-facing official; measured speaker who often uses technical language. In the clip he appears tired and speaks with modest volume amid crowd noise.",
+  "media_artifact_details": {
+    "dm_summary": "Authentic press-briefing footage recorded by the municipality and uploaded to the city's official channel; the widely circulated clip is a cropped excerpt that omits preceding and following remarks. No evidence of pixel-level synthesis or face/voice manipulation was found, but audio quality, cropping and compression make a technical sentence sound incriminating.",
+    "manipulation_types": [
+      "none"
+    ],
+    "discoverable_characteristics": [
+      "background noise (crowd and HVAC) obscuring some words",
+      "color banding and lens flare from lighting",
+      "cropping that removes surrounding context and speaker gestures"
+    ],
+    "compression": 3,
+    "blur": 2,
+    "face_size": 3,
+    "amount_facing_camera": 60.0,
+    "manipulation_length": "none",
+    "original_source_type": "news_site",
+    "original_source_identifier": "news_site:CityProvincialPressOffice official YouTube upload with full briefing and embedded timestamp (link in metadata)"
+  },
+  "filled_seed_attributes": {
+    "learning_objectives": [
+      "BIAS-01",
+      "DEEPFAKE-03",
+      "BIAS-02",
+      "CRITICAL-02"
+    ],
+    "geographic_setting": {
+      "country": "South Africa",
+      "setting_type": "Suburban"
+    },
+    "adversary_profile": {
+      "type": "State Actor",
+      "sophistication_level": "Medium",
+      "motive": null
+    },
+    "political_climate": {
+      "stability": 4,
+      "polarization": 1
+    },
+    "journalistic_freedom_level": 4,
+    "social_climate_tags": [
+      "Emergency Response"
+    ],
+    "scenario_tone_tags": [
+      "Political",
+      "National Security"
+    ],
+    "time_frame": "Near Future",
+    "manipulation_type": "none",
+    "discoverable_characteristics": [
+      "background noise",
+      "color banding",
+      "lens flare"
+    ]
+  },
+  "scenario_state": {
+    "virality_level": "high",
+    "time_pressure": "high",
+    "subject_response_status": "pending",
+    "source_cooperation": "medium",
+    "credibility_score": 50,
+    "public_pressure": "high",
+    "narrative_consensus": "contested"
+  },
+  "scenario_directives": {
+    "key_moments": [
+      {
+        "directive_id": "KM-1",
+        "linked_objective": "CRITICAL-02",
+        "description": "A full-length municipal upload of the same briefing (60+ seconds) is discoverable with embedded timestamps and a downloadable transcript.",
+        "implementation_notes": "Ensure the full footage reveals preceding remarks that reframe the chief's statement as a technical caveat; make original metadata visible in the file properties."
+      },
+      {
+        "directive_id": "KM-2",
+        "linked_objective": "BIAS-01",
+        "description": "A local community leader amplifies the clip with a strong accusatory caption, immediately drawing attention and emotion.",
+        "implementation_notes": "This moment should increase perceived confirmation bias for the trainee, creating pressure to publish quickly."
+      },
+      {
+        "directive_id": "KM-3",
+        "linked_objective": "DEEPFAKE-03",
+        "description": "A third-party automated detection service returns a confidence score flagging the clip as 'likely manipulated' while another returns 'likely authentic' and a third is inconclusive.",
+        "implementation_notes": "Make tool outputs accessible within the exercise and inconsistent to force trainees to weigh tools against provenance and context."
+      }
+    ],
+    "required_character_behaviors": [
+      {
+        "directive_id": "CB-1",
+        "linked_objective": "BIAS-01",
+        "character_role": "Editor",
+        "behavior": "Pushes for a quick, attention-grabbing publish to capitalize on traffic, increasing time pressure and testing trainee resistance to confirmation bias."
+      },
+      {
+        "directive_id": "CB-2",
+        "linked_objective": "CRITICAL-02",
+        "character_role": "City Spokesperson",
+        "behavior": "Provides an official statement and offers the newsroom a link to the full briefing and transcript but requests that the material not be published before noon."
+      },
+      {
+        "directive_id": "CB-3",
+        "linked_objective": "DEEPFAKE-03",
+        "character_role": "Independent Audio Analyst",
+        "behavior": "Explains that room acoustics and microphone placement can make conditional phrasing sound like directive speech, offering a short technical note as a reference."
+      }
+    ],
+    "information_to_embed": [
+      {
+        "directive_id": "IT-1",
+        "linked_objective": "DEEPFAKE-03",
+        "info_type": "Expert Opinion",
+        "content": "Automated detection tools should show conflicting confidence scores (one flags likely manipulated, one flags likely authentic, a third is inconclusive) to demonstrate limits of current detectors and dataset rot."
+      },
+      {
+        "directive_id": "IT-2",
+        "linked_objective": "CRITICAL-02",
+        "info_type": "Hidden Clue",
+        "content": "The full municipal recording includes a five-second prefatory remark that frames the chief's later sentence as a hypothetical operational constraint, not an instruction to divert ambulances."
+      },
+      {
+        "directive_id": "IT-3",
+        "linked_objective": "BIAS-02",
+        "info_type": "Public Information",
+        "content": "The city’s official press channel metadata includes upload time, file hashes and a link to the downloadable transcript; this is discoverable via the channel’s archive and reverse metadata lookup."
+      }
+    ]
+  }
+}
