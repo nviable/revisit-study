@@ -50,7 +50,7 @@ export function Login() {
     <Container>
       <Card padding="lg">
         <Flex align="center" direction="column" justify="center">
-          <Image maw={200} mt={50} mb={100} src={`${PREFIX}revisitAssets/revisitLogoSquare.svg`} alt="Revisit Logo" />
+          <Image maw={200} mt={50} mb={100} src={`${PREFIX}revisitAssets/defake.svg`} alt="DeFake Project" />
           <>
             <Text mb={20}>
               To access admin settings, please sign in using

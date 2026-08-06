@@ -50,7 +50,7 @@ function HomeRoute({ globalConfig }: { globalConfig: GlobalConfig }) {
 
   return (
     <>
-      <PageTitle title="ReVISit | Home" />
+      <PageTitle title="DeFake Project | Home" />
       <AppShell
         padding="md"
         header={{ height: 70 }}
@@ -117,7 +117,7 @@ export function GlobalConfigParser() {
               path="/:studyId/*"
               element={(
                 <>
-                  <PageTitle title="ReVISit | Study" />
+                  <PageTitle title="DeFake Project | Study" />
                   <Shell globalConfig={globalConfig} />
                 </>
               )}
@@ -130,7 +130,7 @@ export function GlobalConfigParser() {
               path="/analysis/stats"
               element={(
                 <>
-                  <PageTitle title="ReVISit | Analysis" />
+                  <PageTitle title="DeFake Project | Analysis" />
                   <AppShell
                     padding="md"
                     header={{ height: 70 }}
@@ -146,7 +146,7 @@ export function GlobalConfigParser() {
               path="/analysis/stats/:studyId/:analysisTab/:trialId?"
               element={(
                 <>
-                  <PageTitle title="ReVISit | Analysis" />
+                  <PageTitle title="DeFake Project | Analysis" />
                   <ProtectedRoute paramToCheck="studyId" paramCallback={analysisProtectedCallback}>
                     <AppShell
                       padding="md"
@@ -168,7 +168,7 @@ export function GlobalConfigParser() {
               path="/settings"
               element={(
                 <ProtectedRoute>
-                  <PageTitle title="ReVISit | Settings" />
+                  <PageTitle title="DeFake Project | Settings" />
                   <AppShell
                     padding="md"
                     header={{ height: 70 }}
@@ -185,7 +185,7 @@ export function GlobalConfigParser() {
               path="/login"
               element={(
                 <>
-                  <PageTitle title="ReVISit | Login" />
+                  <PageTitle title="DeFake Project | Login" />
                   <AppShell
                     padding="md"
                     header={{ height: 70 }}

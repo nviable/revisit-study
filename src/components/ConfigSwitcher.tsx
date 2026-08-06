@@ -426,7 +426,7 @@ export function ConfigSwitcher({
           mb="xl"
           radius="none"
           src={`${PREFIX}revisitAssets/defake.svg`}
-          alt="reVISit"
+          alt="DeFake Project"
         />
         {isLoadingStudies && (
           <>
