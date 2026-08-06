@@ -7,11 +7,12 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import { GlobalConfigParser } from './GlobalConfigParser';
+import { theme } from './theme';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <StorageEngineProvider>
-      <MantineProvider>
+      <MantineProvider theme={theme}>
         <Notifications />
         <GlobalConfigParser />
       </MantineProvider>

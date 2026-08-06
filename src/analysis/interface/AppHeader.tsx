@@ -29,7 +29,7 @@ export function AppHeader({
       <Grid mt={-7} align="center">
         <Grid.Col span={6}>
           <Flex align="center" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-            <Image w={40} src={`${PREFIX}revisitAssets/icon-defake.svg`} alt="DeFake ProjectLogo" />
+            <Image w={40} src={`${PREFIX}revisitAssets/icon-defake.svg`} alt="DeFake Project Logo" />
             <Space w="md" />
             <Title order={4} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {inAnalysis ? 'DeFake Project Analytics Platform | Powered by ReVISit' : 'DeFake Project Studies | Powered by ReVISit'}
