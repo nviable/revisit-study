@@ -77,12 +77,7 @@ export default function SiftRoutes({
           {block.routes.map((route) => (
             <Accordion.Item key={route.id} value={route.id}>
               <Accordion.Control icon={<Route size={16} />}>
-                <Group gap="xs">
-                  <Text fw={600}>{route.label}</Text>
-                  {route.fails && (
-                    <Badge size="xs" color="orange" variant="light">asks P4</Badge>
-                  )}
-                </Group>
+                <Text fw={600}>{route.label}</Text>
               </Accordion.Control>
               <Accordion.Panel>
                 <Text size="sm">{route.body}</Text>
