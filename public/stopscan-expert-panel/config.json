@@ -1,0 +1,3043 @@
+{
+  "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.4.3/src/parser/StudyConfigSchema.json",
+  "studyMetadata": {
+    "title": "STOP&SCAN Expert Panel",
+    "version": "v3-pilot",
+    "authors": [
+      "Saniat Javid Sohrawardi",
+      "Kelly Wu",
+      "Fatma Aksu"
+    ],
+    "date": "2026-08-05",
+    "description": "Structured expert evaluation of STOP&SCAN, a framework for evaluating potentially synthetic media. Participants critique team-authored evaluations of four public cases and compare against SIFT / detector workflows.",
+    "organizations": [
+      "Rochester Institute of Technology",
+      "University of Bologna"
+    ]
+  },
+  "uiConfig": {
+    "contactEmail": "john.sohrawardi@rit.edu",
+    "helpTextPath": "stopscan-expert-panel/assets/help.md",
+    "logoPath": "revisitAssets/revisitLogoSquare.svg",
+    "withProgressBar": true,
+    "autoDownloadStudy": false,
+    "withSidebar": true,
+    "sidebarWidth": 400,
+    "enumerateQuestions": false,
+    "studyEndMsg": "Thank you for completing the STOP&SCAN expert panel. You may close this window."
+  },
+  "baseComponents": {
+    "case-step": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/CaseStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "instructionLocation": "sidebar",
+      "sidebarWidth": 400
+    },
+    "case-after": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/CaseStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "instructionLocation": "sidebar",
+      "sidebarWidth": 400
+    }
+  },
+  "components": {
+    "consent": {
+      "type": "website",
+      "path": "stopscan-expert-panel/assets/consent.html",
+      "nextButtonLocation": "sidebar",
+      "instruction": "Please read the consent document, then confirm the statements in the sidebar.",
+      "instructionLocation": "sidebar",
+      "response": [
+        {
+          "id": "consent_read",
+          "prompt": "I have read this document and have had the chance to ask questions.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I confirm"
+          ],
+          "required": true
+        },
+        {
+          "id": "consent_voluntary",
+          "prompt": "I understand that participation is voluntary, that I may skip any question, and that I may stop at any time without giving a reason.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I confirm"
+          ],
+          "required": true
+        },
+        {
+          "id": "consent_recording",
+          "prompt": "I understand that my responses will be recorded under a code, that interaction timestamps within the study page will be logged, and that de-identified quotations may be published.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I confirm"
+          ],
+          "required": true
+        },
+        {
+          "id": "consent_locked",
+          "prompt": "I understand that once I submit a response within the study I will not be able to edit it.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I confirm"
+          ],
+          "required": true
+        },
+        {
+          "id": "consent_age",
+          "prompt": "I am 18 years of age or older.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I confirm"
+          ],
+          "required": true
+        },
+        {
+          "id": "consent_eu_transfer",
+          "prompt": "(Participants in the EEA, UK, or Switzerland) I explicitly consent to my data being processed as described and transferred to the United States.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "I consent to transfer"
+          ],
+          "required": false
+        },
+        {
+          "id": "consent_participate",
+          "prompt": "I consent to take part in this study.",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "I consent",
+            "I do not consent"
+          ],
+          "required": true
+        }
+      ]
+    },
+    "about-you": {
+      "type": "questionnaire",
+      "instruction": "Four short questions before we begin. None of them asks for anything that would identify you, and we do not collect your institution or your job title.",
+      "instructionLocation": "sidebar",
+      "nextButtonLocation": "sidebar",
+      "withSidebar": true,
+      "response": [
+        {
+          "id": "B1",
+          "prompt": "Which best describes your primary professional field?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Digital media forensics",
+            "Misinformation or disinformation research",
+            "Media literacy education",
+            "Fact-checking or verification journalism"
+          ],
+          "withOther": true,
+          "required": false
+        },
+        {
+          "id": "B2",
+          "prompt": "Do you also work substantially in any of the others?",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Digital media forensics",
+            "Misinformation or disinformation research",
+            "Media literacy education",
+            "Fact-checking or verification journalism"
+          ],
+          "withOther": true,
+          "required": false
+        },
+        {
+          "id": "B3",
+          "prompt": "Roughly how long have you worked in this area?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Under 3 years",
+            "3–7 years",
+            "8–15 years",
+            "More than 15 years"
+          ],
+          "required": false
+        },
+        {
+          "id": "B4",
+          "prompt": "How familiar are you with SIFT / the Four Moves, or with lateral-reading pedagogy?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Not familiar",
+            "Aware of it, have not used it",
+            "Have used or taught it occasionally",
+            "Use or teach it regularly",
+            "I have contributed to work on it"
+          ],
+          "required": false
+        }
+      ]
+    },
+    "orientation": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/Orientation.tsx",
+      "nextButtonLocation": "sidebar",
+      "instruction": "Please read the orientation. Open the reference cards only if useful.",
+      "instructionLocation": "sidebar",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        }
+      ]
+    },
+    "case1-source": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case1",
+        "stepKey": "source",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case1",
+        "stepKey": "source",
+        "title": "A phone call in a voice you recognize"
+      },
+      "instruction": "**Case 1 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case1-content": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case1",
+        "stepKey": "content",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case1",
+        "stepKey": "content",
+        "title": "A phone call in a voice you recognize"
+      },
+      "instruction": "**Case 1 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case1-alignment": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case1",
+        "stepKey": "alignment",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case1",
+        "stepKey": "alignment",
+        "title": "A phone call in a voice you recognize"
+      },
+      "instruction": "**Case 1 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case1-reflect": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case1",
+        "stepKey": "reflect",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case1",
+        "stepKey": "reflect",
+        "title": "A phone call in a voice you recognize"
+      },
+      "instruction": "**Case 1 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case1-after": {
+      "baseComponent": "case-after",
+      "previousButton": false,
+      "parameters": {
+        "caseId": "case1",
+        "mode": "after"
+      },
+      "meta": {
+        "caseId": "case1",
+        "title": "A phone call in a voice you recognize"
+      },
+      "instruction": "**Case 1 — after.** What would have happened had someone done less?",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "X1",
+          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "At Source",
+            "At Content",
+            "At Alignment",
+            "Only after Now Reflect",
+            "They would not have reached an answer at all"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2",
+          "prompt": "And what would they have concluded there?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Likely authentic",
+            "Likely fabricated",
+            "No resolution reached"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X3",
+          "prompt": "Which single step, removed, most changes the outcome?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None — the outcome survives losing any one step"
+          ],
+          "required": false
+        },
+        {
+          "id": "X4",
+          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X5",
+          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X6",
+          "prompt": "Which steps added nothing on this case?",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "STOP",
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None"
+          ],
+          "required": false
+        },
+        {
+          "id": "X7",
+          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X8",
+          "prompt": "Was the framework adequate on this case?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Clearly inadequate",
+          "rightLabel": "Clearly adequate",
+          "required": false
+        },
+        {
+          "id": "X8_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "case2-source": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case2",
+        "stepKey": "source",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case2",
+        "stepKey": "source",
+        "title": "A real agency posting an unreal map"
+      },
+      "instruction": "**Case 2 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case2-content": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case2",
+        "stepKey": "content",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case2",
+        "stepKey": "content",
+        "title": "A real agency posting an unreal map"
+      },
+      "instruction": "**Case 2 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case2-alignment": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case2",
+        "stepKey": "alignment",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case2",
+        "stepKey": "alignment",
+        "title": "A real agency posting an unreal map"
+      },
+      "instruction": "**Case 2 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case2-reflect": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case2",
+        "stepKey": "reflect",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case2",
+        "stepKey": "reflect",
+        "title": "A real agency posting an unreal map"
+      },
+      "instruction": "**Case 2 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case2-after": {
+      "baseComponent": "case-after",
+      "previousButton": false,
+      "parameters": {
+        "caseId": "case2",
+        "mode": "after"
+      },
+      "meta": {
+        "caseId": "case2",
+        "title": "A real agency posting an unreal map"
+      },
+      "instruction": "**Case 2 — after.** What would have happened had someone done less?",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "X1",
+          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "At Source",
+            "At Content",
+            "At Alignment",
+            "Only after Now Reflect",
+            "They would not have reached an answer at all"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2",
+          "prompt": "And what would they have concluded there?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Likely authentic",
+            "Likely fabricated",
+            "No resolution reached"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X3",
+          "prompt": "Which single step, removed, most changes the outcome?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None — the outcome survives losing any one step"
+          ],
+          "required": false
+        },
+        {
+          "id": "X4",
+          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X5",
+          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X6",
+          "prompt": "Which steps added nothing on this case?",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "STOP",
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None"
+          ],
+          "required": false
+        },
+        {
+          "id": "X7",
+          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X8",
+          "prompt": "Was the framework adequate on this case?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Clearly inadequate",
+          "rightLabel": "Clearly adequate",
+          "required": false
+        },
+        {
+          "id": "X8_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "case3-source": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case3",
+        "stepKey": "source",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case3",
+        "stepKey": "source",
+        "title": "A real photograph accused of being fake"
+      },
+      "instruction": "**Case 3 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case3-content": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case3",
+        "stepKey": "content",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case3",
+        "stepKey": "content",
+        "title": "A real photograph accused of being fake"
+      },
+      "instruction": "**Case 3 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case3-alignment": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case3",
+        "stepKey": "alignment",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case3",
+        "stepKey": "alignment",
+        "title": "A real photograph accused of being fake"
+      },
+      "instruction": "**Case 3 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case3-reflect": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case3",
+        "stepKey": "reflect",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case3",
+        "stepKey": "reflect",
+        "title": "A real photograph accused of being fake"
+      },
+      "instruction": "**Case 3 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case3-after": {
+      "baseComponent": "case-after",
+      "previousButton": false,
+      "parameters": {
+        "caseId": "case3",
+        "mode": "after"
+      },
+      "meta": {
+        "caseId": "case3",
+        "title": "A real photograph accused of being fake"
+      },
+      "instruction": "**Case 3 — after.** What would have happened had someone done less?",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "X1",
+          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "At Source",
+            "At Content",
+            "At Alignment",
+            "Only after Now Reflect",
+            "They would not have reached an answer at all"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2",
+          "prompt": "And what would they have concluded there?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Likely authentic",
+            "Likely fabricated",
+            "No resolution reached"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X3",
+          "prompt": "Which single step, removed, most changes the outcome?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None — the outcome survives losing any one step"
+          ],
+          "required": false
+        },
+        {
+          "id": "X4",
+          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X5",
+          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X6",
+          "prompt": "Which steps added nothing on this case?",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "STOP",
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None"
+          ],
+          "required": false
+        },
+        {
+          "id": "X7",
+          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X8",
+          "prompt": "Was the framework adequate on this case?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Clearly inadequate",
+          "rightLabel": "Clearly adequate",
+          "required": false
+        },
+        {
+          "id": "X8_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "case4-source": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case4",
+        "stepKey": "source",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case4",
+        "stepKey": "source",
+        "title": "A real photograph, accused, and still unresolved"
+      },
+      "instruction": "**Case 4 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case4-content": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case4",
+        "stepKey": "content",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case4",
+        "stepKey": "content",
+        "title": "A real photograph, accused, and still unresolved"
+      },
+      "instruction": "**Case 4 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case4-alignment": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case4",
+        "stepKey": "alignment",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case4",
+        "stepKey": "alignment",
+        "title": "A real photograph, accused, and still unresolved"
+      },
+      "instruction": "**Case 4 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case4-reflect": {
+      "baseComponent": "case-step",
+      "parameters": {
+        "caseId": "case4",
+        "stepKey": "reflect",
+        "mode": "step"
+      },
+      "meta": {
+        "caseId": "case4",
+        "stepKey": "reflect",
+        "title": "A real photograph, accused, and still unresolved"
+      },
+      "instruction": "**Case 4 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "agree",
+          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "earned",
+          "prompt": "Did this step earn its place here?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "earned_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "attribution",
+          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Mostly the framework",
+            "Mostly the analyst",
+            "Both",
+            "Nothing useful was produced here",
+            "Can't tell"
+          ],
+          "required": false
+        },
+        {
+          "id": "attribution_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        },
+        {
+          "id": "missed",
+          "prompt": "What would a person following this step have missed?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    },
+    "case4-after": {
+      "baseComponent": "case-after",
+      "previousButton": false,
+      "parameters": {
+        "caseId": "case4",
+        "mode": "after"
+      },
+      "meta": {
+        "caseId": "case4",
+        "title": "A real photograph, accused, and still unresolved"
+      },
+      "instruction": "**Case 4 — after.** What would have happened had someone done less?",
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "X1",
+          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "At Source",
+            "At Content",
+            "At Alignment",
+            "Only after Now Reflect",
+            "They would not have reached an answer at all"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2",
+          "prompt": "And what would they have concluded there?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Likely authentic",
+            "Likely fabricated",
+            "No resolution reached"
+          ],
+          "required": false
+        },
+        {
+          "id": "X2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X3",
+          "prompt": "Which single step, removed, most changes the outcome?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None — the outcome survives losing any one step"
+          ],
+          "required": false
+        },
+        {
+          "id": "X4",
+          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X5",
+          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X6",
+          "prompt": "Which steps added nothing on this case?",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "STOP",
+            "Source",
+            "Content",
+            "Alignment",
+            "Now Reflect",
+            "None"
+          ],
+          "required": false
+        },
+        {
+          "id": "X7",
+          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "X8",
+          "prompt": "Was the framework adequate on this case?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Clearly inadequate",
+          "rightLabel": "Clearly adequate",
+          "required": false
+        },
+        {
+          "id": "X8_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "sift-case2": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/SiftRoutes.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Open each SIFT route accordion as needed, then answer the sidebar items for Route A and Route B.",
+      "parameters": {
+        "caseId": "case2"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "routeA_P1",
+          "prompt": "**ROUTEA — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes",
+            "Yes but unlikely",
+            "No, this is not how it would go"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeA_P1_why",
+          "prompt": "ROUTEA — Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeA_P2",
+          "prompt": "**ROUTEA — P2.** What would they have done instead?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeA_P3",
+          "prompt": "**ROUTEA — P3.** For the move used (Trace claims, quotes, and media to the original context): did this move earn its place?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeB_P1",
+          "prompt": "**ROUTEB — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes",
+            "Yes but unlikely",
+            "No, this is not how it would go"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeB_P1_why",
+          "prompt": "ROUTEB — Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeB_P2",
+          "prompt": "**ROUTEB — P2.** What would they have done instead?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeB_P3",
+          "prompt": "**ROUTEB — P3.** For the move used (Investigate the source): did this move earn its place?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeB_P4",
+          "prompt": "**ROUTEB — P4.** What, if anything, would have stopped this path going wrong?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "sift-case4": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/SiftRoutes.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Open each SIFT route accordion as needed, then answer the sidebar items for Route A and Route B.",
+      "parameters": {
+        "caseId": "case4"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "routeA_P1",
+          "prompt": "**ROUTEA — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes",
+            "Yes but unlikely",
+            "No, this is not how it would go"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeA_P1_why",
+          "prompt": "ROUTEA — Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeA_P2",
+          "prompt": "**ROUTEA — P2.** What would they have done instead?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeA_P3",
+          "prompt": "**ROUTEA — P3.** For the move used (Find better coverage): did this move earn its place?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeA_P4",
+          "prompt": "**ROUTEA — P4.** What, if anything, would have stopped this path going wrong?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeB_P1",
+          "prompt": "**ROUTEB — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes",
+            "Yes but unlikely",
+            "No, this is not how it would go"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeB_P1_why",
+          "prompt": "ROUTEB — Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeB_P2",
+          "prompt": "**ROUTEB — P2.** What would they have done instead?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "routeB_P3",
+          "prompt": "**ROUTEB — P3.** For the move used (Trace claims, quotes, and media to the original context): did this move earn its place?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Earned its place",
+            "Applies but added nothing here",
+            "Could not be carried out on this case",
+            "Applies but misled here"
+          ],
+          "required": false
+        },
+        {
+          "id": "routeB_P4",
+          "prompt": "**ROUTEB — P4.** What, if anything, would have stopped this path going wrong?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "ratings-stopscan": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/RatingStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Rate STOP&SCAN on the items in the sidebar.",
+      "parameters": {
+        "section": "stopscan"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "R1",
+          "prompt": "The sequence is clear enough for a non-expert to follow unaided.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R1_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R2",
+          "prompt": "The five elements are the right five; nothing essential is missing.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R3",
+          "prompt": "The distinction between counting evidence channels and counting completed steps is meaningful in practice.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R3_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R4",
+          "prompt": "Requiring two converging independent channels before a resolved outcome is the right threshold.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R4_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R5",
+          "prompt": "A non-expert could reliably judge whether two evidence channels are independent.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R5_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R6",
+          "prompt": "A non-expert could reliably apply the rule that conflicting techniques inside one channel mean that channel returned nothing, rather than balanced evidence.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R6_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R7",
+          "prompt": "\"Withhold judgment\" is a realistic outcome that people would actually accept.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R7_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R8",
+          "prompt": "The framework handles wrongly-dismissed authentic content as well as it handles fabricated content.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R8_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ],
+      "sidebarWidth": 420
+    },
+    "ratings-sift": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/RatingStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Rate SIFT on the items in the sidebar (before our stated critiques).",
+      "parameters": {
+        "section": "sift"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "R9",
+          "prompt": "SIFT remains adequate for evaluating claims that arrive as synthetic or manipulated media.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R9_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R10",
+          "prompt": "SIFT’s freedom to stop after one move is appropriate rather than a weakness.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R10_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R11",
+          "prompt": "Lateral reading reliably improves a judgment in today’s search environment.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R11_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R12",
+          "prompt": "SIFT gives adequate guidance when the source is authentic but the content is not.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R12_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R13",
+          "prompt": "SIFT gives adequate guidance when authentic content is wrongly alleged to be synthetic.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R13_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "R14",
+          "prompt": "Caulfield’s AI-specific extension addresses the case where the artifact under evaluation is itself suspected of being AI-generated.",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 7,
+          "leftLabel": "Strongly disagree",
+          "rightLabel": "Strongly agree",
+          "required": false
+        },
+        {
+          "id": "R14_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ],
+      "sidebarWidth": 420
+    },
+    "ratings-open": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/RatingStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Optional open critique before we state our positions on SIFT.",
+      "parameters": {
+        "section": "open"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "O1",
+          "prompt": "Where do you expect STOP&SCAN to fail first in real use?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O2",
+          "prompt": "Which STOP&SCAN element is weakest, and what would you change about it?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O3",
+          "prompt": "Requiring every element to be visited — no early exit even when one step seems to settle the matter — is a deliberate choice. Is it the right one?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O4",
+          "prompt": "What, if anything, does STOP&SCAN add that SIFT or lateral reading already covers adequately?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O5",
+          "prompt": "What would you need to see before recommending STOP&SCAN to a non-expert audience?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O6",
+          "prompt": "Is there a framework, practice, or step from your own work that neither of these captures?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "O7",
+          "prompt": "Were the evaluations we showed you a fair demonstration of the framework? Did they flatter it, or undersell it?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ],
+      "sidebarWidth": 420
+    },
+    "ratings-critique": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/RatingStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Read our positions in the main pane, then respond.",
+      "parameters": {
+        "section": "critique"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "Q1_stop",
+          "prompt": "**Q1 — On Stop.** Your response:",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Agree",
+            "Disagree",
+            "Agree but overstated",
+            "No view"
+          ],
+          "required": false
+        },
+        {
+          "id": "Q1_stop_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q1_investigate",
+          "prompt": "**Q1 — On Investigate the source.** Your response:",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Agree",
+            "Disagree",
+            "Agree but overstated",
+            "No view"
+          ],
+          "required": false
+        },
+        {
+          "id": "Q1_investigate_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q1_coverage",
+          "prompt": "**Q1 — On Find better coverage.** Your response:",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Agree",
+            "Disagree",
+            "Agree but overstated",
+            "No view"
+          ],
+          "required": false
+        },
+        {
+          "id": "Q1_coverage_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q1_trace",
+          "prompt": "**Q1 — On Trace to the original context.** Your response:",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Agree",
+            "Disagree",
+            "Agree but overstated",
+            "No view"
+          ],
+          "required": false
+        },
+        {
+          "id": "Q1_trace_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q2",
+          "prompt": "**Q2.** On the AI-specific extension critique: is that a fair critique?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Agree",
+            "Disagree",
+            "Agree but overstated",
+            "No view"
+          ],
+          "required": false
+        },
+        {
+          "id": "Q2_why",
+          "prompt": "Why? (optional)",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q3",
+          "prompt": "**Q3.** What weaknesses in SIFT have we not mentioned?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "Q4",
+          "prompt": "**Q4.** Which of our stated positions do you think is mistaken, and why?",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false
+        }
+      ],
+      "sidebarWidth": 420
+    },
+    "ratings-compare": {
+      "type": "react-component",
+      "path": "stopscan-expert-panel/assets/RatingStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": true,
+      "instructionLocation": "sidebar",
+      "instruction": "Comparative judgments between SIFT and STOP&SCAN.",
+      "parameters": {
+        "section": "compare"
+      },
+      "response": [
+        {
+          "id": "interactionLog",
+          "prompt": "Interaction log",
+          "location": "sidebar",
+          "type": "reactive",
+          "required": false,
+          "hidden": true
+        },
+        {
+          "id": "R15",
+          "prompt": "Overall, which is more likely to produce a well-calibrated judgment about synthetic media?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R15_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        },
+        {
+          "id": "R16",
+          "prompt": "Which is more teachable?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R16_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        },
+        {
+          "id": "R17",
+          "prompt": "Which is more robust to a contaminated search environment?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R17_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        },
+        {
+          "id": "R18",
+          "prompt": "Which would you recommend to a novice user — someone with no training in verification?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R18_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        },
+        {
+          "id": "R19",
+          "prompt": "Which would you recommend to an expert user — a professional working in verification, forensics, or fact-checking?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R19_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        },
+        {
+          "id": "R20",
+          "prompt": "Which maps better onto the range of cases you encounter in your own work?",
+          "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
+          "location": "sidebar",
+          "type": "slider",
+          "options": [
+            {
+              "label": "SIFT",
+              "value": 0
+            },
+            {
+              "label": "No preference",
+              "value": 50
+            },
+            {
+              "label": "STOP&SCAN",
+              "value": 100
+            }
+          ],
+          "startingValue": 50,
+          "snap": true,
+          "required": false
+        },
+        {
+          "id": "R20_flags",
+          "prompt": "Independent of the scale (optional)",
+          "location": "sidebar",
+          "type": "checkbox",
+          "options": [
+            "Neither is adequate for this comparison.",
+            "I don't feel able to compare them on this."
+          ],
+          "required": false
+        }
+      ],
+      "sidebarWidth": 420
+    },
+    "debrief": {
+      "type": "website",
+      "path": "stopscan-expert-panel/assets/debrief.html",
+      "nextButtonLocation": "sidebar",
+      "previousButton": false,
+      "instruction": "You may optionally request a findings summary before finishing.",
+      "instructionLocation": "sidebar",
+      "response": [
+        {
+          "id": "findings_request",
+          "prompt": "Would you like a summary of the findings?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes, please email me a summary",
+            "No thanks"
+          ],
+          "required": false
+        },
+        {
+          "id": "quote_opt_out",
+          "prompt": "If there is anything you wrote that you would prefer we never quote, note it here.",
+          "location": "sidebar",
+          "type": "longText",
+          "required": false,
+          "placeholder": "Optional"
+        }
+      ]
+    }
+  },
+  "sequence": {
+    "order": "fixed",
+    "components": [
+      "consent",
+      "about-you",
+      "orientation",
+      "case1-source",
+      "case1-content",
+      "case1-alignment",
+      "case1-reflect",
+      "case1-after",
+      "case2-source",
+      "case2-content",
+      "case2-alignment",
+      "case2-reflect",
+      "case2-after",
+      "case3-source",
+      "case3-content",
+      "case3-alignment",
+      "case3-reflect",
+      "case3-after",
+      "case4-source",
+      "case4-content",
+      "case4-alignment",
+      "case4-reflect",
+      "case4-after",
+      "sift-case2",
+      "sift-case4",
+      "ratings-stopscan",
+      "ratings-sift",
+      "ratings-open",
+      "ratings-critique",
+      "ratings-compare",
+      "debrief"
+    ],
+    "skip": [
+      {
+        "name": "consent",
+        "check": "response",
+        "responseId": "consent_participate",
+        "value": "I do not consent",
+        "comparison": "equal",
+        "to": "end"
+      }
+    ]
+  }
+}
