@@ -3,8 +3,15 @@ import {
   Accordion, Box, Group, List, Stack, Text, ThemeIcon, Title,
 } from '@mantine/core';
 import {
-  BookOpenCheck, Link2, FileSearch, Scale, RefreshCw, PauseCircle, ScanSearch, ShieldAlert,
-} from 'lucide-react';
+  IconBook2,
+  IconLink,
+  IconFileSearch,
+  IconScale,
+  IconRefresh,
+  IconPlayerPause,
+  IconSearch,
+  IconShieldExclamation,
+} from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
 import {
   STOPSCAN_OVERVIEW, WHAT_YOU_WILL_DO, REFERENCE_CARDS,
@@ -12,11 +19,11 @@ import {
 import { useInteractionLog } from './useInteractionLog';
 
 const ELEMENT_ICONS = {
-  stop: PauseCircle,
-  source: Link2,
-  content: FileSearch,
-  alignment: Scale,
-  reflect: RefreshCw,
+  stop: IconPlayerPause,
+  source: IconLink,
+  content: IconFileSearch,
+  alignment: IconScale,
+  reflect: IconRefresh,
 } as const;
 
 export default function Orientation({ setAnswer }: StimulusParams<Record<string, never>>) {
@@ -33,7 +40,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
         <div>
           <Group gap="xs" mb={6}>
             <ThemeIcon color="teal" variant="light" radius="xl">
-              <BookOpenCheck size={18} />
+              <IconBook2 size={18} />
             </ThemeIcon>
             <Title order={2}>Orientation</Title>
           </Group>
@@ -127,7 +134,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             }}
           >
             <Accordion.Item value="sift">
-              <Accordion.Control icon={<ScanSearch size={16} />}>
+              <Accordion.Control icon={<IconSearch size={16} />}>
                 Card 1 — {REFERENCE_CARDS.sift.title}
               </Accordion.Control>
               <Accordion.Panel>
@@ -135,7 +142,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
               </Accordion.Panel>
             </Accordion.Item>
             <Accordion.Item value="detector">
-              <Accordion.Control icon={<ShieldAlert size={16} />}>
+              <Accordion.Control icon={<IconShieldExclamation size={16} />}>
                 Card 2 — {REFERENCE_CARDS.detector.title}
               </Accordion.Control>
               <Accordion.Panel>

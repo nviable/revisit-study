@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import {
   Accordion, Badge, Box, Group, Stack, Text, Title, ThemeIcon,
 } from '@mantine/core';
-import { Route, ClipboardList } from 'lucide-react';
+import { IconRoute, IconClipboardList } from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
 import { SIFT_BLOCKS, SIFT_INTRO } from './content';
 import { ReferenceHelpers } from './ReferenceHelpers';
@@ -52,7 +52,7 @@ export default function SiftRoutes({
         >
           <Group gap="xs" mb={6}>
             <ThemeIcon size="sm" variant="light" color="gray" radius="xl">
-              <ClipboardList size={14} />
+              <IconClipboardList size={14} />
             </ThemeIcon>
             <Text fw={600} size="sm">The encounter</Text>
           </Group>
@@ -76,7 +76,7 @@ export default function SiftRoutes({
         >
           {block.routes.map((route) => (
             <Accordion.Item key={route.id} value={route.id}>
-              <Accordion.Control icon={<Route size={16} />}>
+              <Accordion.Control icon={<IconRoute size={16} />}>
                 <Text fw={600}>{route.label}</Text>
               </Accordion.Control>
               <Accordion.Panel>

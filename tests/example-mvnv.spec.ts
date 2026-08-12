@@ -186,7 +186,8 @@ async function answerCurrentMvnvPrompt(
 test('test', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'Skipping MVNV on WebKit due to headless flakiness.');
 
-  const taskTimeoutMs = browserName === 'webkit' ? 20000 : 6000;
+  // Chromium CI runners frequently need >6s for reactive iframe answers to enable Next.
+  const taskTimeoutMs = browserName === 'webkit' ? 20000 : 15000;
   const maxTaskLoops = 20;
 
   await page.goto('/');

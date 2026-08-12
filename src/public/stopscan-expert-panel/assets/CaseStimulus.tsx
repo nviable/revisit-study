@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import {
   Badge, Box, Group, Stack, Text, Title, ThemeIcon,
 } from '@mantine/core';
-import { ClipboardList, MessageSquareQuote } from 'lucide-react';
+import { IconClipboardList, IconQuote } from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
 import { CaseStepContent, getCase } from './content';
 import { ReferenceHelpers } from './ReferenceHelpers';
@@ -31,7 +31,7 @@ function StepEvaluation({ step, current }: { step: CaseStepContent; current: boo
       <Group gap="xs" mb={8} justify="space-between">
         <Group gap="xs">
           <ThemeIcon size="sm" variant={current ? 'filled' : 'light'} color="teal" radius="xl">
-            <MessageSquareQuote size={14} />
+            <IconQuote size={14} />
           </ThemeIcon>
           <Text fw={700}>
             Step {step.stepIndex} of 4 — {step.label}
@@ -102,7 +102,7 @@ export default function CaseStimulus({
         >
           <Group gap="xs" mb={6}>
             <ThemeIcon size="sm" variant="light" color="gray" radius="xl">
-              <ClipboardList size={14} />
+              <IconClipboardList size={14} />
             </ThemeIcon>
             <Text fw={600} size="sm">The encounter</Text>
           </Group>

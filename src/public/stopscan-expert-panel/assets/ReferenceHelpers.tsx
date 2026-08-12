@@ -3,8 +3,15 @@ import {
   Button, Group, Modal, Stack, Text, Title, List, ThemeIcon, Divider, Box,
 } from '@mantine/core';
 import {
-  BookOpenCheck, ScanSearch, ShieldAlert, PauseCircle, Link2, FileSearch, Scale, RefreshCw,
-} from 'lucide-react';
+  IconBook2,
+  IconSearch,
+  IconShieldExclamation,
+  IconPlayerPause,
+  IconLink,
+  IconFileSearch,
+  IconScale,
+  IconRefresh,
+} from '@tabler/icons-react';
 import { STOPSCAN_OVERVIEW, REFERENCE_CARDS } from './content';
 
 type ModalId = 'stopscan' | 'sift' | 'detector';
@@ -16,11 +23,11 @@ type ReferenceHelpersProps = {
 };
 
 const ELEMENT_ICONS = {
-  stop: PauseCircle,
-  source: Link2,
-  content: FileSearch,
-  alignment: Scale,
-  reflect: RefreshCw,
+  stop: IconPlayerPause,
+  source: IconLink,
+  content: IconFileSearch,
+  alignment: IconScale,
+  reflect: IconRefresh,
 } as const;
 
 export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceHelpersProps) {
@@ -61,7 +68,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             variant="light"
             color="teal"
             size="xs"
-            leftSection={<BookOpenCheck size={14} />}
+            leftSection={<IconBook2 size={14} />}
             onClick={() => openModal('stopscan')}
           >
             STOP&SCAN
@@ -70,7 +77,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             variant="light"
             color="blue"
             size="xs"
-            leftSection={<ScanSearch size={14} />}
+            leftSection={<IconSearch size={14} />}
             onClick={() => openModal('sift')}
           >
             SIFT / Four Moves
@@ -79,7 +86,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             variant="light"
             color="orange"
             size="xs"
-            leftSection={<ShieldAlert size={14} />}
+            leftSection={<IconShieldExclamation size={14} />}
             onClick={() => openModal('detector')}
           >
             Detector / provenance
