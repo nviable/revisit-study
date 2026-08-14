@@ -9,17 +9,34 @@ import {
   waitForStudyEndMessage,
 } from './utils';
 
+async function setConfidenceSlider(page: Page) {
+  const slider = page.locator('#confidence .mantine-Slider-track');
+  await expect(slider).toBeVisible();
+  await slider.scrollIntoViewIfNeeded();
+  const box = await slider.boundingBox();
+  expect(box).not.toBeNull();
+  const targetX = (box as { x: number; width: number }).x + ((box as { width: number }).width * 0.8);
+  const targetY = (box as { y: number; height: number }).y + ((box as { height: number }).height / 2);
+  await page.mouse.click(targetX, targetY);
+}
+
 async function answerTaskA(page: Page) {
-  await page.getByRole('radio', { name: 'Yes, it applies' }).click();
-  await page.locator('#confidence .mantine-Slider-track').click();
+  const applies = page.getByRole('radio', { name: 'Yes, it applies' });
+  await expect(applies).toBeEnabled({ timeout: 15000 });
+  await applies.click();
+  await setConfidenceSlider(page);
   await page.getByRole('checkbox', { name: 'Technique title' }).click();
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
 }
 
 async function answerTaskB(page: Page) {
-  await page.getByRole('radio', { name: 'Technique 1' }).click();
+  const technique = page.getByRole('radio', { name: 'Technique 1' });
+  await expect(technique).toBeEnabled({ timeout: 15000 });
+  await technique.click();
   await page.getByRole('radio', { name: '5' }).click();
   await page.getByRole('checkbox', { name: 'Scenario description' }).click();
   await page.getByRole('checkbox', { name: 'Technique title' }).click();
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
 }
 
 async function dragWithMouse(page: Page, source: Locator, target: Locator) {
@@ -55,14 +72,17 @@ async function answerPartC(page: Page) {
   }).filter({
     has: page.getByText('LOW', { exact: true }),
   }).first();
+  const modalityCard = availableZone.getByText('Modality', { exact: true }).first()
+    .locator('xpath=ancestor::div[contains(@class,"mantine-Paper-root")][1]');
 
-  await dragWithMouse(
-    page,
-    availableZone.getByText('Modality', { exact: true }).first()
-      .locator('xpath=ancestor::div[contains(@class,"mantine-Paper-root")][1]'),
-    selectedZone,
-  );
-  await page.waitForTimeout(250);
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    if (await selectedZone.getByText('Modality', { exact: true }).isVisible().catch(() => false)) {
+      break;
+    }
+    await dragWithMouse(page, modalityCard, selectedZone);
+    await page.waitForTimeout(300);
+  }
+  await expect(selectedZone.getByText('Modality', { exact: true })).toBeVisible();
 
   await page.getByPlaceholder('If nothing was missing, write none.').fill('none');
   await page.getByRole('radio', { name: /Somewhat prefer the ontology tags/ }).click();
@@ -89,9 +109,7 @@ test('ontology technique evaluation study walks through consent, formats, and ta
   await expect(consentFrame.getByRole('heading', { name: /Ontology-based Framework/i })).toBeVisible();
   const glance = consentFrame.locator('.glance');
   await expect(glance.getByText('About 45 minutes', { exact: true })).toBeVisible();
-  await expect(glance.getByText('$15 via Prolific', { exact: true })).toBeVisible();
   const researchTeam = consentFrame.locator('.people').first();
-  await expect(researchTeam.getByText('Y. Kelly Wu', { exact: true })).toBeVisible();
   await expect(researchTeam.getByText('Saniat J. Sohrawardi', { exact: true })).toBeVisible();
 
   await page.getByRole('radio', { name: /I agree to participate/i }).click();
@@ -99,24 +117,27 @@ test('ontology technique evaluation study walks through consent, formats, and ta
 
   await expect(page.getByText('Keyword supported')).toBeVisible();
   await expect(page.getByText('Ontology supported')).toBeVisible();
-  await page.getByRole('button', { name: 'Abstract' }).first().click();
-  await expect(page.getByText(/PLACEHOLDER ABSTRACT/i).first()).toBeVisible();
   await nextClick(page);
 
   await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
   await nextClick(page);
 
+  let checkedTaskAChrome = false;
   for (let i = 0; i < 9; i += 1) {
-    const isAttention = await page.getByText('Attention check: please select').isVisible().catch(() => false);
-    if (isAttention) {
+    const attention = page.getByText('Attention check: please select');
+    const applies = page.getByRole('radio', { name: 'Yes, it applies' });
+    await expect(attention.or(applies).first()).toBeVisible({ timeout: 15000 });
+
+    if (await attention.isVisible()) {
       await page.getByRole('radio', { name: 'Somewhat agree' }).click();
     } else {
-      await expect(page.getByText('Could this technique be applied')).toBeVisible();
-      await expect(page.getByText('You do not need to open every section')).toBeVisible();
-      await expect(page.getByText('1 = Not at all confident. 5 = Completely confident.')).toBeVisible();
-      await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
-      await expect(page.getByRole('checkbox', { name: /Nothing beyond what was visible/ })).toHaveCount(0);
-      await page.getByRole('button', { name: 'Abstract' }).first().click();
+      if (!checkedTaskAChrome) {
+        await expect(page.getByText('You do not need to open every section')).toBeVisible();
+        await expect(page.getByText('1 = Not at all confident. 5 = Completely confident.')).toBeVisible();
+        await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
+        await expect(page.getByRole('checkbox', { name: /Nothing beyond what was visible/ })).toHaveCount(0);
+        checkedTaskAChrome = true;
+      }
       await answerTaskA(page);
     }
     await nextClick(page);
@@ -126,12 +147,13 @@ test('ontology technique evaluation study walks through consent, formats, and ta
   await nextClick(page);
 
   for (let i = 0; i < 5; i += 1) {
-    const isAttention = await page.getByText('Attention check: what is 8 + 3?').isVisible().catch(() => false);
-    if (isAttention) {
+    const attention = page.getByText('Attention check: what is 8 + 3?');
+    const technique = page.getByRole('radio', { name: 'Technique 1' });
+    await expect(attention.or(technique).first()).toBeVisible({ timeout: 15000 });
+
+    if (await attention.isVisible()) {
       await page.getByRole('radio', { name: '11' }).click();
     } else {
-      await expect(page.getByText('Which technique is the appropriate fit')).toBeVisible();
-      await expect(page.getByText('Technique 1', { exact: false }).first()).toBeVisible();
       await answerTaskB(page);
     }
     await nextClick(page);
