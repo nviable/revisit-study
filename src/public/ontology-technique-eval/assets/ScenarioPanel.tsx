@@ -9,7 +9,14 @@ export function ScenarioPanel({ title, scenario }: { title: string; scenario: st
       <Stack gap="xs">
         <Title order={4}>{title}</Title>
         <Text size="sm">{scenario}</Text>
-        <Alert color="yellow" variant="light" icon={<IconAlertCircle size={16} />} p="xs">
+        <Alert
+          color="yellow"
+          variant="outline"
+          bg="yellow.1"
+          icon={<IconAlertCircle size={16} />}
+          p="xs"
+          styles={{ root: { opacity: 1 } }}
+        >
           <Text size="xs">
             You do not need to open every section. Stop when you are confident enough to answer.
           </Text>

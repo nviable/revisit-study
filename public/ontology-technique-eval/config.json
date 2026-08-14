@@ -10,7 +10,7 @@
       "Ersin Uzun"
     ],
     "date": "2026-08-14",
-    "description": "A Prolific survey comparing keyword-supported and ontology-supported descriptions of digital media forensic techniques. Vignette text, papers, and Part C items are placeholders until the final instrument is supplied.",
+    "description": "A Prolific survey comparing keyword-supported and ontology-supported descriptions of digital media forensic techniques. Vignette text and papers are placeholders until the final instrument is supplied.",
     "organizations": [
       "Rochester Institute of Technology",
       "ESL Global Cybersecurity Institute"
@@ -64,11 +64,33 @@
         {
           "id": "confidence",
           "prompt": "How confident are you in this judgment?",
+          "secondaryText": "1 = Not at all confident. 5 = Completely confident.",
           "location": "sidebar",
-          "type": "likert",
-          "numItems": 5,
-          "leftLabel": "Not at all confident",
-          "rightLabel": "Completely confident"
+          "type": "slider",
+          "snap": true,
+          "step": 1,
+          "options": [
+            {
+              "label": "1",
+              "value": 1
+            },
+            {
+              "label": "2",
+              "value": 2
+            },
+            {
+              "label": "3",
+              "value": 3
+            },
+            {
+              "label": "4",
+              "value": 4
+            },
+            {
+              "label": "5",
+              "value": 5
+            }
+          ]
         },
         {
           "id": "reliedOn",
@@ -78,15 +100,21 @@
           "minSelections": 1,
           "withOther": true,
           "options": [
-            "Scenario description",
             "Technique title",
             "Keywords or structured tags",
             "Tag definitions",
             "Abstract",
             "Plain-language summary",
-            "Full paper",
-            "Nothing beyond what was visible without opening extra sections"
+            "Full paper"
           ]
+        },
+        {
+          "id": "decisionNote",
+          "prompt": "Anything else you'd like to add about this decision?",
+          "location": "sidebar",
+          "type": "longText",
+          "placeholder": "Optional",
+          "required": false
         },
         {
           "id": "clickLog",
@@ -319,77 +347,111 @@
     },
     "part-c": {
       "type": "questionnaire",
-      "description": "Part C reflection. Question wording is a template until the final instrument is provided.",
+      "description": "Part C reflection on description formats, ontology categories, and possible applications.",
       "withSidebar": false,
       "nextButtonLocation": "belowStimulus",
       "response": [
         {
-          "id": "partCIntro",
-          "type": "textOnly",
-          "location": "aboveStimulus",
-          "prompt": "Please rate the statements below. There are no right or wrong answers.",
-          "restartEnumeration": true
-        },
-        {
-          "id": "formatUsefulness",
-          "prompt": "Please rate how much you agree with each statement.",
+          "id": "noticedFormatDifference",
+          "prompt": "In this study, technique descriptions were shown in two different ways. Did you notice a difference between how some descriptions were presented and others?",
           "location": "belowStimulus",
-          "type": "matrix-radio",
-          "answerOptions": [
-            "Strongly disagree",
-            "Disagree",
-            "Neutral",
-            "Agree",
-            "Strongly agree"
-          ],
-          "questionOptions": [
-            "The paper keywords helped me judge whether a technique applied.",
-            "The structured tags helped me judge whether a technique applied.",
-            "Tag definitions (on hover) were useful.",
-            "The abstract was useful when I opened it.",
-            "The plain-language summary was useful when I opened it.",
-            "The full paper was useful when I opened it.",
-            "I usually decided without opening extra materials.",
-            "I preferred structured tags over keywords.",
-            "I felt confident in my Task A judgments.",
-            "I felt confident in my Task B choices."
+          "type": "radio",
+          "restartEnumeration": true,
+          "options": [
+            "Yes",
+            "No",
+            "Not sure"
           ]
         },
         {
-          "id": "decisionProcess",
-          "prompt": "How did you typically decide whether a technique applied, or which technique to choose?",
+          "id": "ontologyCategoryRank",
+          "prompt": "The ontology tags are grouped into four categories: Modality; Forensic Task & Goal; Search & Analysis Scope; Evidentiary Features. Please rank them from the most useful to least useful when you use them for making decisions.",
           "location": "belowStimulus",
-          "type": "longText",
-          "placeholder": "A sentence or two is enough.",
-          "required": false
+          "type": "ranking-sublist",
+          "numItems": 4,
+          "options": [
+            "Modality",
+            "Forensic Task & Goal",
+            "Search & Analysis Scope",
+            "Evidentiary Features"
+          ]
         },
         {
-          "id": "mostHelpful",
-          "prompt": "What information was most helpful?",
+          "id": "ontologyTagGaps",
+          "prompt": "In scenarios where the technique description was accompanied by ontology tags, was there anything you wanted to know about a technique that the tags did not tell you, such that you needed to access additional information (i.e. abstract, summary, and full paper)?",
           "location": "belowStimulus",
           "type": "longText",
-          "required": false
-        },
-        {
-          "id": "confusingOrUnhelpful",
-          "prompt": "What did you find confusing or unhelpful?",
-          "location": "belowStimulus",
-          "type": "longText",
-          "required": false
+          "placeholder": "If nothing was missing, write none."
         },
         {
           "id": "formatPreference",
-          "prompt": "Overall, which description format did you prefer, and why?",
+          "prompt": "If you were to work through more scenarios like what you just did, which would you rather have alongside each technique description?",
           "location": "belowStimulus",
-          "type": "longText",
-          "required": false
+          "type": "radio",
+          "options": [
+            {
+              "label": "1 — Strongly prefer the paper's keywords",
+              "value": "1"
+            },
+            {
+              "label": "2 — Somewhat prefer the paper's keywords",
+              "value": "2"
+            },
+            {
+              "label": "3 — No preference",
+              "value": "3"
+            },
+            {
+              "label": "4 — Somewhat prefer the ontology tags",
+              "value": "4"
+            },
+            {
+              "label": "5 — Strongly prefer the ontology tags",
+              "value": "5"
+            }
+          ]
         },
         {
-          "id": "anythingElse",
-          "prompt": "Anything else you would like us to know?",
+          "id": "formatPreferenceWhy",
+          "prompt": "Why?",
           "location": "belowStimulus",
           "type": "longText",
-          "required": false
+          "placeholder": "A sentence or two is enough."
+        },
+        {
+          "id": "ontologyApplications",
+          "prompt": "The ontology could be useful for the following applications (Rate from Strongly Disagree 1 to Strongly Agree 5)",
+          "location": "belowStimulus",
+          "type": "matrix-radio",
+          "answerOptions": [
+            {
+              "label": "1 Strongly disagree",
+              "value": "1"
+            },
+            {
+              "label": "2",
+              "value": "2"
+            },
+            {
+              "label": "3",
+              "value": "3"
+            },
+            {
+              "label": "4",
+              "value": "4"
+            },
+            {
+              "label": "5 Strongly agree",
+              "value": "5"
+            }
+          ],
+          "questionOptions": [
+            "Identifying gaps in academic research",
+            "Standardizing terminology in reports",
+            "Structuring a forensic tool's capabilities",
+            "Improving tool interpretability",
+            "Onboarding/Training new digital forensics analysts"
+          ]
         }
       ]
     },
