@@ -5,8 +5,10 @@ import { parseGlobalConfig, parseStudyConfig } from './parser';
 describe('user studies from production fork', () => {
   it('registers the user studies as non-test in global.json', () => {
     const globalConfig = parseGlobalConfig(readFileSync('public/global.json', 'utf8'));
+    expect(globalConfig.configsList).toContain('ontology-technique-eval');
     expect(globalConfig.configsList).toContain('varuna-sme-eval-ontology');
     expect(globalConfig.configsList).toContain('dndf-scenario-evaluation');
+    expect(globalConfig.configs['ontology-technique-eval']?.test).toBeUndefined();
     expect(globalConfig.configs['varuna-sme-eval-ontology']?.test).toBeUndefined();
     expect(globalConfig.configs['dndf-scenario-evaluation']?.test).toBeUndefined();
     expect(globalConfig.configs.tutorial?.test).toBeUndefined();
@@ -14,6 +16,7 @@ describe('user studies from production fork', () => {
   });
 
   it.each([
+    'ontology-technique-eval',
     'varuna-sme-eval-ontology',
     'dndf-scenario-evaluation',
   ])('parses %s without errors', async (studyId) => {

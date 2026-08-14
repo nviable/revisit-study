@@ -1,0 +1,848 @@
+{
+  "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.4.3/src/parser/StudyConfigSchema.json",
+  "studyMetadata": {
+    "title": "Ontology-supported descriptions of digital media forensic techniques",
+    "version": "pilot-placeholders",
+    "authors": [
+      "Y. Kelly Wu",
+      "Saniat J. Sohrawardi",
+      "Matthew Wright",
+      "Ersin Uzun"
+    ],
+    "date": "2026-08-14",
+    "description": "A Prolific survey comparing keyword-supported and ontology-supported descriptions of digital media forensic techniques. Vignette text, papers, and Part C items are placeholders until the final instrument is supplied.",
+    "organizations": [
+      "Rochester Institute of Technology",
+      "ESL Global Cybersecurity Institute"
+    ]
+  },
+  "uiConfig": {
+    "contactEmail": "kellywu@mail.rit.edu",
+    "helpTextPath": "ontology-technique-eval/assets/help.md",
+    "logoPath": "revisitAssets/icon-defake.svg",
+    "withProgressBar": true,
+    "withSidebar": true,
+    "sidebarWidth": 360,
+    "enumerateQuestions": true,
+    "responseDividers": true,
+    "urlParticipantIdParam": "PROLIFIC_PID",
+    "stylesheetPath": "ontology-technique-eval/assets/style.css",
+    "numSequences": 200
+  },
+  "studyRules": {
+    "devices": {
+      "allowed": [
+        "desktop",
+        "tablet"
+      ],
+      "blockedMessage": "Please complete this study on a laptop or desktop computer so the technique cards remain readable."
+    },
+    "display": {
+      "minWidth": 900,
+      "minHeight": 600,
+      "blockedMessage": "Please widen your browser window so the scenario and technique cards are fully visible."
+    }
+  },
+  "baseComponents": {
+    "taskATrial": {
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/TaskAStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": false,
+      "response": [
+        {
+          "id": "applies",
+          "prompt": "Could this technique be applied to produce useful evidence in this scenario?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "Yes, it applies",
+            "No, it does not apply",
+            "Not enough information to decide"
+          ]
+        },
+        {
+          "id": "confidence",
+          "prompt": "How confident are you in this judgment?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Not at all confident",
+          "rightLabel": "Completely confident"
+        },
+        {
+          "id": "reliedOn",
+          "prompt": "What did you rely on when deciding? Select all that apply.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "minSelections": 1,
+          "withOther": true,
+          "options": [
+            "Scenario description",
+            "Technique title",
+            "Keywords or structured tags",
+            "Tag definitions",
+            "Abstract",
+            "Plain-language summary",
+            "Full paper",
+            "Nothing beyond what was visible without opening extra sections"
+          ]
+        },
+        {
+          "id": "clickLog",
+          "prompt": "Clicked elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        }
+      ]
+    },
+    "taskBTrial": {
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/TaskBStimulus.tsx",
+      "nextButtonLocation": "sidebar",
+      "previousButton": false,
+      "sidebarWidth": 320,
+      "response": [
+        {
+          "id": "chosenTechnique",
+          "prompt": "Which technique is the appropriate fit for this case?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            {
+              "label": "Technique 1",
+              "value": "1"
+            },
+            {
+              "label": "Technique 2",
+              "value": "2"
+            },
+            {
+              "label": "Technique 3",
+              "value": "3"
+            },
+            {
+              "label": "Technique 4",
+              "value": "4"
+            }
+          ]
+        },
+        {
+          "id": "confidence",
+          "prompt": "How confident are you in this choice?",
+          "location": "sidebar",
+          "type": "likert",
+          "numItems": 5,
+          "leftLabel": "Not at all confident",
+          "rightLabel": "Completely confident"
+        },
+        {
+          "id": "reliedOn",
+          "prompt": "What did you rely on when choosing? Select all that apply.",
+          "location": "sidebar",
+          "type": "checkbox",
+          "minSelections": 1,
+          "withOther": true,
+          "options": [
+            "Scenario description",
+            "Technique title",
+            "Keywords or structured tags",
+            "Tag definitions",
+            "Abstract",
+            "Plain-language summary",
+            "Full paper",
+            "Nothing beyond what was visible without opening extra sections"
+          ]
+        },
+        {
+          "id": "clickLog",
+          "prompt": "Clicked elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "techniqueOrder",
+          "prompt": "Technique ids in card order (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        }
+      ]
+    }
+  },
+  "components": {
+    "consent": {
+      "type": "website",
+      "path": "ontology-technique-eval/assets/consent.html",
+      "nextButtonLocation": "sidebar",
+      "response": [
+        {
+          "id": "consentAgree",
+          "prompt": "Do you consent to participate in this study?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            "I have read this information and I agree to participate.",
+            "I do not agree to participate."
+          ]
+        }
+      ]
+    },
+    "intro-formats": {
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/FormatIntroduction.tsx",
+      "withSidebar": false,
+      "nextButtonLocation": "belowStimulus",
+      "response": [
+        {
+          "id": "clickLog",
+          "prompt": "Clicked elements (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        }
+      ],
+      "previousButton": true
+    },
+    "task-a-intro": {
+      "type": "markdown",
+      "path": "ontology-technique-eval/assets/task-a-intro.md",
+      "withSidebar": false,
+      "response": [],
+      "previousButton": true
+    },
+    "task-b-intro": {
+      "type": "markdown",
+      "path": "ontology-technique-eval/assets/task-b-intro.md",
+      "withSidebar": false,
+      "response": [],
+      "previousButton": true
+    },
+    "attention-check-a": {
+      "type": "questionnaire",
+      "description": "Template attention check between Task A items 4 and 5",
+      "response": [
+        {
+          "id": "attentionA",
+          "prompt": "Attention check: please select **Somewhat agree**. This item is only to confirm you are reading the questions.",
+          "location": "aboveStimulus",
+          "type": "radio",
+          "options": [
+            "Strongly disagree",
+            "Disagree",
+            "Somewhat disagree",
+            "Somewhat agree",
+            "Agree",
+            "Strongly agree"
+          ]
+        }
+      ]
+    },
+    "attention-check-b": {
+      "type": "questionnaire",
+      "description": "Template attention check between Task B items 2 and 3",
+      "response": [
+        {
+          "id": "attentionB",
+          "prompt": "Attention check: what is 8 + 3?",
+          "location": "aboveStimulus",
+          "type": "radio",
+          "options": [
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        }
+      ]
+    },
+    "reflection-intro": {
+      "type": "markdown",
+      "path": "ontology-technique-eval/assets/reflection-intro.md",
+      "withSidebar": false,
+      "response": [],
+      "previousButton": true
+    },
+    "part-c": {
+      "type": "questionnaire",
+      "description": "Part C reflection. Question wording is a template until the final instrument is provided.",
+      "withSidebar": false,
+      "nextButtonLocation": "belowStimulus",
+      "response": [
+        {
+          "id": "partCIntro",
+          "type": "textOnly",
+          "location": "aboveStimulus",
+          "prompt": "Please rate the statements below. There are no right or wrong answers.",
+          "restartEnumeration": true
+        },
+        {
+          "id": "formatUsefulness",
+          "prompt": "Please rate how much you agree with each statement.",
+          "location": "belowStimulus",
+          "type": "matrix-radio",
+          "answerOptions": [
+            "Strongly disagree",
+            "Disagree",
+            "Neutral",
+            "Agree",
+            "Strongly agree"
+          ],
+          "questionOptions": [
+            "The paper keywords helped me judge whether a technique applied.",
+            "The structured tags helped me judge whether a technique applied.",
+            "Tag definitions (on hover) were useful.",
+            "The abstract was useful when I opened it.",
+            "The plain-language summary was useful when I opened it.",
+            "The full paper was useful when I opened it.",
+            "I usually decided without opening extra materials.",
+            "I preferred structured tags over keywords.",
+            "I felt confident in my Task A judgments.",
+            "I felt confident in my Task B choices."
+          ]
+        },
+        {
+          "id": "decisionProcess",
+          "prompt": "How did you typically decide whether a technique applied, or which technique to choose?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "placeholder": "A sentence or two is enough.",
+          "required": false
+        },
+        {
+          "id": "mostHelpful",
+          "prompt": "What information was most helpful?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "confusingOrUnhelpful",
+          "prompt": "What did you find confusing or unhelpful?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "formatPreference",
+          "prompt": "Overall, which description format did you prefer, and why?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "required": false
+        },
+        {
+          "id": "anythingElse",
+          "prompt": "Anything else you would like us to know?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "required": false
+        }
+      ]
+    },
+    "thank-you": {
+      "type": "markdown",
+      "path": "ontology-technique-eval/assets/thank-you.md",
+      "withSidebar": false,
+      "response": []
+    },
+    "task-a-1-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-1",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 1,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-a-1-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-1",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 1,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-a-2-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-2",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 2,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-a-2-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-2",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 2,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-a-3-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-3",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 3,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-a-3-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-3",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 3,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-a-4-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-4",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 4,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-a-4-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-4",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 4,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-a-5-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-5",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 5,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-a-5-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-5",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 5,
+        "set": "B",
+        "format": "ontology"
+      }
+    },
+    "task-a-6-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-6",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 6,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-a-6-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-6",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 6,
+        "set": "B",
+        "format": "ontology"
+      }
+    },
+    "task-a-7-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-7",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 7,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-a-7-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-7",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 7,
+        "set": "B",
+        "format": "ontology"
+      }
+    },
+    "task-a-8-keywords": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-8",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 8,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-a-8-ontology": {
+      "baseComponent": "taskATrial",
+      "parameters": {
+        "vignetteId": "task-a-8",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "A",
+        "vignette": 8,
+        "set": "B",
+        "format": "ontology"
+      }
+    },
+    "task-b-1-keywords": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-1",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 1,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-b-1-ontology": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-1",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 1,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-b-2-keywords": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-2",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 2,
+        "set": "A",
+        "format": "keywords"
+      }
+    },
+    "task-b-2-ontology": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-2",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 2,
+        "set": "A",
+        "format": "ontology"
+      }
+    },
+    "task-b-3-keywords": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-3",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 3,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-b-3-ontology": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-3",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 3,
+        "set": "B",
+        "format": "ontology"
+      }
+    },
+    "task-b-4-keywords": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-4",
+        "format": "keywords"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 4,
+        "set": "B",
+        "format": "keywords"
+      }
+    },
+    "task-b-4-ontology": {
+      "baseComponent": "taskBTrial",
+      "parameters": {
+        "vignetteId": "task-b-4",
+        "format": "ontology"
+      },
+      "meta": {
+        "task": "B",
+        "vignette": 4,
+        "set": "B",
+        "format": "ontology"
+      }
+    }
+  },
+  "sequence": {
+    "order": "fixed",
+    "components": [
+      {
+        "id": "consent-block",
+        "order": "fixed",
+        "components": [
+          "consent"
+        ],
+        "skip": [
+          {
+            "name": "consent",
+            "check": "response",
+            "responseId": "consentAgree",
+            "value": "I do not agree to participate.",
+            "comparison": "equal",
+            "to": "end"
+          }
+        ]
+      },
+      "intro-formats",
+      {
+        "id": "counterbalance-arms",
+        "order": "latinSquare",
+        "numSamples": 1,
+        "components": [
+          {
+            "id": "arm-keywords-then-ontology",
+            "order": "fixed",
+            "components": [
+              "task-a-intro",
+              {
+                "id": "task-a-kw-then-ont",
+                "order": "latinSquare",
+                "components": [
+                  "task-a-1-keywords",
+                  "task-a-2-keywords",
+                  "task-a-3-keywords",
+                  "task-a-4-keywords",
+                  "task-a-5-ontology",
+                  "task-a-6-ontology",
+                  "task-a-7-ontology",
+                  "task-a-8-ontology"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 4,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-a"
+                    ]
+                  }
+                ]
+              },
+              "task-b-intro",
+              {
+                "id": "task-b-kw-then-ont",
+                "order": "latinSquare",
+                "components": [
+                  "task-b-1-keywords",
+                  "task-b-2-keywords",
+                  "task-b-3-ontology",
+                  "task-b-4-ontology"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 2,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "arm-ontology-then-keywords",
+            "order": "fixed",
+            "components": [
+              "task-a-intro",
+              {
+                "id": "task-a-ont-then-kw",
+                "order": "latinSquare",
+                "components": [
+                  "task-a-1-ontology",
+                  "task-a-2-ontology",
+                  "task-a-3-ontology",
+                  "task-a-4-ontology",
+                  "task-a-5-keywords",
+                  "task-a-6-keywords",
+                  "task-a-7-keywords",
+                  "task-a-8-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 4,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-a"
+                    ]
+                  }
+                ]
+              },
+              "task-b-intro",
+              {
+                "id": "task-b-ont-then-kw",
+                "order": "latinSquare",
+                "components": [
+                  "task-b-1-ontology",
+                  "task-b-2-ontology",
+                  "task-b-3-keywords",
+                  "task-b-4-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 2,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reflection-intro",
+      "part-c",
+      "thank-you"
+    ]
+  }
+}

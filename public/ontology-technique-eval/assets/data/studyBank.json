@@ -1,0 +1,410 @@
+{
+  "techniques": [
+    {
+      "id": "t-a1",
+      "title": "Detecting Face-Swap Deepfakes with Temporal Identity Consistency",
+      "keywords": ["deepfake detection", "face swap", "video forensics", "identity consistency"],
+      "ontologyTags": [
+        { "path": ["video"] },
+        { "path": ["forgery-manipulation-detection", "content-synthesis", "deepfakes", "face-swap"] },
+        { "path": ["evidentiary-features", "perceptual-evidence", "temporal-inconsistency"] },
+        { "path": ["biometric-signals", "shape"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. This paper proposes a video forensic method that checks whether facial identity remains consistent across frames after suspected face-swap manipulation. The approach compares identity embeddings over time and flags sequences where the claimed speaker's face is inconsistent with unaltered identity cues. Experiments are reported on standard face-swap benchmarks. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique is designed for Video and targets Face Swap Deepfakes. It looks for Temporal Inconsistency in identity and Shape cues across frames, rather than analyzing still images or audio on their own. It can support a judgment about whether a person's face in a video was replaced, but it does not identify the camera that recorded the original footage.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a2",
+      "title": "Camera Identification from Photo-Response Non-Uniformity",
+      "keywords": ["PRNU", "source camera identification", "sensor fingerprint", "image forensics"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["forensic-goal-task", "source-identification-attribution", "device-source-identification"] },
+        { "path": ["evidentiary-features", "computational-features", "spatial-features", "noise-based", "prnu-noise"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Photo-response non-uniformity (PRNU) is treated as a sensor fingerprint that can link a still image to a specific camera. The method estimates a noise residual, correlates it with a reference fingerprint, and reports a match statistic. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique performs Device Source Identification on a Still Image using PRNU Noise. It is meant to help decide which camera sensor likely captured a photo. It is not a method for detecting Face Swap or other Content Synthesis manipulations, and it is not designed for Video sequences on their own.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a3",
+      "title": "Copy-Move Forgery Detection with Dense Keypoint Matching",
+      "keywords": ["copy-move", "image forgery", "keypoint matching", "duplicated regions"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["forgery-manipulation-detection", "content-rearrangement", "copy-move"] },
+        { "path": ["computational-features", "spatial-features", "texture-based", "keypoint"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. The paper describes a still-image method that finds duplicated patches copied from one region of an image to another. Dense keypoints are matched and geometrically verified to localize the cloned area. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique detects Copy-move rearrangement in a Still Image by matching Keypoint features. It is useful when part of a photo may have been duplicated to hide or invent content in the same image. It does not analyze Video Face Swap, and it is not intended for Device Source Identification.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a4",
+      "title": "Synthetic Speech Detection with Mel-Frequency Cepstral Coefficients",
+      "keywords": ["audio deepfake", "spoofing detection", "MFCC", "synthetic speech"],
+      "ontologyTags": [
+        { "path": ["audio"] },
+        { "path": ["forgery-manipulation-detection", "content-synthesis", "deepfakes"] },
+        { "path": ["computational-features", "linguistic-features", "acoustic-features", "mel-frequency-cepstral-coefficients-mfcc"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. This work classifies speech recordings as bona fide or synthetically generated using mel-frequency cepstral coefficients and a lightweight classifier. Evaluation is reported on standard anti-spoofing corpora. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique analyzes Audio, not pictures or Video frames. It uses Mel-frequency Cepstral Coefficients (MFCC) to flag synthetic speech and Deepfakes in the audio channel. It cannot tell whether a face in a video was swapped, and it does not perform Device Source Identification on cameras.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a5",
+      "title": "Attributing Diffusion-Generated Images via Model Fingerprints",
+      "keywords": ["generative model attribution", "diffusion models", "synthetic image detection", "model fingerprint"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["source-identification-attribution", "generative-model-attribution", "fingerprint-attribution", "diffusion-based"] },
+        { "path": ["forgery-manipulation-detection", "content-synthesis", "full-synthesis"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. The authors extract fingerprints left by diffusion generators in fully synthetic still images and use them to attribute an image to a family of models. The method is evaluated on held-out generators. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique targets Full Synthesis Still Image content and performs Fingerprint Attribution for Diffusion-based generators. It is meant to help decide whether an image was created by a diffusion model and which model family is likely. It is not a Copy-move detector and does not analyze Audio.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a6",
+      "title": "Image Splicing Localization from Boundary Artifacts",
+      "keywords": ["splicing", "image forgery localization", "boundary artifacts", "compositing"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["forgery-manipulation-detection", "content-rearrangement", "splicing"] },
+        { "path": ["perceptual-evidence", "geometric-structural-inconsistency", "blending-boundary"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. This paper localizes spliced regions in still images by scoring blending-boundary inconsistencies between a foreign patch and the host photograph. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique looks for Splicing in a Still Image, where content from another photograph is inserted. It relies on Blending Boundary artifacts. It is not designed for Video Face Swap detection or for identifying the camera via PRNU Noise.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a7",
+      "title": "Detecting EXIF Metadata Tampering in Digital Photographs",
+      "keywords": ["metadata", "EXIF", "tampering detection", "file forensics"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["forgery-manipulation-detection", "file-structure-tampering", "metadata-tempering"] },
+        { "path": ["perceptual-evidence", "metadata-file-structure"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. The method inspects EXIF and container metadata for internal contradictions that suggest Metadata Tampering, such as impossible camera settings or inconsistent timestamps. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique examines Metadata & File Structure of a Still Image to detect Metadata Tampering. It can flag edited tags, but it does not inspect pixels for Copy-move or Face Swap, and it cannot by itself prove that visual content was generated by a diffusion model.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-a8",
+      "title": "Localizing Generative Inpainting with Frequency Residuals",
+      "keywords": ["inpainting", "object removal", "frequency analysis", "localized synthesis"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["forgery-manipulation-detection", "content-synthesis", "removal-inpainting"] },
+        { "path": ["computational-features", "frequency-features", "discrete-cosine-transform-dct"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. The authors localize regions of a still image that were filled by generative inpainting, using residuals in the discrete cosine transform domain. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique detects Removal / Inpainting on a Still Image using Discrete Cosine Transform DCT residuals. It is useful when an object may have been erased and the hole filled by a generative model. It is not a Device Source Identification method and does not analyze Audio Deepfakes.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b1-target",
+      "title": "Full Face-Swap Detection from Warping and Identity Drift",
+      "keywords": ["faceswap", "deepfake video", "warping artifacts", "identity drift"],
+      "ontologyTags": [
+        { "path": ["video"] },
+        { "path": ["content-synthesis", "deepfakes", "face-swap"] },
+        { "path": ["geometric-structural-inconsistency", "warping"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. A video method that combines warping artifacts around the face boundary with identity drift to detect full face-swap deepfakes. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Built for Video Face Swap Deepfakes. It uses Warping around the face and identity drift over time. It is appropriate when the question is whether one person's face was placed onto another body in a moving clip.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b1-d1",
+      "title": "Audio-Only Spoof Detection for Voice Conversion",
+      "keywords": ["voice conversion", "audio spoofing", "ASVspoof", "synthetic speech"],
+      "ontologyTags": [
+        { "path": ["audio"] },
+        { "path": ["content-synthesis", "deepfakes"] },
+        { "path": ["acoustic-features", "mel-frequency-cepstral-coefficients-mfcc"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Classifies speech as bona fide or voice-converted using acoustic features. No visual stream is used. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This Audio Deepfakes detector uses Mel-frequency Cepstral Coefficients (MFCC). It does not inspect Video frames, so it cannot decide whether a face was swapped.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b1-d2",
+      "title": "Intra-Image Copy-Move Detection with SIFT Matching",
+      "keywords": ["SIFT", "copy-move", "cloned patches", "still-image forensics"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["content-rearrangement", "copy-move"] },
+        { "path": ["texture-based", "keypoint"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Finds cloned patches inside a single still image with SIFT matching. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. A Still Image Copy-move method based on Keypoint matching. It is not intended for Video Face Swap cases.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b1-d3",
+      "title": "PRNU-Based Source Camera Verification for Photographs",
+      "keywords": ["PRNU", "camera fingerprint", "source verification"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["device-source-identification"] },
+        { "path": ["noise-based", "prnu-noise"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Verifies whether a photograph was taken by a candidate camera using a PRNU fingerprint. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Device Source Identification for a Still Image using PRNU Noise. It does not detect Deepfakes or Face Swap in Video.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b2-target",
+      "title": "Detecting Fully Synthetic Images from Diffusion Fingerprints",
+      "keywords": ["AI-generated images", "diffusion detection", "synthetic media", "model fingerprints"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["content-synthesis", "full-synthesis"] },
+        { "path": ["fingerprint-attribution", "diffusion-based"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Detects fully synthetic still images and attributes them to diffusion model families via fingerprint features. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. This technique is for Full Synthesis of a Still Image, with Diffusion-based Fingerprint Attribution. Use it when the whole picture may have been generated by an image model rather than captured by a camera.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b2-d1",
+      "title": "Lip-Sync Reenactment Detection in Talking-Head Video",
+      "keywords": ["lip sync", "reenactment", "talking head", "deepfake video"],
+      "ontologyTags": [
+        { "path": ["video"] },
+        { "path": ["deepfakes", "lip-sync-reenactment"] },
+        { "path": ["cross-modal-inconsistency", "audio-visual"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Detects lip-sync reenactment by measuring Audio-Visual inconsistency in talking-head Video. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. A Video method for Lip-sync / Reenactment Deepfakes using Audio-Visual mismatch. It assumes a talking-head clip, not a fully generated still photograph.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b2-d2",
+      "title": "Double JPEG Compression Analysis for Edit History",
+      "keywords": ["JPEG", "double compression", "quantization", "edit history"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["signal-level-post-processing", "compression"] },
+        { "path": ["metadata-file-structure", "compression-artifacts"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Infers recompression history from JPEG quantization artifacts. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Analyzes Compression and Compression Artifacts in a Still Image. It can suggest that a file was resaved, but it is not a Full Synthesis detector for diffusion images.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b2-d3",
+      "title": "Scanner and Camera Classification from CFA Traces",
+      "keywords": ["CFA", "Bayer pattern", "device classification", "source identification"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["device-source-identification"] },
+        { "path": ["color-based", "color-filter-array-bayer"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Classifies acquisition devices using Color Filter Array Bayer traces. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Device Source Identification for a Still Image from Color Filter Array Bayer patterns. It assumes camera capture, not Full Synthesis by a generative model.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b3-target",
+      "title": "Splicing Detection via Illumination and Boundary Mismatch",
+      "keywords": ["splicing detection", "illumination mismatch", "composite images", "boundary analysis"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["content-rearrangement", "splicing"] },
+        { "path": ["blending-boundary"] },
+        { "path": ["violation-of-physics", "lighting"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Detects spliced composites by combining blending-boundary cues with lighting inconsistency. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Detects Splicing in a Still Image using Blending Boundary and Lighting inconsistencies. Appropriate when a region from another photograph may have been inserted into a host image.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b3-d1",
+      "title": "Copy-Move Localization with Circular Harmonic Features",
+      "keywords": ["copy-move localization", "duplication", "rotation invariant features"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["content-rearrangement", "copy-move"] },
+        { "path": ["texture-based"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Localizes duplicated regions copied within the same still image. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. A Copy-move detector for Still Image content. It assumes the duplicated patch comes from the same photograph, not from a different source image as in Splicing.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b3-d2",
+      "title": "Expression Manipulation Detection in Portrait Video",
+      "keywords": ["expression manipulation", "face reenactment", "portrait video"],
+      "ontologyTags": [
+        { "path": ["video"] },
+        { "path": ["deepfakes", "expression-attribute-manipulation"] },
+        { "path": ["biometric-signals", "movement"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Detects altered facial expressions in portrait Video using Movement cues. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. A Video Deepfakes method for Expression / Attribute Manipulation. It is not a Still Image Splicing detector.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b3-d3",
+      "title": "GAN Model Attribution from Frequency Spectra",
+      "keywords": ["GAN attribution", "frequency spectra", "synthetic portraits"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["fingerprint-attribution", "gan-based"] },
+        { "path": ["frequency-features", "discrete-fourier-transform-dft"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Attributes GAN-generated portraits using Discrete Fourier Transform DFT spectra. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. GAN-based Fingerprint Attribution for synthetic Still Image portraits. It is about which generator was used, not whether two real photographs were Spliced together.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b4-target",
+      "title": "Robust PRNU Matching for Source Camera Identification",
+      "keywords": ["PRNU matching", "source camera identification", "sensor pattern noise"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["device-source-identification"] },
+        { "path": ["noise-based", "prnu-noise"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Matches a photograph to a camera by correlating PRNU Noise fingerprints under compression. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Device Source Identification for a Still Image using PRNU Noise. Use it when the question is which camera sensor produced the photograph.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b4-d1",
+      "title": "EXIF Consistency Checking for Provenance Claims",
+      "keywords": ["EXIF", "metadata consistency", "provenance claims"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["metadata-tempering"] },
+        { "path": ["integrity-provenance-verification", "provenance-analysis"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Checks EXIF fields for internal consistency as a lightweight Provenance Analysis step. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Looks at Metadata Tampering and Provenance Analysis for a Still Image. Metadata can be copied or edited, so this is not a substitute for PRNU-based Device Source Identification.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b4-d2",
+      "title": "Fully Synthetic Image Detection with Spatial Rich Models",
+      "keywords": ["synthetic image detection", "SRM", "AI-generated photos"],
+      "ontologyTags": [
+        { "path": ["still-image"] },
+        { "path": ["content-synthesis", "full-synthesis"] },
+        { "path": ["noise-based", "srm-features"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Detects fully generated still images with Spatial Rich Models. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. Detects Full Synthesis in a Still Image using SRM Features. It asks whether the image is AI-generated, not which camera took a real photo.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    },
+    {
+      "id": "t-b4-d3",
+      "title": "Cross-Modal Lip-Audio Alignment for Reenactment Detection",
+      "keywords": ["lip-audio alignment", "reenactment", "cross-modal forensics"],
+      "ontologyTags": [
+        { "path": ["video"] },
+        { "path": ["lip-sync-reenactment"] },
+        { "path": ["audio-visual"] }
+      ],
+      "abstract": "PLACEHOLDER ABSTRACT. Measures lip-audio alignment in Video to detect reenactment. Replace this text with the published abstract.",
+      "aiSummary": "PLACEHOLDER AI SUMMARY. A Video Lip-sync / Reenactment detector using Audio-Visual alignment. It is not a camera identification method for Still Image evidence.",
+      "pdfPath": "ontology-technique-eval/assets/papers/placeholder.pdf"
+    }
+  ],
+  "taskAVignettes": [
+    {
+      "id": "task-a-1",
+      "set": "A",
+      "title": "Televised confession clip",
+      "scenario": "PLACEHOLDER SCENARIO. Investigators received a 20-second clip in which a local official appears to confess to taking bribes. Colleagues say the face looks like the official but the mannerisms seem off, and they suspect the face was replaced. The audio is believed to be the official's real voice from another interview. Decide whether the paired technique could produce useful evidence for this case.",
+      "techniqueId": "t-a1"
+    },
+    {
+      "id": "task-a-2",
+      "set": "A",
+      "title": "Which phone took the leak",
+      "scenario": "PLACEHOLDER SCENARIO. A still photograph of confidential printed slides was leaked. Two staff phones are possible sources. Investigators have other photos known to be taken by each phone. They need to know whether the leak photo can be linked to one of those devices.",
+      "techniqueId": "t-a2"
+    },
+    {
+      "id": "task-a-3",
+      "set": "A",
+      "title": "Crowd photo with a possible duplicate protester",
+      "scenario": "PLACEHOLDER SCENARIO. A newsroom is checking a still photograph from a demonstration. A reviewer thinks the same person may have been copied to make the crowd look larger. No second source image is available; the question is duplication inside this one photo.",
+      "techniqueId": "t-a3"
+    },
+    {
+      "id": "task-a-4",
+      "set": "A",
+      "title": "Voicemail threatening a witness",
+      "scenario": "PLACEHOLDER SCENARIO. A witness received a voicemail that sounds like a relative asking them not to testify. The relative denies making the call. There is no video; the only exhibit is the audio file. Investigators want to know if the speech is synthetic.",
+      "techniqueId": "t-a4"
+    },
+    {
+      "id": "task-a-5",
+      "set": "B",
+      "title": "Disaster photograph that may be fully generated",
+      "scenario": "PLACEHOLDER SCENARIO. A still image of a flooded downtown is circulating with a caption blaming a public official. Reverse image search finds no camera original. Analysts suspect the entire scene was generated by a diffusion image model rather than captured on site.",
+      "techniqueId": "t-a5"
+    },
+    {
+      "id": "task-a-6",
+      "set": "B",
+      "title": "Composited evidence photo",
+      "scenario": "PLACEHOLDER SCENARIO. A still photograph supposedly shows a suspect handing a bag to an associate. Lighting on the bag and the pavement appear inconsistent, and investigators think the bag may have been pasted in from another photograph.",
+      "techniqueId": "t-a6"
+    },
+    {
+      "id": "task-a-7",
+      "set": "B",
+      "title": "Photo with impossible camera tags",
+      "scenario": "PLACEHOLDER SCENARIO. A still image is offered as proof that a journalist was at a meeting. The EXIF make/model and timestamp contradict the journalist's known equipment and travel records. Investigators want to know if the file's metadata was altered.",
+      "techniqueId": "t-a7"
+    },
+    {
+      "id": "task-a-8",
+      "set": "B",
+      "title": "Object missing from a documentary still",
+      "scenario": "PLACEHOLDER SCENARIO. A documentary still is accused of hiding a protest sign. The wall behind the alleged sign looks unusually smooth. Investigators suspect the sign was removed and the region filled with generative inpainting.",
+      "techniqueId": "t-a8"
+    }
+  ],
+  "taskBVignettes": [
+    {
+      "id": "task-b-1",
+      "set": "A",
+      "title": "Viral confession video",
+      "scenario": "PLACEHOLDER SCENARIO. A 40-second video shows a coach appearing to admit to taking payments. Staff who know the coach say the body and clothing look right but the face seems superimposed. The original audio from a club livestream may have been kept. Choose the technique that is appropriate for this case.",
+      "techniqueIds": ["t-b1-target", "t-b1-d1", "t-b1-d2", "t-b1-d3"],
+      "correctTechniqueId": "t-b1-target"
+    },
+    {
+      "id": "task-b-2",
+      "set": "A",
+      "title": "AI-generated disaster still",
+      "scenario": "PLACEHOLDER SCENARIO. A high-resolution still image of a collapsed bridge is being shared as on-the-ground photography. No photographer can be identified, and nearby CCTV does not show the collapse. Analysts suspect the entire image was generated by a diffusion model. Choose the technique that is appropriate for this case.",
+      "techniqueIds": ["t-b2-target", "t-b2-d1", "t-b2-d2", "t-b2-d3"],
+      "correctTechniqueId": "t-b2-target"
+    },
+    {
+      "id": "task-b-3",
+      "set": "B",
+      "title": "Possible spliced still of a handoff",
+      "scenario": "PLACEHOLDER SCENARIO. A still photograph is offered as proof of a cash handoff. The inserted region around the envelope does not match the host scene's lighting, and the edge looks composited from a different photo rather than copied from within this one. Choose the technique that is appropriate for this case.",
+      "techniqueIds": ["t-b3-target", "t-b3-d1", "t-b3-d2", "t-b3-d3"],
+      "correctTechniqueId": "t-b3-target"
+    },
+    {
+      "id": "task-b-4",
+      "set": "B",
+      "title": "Linking a leak photo to a camera",
+      "scenario": "PLACEHOLDER SCENARIO. Investigators have a leaked still photograph and reference photos from two candidate cameras. They need to determine which device captured the leak, not whether the scene is synthetic and not whether someone spoke the words in a video. Choose the technique that is appropriate for this case.",
+      "techniqueIds": ["t-b4-target", "t-b4-d1", "t-b4-d2", "t-b4-d3"],
+      "correctTechniqueId": "t-b4-target"
+    }
+  ]
+}
