@@ -46,10 +46,10 @@ export default function TaskBStimulus({
   }
 
   return (
-    <Stack gap="md" p="md">
+    <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <Text size="xs" c="dimmed" tt="uppercase" fw={700}>Task B</Text>
       <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
-      <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm">
+      <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm" style={{ minWidth: 0 }}>
         {techniques.map((technique, index) => (
           <TechniqueCard
             key={technique.id}

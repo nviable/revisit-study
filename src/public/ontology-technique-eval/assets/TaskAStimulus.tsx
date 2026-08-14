@@ -39,7 +39,7 @@ export default function TaskAStimulus({
   }
 
   return (
-    <Stack gap="md" p="md">
+    <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <Text size="xs" c="dimmed" tt="uppercase" fw={700}>Task A</Text>
       <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
       <TechniqueCard

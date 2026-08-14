@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-  getAncestorChain, getOntologyTerm, highlightTerms, resolveTagPath,
+  getAncestorChain, getCategoryColor, getOntologyTerm, highlightTerms, resolveTagPath,
 } from './ontology';
 
 describe('ontology helpers', () => {
@@ -38,5 +38,23 @@ describe('ontology helpers', () => {
       'MFCC',
     ]);
     expect(segments.some((segment) => segment.matchedTitle === 'Mel-frequency Cepstral Coefficients (MFCC)')).toBe(true);
+  });
+
+  it('attaches the ontology definition and category color to highlighted titles', () => {
+    const segments = highlightTerms('This detects Face Swap in Video footage.', ['Face Swap', 'Video']);
+    const faceSwap = segments.find((segment) => segment.matchedTitle === 'Face Swap');
+    const video = segments.find((segment) => segment.matchedTitle === 'Video');
+
+    expect(faceSwap?.description).toMatch(/face has been superimposed/i);
+    expect(faceSwap?.color).toBe('defakeTeal');
+    expect(video?.description).toMatch(/sequence of images/i);
+    expect(video?.color).toBe('blue');
+  });
+
+  it('maps each ontology branch to a distinct color', () => {
+    expect(getCategoryColor('video')).toBe('blue');
+    expect(getCategoryColor('face-swap')).toBe('defakeTeal');
+    expect(getCategoryColor('prnu-noise')).toBe('orange');
+    expect(getCategoryColor('spatial-scope')).toBe('violet');
   });
 });

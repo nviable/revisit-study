@@ -1,8 +1,8 @@
 import {
   Badge,
-  Grid,
   Group,
   Paper,
+  SimpleGrid,
   Stack,
   Text,
   Title,
@@ -14,6 +14,13 @@ import { getDemoTechnique } from './studyBank';
 import { TechniqueCard } from './TechniqueCard';
 import type { ProvenanceState } from './types';
 import { useInteractionProvenance } from './useInteractionProvenance';
+
+const columnStyle = {
+  minWidth: 0,
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column' as const,
+};
 
 export default function FormatIntroduction({
   setAnswer,
@@ -33,7 +40,7 @@ export default function FormatIntroduction({
   }, [setAnswer]);
 
   return (
-    <Stack gap="md" p="md">
+    <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <div>
         <Title order={3}>How technique descriptions will look</Title>
         <Text size="sm" mt="xs">
@@ -44,37 +51,33 @@ export default function FormatIntroduction({
         </Text>
       </div>
 
-      <Grid gutter="md">
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Paper withBorder p="sm" radius="md" h="100%">
-            <Group gap="xs" mb="sm">
-              <IconTags size={18} />
-              <Title order={4}>Keyword supported</Title>
-              <Badge variant="outline" color="gray">Format A</Badge>
-            </Group>
-            <Text size="sm" mb="sm" c="dimmed">
-              The paper title is followed by author or publisher keywords. There is no hierarchy
-              and no built-in definition for each keyword.
-            </Text>
-            <TechniqueCard technique={technique} format="keywords" idPrefix="intro-keywords" onInteract={record} />
-          </Paper>
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Paper withBorder p="sm" radius="md" h="100%">
-            <Group gap="xs" mb="sm">
-              <IconSchema size={18} />
-              <Title order={4}>Ontology supported</Title>
-              <Badge color="defakeTeal" variant="light">Format B</Badge>
-            </Group>
-            <Text size="sm" mb="sm" c="dimmed">
-              The same title is followed by structured tags. Chains such as parent → leaf show
-              how a term sits in the vocabulary. Hover a tag for its definition. Matching terms
-              are highlighted in the plain-language summary.
-            </Text>
-            <TechniqueCard technique={technique} format="ontology" idPrefix="intro-ontology" onInteract={record} />
-          </Paper>
-        </Grid.Col>
-      </Grid>
+      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md" style={{ minWidth: 0 }}>
+        <Paper withBorder p="md" radius="md" style={columnStyle}>
+          <Group gap="xs" mb="sm" wrap="wrap">
+            <IconTags size={18} />
+            <Title order={4}>Keyword supported</Title>
+            <Badge variant="outline" color="gray">Format A</Badge>
+          </Group>
+          <Text size="sm" mb="sm" c="dimmed">
+            The paper title is followed by author or publisher keywords. There is no hierarchy
+            and no built-in definition for each keyword.
+          </Text>
+          <TechniqueCard technique={technique} format="keywords" idPrefix="intro-keywords" onInteract={record} />
+        </Paper>
+        <Paper withBorder p="md" radius="md" style={columnStyle}>
+          <Group gap="xs" mb="sm" wrap="wrap">
+            <IconSchema size={18} />
+            <Title order={4}>Ontology supported</Title>
+            <Badge color="defakeTeal" variant="light">Format B</Badge>
+          </Group>
+          <Text size="sm" mb="sm" c="dimmed">
+            The same title is followed by structured tags. Chains such as parent → leaf show
+            how a term sits in the vocabulary. Hover a tag for its definition. Matching terms
+            are highlighted in the plain-language summary.
+          </Text>
+          <TechniqueCard technique={technique} format="ontology" idPrefix="intro-ontology" onInteract={record} />
+        </Paper>
+      </SimpleGrid>
     </Stack>
   );
 }

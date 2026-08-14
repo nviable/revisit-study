@@ -8,8 +8,35 @@ const TERMS_BY_SLUG: Record<string, OntologyTerm> = TERMS.reduce((acc, term) => 
   return acc;
 }, {} as Record<string, OntologyTerm>);
 
+const TERMS_BY_TITLE: Record<string, OntologyTerm> = TERMS.reduce((acc, term) => {
+  acc[term.title.toLowerCase()] = term;
+  return acc;
+}, {} as Record<string, OntologyTerm>);
+
+/** Mantine color names for the four top-level ontology branches. */
+export const ONTOLOGY_CATEGORY_COLORS: Record<string, string> = {
+  'media-modality': 'blue',
+  'forensic-goal-task': 'defakeTeal',
+  'evidentiary-features': 'orange',
+  'search-analysis-scope': 'violet',
+};
+
 export function getOntologyTerm(slug: string): OntologyTerm | undefined {
   return TERMS_BY_SLUG[slug];
+}
+
+export function getOntologyTermByTitle(title: string): OntologyTerm | undefined {
+  return TERMS_BY_TITLE[title.toLowerCase()];
+}
+
+export function getRootCategorySlug(slug: string): string | undefined {
+  const chain = getAncestorChain(slug);
+  return chain[0]?.slug;
+}
+
+export function getCategoryColor(slug: string): string {
+  const root = getRootCategorySlug(slug);
+  return (root && ONTOLOGY_CATEGORY_COLORS[root]) || 'gray';
 }
 
 /** Walk parent_slug links from a leaf up to (and including) the root. */
@@ -36,6 +63,8 @@ export function resolveTagPath(path: string[]): OntologyTerm[] {
 export interface HighlightSegment {
   text: string;
   matchedTitle?: string;
+  description?: string;
+  color?: string;
 }
 
 /**
@@ -62,7 +91,13 @@ export function highlightTerms(text: string, titles: string[]): HighlightSegment
     }
     const matchedText = match[0];
     const canonical = uniqueTitles.find((title) => title.toLowerCase() === matchedText.toLowerCase());
-    segments.push({ text: matchedText, matchedTitle: canonical });
+    const matchedTerm = canonical ? getOntologyTermByTitle(canonical) : undefined;
+    segments.push({
+      text: matchedText,
+      matchedTitle: canonical,
+      description: matchedTerm?.description,
+      color: matchedTerm ? getCategoryColor(matchedTerm.slug) : undefined,
+    });
     lastIndex = match.index + matchedText.length;
     match = pattern.exec(text);
   }

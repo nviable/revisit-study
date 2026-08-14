@@ -20,7 +20,9 @@ import {
 } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 import { PREFIX } from '../../../utils/Prefix';
-import { highlightTerms, resolveTagPath, titlesForTechniqueTags } from './ontology';
+import {
+  getCategoryColor, highlightTerms, resolveTagPath, titlesForTechniqueTags,
+} from './ontology';
 import type {
   DescriptionFormat, InteractionEventType, Technique,
 } from './types';
@@ -38,6 +40,21 @@ interface TechniqueCardProps {
   }) => void;
 }
 
+const tagBadgeStyles = {
+  root: {
+    textTransform: 'none' as const,
+    height: 'auto',
+    padding: '6px 12px',
+    lineHeight: 1.35,
+    whiteSpace: 'normal' as const,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: 600,
+    whiteSpace: 'normal' as const,
+  },
+};
+
 function OntologyTagChain({
   path,
   techniqueId,
@@ -53,11 +70,11 @@ function OntologyTagChain({
   }
 
   return (
-    <Group gap={4} wrap="wrap">
+    <Group gap={6} wrap="wrap">
       {terms.map((term, index) => (
-        <Group key={term.slug} gap={4} wrap="nowrap">
+        <Group key={term.slug} gap={6} wrap="wrap">
           {index > 0 && (
-            <Text size="xs" c="dimmed" aria-hidden="true">→</Text>
+            <Text size="sm" c="dimmed" aria-hidden="true">→</Text>
           )}
           <Tooltip
             label={term.description}
@@ -68,10 +85,11 @@ function OntologyTagChain({
           >
             <Badge
               variant="light"
-              color="defakeTeal"
-              size="sm"
-              style={{ cursor: 'help', textTransform: 'none' }}
-              leftSection={<IconInfoCircle size={12} />}
+              color={getCategoryColor(term.slug)}
+              size="md"
+              styles={tagBadgeStyles}
+              style={{ cursor: 'help' }}
+              leftSection={<IconInfoCircle size={14} />}
               onMouseEnter={() => onInteract({
                 type: 'hover',
                 elementId: `tag-hover:${techniqueId}:${term.slug}`,
@@ -174,12 +192,12 @@ export function TechniqueCard({
       shadow="sm"
       p={compact ? 'sm' : 'md'}
       radius="md"
-      h="100%"
-      style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}
+      w="100%"
+      style={{ minWidth: 0, overflow: 'hidden' }}
     >
-      <Stack gap={compact ? 'xs' : 'sm'} style={{ flex: 1 }}>
+      <Stack gap={compact ? 'xs' : 'sm'}>
         <Group justify="space-between" align="flex-start" wrap="nowrap" gap="xs">
-          <Title order={compact ? 5 : 4} style={{ lineHeight: 1.3 }}>
+          <Title order={compact ? 5 : 4} style={{ lineHeight: 1.3, overflowWrap: 'anywhere' }}>
             {technique.title}
           </Title>
           {index != null && (
@@ -190,16 +208,17 @@ export function TechniqueCard({
         {format === 'keywords' ? (
           <Box>
             <Group gap={6} mb={6}>
-              <IconTags size={14} />
-              <Text size="xs" fw={600} tt="uppercase" c="dimmed">Keywords</Text>
+              <IconTags size={16} />
+              <Text size="sm" fw={600} tt="uppercase" c="dimmed">Keywords</Text>
             </Group>
-            <Group gap={6}>
+            <Group gap={8}>
               {technique.keywords.map((keyword) => (
                 <Badge
                   key={keyword}
                   variant="outline"
                   color="gray"
-                  style={{ textTransform: 'none' }}
+                  size="md"
+                  styles={tagBadgeStyles}
                   onClick={() => onInteract({
                     type: 'click',
                     elementId: `${cardId}:keyword:${keyword}`,
@@ -214,10 +233,10 @@ export function TechniqueCard({
         ) : (
           <Box>
             <Group gap={6} mb={6}>
-              <IconInfoCircle size={14} />
-              <Text size="xs" fw={600} tt="uppercase" c="dimmed">Structured tags</Text>
+              <IconInfoCircle size={16} />
+              <Text size="sm" fw={600} tt="uppercase" c="dimmed">Structured tags</Text>
             </Group>
-            <Stack gap={6}>
+            <Stack gap={8}>
               {technique.ontologyTags.map((tag) => (
                 <OntologyTagChain
                   key={tag.path.join('>')}
@@ -237,8 +256,10 @@ export function TechniqueCard({
           value={openPanels}
           onChange={togglePanel}
           styles={{
+            item: { overflow: 'hidden' },
             control: { paddingTop: compact ? 8 : 12, paddingBottom: compact ? 8 : 12 },
             content: { fontSize: compact ? 13 : 14 },
+            panel: { overflowWrap: 'anywhere' },
           }}
         >
           <Accordion.Item value="abstract">
@@ -257,8 +278,22 @@ export function TechniqueCard({
               <Text size="sm">
                 {summarySegments.map((segment, segmentIndex) => (
                   segment.matchedTitle ? (
-                    <Tooltip key={`hl-${segmentIndex}`} label={segment.matchedTitle} withArrow>
-                      <Text span fw={600} c="defakeTeal.8" style={{ background: 'var(--mantine-color-defakeTeal-1)' }}>
+                    <Tooltip
+                      key={`hl-${segmentIndex}`}
+                      label={segment.description || segment.matchedTitle}
+                      multiline
+                      w={280}
+                      withArrow
+                    >
+                      <Text
+                        span
+                        fw={600}
+                        c={`${segment.color ?? 'defakeTeal'}.8`}
+                        style={{
+                          background: `var(--mantine-color-${segment.color ?? 'defakeTeal'}-1)`,
+                          cursor: 'help',
+                        }}
+                      >
                         {segment.text}
                       </Text>
                     </Tooltip>
