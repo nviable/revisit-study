@@ -352,6 +352,13 @@
       "nextButtonLocation": "belowStimulus",
       "response": [
         {
+          "id": "partCIntro",
+          "type": "textOnly",
+          "location": "belowStimulus",
+          "prompt": "There are no right or wrong answers. We are interested in your honest impressions.",
+          "restartEnumeration": true
+        },
+        {
           "id": "noticedFormatDifference",
           "prompt": "In this study, technique descriptions were shown in two different ways. Did you notice a difference between how some descriptions were presented and others?",
           "location": "belowStimulus",
@@ -389,23 +396,23 @@
           "type": "radio",
           "options": [
             {
-              "label": "1 — Strongly prefer the paper's keywords",
+              "label": "1 - Strongly prefer the paper's keywords",
               "value": "1"
             },
             {
-              "label": "2 — Somewhat prefer the paper's keywords",
+              "label": "2 - Somewhat prefer the paper's keywords",
               "value": "2"
             },
             {
-              "label": "3 — No preference",
+              "label": "3 - No preference",
               "value": "3"
             },
             {
-              "label": "4 — Somewhat prefer the ontology tags",
+              "label": "4 - Somewhat prefer the ontology tags",
               "value": "4"
             },
             {
-              "label": "5 — Strongly prefer the ontology tags",
+              "label": "5 - Strongly prefer the ontology tags",
               "value": "5"
             }
           ]

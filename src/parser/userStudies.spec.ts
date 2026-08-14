@@ -24,4 +24,24 @@ describe('user studies from production fork', () => {
     const parsed = await parseStudyConfig(text);
     expect(parsed.errors, JSON.stringify(parsed.errors, null, 2)).toEqual([]);
   });
+
+  it('accepts the ontology-technique-eval Part C questionnaire', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const partC = parsed.components['part-c'];
+
+    expect(parsed.errors).toEqual([]);
+    expect(partC).toMatchObject({
+      type: 'questionnaire',
+      response: [
+        { id: 'partCIntro', type: 'textOnly' },
+        { id: 'noticedFormatDifference', type: 'radio' },
+        { id: 'ontologyCategoryRank', type: 'ranking-sublist' },
+        { id: 'ontologyTagGaps', type: 'longText' },
+        { id: 'formatPreference', type: 'radio' },
+        { id: 'formatPreferenceWhy', type: 'longText' },
+        { id: 'ontologyApplications', type: 'matrix-radio' },
+      ],
+    });
+  });
 });
