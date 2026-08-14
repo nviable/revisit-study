@@ -356,7 +356,6 @@
           "prompt": "In this study, technique descriptions were shown in two different ways. Did you notice a difference between how some descriptions were presented and others?",
           "location": "belowStimulus",
           "type": "radio",
-          "restartEnumeration": true,
           "options": [
             "Yes",
             "No",
