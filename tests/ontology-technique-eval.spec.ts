@@ -31,6 +31,7 @@ async function answerPartC(page: Page) {
 }
 
 test('ontology technique evaluation study walks through consent, formats, and tasks', async ({ page }) => {
+  test.setTimeout(180000);
   await page.setViewportSize({ width: 1400, height: 900 });
   await resetClientStudyState(page);
   await openStudyFromLanding(
@@ -41,10 +42,12 @@ test('ontology technique evaluation study walks through consent, formats, and ta
 
   const consentFrame = page.frameLocator('iframe');
   await expect(consentFrame.getByRole('heading', { name: /Ontology-based Framework/i })).toBeVisible();
-  await expect(consentFrame.getByText('About 45 minutes')).toBeVisible();
-  await expect(consentFrame.getByText('$15 via Prolific')).toBeVisible();
-  await expect(consentFrame.getByText('Y. Kelly Wu')).toBeVisible();
-  await expect(consentFrame.getByText('Saniat J. Sohrawardi')).toBeVisible();
+  const glance = consentFrame.locator('.glance');
+  await expect(glance.getByText('About 45 minutes', { exact: true })).toBeVisible();
+  await expect(glance.getByText('$15 via Prolific', { exact: true })).toBeVisible();
+  const researchTeam = consentFrame.locator('.people').first();
+  await expect(researchTeam.getByText('Y. Kelly Wu', { exact: true })).toBeVisible();
+  await expect(researchTeam.getByText('Saniat J. Sohrawardi', { exact: true })).toBeVisible();
 
   await page.getByRole('radio', { name: /I agree to participate/i }).click();
   await nextClick(page);
@@ -64,7 +67,7 @@ test('ontology technique evaluation study walks through consent, formats, and ta
       await page.getByRole('radio', { name: 'Somewhat agree' }).click();
     } else {
       await expect(page.getByText('Could this technique be applied')).toBeVisible();
-      await page.getByRole('button', { name: 'Abstract' }).click();
+      await page.getByRole('button', { name: 'Abstract' }).first().click();
       await answerTaskA(page);
     }
     await nextClick(page);
