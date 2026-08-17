@@ -124,8 +124,9 @@
       ]
     },
     "about-you": {
-      "type": "questionnaire",
-      "instruction": "First, we have four short questions about your professional background. We do not ask for your name, institution, or job title.",
+      "type": "markdown",
+      "path": "stopscan-expert-panel/assets/about-you.md",
+      "instruction": "Please answer the four short questions in the sidebar.",
       "instructionLocation": "sidebar",
       "nextButtonLocation": "sidebar",
       "withSidebar": true,
