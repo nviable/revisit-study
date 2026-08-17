@@ -1,5 +1,8 @@
+import { readFileSync } from 'fs';
 import { describe, expect, it } from 'vitest';
 import { CASES, STOPSCAN_OVERVIEW } from './content';
+
+const iframePages = ['consent.html', 'debrief.html'] as const;
 
 describe('STOP&SCAN participant copy', () => {
   it('uses neutral case titles that do not reveal outcomes', () => {
@@ -27,5 +30,17 @@ describe('STOP&SCAN participant copy', () => {
     expect(outcomes[1]).toContain('outcome is Decline to act or share');
     expect(outcomes[2]).toContain('outcome is Trust');
     expect(outcomes[3]).toContain('outcome is Withhold judgment');
+  });
+
+  it('uses the app fonts on iframe HTML pages', () => {
+    iframePages.forEach((name) => {
+      const html = readFileSync(new URL(`../../../../public/stopscan-expert-panel/assets/${name}`, import.meta.url), 'utf8');
+
+      expect(html).toContain('family=Inter');
+      expect(html).toContain('family=Space+Grotesk');
+      expect(html).toContain('"Inter"');
+      expect(html).toContain('"Space Grotesk"');
+      expect(html).not.toMatch(/Iowan Old Style|Palatino|Georgia, serif/);
+    });
   });
 });
