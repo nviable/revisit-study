@@ -47,8 +47,8 @@ test('Test example cleveland', async ({ page }) => {
     // Check that the visualization is visible
     const vis = await page.getByRole('main').getByRole('img');
     await expect(vis).toBeVisible();
-    const visChildren = await page.locator(visSearchArray[idx]);
-    await expect(await visChildren.count()).toBeGreaterThan(0);
+    const visChildren = page.locator(visSearchArray[idx]);
+    await expect.poll(async () => visChildren.count(), { timeout: 10000 }).toBeGreaterThan(0);
 
     // Fill in answer guess
     await page.getByPlaceholder('0-100').fill('66');
@@ -79,8 +79,8 @@ test('Test example cleveland', async ({ page }) => {
     // Check that the visualization is visible
     const vis = await page.getByRole('main').getByRole('img');
     await expect(vis).toBeVisible();
-    const visChildren = await page.locator(visSearchArray2[idx]);
-    await expect(await visChildren.count()).toBeGreaterThan(0);
+    const visChildren = page.locator(visSearchArray2[idx]);
+    await expect.poll(async () => visChildren.count(), { timeout: 10000 }).toBeGreaterThan(0);
 
     // Fill in answer
     await page.getByPlaceholder('0-100').fill('66');

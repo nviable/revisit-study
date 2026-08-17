@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.4.3/src/parser/GlobalConfigSchema.json",
   "configsList": [
+    "stopscan-expert-panel",
     "varuna-sme-eval-ontology",
     "dndf-scenario-evaluation",
     "tutorial",
@@ -273,6 +274,9 @@
     },
     "dndf-scenario-evaluation": {
       "path": "dndf-scenario-evaluation/config.json"
+    },
+    "stopscan-expert-panel": {
+      "path": "stopscan-expert-panel/config.json"
     }
   }
 }
