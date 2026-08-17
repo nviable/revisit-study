@@ -12,23 +12,23 @@ export type RatingStimulusParams = {
 const SECTION_COPY: Record<RatingStimulusParams['section'], { title: string; body: string }> = {
   stopscan: {
     title: 'Rating STOP&SCAN',
-    body: 'Seven-point agreement items about the framework you just saw applied across the four cases. Optional “why” boxes follow each item.',
+    body: 'Thinking about all four cases, rate how much you agree or disagree with each statement. You may explain any rating in the optional text box.',
   },
   sift: {
     title: 'Rating SIFT',
-    body: 'Asked before we state any of our own criticisms of SIFT. Use the reference buttons if you want to re-read the SIFT card.',
+    body: 'Now consider SIFT. These questions appear before we show you our own criticisms of it. Use the reference buttons if you would like to review the SIFT summary.',
   },
   open: {
     title: 'Open critique',
-    body: 'All free text, all optional. Asked before we state our criticisms of SIFT.',
+    body: 'These questions are optional. They appear before we show you our own concerns about SIFT.',
   },
   critique: {
-    title: 'Our position on SIFT, and your response',
-    body: 'Read our stated positions below, then respond in the sidebar.',
+    title: 'Concerns about using SIFT with synthetic media',
+    body: 'Read each concern below, then tell us where you agree, where it is overstated, and where it is wrong.',
   },
   compare: {
-    title: 'Comparative and recommendation',
-    body: 'Seven-point bipolar items with SIFT at one end, STOP&SCAN at the other, and “no preference” as the midpoint. Two independent checkboxes are available on each item.',
+    title: 'Final comparison',
+    body: 'Compare the two approaches. The middle of each scale means that you have no preference. You may also indicate that neither approach is adequate or that you do not feel able to compare them.',
   },
 };
 

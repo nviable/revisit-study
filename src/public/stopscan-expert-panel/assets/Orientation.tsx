@@ -42,10 +42,10 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             <ThemeIcon color="teal" variant="light" radius="xl">
               <IconBook2 size={18} />
             </ThemeIcon>
-            <Title order={2}>Orientation</Title>
+            <Title order={2}>Before you begin</Title>
           </Group>
           <Text c="dimmed" size="sm">
-            Read the framework below. Open the reference cards only if you want them.
+            First, we will explain STOP&SCAN. Then you will review four examples of how it might be used.
           </Text>
         </div>
 
@@ -57,7 +57,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             borderRadius: 12,
           }}
         >
-          <Title order={3} mb="sm">The framework being evaluated</Title>
+          <Title order={3} mb="sm">What STOP&SCAN does</Title>
           <Text mb="md">{STOPSCAN_OVERVIEW.intro}</Text>
           <Stack gap="sm">
             {STOPSCAN_OVERVIEW.elements.map((el) => {
@@ -75,12 +75,44 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
               );
             })}
           </Stack>
-          <Text fw={600} mt="md" mb={4}>Three outcomes are available, and all three are legitimate endpoints:</Text>
-          <List size="sm" spacing={4}>
-            {STOPSCAN_OVERVIEW.outcomes.map((o) => (
-              <List.Item key={o}>{o}</List.Item>
+        </Box>
+
+        <Box
+          p="md"
+          style={{
+            border: '1px solid #e2e8f0',
+            borderRadius: 12,
+            background: '#fff',
+          }}
+        >
+          <Title order={4} mb="xs">Why this order is used</Title>
+          {STOPSCAN_OVERVIEW.orderExplanation.map((p) => (
+            <Text key={p.slice(0, 32)} size="sm" mb="sm">{p}</Text>
+          ))}
+        </Box>
+
+        <Box
+          p="md"
+          style={{
+            border: '1px solid #e2e8f0',
+            borderRadius: 12,
+            background: '#fff',
+          }}
+        >
+          <Title order={4} mb="xs">Possible outcomes</Title>
+          <Text size="sm" mb="sm">
+            After completing the steps, choose the outcome that best matches the available evidence:
+          </Text>
+          <List size="sm" spacing={8}>
+            {STOPSCAN_OVERVIEW.outcomes.map((outcome) => (
+              <List.Item key={outcome.title}>
+                <Text span fw={700}>{outcome.title}:</Text>
+                {' '}
+                {outcome.body}
+              </List.Item>
             ))}
           </List>
+          <Text size="sm" mt="md">{STOPSCAN_OVERVIEW.reporting}</Text>
         </Box>
 
         <Box
@@ -114,9 +146,9 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
         </Box>
 
         <div>
-          <Title order={4} mb="xs">Reference cards</Title>
+          <Title order={4} mb="xs">For your reference</Title>
           <Text size="sm" c="dimmed" mb="sm">
-            Collapsed by default. Open them if you want them; most participants will not need to.
+            These summaries are optional. Open them if you would like a reminder about another approach mentioned in the study.
           </Text>
           <Accordion
             multiple
@@ -135,7 +167,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
           >
             <Accordion.Item value="sift">
               <Accordion.Control icon={<IconSearch size={16} />}>
-                Card 1 — {REFERENCE_CARDS.sift.title}
+                {REFERENCE_CARDS.sift.title}
               </Accordion.Control>
               <Accordion.Panel>
                 <Text size="sm">{REFERENCE_CARDS.sift.body}</Text>
@@ -143,7 +175,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             </Accordion.Item>
             <Accordion.Item value="detector">
               <Accordion.Control icon={<IconShieldExclamation size={16} />}>
-                Card 2 — {REFERENCE_CARDS.detector.title}
+                {REFERENCE_CARDS.detector.title}
               </Accordion.Control>
               <Accordion.Panel>
                 <Text size="sm">{REFERENCE_CARDS.detector.body}</Text>

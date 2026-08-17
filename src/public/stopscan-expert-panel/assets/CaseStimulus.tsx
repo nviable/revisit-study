@@ -34,11 +34,11 @@ function StepEvaluation({ step, current }: { step: CaseStepContent; current: boo
             <IconQuote size={14} />
           </ThemeIcon>
           <Text fw={700}>
-            Step {step.stepIndex} of 4 — {step.label}
+            Example reasoning: Step {step.stepIndex} of 4 — {step.label}
           </Text>
         </Group>
         {!current && (
-          <Badge size="xs" variant="outline" color="gray">Previously submitted</Badge>
+          <Badge size="xs" variant="outline" color="gray">Earlier step</Badge>
         )}
         {current && (
           <Badge size="xs" variant="light" color="teal">Current step</Badge>
@@ -77,12 +77,45 @@ export default function CaseStimulus({
       <ReferenceHelpers onLog={logEvent} />
 
       <Stack gap="md">
+        {mode === 'step' && stepKey === 'source' && caseId === 'case1' && (
+          <Box
+            p="md"
+            style={{
+              background: '#f0f7ff',
+              border: '1px solid #cfe0f2',
+              borderRadius: 12,
+            }}
+          >
+            <Text fw={700} mb={6}>Your first case</Text>
+            <Text size="sm">
+              You will now review the first of four real cases. We will show how someone
+              might use STOP&SCAN, one step at a time. After each step, tell us whether
+              the reasoning seems fair and useful. You are reviewing our example—not
+              solving the case yourself.
+            </Text>
+          </Box>
+        )}
+        {mode === 'step' && stepKey === 'source' && caseId !== 'case1' && (
+          <Box
+            p="sm"
+            style={{
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: 10,
+            }}
+          >
+            <Text size="sm">
+              This is the next real case. As before, review the example reasoning rather
+              than solving the case yourself.
+            </Text>
+          </Box>
+        )}
         <div>
           <Group gap="xs" mb={4}>
             <Badge color="teal" variant="light">{caseContent.shortLabel}</Badge>
             {mode === 'step' && stepKey && (
               <Badge color="gray" variant="outline">
-                Responding to {caseContent.steps.find((s) => s.key === stepKey)?.label}
+                Reviewing: {caseContent.steps.find((s) => s.key === stepKey)?.label}
               </Badge>
             )}
             {mode === 'after' && (
@@ -104,7 +137,7 @@ export default function CaseStimulus({
             <ThemeIcon size="sm" variant="light" color="gray" radius="xl">
               <IconClipboardList size={14} />
             </ThemeIcon>
-            <Text fw={600} size="sm">The encounter</Text>
+            <Text fw={600} size="sm">What happened</Text>
           </Group>
           <Text size="sm">{caseContent.encounter}</Text>
         </Box>
@@ -126,10 +159,10 @@ export default function CaseStimulus({
               background: '#fff',
             }}
           >
-            <Text fw={600} mb={6}>What would have happened had someone done less?</Text>
+            <Text fw={600} mb={6}>What if someone had stopped earlier?</Text>
             <Text size="sm" c="dimmed">
-              Please answer the questions in the sidebar. These compare stopping early,
-              checking only the source, or going straight to a detection tool.
+              Now think about what might have happened if the person had stopped earlier
+              or relied on only one kind of check. Please answer the questions in the sidebar.
             </Text>
           </Box>
         )}

@@ -61,7 +61,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
         }}
       >
         <Text size="sm" c="dimmed" mb={8}>
-          Reference
+          For your reference
         </Text>
         <Group gap="xs" wrap="wrap">
           <Button
@@ -71,7 +71,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             leftSection={<IconBook2 size={14} />}
             onClick={() => openModal('stopscan')}
           >
-            STOP&SCAN
+            STOP&SCAN summary
           </Button>
           <Button
             variant="light"
@@ -80,7 +80,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             leftSection={<IconSearch size={14} />}
             onClick={() => openModal('sift')}
           >
-            SIFT / Four Moves
+            SIFT summary
           </Button>
           <Button
             variant="light"
@@ -89,7 +89,7 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
             leftSection={<IconShieldExclamation size={14} />}
             onClick={() => openModal('detector')}
           >
-            Detector / provenance
+            Detection and provenance tools
           </Button>
         </Group>
       </Box>
@@ -123,10 +123,15 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
           <div>
             <Text fw={600} size="sm" mb={4}>Outcomes</Text>
             <List size="sm" spacing={4}>
-              {STOPSCAN_OVERVIEW.outcomes.map((o) => (
-                <List.Item key={o}>{o}</List.Item>
+              {STOPSCAN_OVERVIEW.outcomes.map((outcome) => (
+                <List.Item key={outcome.title}>
+                  <Text span fw={700}>{outcome.title}:</Text>
+                  {' '}
+                  {outcome.body}
+                </List.Item>
               ))}
             </List>
+            <Text size="sm" mt="sm">{STOPSCAN_OVERVIEW.reporting}</Text>
           </div>
           <div>
             <Title order={5}>{STOPSCAN_OVERVIEW.coverageRule.title}</Title>

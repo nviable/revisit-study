@@ -9,7 +9,7 @@
       "Fatma Aksu"
     ],
     "date": "2026-08-05",
-    "description": "Structured expert evaluation of STOP&SCAN, a framework for evaluating potentially synthetic media. Participants critique team-authored evaluations of four public cases and compare against SIFT / detector workflows.",
+    "description": "Review how STOP&SCAN is used in four real cases and compare it with SIFT and detection and provenance tools.",
     "organizations": [
       "Rochester Institute of Technology",
       "University of Bologna"
@@ -125,14 +125,14 @@
     },
     "about-you": {
       "type": "questionnaire",
-      "instruction": "Four short questions before we begin. None of them asks for anything that would identify you, and we do not collect your institution or your job title.",
+      "instruction": "First, we have four short questions about your professional background. We do not ask for your name, institution, or job title.",
       "instructionLocation": "sidebar",
       "nextButtonLocation": "sidebar",
       "withSidebar": true,
       "response": [
         {
           "id": "B1",
-          "prompt": "Which best describes your primary professional field?",
+          "prompt": "Which area best describes most of your professional work?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -146,7 +146,7 @@
         },
         {
           "id": "B2",
-          "prompt": "Do you also work substantially in any of the others?",
+          "prompt": "Do you also work regularly in any of these other areas?",
           "location": "sidebar",
           "type": "checkbox",
           "options": [
@@ -160,7 +160,7 @@
         },
         {
           "id": "B3",
-          "prompt": "Roughly how long have you worked in this area?",
+          "prompt": "About how long have you worked in this field?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -173,15 +173,15 @@
         },
         {
           "id": "B4",
-          "prompt": "How familiar are you with SIFT / the Four Moves, or with lateral-reading pedagogy?",
+          "prompt": "How familiar are you with SIFT, the Four Moves, or lateral reading?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Not familiar",
-            "Aware of it, have not used it",
-            "Have used or taught it occasionally",
-            "Use or teach it regularly",
-            "I have contributed to work on it"
+            "I am not familiar with them",
+            "I have heard of them but have not used them",
+            "I have used or taught them occasionally",
+            "I use or teach them regularly",
+            "I have contributed to work on them"
           ],
           "required": false
         }
@@ -191,7 +191,7 @@
       "type": "react-component",
       "path": "stopscan-expert-panel/assets/Orientation.tsx",
       "nextButtonLocation": "sidebar",
-      "instruction": "Please read the orientation. Open the reference cards only if useful.",
+      "instruction": "Please read this introduction to STOP&SCAN. The optional summaries at the end are available for your reference.",
       "instructionLocation": "sidebar",
       "response": [
         {
@@ -214,9 +214,9 @@
       "meta": {
         "caseId": "case1",
         "stepKey": "source",
-        "title": "A phone call in a voice you recognize"
+        "title": "An urgent phone call"
       },
-      "instruction": "**Case 1 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 1 — Source.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -228,7 +228,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -236,14 +236,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -257,15 +257,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -279,7 +279,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -297,9 +297,9 @@
       "meta": {
         "caseId": "case1",
         "stepKey": "content",
-        "title": "A phone call in a voice you recognize"
+        "title": "An urgent phone call"
       },
-      "instruction": "**Case 1 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 1 — Content.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -311,7 +311,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -319,14 +319,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -340,15 +340,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -362,7 +362,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -380,9 +380,9 @@
       "meta": {
         "caseId": "case1",
         "stepKey": "alignment",
-        "title": "A phone call in a voice you recognize"
+        "title": "An urgent phone call"
       },
-      "instruction": "**Case 1 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 1 — Alignment.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -394,7 +394,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -402,14 +402,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -423,15 +423,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -445,7 +445,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -463,9 +463,9 @@
       "meta": {
         "caseId": "case1",
         "stepKey": "reflect",
-        "title": "A phone call in a voice you recognize"
+        "title": "An urgent phone call"
       },
-      "instruction": "**Case 1 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 1 — Now Reflect.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -477,7 +477,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -485,14 +485,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -506,15 +506,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -528,7 +528,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -545,9 +545,9 @@
       },
       "meta": {
         "caseId": "case1",
-        "title": "A phone call in a voice you recognize"
+        "title": "An urgent phone call"
       },
-      "instruction": "**Case 1 — after.** What would have happened had someone done less?",
+      "instruction": "**Case 1 — after the case.** What if someone had stopped earlier?",
       "response": [
         {
           "id": "interactionLog",
@@ -559,7 +559,7 @@
         },
         {
           "id": "X1",
-          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "prompt": "At what point might someone reasonably have felt they had enough information to stop?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -573,7 +573,7 @@
         },
         {
           "id": "X2",
-          "prompt": "And what would they have concluded there?",
+          "prompt": "What would they probably have concluded at that point?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -592,7 +592,7 @@
         },
         {
           "id": "X3",
-          "prompt": "Which single step, removed, most changes the outcome?",
+          "prompt": "If one step were removed, which removal would be most likely to change the final outcome?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -606,21 +606,21 @@
         },
         {
           "id": "X4",
-          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "prompt": "If someone had checked only who posted or shared the content, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X5",
-          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "prompt": "If someone had used only an AI-detection or provenance tool, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X6",
-          "prompt": "Which steps added nothing on this case?",
+          "prompt": "Which steps, if any, did not add useful information in this case?",
           "location": "sidebar",
           "type": "checkbox",
           "options": [
@@ -635,19 +635,19 @@
         },
         {
           "id": "X7",
-          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "prompt": "Did this case require a check or action that STOP&SCAN did not suggest?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X8",
-          "prompt": "Was the framework adequate on this case?",
+          "prompt": "Overall, how well did STOP&SCAN handle this case?",
           "location": "sidebar",
           "type": "likert",
           "numItems": 5,
-          "leftLabel": "Clearly inadequate",
-          "rightLabel": "Clearly adequate",
+          "leftLabel": "Handled it very poorly",
+          "rightLabel": "Handled it very well",
           "required": false
         },
         {
@@ -669,9 +669,9 @@
       "meta": {
         "caseId": "case2",
         "stepKey": "source",
-        "title": "A real agency posting an unreal map"
+        "title": "A wind forecast map"
       },
-      "instruction": "**Case 2 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 2 — Source.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -683,7 +683,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -691,14 +691,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -712,15 +712,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -734,7 +734,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -752,9 +752,9 @@
       "meta": {
         "caseId": "case2",
         "stepKey": "content",
-        "title": "A real agency posting an unreal map"
+        "title": "A wind forecast map"
       },
-      "instruction": "**Case 2 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 2 — Content.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -766,7 +766,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -774,14 +774,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -795,15 +795,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -817,7 +817,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -835,9 +835,9 @@
       "meta": {
         "caseId": "case2",
         "stepKey": "alignment",
-        "title": "A real agency posting an unreal map"
+        "title": "A wind forecast map"
       },
-      "instruction": "**Case 2 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 2 — Alignment.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -849,7 +849,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -857,14 +857,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -878,15 +878,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -900,7 +900,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -918,9 +918,9 @@
       "meta": {
         "caseId": "case2",
         "stepKey": "reflect",
-        "title": "A real agency posting an unreal map"
+        "title": "A wind forecast map"
       },
-      "instruction": "**Case 2 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 2 — Now Reflect.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -932,7 +932,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -940,14 +940,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -961,15 +961,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -983,7 +983,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1000,9 +1000,9 @@
       },
       "meta": {
         "caseId": "case2",
-        "title": "A real agency posting an unreal map"
+        "title": "A wind forecast map"
       },
-      "instruction": "**Case 2 — after.** What would have happened had someone done less?",
+      "instruction": "**Case 2 — after the case.** What if someone had stopped earlier?",
       "response": [
         {
           "id": "interactionLog",
@@ -1014,7 +1014,7 @@
         },
         {
           "id": "X1",
-          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "prompt": "At what point might someone reasonably have felt they had enough information to stop?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1028,7 +1028,7 @@
         },
         {
           "id": "X2",
-          "prompt": "And what would they have concluded there?",
+          "prompt": "What would they probably have concluded at that point?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1047,7 +1047,7 @@
         },
         {
           "id": "X3",
-          "prompt": "Which single step, removed, most changes the outcome?",
+          "prompt": "If one step were removed, which removal would be most likely to change the final outcome?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1061,21 +1061,21 @@
         },
         {
           "id": "X4",
-          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "prompt": "If someone had checked only who posted or shared the content, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X5",
-          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "prompt": "If someone had used only an AI-detection or provenance tool, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X6",
-          "prompt": "Which steps added nothing on this case?",
+          "prompt": "Which steps, if any, did not add useful information in this case?",
           "location": "sidebar",
           "type": "checkbox",
           "options": [
@@ -1090,19 +1090,19 @@
         },
         {
           "id": "X7",
-          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "prompt": "Did this case require a check or action that STOP&SCAN did not suggest?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X8",
-          "prompt": "Was the framework adequate on this case?",
+          "prompt": "Overall, how well did STOP&SCAN handle this case?",
           "location": "sidebar",
           "type": "likert",
           "numItems": 5,
-          "leftLabel": "Clearly inadequate",
-          "rightLabel": "Clearly adequate",
+          "leftLabel": "Handled it very poorly",
+          "rightLabel": "Handled it very well",
           "required": false
         },
         {
@@ -1124,9 +1124,9 @@
       "meta": {
         "caseId": "case3",
         "stepKey": "source",
-        "title": "A real photograph accused of being fake"
+        "title": "A photograph of a campaign crowd"
       },
-      "instruction": "**Case 3 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 3 — Source.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1138,7 +1138,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1146,14 +1146,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1167,15 +1167,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1189,7 +1189,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1207,9 +1207,9 @@
       "meta": {
         "caseId": "case3",
         "stepKey": "content",
-        "title": "A real photograph accused of being fake"
+        "title": "A photograph of a campaign crowd"
       },
-      "instruction": "**Case 3 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 3 — Content.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1221,7 +1221,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1229,14 +1229,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1250,15 +1250,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1272,7 +1272,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1290,9 +1290,9 @@
       "meta": {
         "caseId": "case3",
         "stepKey": "alignment",
-        "title": "A real photograph accused of being fake"
+        "title": "A photograph of a campaign crowd"
       },
-      "instruction": "**Case 3 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 3 — Alignment.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1304,7 +1304,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1312,14 +1312,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1333,15 +1333,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1355,7 +1355,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1373,9 +1373,9 @@
       "meta": {
         "caseId": "case3",
         "stepKey": "reflect",
-        "title": "A real photograph accused of being fake"
+        "title": "A photograph of a campaign crowd"
       },
-      "instruction": "**Case 3 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 3 — Now Reflect.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1387,7 +1387,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1395,14 +1395,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1416,15 +1416,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1438,7 +1438,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1455,9 +1455,9 @@
       },
       "meta": {
         "caseId": "case3",
-        "title": "A real photograph accused of being fake"
+        "title": "A photograph of a campaign crowd"
       },
-      "instruction": "**Case 3 — after.** What would have happened had someone done less?",
+      "instruction": "**Case 3 — after the case.** What if someone had stopped earlier?",
       "response": [
         {
           "id": "interactionLog",
@@ -1469,7 +1469,7 @@
         },
         {
           "id": "X1",
-          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "prompt": "At what point might someone reasonably have felt they had enough information to stop?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1483,7 +1483,7 @@
         },
         {
           "id": "X2",
-          "prompt": "And what would they have concluded there?",
+          "prompt": "What would they probably have concluded at that point?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1502,7 +1502,7 @@
         },
         {
           "id": "X3",
-          "prompt": "Which single step, removed, most changes the outcome?",
+          "prompt": "If one step were removed, which removal would be most likely to change the final outcome?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1516,21 +1516,21 @@
         },
         {
           "id": "X4",
-          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "prompt": "If someone had checked only who posted or shared the content, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X5",
-          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "prompt": "If someone had used only an AI-detection or provenance tool, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X6",
-          "prompt": "Which steps added nothing on this case?",
+          "prompt": "Which steps, if any, did not add useful information in this case?",
           "location": "sidebar",
           "type": "checkbox",
           "options": [
@@ -1545,19 +1545,19 @@
         },
         {
           "id": "X7",
-          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "prompt": "Did this case require a check or action that STOP&SCAN did not suggest?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X8",
-          "prompt": "Was the framework adequate on this case?",
+          "prompt": "Overall, how well did STOP&SCAN handle this case?",
           "location": "sidebar",
           "type": "likert",
           "numItems": 5,
-          "leftLabel": "Clearly inadequate",
-          "rightLabel": "Clearly adequate",
+          "leftLabel": "Handled it very poorly",
+          "rightLabel": "Handled it very well",
           "required": false
         },
         {
@@ -1579,9 +1579,9 @@
       "meta": {
         "caseId": "case4",
         "stepKey": "source",
-        "title": "A real photograph, accused, and still unresolved"
+        "title": "A photograph shared by a senator’s office"
       },
-      "instruction": "**Case 4 — Source.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 4 — Source.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1593,7 +1593,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1601,14 +1601,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1622,15 +1622,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1644,7 +1644,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1662,9 +1662,9 @@
       "meta": {
         "caseId": "case4",
         "stepKey": "content",
-        "title": "A real photograph, accused, and still unresolved"
+        "title": "A photograph shared by a senator’s office"
       },
-      "instruction": "**Case 4 — Content.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 4 — Content.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1676,7 +1676,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1684,14 +1684,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1705,15 +1705,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1727,7 +1727,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1745,9 +1745,9 @@
       "meta": {
         "caseId": "case4",
         "stepKey": "alignment",
-        "title": "A real photograph, accused, and still unresolved"
+        "title": "A photograph shared by a senator’s office"
       },
-      "instruction": "**Case 4 — Alignment.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 4 — Alignment.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1759,7 +1759,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1767,14 +1767,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1788,15 +1788,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1810,7 +1810,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1828,9 +1828,9 @@
       "meta": {
         "caseId": "case4",
         "stepKey": "reflect",
-        "title": "A real photograph, accused, and still unresolved"
+        "title": "A photograph shared by a senator’s office"
       },
-      "instruction": "**Case 4 — Now Reflect.** Read the encounter and our evaluation, then respond in the sidebar.",
+      "instruction": "**Case 4 — Now Reflect.** Read what happened and the example reasoning. Then tell us what you think in the sidebar.",
       "response": [
         {
           "id": "interactionLog",
@@ -1842,7 +1842,7 @@
         },
         {
           "id": "agree",
-          "prompt": "Is this reading right? Where do you agree or disagree with what we concluded at this step?",
+          "prompt": "Does this reasoning make sense? What do you agree or disagree with?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1850,14 +1850,14 @@
         },
         {
           "id": "earned",
-          "prompt": "Did this step earn its place here?",
+          "prompt": "How useful was this step in this case?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This step was useful",
+            "This step applied, but added nothing useful",
+            "This step did not apply to this case",
+            "This step led the reasoning in the wrong direction"
           ],
           "required": false
         },
@@ -1871,15 +1871,15 @@
         },
         {
           "id": "attribution",
-          "prompt": "Anything useful this step produced — did it come from what the framework directs you to do, or from how this particular analyst happened to reason?",
+          "prompt": "If this step was useful, where did most of its value come from?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Mostly the framework",
-            "Mostly the analyst",
+            "The framework’s guidance",
+            "The person’s own reasoning",
             "Both",
-            "Nothing useful was produced here",
-            "Can't tell"
+            "This step produced nothing useful",
+            "I cannot tell"
           ],
           "required": false
         },
@@ -1893,7 +1893,7 @@
         },
         {
           "id": "missed",
-          "prompt": "What would a person following this step have missed?",
+          "prompt": "What might someone miss if they followed only this step?",
           "location": "sidebar",
           "type": "longText",
           "required": false,
@@ -1910,9 +1910,9 @@
       },
       "meta": {
         "caseId": "case4",
-        "title": "A real photograph, accused, and still unresolved"
+        "title": "A photograph shared by a senator’s office"
       },
-      "instruction": "**Case 4 — after.** What would have happened had someone done less?",
+      "instruction": "**Case 4 — after the case.** What if someone had stopped earlier?",
       "response": [
         {
           "id": "interactionLog",
@@ -1924,7 +1924,7 @@
         },
         {
           "id": "X1",
-          "prompt": "If someone had worked this case and stopped as soon as they felt they had an answer, at which step would that most likely have been?",
+          "prompt": "At what point might someone reasonably have felt they had enough information to stop?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1938,7 +1938,7 @@
         },
         {
           "id": "X2",
-          "prompt": "And what would they have concluded there?",
+          "prompt": "What would they probably have concluded at that point?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1957,7 +1957,7 @@
         },
         {
           "id": "X3",
-          "prompt": "Which single step, removed, most changes the outcome?",
+          "prompt": "If one step were removed, which removal would be most likely to change the final outcome?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -1971,21 +1971,21 @@
         },
         {
           "id": "X4",
-          "prompt": "Had someone investigated only where this came from and gone no further, what would they have concluded?",
+          "prompt": "If someone had checked only who posted or shared the content, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X5",
-          "prompt": "Had someone gone straight to a detection tool or a provenance check, what would they have concluded?",
+          "prompt": "If someone had used only an AI-detection or provenance tool, what might they have concluded?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X6",
-          "prompt": "Which steps added nothing on this case?",
+          "prompt": "Which steps, if any, did not add useful information in this case?",
           "location": "sidebar",
           "type": "checkbox",
           "options": [
@@ -2000,19 +2000,19 @@
         },
         {
           "id": "X7",
-          "prompt": "Was there anything this case required that the framework did not direct anyone toward?",
+          "prompt": "Did this case require a check or action that STOP&SCAN did not suggest?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "X8",
-          "prompt": "Was the framework adequate on this case?",
+          "prompt": "Overall, how well did STOP&SCAN handle this case?",
           "location": "sidebar",
           "type": "likert",
           "numItems": 5,
-          "leftLabel": "Clearly inadequate",
-          "rightLabel": "Clearly adequate",
+          "leftLabel": "Handled it very poorly",
+          "rightLabel": "Handled it very well",
           "required": false
         },
         {
@@ -2030,7 +2030,7 @@
       "nextButtonLocation": "sidebar",
       "previousButton": true,
       "instructionLocation": "sidebar",
-      "instruction": "Open each SIFT route accordion as needed, then answer the sidebar items for Route A and Route B.",
+      "instruction": "Open each SIFT route when you are ready to review it. Then answer the questions for Route A and Route B.",
       "parameters": {
         "caseId": "case2"
       },
@@ -2045,7 +2045,7 @@
         },
         {
           "id": "routeA_P1",
-          "prompt": "**ROUTEA — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "prompt": "**Route A — P1.** Could a competent user reasonably follow this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -2057,34 +2057,34 @@
         },
         {
           "id": "routeA_P1_why",
-          "prompt": "ROUTEA — Why? (optional)",
+          "prompt": "Route A — Why? (optional)",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeA_P2",
-          "prompt": "**ROUTEA — P2.** What would they have done instead?",
+          "prompt": "**Route A — P2.** What would a more realistic route look like?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeA_P3",
-          "prompt": "**ROUTEA — P3.** For the move used (Trace claims, quotes, and media to the original context): did this move earn its place?",
+          "prompt": "**Route A — P3.** How useful was the move “Trace claims, quotes, and media to the original context” in this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This move was useful",
+            "This move applied, but added nothing useful",
+            "This move did not apply to this case",
+            "This move led the reasoning in the wrong direction"
           ],
           "required": false
         },
         {
           "id": "routeB_P1",
-          "prompt": "**ROUTEB — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "prompt": "**Route B — P1.** Could a competent user reasonably follow this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -2096,34 +2096,34 @@
         },
         {
           "id": "routeB_P1_why",
-          "prompt": "ROUTEB — Why? (optional)",
+          "prompt": "Route B — Why? (optional)",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeB_P2",
-          "prompt": "**ROUTEB — P2.** What would they have done instead?",
+          "prompt": "**Route B — P2.** What would a more realistic route look like?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeB_P3",
-          "prompt": "**ROUTEB — P3.** For the move used (Investigate the source): did this move earn its place?",
+          "prompt": "**Route B — P3.** How useful was the move “Investigate the source” in this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This move was useful",
+            "This move applied, but added nothing useful",
+            "This move did not apply to this case",
+            "This move led the reasoning in the wrong direction"
           ],
           "required": false
         },
         {
           "id": "routeB_P4",
-          "prompt": "**ROUTEB — P4.** What, if anything, would have stopped this path going wrong?",
+          "prompt": "**Route B — P4.** What additional check might have prevented the wrong conclusion?",
           "location": "sidebar",
           "type": "longText",
           "required": false
@@ -2136,7 +2136,7 @@
       "nextButtonLocation": "sidebar",
       "previousButton": true,
       "instructionLocation": "sidebar",
-      "instruction": "Open each SIFT route accordion as needed, then answer the sidebar items for Route A and Route B.",
+      "instruction": "Open each SIFT route when you are ready to review it. Then answer the questions for Route A and Route B.",
       "parameters": {
         "caseId": "case4"
       },
@@ -2151,7 +2151,7 @@
         },
         {
           "id": "routeA_P1",
-          "prompt": "**ROUTEA — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "prompt": "**Route A — P1.** Could a competent user reasonably follow this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -2163,41 +2163,41 @@
         },
         {
           "id": "routeA_P1_why",
-          "prompt": "ROUTEA — Why? (optional)",
+          "prompt": "Route A — Why? (optional)",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeA_P2",
-          "prompt": "**ROUTEA — P2.** What would they have done instead?",
+          "prompt": "**Route A — P2.** What would a more realistic route look like?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeA_P3",
-          "prompt": "**ROUTEA — P3.** For the move used (Find better coverage): did this move earn its place?",
+          "prompt": "**Route A — P3.** How useful was the move “Find better coverage” in this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This move was useful",
+            "This move applied, but added nothing useful",
+            "This move did not apply to this case",
+            "This move led the reasoning in the wrong direction"
           ],
           "required": false
         },
         {
           "id": "routeA_P4",
-          "prompt": "**ROUTEA — P4.** What, if anything, would have stopped this path going wrong?",
+          "prompt": "**Route A — P4.** What additional check might have prevented the wrong conclusion?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeB_P1",
-          "prompt": "**ROUTEB — P1.** Is this a fair path — would a competent user plausibly take this route?",
+          "prompt": "**Route B — P1.** Could a competent user reasonably follow this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -2209,34 +2209,34 @@
         },
         {
           "id": "routeB_P1_why",
-          "prompt": "ROUTEB — Why? (optional)",
+          "prompt": "Route B — Why? (optional)",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeB_P2",
-          "prompt": "**ROUTEB — P2.** What would they have done instead?",
+          "prompt": "**Route B — P2.** What would a more realistic route look like?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "routeB_P3",
-          "prompt": "**ROUTEB — P3.** For the move used (Trace claims, quotes, and media to the original context): did this move earn its place?",
+          "prompt": "**Route B — P3.** How useful was the move “Trace claims, quotes, and media to the original context” in this route?",
           "location": "sidebar",
           "type": "radio",
           "options": [
-            "Earned its place",
-            "Applies but added nothing here",
-            "Could not be carried out on this case",
-            "Applies but misled here"
+            "This move was useful",
+            "This move applied, but added nothing useful",
+            "This move did not apply to this case",
+            "This move led the reasoning in the wrong direction"
           ],
           "required": false
         },
         {
           "id": "routeB_P4",
-          "prompt": "**ROUTEB — P4.** What, if anything, would have stopped this path going wrong?",
+          "prompt": "**Route B — P4.** What additional check might have prevented the wrong conclusion?",
           "location": "sidebar",
           "type": "longText",
           "required": false
@@ -2264,7 +2264,7 @@
         },
         {
           "id": "R1",
-          "prompt": "The sequence is clear enough for a non-expert to follow unaided.",
+          "prompt": "A non-expert could follow STOP&SCAN without assistance.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2281,7 +2281,7 @@
         },
         {
           "id": "R2",
-          "prompt": "The five elements are the right five; nothing essential is missing.",
+          "prompt": "The framework includes the right steps and does not leave out anything essential.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2298,7 +2298,7 @@
         },
         {
           "id": "R3",
-          "prompt": "The distinction between counting evidence channels and counting completed steps is meaningful in practice.",
+          "prompt": "It is useful to distinguish between the number of steps completed and the number of independent sources of evidence found.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2315,7 +2315,7 @@
         },
         {
           "id": "R4",
-          "prompt": "Requiring two converging independent channels before a resolved outcome is the right threshold.",
+          "prompt": "Requiring two independent channels before reaching a firm conclusion is an appropriate threshold.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2332,7 +2332,7 @@
         },
         {
           "id": "R5",
-          "prompt": "A non-expert could reliably judge whether two evidence channels are independent.",
+          "prompt": "A non-expert could tell whether two sources of evidence are genuinely independent.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2349,7 +2349,7 @@
         },
         {
           "id": "R6",
-          "prompt": "A non-expert could reliably apply the rule that conflicting techniques inside one channel mean that channel returned nothing, rather than balanced evidence.",
+          "prompt": "A non-expert could understand that conflicting results from the same type of tool are inconclusive.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2366,7 +2366,7 @@
         },
         {
           "id": "R7",
-          "prompt": "\"Withhold judgment\" is a realistic outcome that people would actually accept.",
+          "prompt": "\"Withhold judgment\" is a realistic option that people would be willing to accept.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2383,7 +2383,7 @@
         },
         {
           "id": "R8",
-          "prompt": "The framework handles wrongly-dismissed authentic content as well as it handles fabricated content.",
+          "prompt": "STOP&SCAN handles authentic content wrongly described as fake as well as it handles fabricated content.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2422,7 +2422,7 @@
         },
         {
           "id": "R9",
-          "prompt": "SIFT remains adequate for evaluating claims that arrive as synthetic or manipulated media.",
+          "prompt": "SIFT remains useful for evaluating content that may be AI-generated or manipulated.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2439,7 +2439,7 @@
         },
         {
           "id": "R10",
-          "prompt": "SIFT’s freedom to stop after one move is appropriate rather than a weakness.",
+          "prompt": "Allowing someone to stop after one SIFT move is appropriate.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2456,7 +2456,7 @@
         },
         {
           "id": "R11",
-          "prompt": "Lateral reading reliably improves a judgment in today’s search environment.",
+          "prompt": "Looking beyond the original webpage or post usually improves a person’s judgment.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2473,7 +2473,7 @@
         },
         {
           "id": "R12",
-          "prompt": "SIFT gives adequate guidance when the source is authentic but the content is not.",
+          "prompt": "SIFT provides enough guidance when a trustworthy source publishes incorrect or fabricated content.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2490,7 +2490,7 @@
         },
         {
           "id": "R13",
-          "prompt": "SIFT gives adequate guidance when authentic content is wrongly alleged to be synthetic.",
+          "prompt": "SIFT provides enough guidance when authentic content is wrongly described as AI-generated.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2507,7 +2507,7 @@
         },
         {
           "id": "R14",
-          "prompt": "Caulfield’s AI-specific extension addresses the case where the artifact under evaluation is itself suspected of being AI-generated.",
+          "prompt": "SIFT’s newer guidance adequately addresses content that may itself have been generated by AI.",
           "location": "sidebar",
           "type": "likert",
           "numItems": 7,
@@ -2546,49 +2546,49 @@
         },
         {
           "id": "O1",
-          "prompt": "Where do you expect STOP&SCAN to fail first in real use?",
+          "prompt": "Where is STOP&SCAN most likely to fail in everyday use?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O2",
-          "prompt": "Which STOP&SCAN element is weakest, and what would you change about it?",
+          "prompt": "Which STOP&SCAN step is weakest? How would you change it?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O3",
-          "prompt": "Requiring every element to be visited — no early exit even when one step seems to settle the matter — is a deliberate choice. Is it the right one?",
+          "prompt": "STOP&SCAN asks people to visit every step, even when an earlier step seems to provide an answer. Is that the right approach?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O4",
-          "prompt": "What, if anything, does STOP&SCAN add that SIFT or lateral reading already covers adequately?",
+          "prompt": "What, if anything, does STOP&SCAN add that SIFT or lateral reading does not already provide?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O5",
-          "prompt": "What would you need to see before recommending STOP&SCAN to a non-expert audience?",
+          "prompt": "What evidence would you need before recommending STOP&SCAN to non-experts?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O6",
-          "prompt": "Is there a framework, practice, or step from your own work that neither of these captures?",
+          "prompt": "Is there an approach from your own work that neither framework captures?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "O7",
-          "prompt": "Were the evaluations we showed you a fair demonstration of the framework? Did they flatter it, or undersell it?",
+          "prompt": "Did our examples represent STOP&SCAN fairly, or did they make it look better or worse than it is?",
           "location": "sidebar",
           "type": "longText",
           "required": false
@@ -2697,7 +2697,7 @@
         },
         {
           "id": "Q2",
-          "prompt": "**Q2.** On the AI-specific extension critique: is that a fair critique?",
+          "prompt": "**Q2.** Is our concern about SIFT’s AI-specific guidance fair?",
           "location": "sidebar",
           "type": "radio",
           "options": [
@@ -2717,14 +2717,14 @@
         },
         {
           "id": "Q3",
-          "prompt": "**Q3.** What weaknesses in SIFT have we not mentioned?",
+          "prompt": "**Q3.** What concerns or weaknesses in SIFT have we missed?",
           "location": "sidebar",
           "type": "longText",
           "required": false
         },
         {
           "id": "Q4",
-          "prompt": "**Q4.** Which of our stated positions do you think is mistaken, and why?",
+          "prompt": "**Q4.** Which of these concerns do you think is mistaken, and why?",
           "location": "sidebar",
           "type": "longText",
           "required": false
@@ -2753,7 +2753,7 @@
         },
         {
           "id": "R15",
-          "prompt": "Overall, which is more likely to produce a well-calibrated judgment about synthetic media?",
+          "prompt": "Which approach is more likely to produce an appropriately cautious judgment?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",
@@ -2788,7 +2788,7 @@
         },
         {
           "id": "R16",
-          "prompt": "Which is more teachable?",
+          "prompt": "Which approach would be easier to teach?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",
@@ -2823,7 +2823,7 @@
         },
         {
           "id": "R17",
-          "prompt": "Which is more robust to a contaminated search environment?",
+          "prompt": "Which approach is more reliable when search results contain misleading or AI-generated information?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",
@@ -2858,7 +2858,7 @@
         },
         {
           "id": "R18",
-          "prompt": "Which would you recommend to a novice user — someone with no training in verification?",
+          "prompt": "Which would you recommend to someone with no training in verification?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",
@@ -2893,7 +2893,7 @@
         },
         {
           "id": "R19",
-          "prompt": "Which would you recommend to an expert user — a professional working in verification, forensics, or fact-checking?",
+          "prompt": "Which would you recommend to a professional working in verification, forensics, or fact-checking?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",
@@ -2928,7 +2928,7 @@
         },
         {
           "id": "R20",
-          "prompt": "Which maps better onto the range of cases you encounter in your own work?",
+          "prompt": "Which approach better matches the range of cases you encounter in your own work?",
           "secondaryText": "SIFT ← → STOP&SCAN. Midpoint = no preference.",
           "location": "sidebar",
           "type": "slider",

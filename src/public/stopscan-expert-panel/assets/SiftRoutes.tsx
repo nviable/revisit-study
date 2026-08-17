@@ -54,7 +54,7 @@ export default function SiftRoutes({
             <ThemeIcon size="sm" variant="light" color="gray" radius="xl">
               <IconClipboardList size={14} />
             </ThemeIcon>
-            <Text fw={600} size="sm">The encounter</Text>
+            <Text fw={600} size="sm">What happened</Text>
           </Group>
           <Text size="sm">{block.encounter}</Text>
         </Box>
@@ -82,7 +82,7 @@ export default function SiftRoutes({
               <Accordion.Panel>
                 <Text size="sm">{route.body}</Text>
                 <Text size="xs" c="dimmed" mt="sm">
-                  Moves used: {route.moves.join('; ')}
+                  SIFT move used: {route.moves.join('; ')}
                 </Text>
               </Accordion.Panel>
             </Accordion.Item>
