@@ -63,6 +63,7 @@ export function resolveTagPath(path: string[]): OntologyTerm[] {
 export interface HighlightSegment {
   text: string;
   matchedTitle?: string;
+  termSlug?: string;
   description?: string;
   color?: string;
 }
@@ -95,6 +96,7 @@ export function highlightTerms(text: string, titles: string[]): HighlightSegment
     segments.push({
       text: matchedText,
       matchedTitle: canonical,
+      termSlug: matchedTerm?.slug,
       description: matchedTerm?.description,
       color: matchedTerm ? getCategoryColor(matchedTerm.slug) : undefined,
     });

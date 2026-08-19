@@ -61,11 +61,26 @@ export interface TaskBStimulusParams {
 
 export type InteractionEventType = 'click' | 'open' | 'close' | 'hover';
 
+export type InteractionRegion =
+  | 'card'
+  | 'title'
+  | 'keyword'
+  | 'ontology-tag'
+  | 'abstract'
+  | 'summary'
+  | 'summary-tag'
+  | 'full-paper';
+
 export interface InteractionEvent {
   timestamp: number;
   type: InteractionEventType;
   elementId: string;
   label: string;
+  techniqueId?: string;
+  cardId?: string;
+  format?: DescriptionFormat;
+  cardIndex?: number;
+  region?: InteractionRegion;
 }
 
 export interface ProvenanceState {

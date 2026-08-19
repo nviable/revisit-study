@@ -46,8 +46,10 @@ describe('ontology helpers', () => {
     const video = segments.find((segment) => segment.matchedTitle === 'Video');
 
     expect(faceSwap?.description).toMatch(/face has been superimposed/i);
+    expect(faceSwap?.termSlug).toBe('face-swap');
     expect(faceSwap?.color).toBe('defakeTeal');
     expect(video?.description).toMatch(/sequence of images/i);
+    expect(video?.termSlug).toBe('video');
     expect(video?.color).toBe('blue');
   });
 

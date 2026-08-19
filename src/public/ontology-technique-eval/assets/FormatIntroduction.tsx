@@ -24,6 +24,7 @@ const columnStyle = {
 
 export default function FormatIntroduction({
   setAnswer,
+  provenanceState,
 }: StimulusParams<Record<string, never>, ProvenanceState>) {
   const { record } = useInteractionProvenance(setAnswer);
   const technique = getDemoTechnique();
@@ -62,7 +63,13 @@ export default function FormatIntroduction({
             The paper title is followed by author or publisher keywords. There is no hierarchy
             and no built-in definition for each keyword.
           </Text>
-          <TechniqueCard technique={technique} format="keywords" idPrefix="intro-keywords" onInteract={record} />
+          <TechniqueCard
+            technique={technique}
+            format="keywords"
+            idPrefix="intro-keywords"
+            provenanceState={provenanceState}
+            onInteract={record}
+          />
         </Paper>
         <Paper withBorder p="md" radius="md" style={columnStyle}>
           <Group gap="xs" mb="sm" wrap="wrap">
@@ -75,7 +82,13 @@ export default function FormatIntroduction({
             how a term sits in the vocabulary. Hover a tag for its definition. Matching terms
             are highlighted in the plain-language summary.
           </Text>
-          <TechniqueCard technique={technique} format="ontology" idPrefix="intro-ontology" onInteract={record} />
+          <TechniqueCard
+            technique={technique}
+            format="ontology"
+            idPrefix="intro-ontology"
+            provenanceState={provenanceState}
+            onInteract={record}
+          />
         </Paper>
       </SimpleGrid>
     </Stack>

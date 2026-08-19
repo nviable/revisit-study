@@ -18,14 +18,22 @@ import {
   IconSparkles,
   IconTags,
 } from '@tabler/icons-react';
-import { useMemo, useState } from 'react';
+import {
+  useEffect, useMemo, useState,
+} from 'react';
+import type { MouseEvent } from 'react';
 import { PREFIX } from '../../../utils/Prefix';
 import {
   getCategoryColor, highlightTerms, resolveTagPath, titlesForTechniqueTags,
 } from './ontology';
+import { getCardDisclosureState } from './provenance';
 import { summaryForFormat } from './studyBank';
 import type {
-  DescriptionFormat, InteractionEventType, Technique,
+  DescriptionFormat,
+  InteractionEvent,
+  InteractionRegion,
+  ProvenanceState,
+  Technique,
 } from './types';
 
 interface TechniqueCardProps {
@@ -34,11 +42,8 @@ interface TechniqueCardProps {
   compact?: boolean;
   index?: number;
   idPrefix?: string;
-  onInteract: (event: {
-    type: InteractionEventType;
-    elementId: string;
-    label: string;
-  }) => void;
+  provenanceState?: ProvenanceState;
+  onInteract: (event: Omit<InteractionEvent, 'timestamp'>) => void;
 }
 
 const tagBadgeStyles = {
@@ -58,10 +63,16 @@ const tagBadgeStyles = {
 
 function OntologyTagChain({
   path,
+  technique,
+  format,
+  cardIndex,
   techniqueId,
   onInteract,
 }: {
   path: string[];
+  technique: Technique;
+  format: DescriptionFormat;
+  cardIndex?: number;
   techniqueId: string;
   onInteract: TechniqueCardProps['onInteract'];
 }) {
@@ -91,15 +102,17 @@ function OntologyTagChain({
               styles={tagBadgeStyles}
               style={{ cursor: 'help' }}
               leftSection={<IconInfoCircle size={14} />}
+              data-interaction-region="ontology-tag"
+              data-interaction-element={`${techniqueId}:tag:${term.slug}`}
               onMouseEnter={() => onInteract({
                 type: 'hover',
-                elementId: `tag-hover:${techniqueId}:${term.slug}`,
+                elementId: `${techniqueId}:tag:${term.slug}`,
                 label: `Hover tag: ${term.title}`,
-              })}
-              onClick={() => onInteract({
-                type: 'click',
-                elementId: `tag-click:${techniqueId}:${term.slug}`,
-                label: `Click tag: ${term.title}`,
+                techniqueId: technique.id,
+                cardId: techniqueId,
+                format,
+                cardIndex,
+                region: 'ontology-tag',
               })}
             >
               {term.title}
@@ -112,7 +125,13 @@ function OntologyTagChain({
 }
 
 export function TechniqueCard({
-  technique, format, compact = false, index, idPrefix, onInteract,
+  technique,
+  format,
+  compact = false,
+  index,
+  idPrefix,
+  provenanceState,
+  onInteract,
 }: TechniqueCardProps) {
   const [openPanels, setOpenPanels] = useState<string[]>([]);
   const [pdfOpen, setPdfOpen] = useState(false);
@@ -132,6 +151,36 @@ export function TechniqueCard({
 
   const cardId = `${idPrefix ? `${idPrefix}:` : ''}${technique.id}${index != null ? `-${index}` : ''}`;
 
+  useEffect(() => {
+    if (provenanceState) {
+      const replayState = getCardDisclosureState(provenanceState, cardId);
+      setOpenPanels(replayState.openPanels);
+      setPdfOpen(replayState.pdfOpen);
+    }
+  }, [cardId, provenanceState]);
+
+  const eventMetadata = (region: InteractionRegion) => ({
+    techniqueId: technique.id,
+    cardId,
+    format,
+    cardIndex: index,
+    region,
+  });
+
+  const recordCardClick = (event: MouseEvent<HTMLElement>) => {
+    const target = event.target instanceof HTMLElement
+      ? event.target.closest<HTMLElement>('[data-interaction-region]')
+      : null;
+    const region = (target?.dataset.interactionRegion as InteractionRegion | undefined) ?? 'card';
+    const elementId = target?.dataset.interactionElement ?? `${cardId}:${region}`;
+    onInteract({
+      type: 'click',
+      elementId,
+      label: `Click ${region}: ${technique.title}`,
+      ...eventMetadata(region),
+    });
+  };
+
   const togglePanel = (nextValue: string | string[] | null) => {
     const next = Array.isArray(nextValue) ? nextValue : (nextValue ? [nextValue] : []);
     const closed = openPanels.filter((value) => !next.includes(value));
@@ -142,6 +191,7 @@ export function TechniqueCard({
         type: 'close',
         elementId: `${cardId}:${value}`,
         label: `Close ${value} (${technique.title})`,
+        ...eventMetadata(value as 'abstract' | 'summary'),
       });
     });
     opened.forEach((value) => {
@@ -149,6 +199,7 @@ export function TechniqueCard({
         type: 'open',
         elementId: `${cardId}:${value}`,
         label: `Open ${value} (${technique.title})`,
+        ...eventMetadata(value as 'abstract' | 'summary'),
       });
     });
     if (opened.length === 0 && closed.length === 0) {
@@ -156,22 +207,19 @@ export function TechniqueCard({
         type: 'click',
         elementId: `${cardId}:accordion`,
         label: `Accordion click (${technique.title})`,
+        ...eventMetadata('card'),
       });
     }
     setOpenPanels(next);
   };
 
   const openPdf = () => {
-    onInteract({
-      type: 'click',
-      elementId: `${cardId}:full-paper-button`,
-      label: `Click full paper (${technique.title})`,
-    });
     if (!pdfOpen) {
       onInteract({
         type: 'open',
         elementId: `${cardId}:full-paper`,
         label: `Open full paper (${technique.title})`,
+        ...eventMetadata('full-paper'),
       });
     }
     setPdfOpen(true);
@@ -183,6 +231,7 @@ export function TechniqueCard({
         type: 'close',
         elementId: `${cardId}:full-paper`,
         label: `Close full paper (${technique.title})`,
+        ...eventMetadata('full-paper'),
       });
     }
     setPdfOpen(false);
@@ -196,10 +245,16 @@ export function TechniqueCard({
       radius="md"
       w="100%"
       style={{ minWidth: 0, overflow: 'hidden' }}
+      onClickCapture={recordCardClick}
     >
       <Stack gap={compact ? 'xs' : 'sm'}>
         <Group justify="space-between" align="flex-start" wrap="nowrap" gap="xs">
-          <Title order={compact ? 5 : 4} style={{ lineHeight: 1.3, overflowWrap: 'anywhere' }}>
+          <Title
+            order={compact ? 5 : 4}
+            data-interaction-region="title"
+            data-interaction-element={`${cardId}:title`}
+            style={{ lineHeight: 1.3, overflowWrap: 'anywhere' }}
+          >
             {technique.title}
           </Title>
           {index != null && (
@@ -221,11 +276,8 @@ export function TechniqueCard({
                   color="gray"
                   size="md"
                   styles={tagBadgeStyles}
-                  onClick={() => onInteract({
-                    type: 'click',
-                    elementId: `${cardId}:keyword:${keyword}`,
-                    label: `Click keyword: ${keyword}`,
-                  })}
+                  data-interaction-region="keyword"
+                  data-interaction-element={`${cardId}:keyword:${keyword}`}
                 >
                   {keyword}
                 </Badge>
@@ -243,6 +295,9 @@ export function TechniqueCard({
                 <OntologyTagChain
                   key={tag.path.join('>')}
                   path={tag.path}
+                  technique={technique}
+                  format={format}
+                  cardIndex={index}
                   techniqueId={cardId}
                   onInteract={onInteract}
                 />
@@ -265,18 +320,32 @@ export function TechniqueCard({
           }}
         >
           <Accordion.Item value="abstract">
-            <Accordion.Control icon={<IconFileText size={16} />}>
+            <Accordion.Control
+              icon={<IconFileText size={16} />}
+              data-interaction-region="abstract"
+              data-interaction-element={`${cardId}:abstract`}
+            >
               Abstract
             </Accordion.Control>
-            <Accordion.Panel>
+            <Accordion.Panel
+              data-interaction-region="abstract"
+              data-interaction-element={`${cardId}:abstract`}
+            >
               <Text size="sm">{technique.abstract}</Text>
             </Accordion.Panel>
           </Accordion.Item>
-          <Accordion.Item value="ai-summary">
-            <Accordion.Control icon={<IconSparkles size={16} />}>
+          <Accordion.Item value="summary">
+            <Accordion.Control
+              icon={<IconSparkles size={16} />}
+              data-interaction-region="summary"
+              data-interaction-element={`${cardId}:summary`}
+            >
               Plain-language summary
             </Accordion.Control>
-            <Accordion.Panel>
+            <Accordion.Panel
+              data-interaction-region="summary"
+              data-interaction-element={`${cardId}:summary`}
+            >
               <Text size="sm">
                 {summarySegments.map((segment, segmentIndex) => (
                   segment.matchedTitle ? (
@@ -291,6 +360,14 @@ export function TechniqueCard({
                         span
                         fw={600}
                         c={`${segment.color ?? 'defakeTeal'}.8`}
+                        data-interaction-region="summary-tag"
+                        data-interaction-element={`${cardId}:summary-tag:${segment.termSlug ?? segmentIndex}`}
+                        onMouseEnter={() => onInteract({
+                          type: 'hover',
+                          elementId: `${cardId}:summary-tag:${segment.termSlug ?? segmentIndex}`,
+                          label: `Hover summary tag: ${segment.matchedTitle}`,
+                          ...eventMetadata('summary-tag'),
+                        })}
                         style={{
                           background: `var(--mantine-color-${segment.color ?? 'defakeTeal'}-1)`,
                           cursor: 'help',
@@ -312,6 +389,8 @@ export function TechniqueCard({
           variant="light"
           color="defakeTeal"
           leftSection={<IconFileTypePdf size={16} />}
+          data-interaction-region="full-paper"
+          data-interaction-element={`${cardId}:full-paper`}
           onClick={openPdf}
           fullWidth
         >

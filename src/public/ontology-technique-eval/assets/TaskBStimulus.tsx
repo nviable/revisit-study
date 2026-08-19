@@ -13,6 +13,7 @@ import { useInteractionProvenance } from './useInteractionProvenance';
 export default function TaskBStimulus({
   parameters,
   setAnswer,
+  provenanceState,
 }: StimulusParams<TaskBStimulusParams, ProvenanceState>) {
   const { record } = useInteractionProvenance(setAnswer);
   const vignette = getTaskBVignette(parameters.vignetteId);
@@ -57,6 +58,7 @@ export default function TaskBStimulus({
             format={parameters.format}
             compact
             index={index + 1}
+            provenanceState={provenanceState}
             onInteract={record}
           />
         ))}

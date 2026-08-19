@@ -50,3 +50,23 @@ export function openedElementIds(state: ProvenanceState): string[] {
   });
   return Array.from(ids);
 }
+
+export interface CardDisclosureState {
+  openPanels: string[];
+  pdfOpen: boolean;
+}
+
+/** Derive the visible disclosure state for one card during provenance replay. */
+export function getCardDisclosureState(
+  state: ProvenanceState,
+  cardId: string,
+): CardDisclosureState {
+  const openPanels = ['abstract', 'summary'].filter(
+    (panel) => state.openSince[`${cardId}:${panel}`] != null,
+  );
+
+  return {
+    openPanels,
+    pdfOpen: state.openSince[`${cardId}:full-paper`] != null,
+  };
+}

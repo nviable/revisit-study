@@ -11,6 +11,7 @@ import { useInteractionProvenance } from './useInteractionProvenance';
 export default function TaskAStimulus({
   parameters,
   setAnswer,
+  provenanceState,
 }: StimulusParams<TaskAStimulusParams, ProvenanceState>) {
   const { record } = useInteractionProvenance(setAnswer);
   const vignette = getTaskAVignette(parameters.vignetteId);
@@ -45,6 +46,7 @@ export default function TaskAStimulus({
       <TechniqueCard
         technique={technique}
         format={parameters.format}
+        provenanceState={provenanceState}
         onInteract={record}
       />
     </Stack>

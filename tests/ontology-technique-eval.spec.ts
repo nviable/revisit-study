@@ -43,5 +43,11 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(page.getByText('You do not need to open every section')).toBeVisible();
   await expect(page.getByText('1 = Not at all confident. 5 = Completely confident.')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
+  const summary = page.getByRole('button', { name: 'Plain-language summary' }).first();
+  await summary.click();
+  await expect(summary).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByText(/PLACEHOLDER (BASELINE|AI) SUMMARY/).first()).toBeVisible();
+  await summary.click();
+  await expect(summary).toHaveAttribute('aria-expanded', 'false');
   await answerFirstTaskA(page);
 });
