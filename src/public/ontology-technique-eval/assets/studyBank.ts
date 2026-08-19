@@ -1,6 +1,6 @@
 import studyBankJson from './data/studyBank.json';
 import type {
-  StudyBank, TaskAVignette, TaskBVignette, Technique,
+  DescriptionFormat, StudyBank, TaskAVignette, TaskBVignette, Technique,
 } from './types';
 
 const STUDY_BANK = studyBankJson as StudyBank;
@@ -24,6 +24,11 @@ export function getTaskBVignette(id: string): TaskBVignette | undefined {
 
 export function getDemoTechnique(): Technique {
   return STUDY_BANK.techniques[0];
+}
+
+/** Keyword cards use the baseline summary; ontology cards use the AI summary. */
+export function summaryForFormat(technique: Technique, format: DescriptionFormat): string {
+  return format === 'ontology' ? technique.aiSummary : technique.baselineSummary;
 }
 
 export { STUDY_BANK };

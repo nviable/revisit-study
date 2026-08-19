@@ -23,6 +23,7 @@ import { PREFIX } from '../../../utils/Prefix';
 import {
   getCategoryColor, highlightTerms, resolveTagPath, titlesForTechniqueTags,
 } from './ontology';
+import { summaryForFormat } from './studyBank';
 import type {
   DescriptionFormat, InteractionEventType, Technique,
 } from './types';
@@ -121,11 +122,12 @@ export function TechniqueCard({
     [technique.ontologyTags],
   );
 
+  const summaryText = summaryForFormat(technique, format);
   const summarySegments = useMemo(
     () => (format === 'ontology'
-      ? highlightTerms(technique.aiSummary, highlightTitles)
-      : [{ text: technique.aiSummary }]),
-    [format, highlightTitles, technique.aiSummary],
+      ? highlightTerms(summaryText, highlightTitles)
+      : [{ text: summaryText }]),
+    [format, highlightTitles, summaryText],
   );
 
   const cardId = `${idPrefix ? `${idPrefix}:` : ''}${technique.id}${index != null ? `-${index}` : ''}`;
