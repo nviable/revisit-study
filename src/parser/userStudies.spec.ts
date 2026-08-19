@@ -36,7 +36,11 @@ describe('user studies from production fork', () => {
       response: [
         { id: 'partCIntro', type: 'textOnly' },
         { id: 'noticedFormatDifference', type: 'radio' },
-        { id: 'ontologyCategoryRank', type: 'ranking-sublist' },
+        {
+          id: 'ontologyCategoryRank',
+          type: 'custom',
+          path: 'ontology-technique-eval/assets/OntologyCategoryRanking.tsx',
+        },
         { id: 'ontologyTagGaps', type: 'longText' },
         { id: 'formatPreference', type: 'radio' },
         { id: 'formatPreferenceWhy', type: 'longText' },

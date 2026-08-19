@@ -373,14 +373,16 @@
           "id": "ontologyCategoryRank",
           "prompt": "The ontology tags are grouped into four categories: Modality; Forensic Task & Goal; Search & Analysis Scope; Evidentiary Features. Please rank them from the most useful to least useful when you use them for making decisions.",
           "location": "belowStimulus",
-          "type": "ranking-sublist",
-          "numItems": 4,
-          "options": [
-            "Modality",
-            "Forensic Task & Goal",
-            "Search & Analysis Scope",
-            "Evidentiary Features"
-          ]
+          "type": "custom",
+          "path": "ontology-technique-eval/assets/OntologyCategoryRanking.tsx",
+          "parameters": {
+            "options": [
+              "Modality",
+              "Forensic Task & Goal",
+              "Search & Analysis Scope",
+              "Evidentiary Features"
+            ]
+          }
         },
         {
           "id": "ontologyTagGaps",
