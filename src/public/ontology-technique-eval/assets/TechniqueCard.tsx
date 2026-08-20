@@ -379,21 +379,6 @@ export function TechniqueCard({
             panel: { overflowWrap: 'anywhere' },
           }}
         >
-          <Accordion.Item value="abstract">
-            <Accordion.Control
-              icon={<IconFileText size={16} />}
-              data-interaction-region="abstract"
-              data-interaction-element={`${cardId}:abstract`}
-            >
-              Abstract
-            </Accordion.Control>
-            <Accordion.Panel
-              data-interaction-region="abstract"
-              data-interaction-element={`${cardId}:abstract`}
-            >
-              <Text size="sm">{technique.abstract}</Text>
-            </Accordion.Panel>
-          </Accordion.Item>
           <Accordion.Item value="summary">
             <Accordion.Control
               icon={<IconSparkles size={16} />}
@@ -443,6 +428,21 @@ export function TechniqueCard({
                   )
                 ))}
               </Text>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="abstract">
+            <Accordion.Control
+              icon={<IconFileText size={16} />}
+              data-interaction-region="abstract"
+              data-interaction-element={`${cardId}:abstract`}
+            >
+              Abstract
+            </Accordion.Control>
+            <Accordion.Panel
+              data-interaction-region="abstract"
+              data-interaction-element={`${cardId}:abstract`}
+            >
+              <Text size="sm">{technique.abstract}</Text>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

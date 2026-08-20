@@ -46,7 +46,7 @@ export default function FormatIntroduction({
         <Title order={3}>How technique descriptions will look</Title>
         <Text size="sm" mt="xs">
           You will see forensic techniques in one of two description formats per scenario. Both
-          formats can include the same optional materials: the paper abstract, an AI summary, and
+          formats can include the same optional materials: an AI summary, the paper abstract, and
           the full paper. Try opening those sections on the sample cards below. When structured
           tags are shown, hover a tag to read its definition.
         </Text>
