@@ -131,7 +131,7 @@ describe('user studies from production fork', () => {
       expect(flat[flat.indexOf(taskA[0]) + 4]).toBe('attention-check-a');
       expect(flat[flat.indexOf(taskB[0]) + 2]).toBe('attention-check-b');
 
-      let arm = 4;
+      let arm: 1 | 2 | 3 | 4 = 4;
       if (a1IsKeywords && b1IsKeywords) {
         arm = 1;
       } else if (a1IsOntology && b1IsOntology) {
