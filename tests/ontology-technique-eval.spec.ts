@@ -46,7 +46,10 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   const summary = page.getByRole('button', { name: 'Plain-language summary' }).first();
   await summary.click();
   await expect(summary).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByText(/PLACEHOLDER (BASELINE|AI) SUMMARY/).first()).toBeVisible();
+  const summaryText = page.locator('[data-interaction-region="summary"] p').first();
+  await expect(summaryText).toBeVisible();
+  await expect(summaryText).toHaveText(/.{20,}/);
+  await expect(summaryText).not.toContainText('PLACEHOLDER');
   await summary.click();
   await expect(summary).toHaveAttribute('aria-expanded', 'false');
   await answerFirstTaskA(page);
