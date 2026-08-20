@@ -160,26 +160,10 @@
         {
           "id": "chosenTechnique",
           "prompt": "Which technique is the appropriate fit for this case?",
+          "secondaryText": "The numbers match the numbered cards in the main area.",
           "location": "sidebar",
-          "type": "radio",
-          "options": [
-            {
-              "label": "Technique 1",
-              "value": "1"
-            },
-            {
-              "label": "Technique 2",
-              "value": "2"
-            },
-            {
-              "label": "Technique 3",
-              "value": "3"
-            },
-            {
-              "label": "Technique 4",
-              "value": "4"
-            }
-          ]
+          "type": "custom",
+          "path": "ontology-technique-eval/assets/TaskBTechniqueChoice.tsx"
         },
         {
           "id": "confidence",

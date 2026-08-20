@@ -51,6 +51,20 @@ describe('user studies from production fork', () => {
     });
   });
 
+  it('records Task B choices as technique ids while keeping numbered labels', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const taskB = parsed.baseComponents?.taskBTrial;
+
+    expect(parsed.errors).toEqual([]);
+    expect(taskB?.response?.[0]).toMatchObject({
+      id: 'chosenTechnique',
+      type: 'custom',
+      path: 'ontology-technique-eval/assets/TaskBTechniqueChoice.tsx',
+    });
+    expect(taskB?.response?.some((response) => response.id === 'techniqueOrder')).toBe(true);
+  });
+
   it('interleaves complementary keyword/ontology groups without repeating scenarios', async () => {
     const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
     const parsed = await parseStudyConfig(text);
