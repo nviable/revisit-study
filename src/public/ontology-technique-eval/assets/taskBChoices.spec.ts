@@ -3,31 +3,60 @@ import { STUDY_BANK } from './studyBank';
 import {
   getTaskBTechniqueChoices,
   isTaskBTechniqueId,
+  resolveTaskBTechniqueOrder,
+  seededShuffle,
   vignetteIdFromParameters,
 } from './taskBChoices';
 
 describe('task B technique choices', () => {
-  it('labels cards 1-4 and stores the technique ids in that same order', () => {
-    STUDY_BANK.taskBVignettes.forEach((vignette) => {
-      const choices = getTaskBTechniqueChoices(vignette.id);
-      expect(choices.map((choice) => choice.label)).toEqual([
-        'Technique 1',
-        'Technique 2',
-        'Technique 3',
-        'Technique 4',
-      ]);
-      expect(choices.map((choice) => choice.value)).toEqual(vignette.techniqueIds);
-      expect(choices.map((choice) => choice.position)).toEqual([1, 2, 3, 4]);
+  it('labels cards 1-4 from the displayed technique order', () => {
+    const shuffled = ['t-b2-d1', 't-b2-target', 't-b2-d3', 't-b2-d2'];
+    const choices = getTaskBTechniqueChoices(shuffled);
+    expect(choices.map((choice) => choice.label)).toEqual([
+      'Technique 1',
+      'Technique 2',
+      'Technique 3',
+      'Technique 4',
+    ]);
+    expect(choices.map((choice) => choice.value)).toEqual(shuffled);
+    expect(choices[0]).toEqual({
+      label: 'Technique 1',
+      value: 't-b2-d1',
+      position: 1,
     });
   });
 
-  it('records ice-house distractor 1 as t-b2-d1 when Technique 2 is selected', () => {
-    const choices = getTaskBTechniqueChoices('task-b-2');
-    expect(choices[1]).toEqual({
-      label: 'Technique 2',
-      value: 't-b2-d1',
-      position: 2,
-    });
+  it('shuffles with a stable seed and keeps all techniques', () => {
+    const original = STUDY_BANK.taskBVignettes[1].techniqueIds;
+    const first = resolveTaskBTechniqueOrder('task-b-2', 'participant-a');
+    const second = resolveTaskBTechniqueOrder('task-b-2', 'participant-a');
+
+    expect(first).toEqual(second);
+    expect([...first].sort()).toEqual([...original].sort());
+
+    const uniqueOrders = new Set(
+      ['p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8'].map(
+        (seed) => resolveTaskBTechniqueOrder('task-b-2', seed).join('|'),
+      ),
+    );
+    expect(uniqueOrders.size).toBeGreaterThan(1);
+  });
+
+  it('reuses a stored permutation instead of reshuffling', () => {
+    const stored = ['t-b1-d3', 't-b1-d1', 't-b1-target', 't-b1-d2'];
+    expect(resolveTaskBTechniqueOrder('task-b-1', 'participant-a', stored)).toEqual(stored);
+    expect(resolveTaskBTechniqueOrder('task-b-1', 'participant-a', ['t-b1-target'])).toEqual(
+      resolveTaskBTechniqueOrder('task-b-1', 'participant-a'),
+    );
+  });
+
+  it('uses the same seeded shuffle for cards and sidebar labels', () => {
+    const order = seededShuffle(
+      STUDY_BANK.taskBVignettes[0].techniqueIds,
+      'participant-a:task-b-1',
+    );
+    expect(resolveTaskBTechniqueOrder('task-b-1', 'participant-a')).toEqual(order);
+    expect(getTaskBTechniqueChoices(order).map((choice) => choice.value)).toEqual(order);
   });
 
   it('accepts known technique ids and rejects position numbers', () => {

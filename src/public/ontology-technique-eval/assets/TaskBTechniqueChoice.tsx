@@ -3,12 +3,15 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { useCurrentComponent } from '../../../routes/utils';
+import { useStoredAnswer } from '../../../store/hooks/useStoredAnswer';
 import { useStudyConfig } from '../../../store/hooks/useStudyConfig';
+import { useStoreSelector } from '../../../store/store';
 import type { CustomResponseParams, CustomResponseValidate } from '../../../store/types';
 import { getComponent } from '../../../utils/handleComponentInheritance';
 import {
   getTaskBTechniqueChoices,
   isTaskBTechniqueId,
+  resolveTaskBTechniqueOrder,
   vignetteIdFromParameters,
 } from './taskBChoices';
 
@@ -29,11 +32,19 @@ export default function TaskBTechniqueChoice({
 }: CustomResponseParams<Record<string, never>, string>) {
   const currentComponent = useCurrentComponent();
   const studyConfig = useStudyConfig();
+  const participantId = useStoreSelector((state) => state.participantId);
+  const storedAnswer = useStoredAnswer();
   const choices = useMemo(() => {
     const component = getComponent(currentComponent, studyConfig);
     const parameters = component && 'parameters' in component ? component.parameters : undefined;
-    return getTaskBTechniqueChoices(vignetteIdFromParameters(parameters));
-  }, [currentComponent, studyConfig]);
+    const vignetteId = vignetteIdFromParameters(parameters);
+    const techniqueOrder = resolveTaskBTechniqueOrder(
+      vignetteId,
+      participantId,
+      storedAnswer?.answer?.techniqueOrder,
+    );
+    return getTaskBTechniqueChoices(techniqueOrder);
+  }, [currentComponent, participantId, storedAnswer?.answer?.techniqueOrder, studyConfig]);
   const selected = typeof value === 'string' ? value : '';
 
   return (
