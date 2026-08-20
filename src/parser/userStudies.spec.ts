@@ -164,7 +164,7 @@ describe('user studies from production fork', () => {
   it('captures Prolific IDs and keeps explicit test sessions available', async () => {
     const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
     const parsed = await parseStudyConfig(text);
-    const consent = parsed.components.consent;
+    const { consent } = parsed.components;
 
     expect(parsed.uiConfig.urlParticipantIdParam).toBe('PROLIFIC_PID');
     expect(consent.response?.[0]).toMatchObject({

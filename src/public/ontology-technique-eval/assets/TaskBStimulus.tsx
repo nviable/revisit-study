@@ -88,35 +88,3 @@ export default function TaskBStimulus({
     </Stack>
   );
 }
-
-  if (!vignette || techniques.length !== 4) {
-    return (
-      <Alert color="red" icon={<IconAlertCircle />}>
-        Missing placeholder vignette or techniques for
-        {' '}
-        {parameters.vignetteId}
-        .
-      </Alert>
-    );
-  }
-
-  return (
-    <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
-      <Text size="xs" c="dimmed" tt="uppercase" fw={700}>Task B</Text>
-      <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
-      <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm" style={{ minWidth: 0 }}>
-        {techniques.map((technique, index) => (
-          <TechniqueCard
-            key={technique.id}
-            technique={technique}
-            format={parameters.format}
-            compact
-            index={index + 1}
-            provenanceState={provenanceState}
-            onInteract={record}
-          />
-        ))}
-      </SimpleGrid>
-    </Stack>
-  );
-}
