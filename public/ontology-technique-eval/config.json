@@ -258,6 +258,14 @@
       "nextButtonLocation": "sidebar",
       "response": [
         {
+          "id": "prolificId",
+          "prompt": "Participant identifier",
+          "location": "sidebar",
+          "type": "custom",
+          "path": "ontology-technique-eval/assets/ParticipantIdCollector.tsx",
+          "paramCapture": "PROLIFIC_PID"
+        },
+        {
           "id": "consentAgree",
           "prompt": "Do you consent to participate in this study?",
           "location": "sidebar",

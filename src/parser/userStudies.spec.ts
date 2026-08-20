@@ -48,4 +48,18 @@ describe('user studies from production fork', () => {
       ],
     });
   });
+
+  it('captures Prolific IDs and keeps explicit test sessions available', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const consent = parsed.components.consent;
+
+    expect(parsed.uiConfig.urlParticipantIdParam).toBe('PROLIFIC_PID');
+    expect(consent.response[0]).toMatchObject({
+      id: 'prolificId',
+      type: 'custom',
+      path: 'ontology-technique-eval/assets/ParticipantIdCollector.tsx',
+      paramCapture: 'PROLIFIC_PID',
+    });
+  });
 });

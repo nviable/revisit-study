@@ -30,6 +30,8 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(consentFrame.locator('.people').first().getByText('Saniat J. Sohrawardi', { exact: true })).toBeVisible();
   await expect(consentFrame.getByRole('link', { name: 'john.sohrawardi@rit.edu' }).first()).toBeVisible();
 
+  await expect(page.getByText('Testing mode', { exact: true })).toBeVisible();
+  await page.getByPlaceholder('TEST-your-name-or-run').fill('TEST-e2e');
   await page.getByRole('radio', { name: /I agree to participate/i }).click();
   await nextClick(page);
 
@@ -53,4 +55,23 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await summary.click();
   await expect(summary).toHaveAttribute('aria-expanded', 'false');
   await answerFirstTaskA(page);
+});
+
+test('ontology technique evaluation captures and locks a Prolific ID', async ({ page }) => {
+  await resetClientStudyState(page);
+  await openStudyFromLanding(
+    page,
+    'Your Studies',
+    'Ontology-supported descriptions of digital media forensic techniques',
+  );
+
+  const studyUrl = new URL(page.url());
+  studyUrl.searchParams.set('PROLIFIC_PID', 'prolific-e2e-123');
+  await page.goto(studyUrl.toString());
+
+  await expect(page.getByText('Prolific ID detected', { exact: true })).toBeVisible();
+  const participantId = page.getByLabel('Participant identifier');
+  await expect(participantId).toHaveValue('prolific-e2e-123');
+  await expect(participantId).toBeDisabled();
+  await expect(page.getByText('Testing mode', { exact: true })).toHaveCount(0);
 });
