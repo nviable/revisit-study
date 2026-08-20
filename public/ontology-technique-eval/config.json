@@ -511,6 +511,7 @@
         "task": "A",
         "vignette": 1,
         "set": "A",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -524,6 +525,7 @@
         "task": "A",
         "vignette": 1,
         "set": "A",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -537,6 +539,7 @@
         "task": "A",
         "vignette": 2,
         "set": "A",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -550,6 +553,7 @@
         "task": "A",
         "vignette": 2,
         "set": "A",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -563,6 +567,7 @@
         "task": "A",
         "vignette": 3,
         "set": "A",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -576,6 +581,7 @@
         "task": "A",
         "vignette": 3,
         "set": "A",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -589,6 +595,7 @@
         "task": "A",
         "vignette": 4,
         "set": "A",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -602,6 +609,7 @@
         "task": "A",
         "vignette": 4,
         "set": "A",
+        "group": 2,
         "format": "ontology"
       }
     },
@@ -615,6 +623,7 @@
         "task": "A",
         "vignette": 5,
         "set": "A",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -628,6 +637,7 @@
         "task": "A",
         "vignette": 5,
         "set": "A",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -641,6 +651,7 @@
         "task": "A",
         "vignette": 6,
         "set": "A",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -654,6 +665,7 @@
         "task": "A",
         "vignette": 6,
         "set": "A",
+        "group": 2,
         "format": "ontology"
       }
     },
@@ -667,6 +679,7 @@
         "task": "A",
         "vignette": 7,
         "set": "A",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -680,6 +693,7 @@
         "task": "A",
         "vignette": 7,
         "set": "A",
+        "group": 2,
         "format": "ontology"
       }
     },
@@ -693,6 +707,7 @@
         "task": "A",
         "vignette": 8,
         "set": "A",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -706,6 +721,7 @@
         "task": "A",
         "vignette": 8,
         "set": "A",
+        "group": 2,
         "format": "ontology"
       }
     },
@@ -719,6 +735,7 @@
         "task": "B",
         "vignette": 1,
         "set": "B",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -732,6 +749,7 @@
         "task": "B",
         "vignette": 1,
         "set": "B",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -745,6 +763,7 @@
         "task": "B",
         "vignette": 2,
         "set": "B",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -758,6 +777,7 @@
         "task": "B",
         "vignette": 2,
         "set": "B",
+        "group": 2,
         "format": "ontology"
       }
     },
@@ -771,6 +791,7 @@
         "task": "B",
         "vignette": 3,
         "set": "B",
+        "group": 1,
         "format": "keywords"
       }
     },
@@ -784,6 +805,7 @@
         "task": "B",
         "vignette": 3,
         "set": "B",
+        "group": 1,
         "format": "ontology"
       }
     },
@@ -797,6 +819,7 @@
         "task": "B",
         "vignette": 4,
         "set": "B",
+        "group": 2,
         "format": "keywords"
       }
     },
@@ -810,6 +833,7 @@
         "task": "B",
         "vignette": 4,
         "set": "B",
+        "group": 2,
         "format": "ontology"
       }
     }
@@ -841,69 +865,19 @@
         "numSamples": 1,
         "components": [
           {
-            "id": "arm-keywords-then-ontology",
+            "id": "arm-1",
             "order": "fixed",
             "components": [
               "task-a-intro",
               {
-                "id": "task-a-kw-then-ont",
+                "id": "task-a-arm-1",
                 "order": "latinSquare",
                 "components": [
                   "task-a-1-keywords",
                   "task-a-2-keywords",
                   "task-a-3-keywords",
-                  "task-a-4-keywords",
                   "task-a-5-keywords",
-                  "task-a-6-keywords",
-                  "task-a-7-keywords",
-                  "task-a-8-keywords"
-                ],
-                "interruptions": [
-                  {
-                    "firstLocation": 4,
-                    "spacing": 8,
-                    "components": [
-                      "attention-check-a"
-                    ]
-                  }
-                ]
-              },
-              "task-b-intro",
-              {
-                "id": "task-b-kw-then-ont",
-                "order": "latinSquare",
-                "components": [
-                  "task-b-1-ontology",
-                  "task-b-2-ontology",
-                  "task-b-3-ontology",
-                  "task-b-4-ontology"
-                ],
-                "interruptions": [
-                  {
-                    "firstLocation": 2,
-                    "spacing": 8,
-                    "components": [
-                      "attention-check-b"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "arm-ontology-then-keywords",
-            "order": "fixed",
-            "components": [
-              "task-a-intro",
-              {
-                "id": "task-a-ont-then-kw",
-                "order": "latinSquare",
-                "components": [
-                  "task-a-1-ontology",
-                  "task-a-2-ontology",
-                  "task-a-3-ontology",
                   "task-a-4-ontology",
-                  "task-a-5-ontology",
                   "task-a-6-ontology",
                   "task-a-7-ontology",
                   "task-a-8-ontology"
@@ -920,13 +894,163 @@
               },
               "task-b-intro",
               {
-                "id": "task-b-ont-then-kw",
+                "id": "task-b-arm-1",
                 "order": "latinSquare",
                 "components": [
                   "task-b-1-keywords",
-                  "task-b-2-keywords",
                   "task-b-3-keywords",
+                  "task-b-2-ontology",
+                  "task-b-4-ontology"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 2,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "arm-2",
+            "order": "fixed",
+            "components": [
+              "task-a-intro",
+              {
+                "id": "task-a-arm-2",
+                "order": "latinSquare",
+                "components": [
+                  "task-a-1-ontology",
+                  "task-a-2-ontology",
+                  "task-a-3-ontology",
+                  "task-a-5-ontology",
+                  "task-a-4-keywords",
+                  "task-a-6-keywords",
+                  "task-a-7-keywords",
+                  "task-a-8-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 4,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-a"
+                    ]
+                  }
+                ]
+              },
+              "task-b-intro",
+              {
+                "id": "task-b-arm-2",
+                "order": "latinSquare",
+                "components": [
+                  "task-b-1-ontology",
+                  "task-b-3-ontology",
+                  "task-b-2-keywords",
                   "task-b-4-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 2,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "arm-3",
+            "order": "fixed",
+            "components": [
+              "task-a-intro",
+              {
+                "id": "task-a-arm-3",
+                "order": "latinSquare",
+                "components": [
+                  "task-a-1-keywords",
+                  "task-a-2-keywords",
+                  "task-a-3-keywords",
+                  "task-a-5-keywords",
+                  "task-a-4-ontology",
+                  "task-a-6-ontology",
+                  "task-a-7-ontology",
+                  "task-a-8-ontology"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 4,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-a"
+                    ]
+                  }
+                ]
+              },
+              "task-b-intro",
+              {
+                "id": "task-b-arm-3",
+                "order": "latinSquare",
+                "components": [
+                  "task-b-1-ontology",
+                  "task-b-3-ontology",
+                  "task-b-2-keywords",
+                  "task-b-4-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 2,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-b"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "arm-4",
+            "order": "fixed",
+            "components": [
+              "task-a-intro",
+              {
+                "id": "task-a-arm-4",
+                "order": "latinSquare",
+                "components": [
+                  "task-a-1-ontology",
+                  "task-a-2-ontology",
+                  "task-a-3-ontology",
+                  "task-a-5-ontology",
+                  "task-a-4-keywords",
+                  "task-a-6-keywords",
+                  "task-a-7-keywords",
+                  "task-a-8-keywords"
+                ],
+                "interruptions": [
+                  {
+                    "firstLocation": 4,
+                    "spacing": 8,
+                    "components": [
+                      "attention-check-a"
+                    ]
+                  }
+                ]
+              },
+              "task-b-intro",
+              {
+                "id": "task-b-arm-4",
+                "order": "latinSquare",
+                "components": [
+                  "task-b-1-keywords",
+                  "task-b-3-keywords",
+                  "task-b-2-ontology",
+                  "task-b-4-ontology"
                 ],
                 "interruptions": [
                   {
