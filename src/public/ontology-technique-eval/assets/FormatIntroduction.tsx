@@ -45,8 +45,8 @@ export default function FormatIntroduction({
       <div>
         <Title order={3}>How technique descriptions will look</Title>
         <Text size="sm" mt="xs">
-          You will see forensic techniques in one of two description formats. Both formats can
-          include the same optional materials: the paper abstract, a plain-language summary, and
+          You will see forensic techniques in one of two description formats per scenario. Both
+          formats can include the same optional materials: the paper abstract, an AI summary, and
           the full paper. Try opening those sections on the sample cards below. When structured
           tags are shown, hover a tag to read its definition.
         </Text>
@@ -78,9 +78,9 @@ export default function FormatIntroduction({
             <Badge color="defakeTeal" variant="light">Format B</Badge>
           </Group>
           <Text size="sm" mb="sm" c="dimmed">
-            The same title is followed by structured tags. Chains such as parent → leaf show
-            how a term sits in the vocabulary. Hover a tag for its definition. Matching terms
-            are highlighted in the plain-language summary.
+            The same title is followed by structured tags grouped under the ontology&apos;s four
+            root branches. Hover a tag for its definition and full ontology path. Matching terms
+            are highlighted in the AI summary.
           </Text>
           <TechniqueCard
             technique={technique}

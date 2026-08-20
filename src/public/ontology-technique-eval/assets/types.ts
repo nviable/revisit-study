@@ -18,9 +18,9 @@ export interface Technique {
   keywords: string[];
   ontologyTags: OntologyTagPath[];
   abstract: string;
-  /** Plain-language summary shown with keyword-supported descriptions. */
+  /** AI-generated Semantic Scholar TLDR shown with keyword-supported descriptions. */
   baselineSummary: string;
-  /** Plain-language summary shown with ontology-supported descriptions; tag titles are highlighted. */
+  /** Ontology-assisted AI summary shown with structured descriptions; tag titles are highlighted. */
   aiSummary: string;
   pdfPath: string;
 }

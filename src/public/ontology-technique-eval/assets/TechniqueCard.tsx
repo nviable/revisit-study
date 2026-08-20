@@ -24,7 +24,12 @@ import {
 import type { MouseEvent } from 'react';
 import { PREFIX } from '../../../utils/Prefix';
 import {
-  getCategoryColor, highlightTerms, resolveTagPath, titlesForTechniqueTags,
+  getAncestorChain,
+  getCategoryColor,
+  getOntologyTerm,
+  groupOntologyTags,
+  highlightTerms,
+  titlesForTechniqueTags,
 } from './ontology';
 import { getCardDisclosureState } from './provenance';
 import { resolvePaperPath, summaryForFormat } from './studyBank';
@@ -32,6 +37,7 @@ import type {
   DescriptionFormat,
   InteractionEvent,
   InteractionRegion,
+  OntologyTerm,
   ProvenanceState,
   Technique,
 } from './types';
@@ -61,66 +67,125 @@ const tagBadgeStyles = {
   },
 };
 
-function OntologyTagChain({
-  path,
+const ontologyBadgeStyles = {
+  root: {
+    textTransform: 'none' as const,
+    height: 'auto',
+    padding: '4px 9px',
+    lineHeight: 1.25,
+    whiteSpace: 'normal' as const,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: 600,
+    whiteSpace: 'normal' as const,
+  },
+};
+
+function OntologyTooltipContent({ term }: { term: OntologyTerm }) {
+  const ancestry = getAncestorChain(term.slug).map((entry) => entry.title);
+  return (
+    <Stack gap={4}>
+      <Text size="xs" fw={700}>{ancestry.join(' → ')}</Text>
+      <Text size="xs">{term.description}</Text>
+    </Stack>
+  );
+}
+
+function OntologyTagBadge({
+  term,
+  root = false,
   technique,
   format,
   cardIndex,
-  techniqueId,
+  cardId,
   onInteract,
 }: {
-  path: string[];
+  term: OntologyTerm;
+  root?: boolean;
   technique: Technique;
   format: DescriptionFormat;
   cardIndex?: number;
-  techniqueId: string;
+  cardId: string;
   onInteract: TechniqueCardProps['onInteract'];
 }) {
-  const terms = resolveTagPath(path);
-  if (terms.length === 0) {
-    return null;
-  }
-
   return (
-    <Group gap={6} wrap="wrap">
-      {terms.map((term, index) => (
-        <Group key={term.slug} gap={6} wrap="wrap">
-          {index > 0 && (
-            <Text size="sm" c="dimmed" aria-hidden="true">→</Text>
-          )}
-          <Tooltip
-            label={term.description}
-            multiline
-            w={280}
-            withArrow
-            events={{ hover: true, focus: true, touch: true }}
-          >
-            <Badge
-              variant="light"
-              color={getCategoryColor(term.slug)}
-              size="md"
-              styles={tagBadgeStyles}
-              style={{ cursor: 'help' }}
-              leftSection={<IconInfoCircle size={14} />}
-              data-interaction-region="ontology-tag"
-              data-interaction-element={`${techniqueId}:tag:${term.slug}`}
-              onMouseEnter={() => onInteract({
-                type: 'hover',
-                elementId: `${techniqueId}:tag:${term.slug}`,
-                label: `Hover tag: ${term.title}`,
-                techniqueId: technique.id,
-                cardId: techniqueId,
-                format,
-                cardIndex,
-                region: 'ontology-tag',
-              })}
-            >
-              {term.title}
-            </Badge>
-          </Tooltip>
+    <Tooltip
+      label={<OntologyTooltipContent term={term} />}
+      multiline
+      w={320}
+      withArrow
+      events={{ hover: true, focus: true, touch: true }}
+    >
+      <Badge
+        variant={root ? 'outline' : 'light'}
+        color={getCategoryColor(term.slug)}
+        size="sm"
+        styles={ontologyBadgeStyles}
+        style={{ cursor: 'help' }}
+        leftSection={<IconInfoCircle size={12} />}
+        data-interaction-region="ontology-tag"
+        data-interaction-element={`${cardId}:tag:${term.slug}`}
+        onMouseEnter={() => onInteract({
+          type: 'hover',
+          elementId: `${cardId}:tag:${term.slug}`,
+          label: `Hover tag: ${term.title}`,
+          techniqueId: technique.id,
+          cardId,
+          format,
+          cardIndex,
+          region: 'ontology-tag',
+        })}
+      >
+        {term.title}
+      </Badge>
+    </Tooltip>
+  );
+}
+
+function OntologyTagGroups({
+  paths,
+  technique,
+  format,
+  cardIndex,
+  cardId,
+  onInteract,
+}: {
+  paths: string[][];
+  technique: Technique;
+  format: DescriptionFormat;
+  cardIndex?: number;
+  cardId: string;
+  onInteract: TechniqueCardProps['onInteract'];
+}) {
+  const groups = groupOntologyTags(paths);
+  return (
+    <Stack gap={6}>
+      {groups.map(({ root, terms }) => (
+        <Group key={root.slug} gap={6} wrap="wrap" align="center">
+          <OntologyTagBadge
+            term={root}
+            root
+            technique={technique}
+            format={format}
+            cardIndex={cardIndex}
+            cardId={cardId}
+            onInteract={onInteract}
+          />
+          {terms.map((term) => (
+            <OntologyTagBadge
+              key={term.slug}
+              term={term}
+              technique={technique}
+              format={format}
+              cardIndex={cardIndex}
+              cardId={cardId}
+              onInteract={onInteract}
+            />
+          ))}
         </Group>
       ))}
-    </Group>
+    </Stack>
   );
 }
 
@@ -290,19 +355,14 @@ export function TechniqueCard({
               <IconInfoCircle size={16} />
               <Text size="sm" fw={600} tt="uppercase" c="dimmed">Structured tags</Text>
             </Group>
-            <Stack gap={8}>
-              {technique.ontologyTags.map((tag) => (
-                <OntologyTagChain
-                  key={tag.path.join('>')}
-                  path={tag.path}
-                  technique={technique}
-                  format={format}
-                  cardIndex={index}
-                  techniqueId={cardId}
-                  onInteract={onInteract}
-                />
-              ))}
-            </Stack>
+            <OntologyTagGroups
+              paths={technique.ontologyTags.map((tag) => tag.path)}
+              technique={technique}
+              format={format}
+              cardIndex={index}
+              cardId={cardId}
+              onInteract={onInteract}
+            />
           </Box>
         )}
 
@@ -340,7 +400,7 @@ export function TechniqueCard({
               data-interaction-region="summary"
               data-interaction-element={`${cardId}:summary`}
             >
-              Plain-language summary
+              AI summary
             </Accordion.Control>
             <Accordion.Panel
               data-interaction-region="summary"
@@ -351,9 +411,11 @@ export function TechniqueCard({
                   segment.matchedTitle ? (
                     <Tooltip
                       key={`hl-${segmentIndex}`}
-                      label={segment.description || segment.matchedTitle}
+                      label={segment.termSlug && getOntologyTerm(segment.termSlug)
+                        ? <OntologyTooltipContent term={getOntologyTerm(segment.termSlug)!} />
+                        : segment.description || segment.matchedTitle}
                       multiline
-                      w={280}
+                      w={320}
                       withArrow
                     >
                       <Text

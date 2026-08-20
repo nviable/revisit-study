@@ -15,11 +15,18 @@ const TERMS_BY_TITLE: Record<string, OntologyTerm> = TERMS.reduce((acc, term) =>
 
 /** Mantine color names for the four top-level ontology branches. */
 export const ONTOLOGY_CATEGORY_COLORS: Record<string, string> = {
-  'media-modality': 'blue',
-  'forensic-goal-task': 'defakeTeal',
-  'evidentiary-features': 'orange',
-  'search-analysis-scope': 'violet',
+  'media-modality': 'gray',
+  'forensic-goal-task': 'green',
+  'search-analysis-scope': 'yellow',
+  'evidentiary-features': 'blue',
 };
+
+export const ONTOLOGY_CATEGORY_ORDER = [
+  'media-modality',
+  'forensic-goal-task',
+  'search-analysis-scope',
+  'evidentiary-features',
+];
 
 export function getOntologyTerm(slug: string): OntologyTerm | undefined {
   return TERMS_BY_SLUG[slug];
@@ -58,6 +65,34 @@ export function resolveTagPath(path: string[]): OntologyTerm[] {
   return path
     .map((slug) => TERMS_BY_SLUG[slug])
     .filter((term): term is OntologyTerm => Boolean(term));
+}
+
+export interface OntologyTagGroup {
+  root: OntologyTerm;
+  terms: OntologyTerm[];
+}
+
+/** Group independent visible terms under their top-level ontology branches. */
+export function groupOntologyTags(paths: string[][]): OntologyTagGroup[] {
+  const grouped = new Map<string, OntologyTerm[]>();
+
+  paths.flatMap(resolveTagPath).forEach((term) => {
+    const root = getAncestorChain(term.slug)[0];
+    if (!root) {
+      return;
+    }
+    const terms = grouped.get(root.slug) ?? [];
+    if (term.slug !== root.slug && !terms.some((entry) => entry.slug === term.slug)) {
+      terms.push(term);
+    }
+    grouped.set(root.slug, terms);
+  });
+
+  return ONTOLOGY_CATEGORY_ORDER.flatMap((rootSlug) => {
+    const root = getOntologyTerm(rootSlug);
+    const terms = grouped.get(rootSlug);
+    return root && terms ? [{ root, terms }] : [];
+  });
 }
 
 export interface HighlightSegment {

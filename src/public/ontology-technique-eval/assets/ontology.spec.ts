@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
-  getAncestorChain, getCategoryColor, getOntologyTerm, highlightTerms, resolveTagPath,
+  getAncestorChain,
+  getCategoryColor,
+  getOntologyTerm,
+  groupOntologyTags,
+  highlightTerms,
+  resolveTagPath,
 } from './ontology';
 
 describe('ontology helpers', () => {
@@ -47,16 +52,35 @@ describe('ontology helpers', () => {
 
     expect(faceSwap?.description).toMatch(/face has been superimposed/i);
     expect(faceSwap?.termSlug).toBe('face-swap');
-    expect(faceSwap?.color).toBe('defakeTeal');
+    expect(faceSwap?.color).toBe('green');
     expect(video?.description).toMatch(/sequence of images/i);
     expect(video?.termSlug).toBe('video');
-    expect(video?.color).toBe('blue');
+    expect(video?.color).toBe('gray');
   });
 
-  it('maps each ontology branch to a distinct color', () => {
-    expect(getCategoryColor('video')).toBe('blue');
-    expect(getCategoryColor('face-swap')).toBe('defakeTeal');
-    expect(getCategoryColor('prnu-noise')).toBe('orange');
-    expect(getCategoryColor('spatial-scope')).toBe('violet');
+  it('maps each ontology branch to the study color scheme', () => {
+    expect(getCategoryColor('video')).toBe('gray');
+    expect(getCategoryColor('face-swap')).toBe('green');
+    expect(getCategoryColor('spatial-scope')).toBe('yellow');
+    expect(getCategoryColor('prnu-noise')).toBe('blue');
+  });
+
+  it('groups independent tags into compact root-category rows', () => {
+    const groups = groupOntologyTags([
+      ['spatial-features'],
+      ['video'],
+      ['face-swap'],
+      ['audio'],
+      ['segment'],
+    ]);
+
+    expect(groups.map((group) => group.root.slug)).toEqual([
+      'media-modality',
+      'forensic-goal-task',
+      'search-analysis-scope',
+      'evidentiary-features',
+    ]);
+    expect(groups[0].terms.map((term) => term.slug)).toEqual(['video', 'audio']);
+    expect(groups[2].terms.map((term) => term.slug)).toEqual(['segment']);
   });
 });

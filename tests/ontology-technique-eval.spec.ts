@@ -27,8 +27,29 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   const consentFrame = page.frameLocator('iframe');
   await expect(consentFrame.getByRole('heading', { name: /Ontology-based Framework/i })).toBeVisible();
   await expect(consentFrame.locator('.glance').getByText('About 45 minutes', { exact: true })).toBeVisible();
-  await expect(consentFrame.locator('.people').first().getByText('Saniat J. Sohrawardi', { exact: true })).toBeVisible();
+  const researchTeam = consentFrame.locator('.people').first();
+  await expect(researchTeam.locator('strong')).toHaveText([
+    'Y. Kelly Wu',
+    'Saniat J. Sohrawardi',
+    'Dr. Ersin Uzun',
+    'Dr. Matthew Wright',
+  ]);
+  await expect(researchTeam.locator('.meta')).toHaveText([
+    /ESL Global Cybersecurity Institute, RIT/,
+    /ESL Global Cybersecurity Institute, RIT/,
+    /ESL Global Cybersecurity Institute, RIT/,
+    /ESL Global Cybersecurity Institute, RIT/,
+  ]);
+  await expect(consentFrame.locator('.people').nth(1).locator('strong')).toHaveText([
+    'Y. Kelly Wu',
+    'Saniat J. Sohrawardi',
+    'Dr. Ersin Uzun',
+    'Dr. Matthew Wright',
+  ]);
   await expect(consentFrame.getByRole('link', { name: 'john.sohrawardi@rit.edu' }).first()).toBeVisible();
+  await expect(consentFrame.locator('body')).toContainText('read a short introduction of the technique description formats');
+  await expect(consentFrame.locator('body')).not.toContainText('Qualtrics');
+  await expect(consentFrame.locator('body')).not.toContainText('watch a short video');
 
   await expect(page.getByText('Testing mode', { exact: true })).toBeVisible();
   await page.getByPlaceholder('TEST-your-name-or-run').fill('TEST-e2e');
@@ -37,6 +58,13 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
 
   await expect(page.getByText('Keyword supported')).toBeVisible();
   await expect(page.getByText('Ontology supported')).toBeVisible();
+  await expect(page.getByText(/one of two description formats per scenario/)).toBeVisible();
+  await expect(page.getByText('Media Modality', { exact: true })).toBeVisible();
+  await expect(page.getByText('Forensic Goal Task', { exact: true })).toBeVisible();
+  await expect(page.getByText('Search & Analysis Scope', { exact: true })).toBeVisible();
+  await expect(page.getByText('Evidentiary Features', { exact: true })).toBeVisible();
+  await page.getByText('Face Swap', { exact: true }).first().hover();
+  await expect(page.getByText(/Forensic Goal Task → Forgery & Manipulation Detection/)).toBeVisible();
   await nextClick(page);
 
   await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
@@ -45,7 +73,7 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(page.getByText('You do not need to open every section')).toBeVisible();
   await expect(page.getByText('1 = Not at all confident. 5 = Completely confident.')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
-  const summary = page.getByRole('button', { name: 'Plain-language summary' }).first();
+  const summary = page.getByRole('button', { name: 'AI summary' }).first();
   await summary.click();
   await expect(summary).toHaveAttribute('aria-expanded', 'true');
   const summaryText = page.locator('[data-interaction-region="summary"] p').first();
