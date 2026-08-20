@@ -55,7 +55,7 @@ describe('user studies from production fork', () => {
     const consent = parsed.components.consent;
 
     expect(parsed.uiConfig.urlParticipantIdParam).toBe('PROLIFIC_PID');
-    expect(consent.response[0]).toMatchObject({
+    expect(consent.response?.[0]).toMatchObject({
       id: 'prolificId',
       type: 'custom',
       path: 'ontology-technique-eval/assets/ParticipantIdCollector.tsx',

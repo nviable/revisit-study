@@ -3,7 +3,7 @@ import {
 } from '@mantine/core';
 import { IconAlertTriangle, IconCircleCheck } from '@tabler/icons-react';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import type { CustomResponseParams, CustomResponseValidate } from '../../../store/types';
 
 const PROLIFIC_PARAM = 'PROLIFIC_PID';
