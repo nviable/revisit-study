@@ -2,15 +2,15 @@
   "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.4.3/src/parser/StudyConfigSchema.json",
   "studyMetadata": {
     "title": "Ontology-supported descriptions of digital media forensic techniques",
-    "version": "pilot-placeholders",
+    "version": "1.0",
     "authors": [
       "Y. Kelly Wu",
       "Saniat J. Sohrawardi",
       "Matthew Wright",
       "Ersin Uzun"
     ],
-    "date": "2026-08-14",
-    "description": "A Prolific survey comparing keyword-supported and ontology-supported descriptions of digital media forensic techniques. Vignette text and papers are placeholders until the final instrument is supplied.",
+    "date": "2026-08-20",
+    "description": "A Prolific survey comparing keyword-supported and ontology-supported descriptions of digital media forensic techniques.",
     "organizations": [
       "Rochester Institute of Technology",
       "ESL Global Cybersecurity Institute"
@@ -606,7 +606,7 @@
       "meta": {
         "task": "A",
         "vignette": 5,
-        "set": "B",
+        "set": "A",
         "format": "keywords"
       }
     },
@@ -619,7 +619,7 @@
       "meta": {
         "task": "A",
         "vignette": 5,
-        "set": "B",
+        "set": "A",
         "format": "ontology"
       }
     },
@@ -632,7 +632,7 @@
       "meta": {
         "task": "A",
         "vignette": 6,
-        "set": "B",
+        "set": "A",
         "format": "keywords"
       }
     },
@@ -645,7 +645,7 @@
       "meta": {
         "task": "A",
         "vignette": 6,
-        "set": "B",
+        "set": "A",
         "format": "ontology"
       }
     },
@@ -658,7 +658,7 @@
       "meta": {
         "task": "A",
         "vignette": 7,
-        "set": "B",
+        "set": "A",
         "format": "keywords"
       }
     },
@@ -671,7 +671,7 @@
       "meta": {
         "task": "A",
         "vignette": 7,
-        "set": "B",
+        "set": "A",
         "format": "ontology"
       }
     },
@@ -684,7 +684,7 @@
       "meta": {
         "task": "A",
         "vignette": 8,
-        "set": "B",
+        "set": "A",
         "format": "keywords"
       }
     },
@@ -697,7 +697,7 @@
       "meta": {
         "task": "A",
         "vignette": 8,
-        "set": "B",
+        "set": "A",
         "format": "ontology"
       }
     },
@@ -710,7 +710,7 @@
       "meta": {
         "task": "B",
         "vignette": 1,
-        "set": "A",
+        "set": "B",
         "format": "keywords"
       }
     },
@@ -723,7 +723,7 @@
       "meta": {
         "task": "B",
         "vignette": 1,
-        "set": "A",
+        "set": "B",
         "format": "ontology"
       }
     },
@@ -736,7 +736,7 @@
       "meta": {
         "task": "B",
         "vignette": 2,
-        "set": "A",
+        "set": "B",
         "format": "keywords"
       }
     },
@@ -749,7 +749,7 @@
       "meta": {
         "task": "B",
         "vignette": 2,
-        "set": "A",
+        "set": "B",
         "format": "ontology"
       }
     },
@@ -845,10 +845,10 @@
                   "task-a-2-keywords",
                   "task-a-3-keywords",
                   "task-a-4-keywords",
-                  "task-a-5-ontology",
-                  "task-a-6-ontology",
-                  "task-a-7-ontology",
-                  "task-a-8-ontology"
+                  "task-a-5-keywords",
+                  "task-a-6-keywords",
+                  "task-a-7-keywords",
+                  "task-a-8-keywords"
                 ],
                 "interruptions": [
                   {
@@ -865,8 +865,8 @@
                 "id": "task-b-kw-then-ont",
                 "order": "latinSquare",
                 "components": [
-                  "task-b-1-keywords",
-                  "task-b-2-keywords",
+                  "task-b-1-ontology",
+                  "task-b-2-ontology",
                   "task-b-3-ontology",
                   "task-b-4-ontology"
                 ],
@@ -895,10 +895,10 @@
                   "task-a-2-ontology",
                   "task-a-3-ontology",
                   "task-a-4-ontology",
-                  "task-a-5-keywords",
-                  "task-a-6-keywords",
-                  "task-a-7-keywords",
-                  "task-a-8-keywords"
+                  "task-a-5-ontology",
+                  "task-a-6-ontology",
+                  "task-a-7-ontology",
+                  "task-a-8-ontology"
                 ],
                 "interruptions": [
                   {
@@ -915,8 +915,8 @@
                 "id": "task-b-ont-then-kw",
                 "order": "latinSquare",
                 "components": [
-                  "task-b-1-ontology",
-                  "task-b-2-ontology",
+                  "task-b-1-keywords",
+                  "task-b-2-keywords",
                   "task-b-3-keywords",
                   "task-b-4-keywords"
                 ],

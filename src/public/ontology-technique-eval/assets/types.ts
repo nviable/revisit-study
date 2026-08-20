@@ -7,7 +7,7 @@ export interface OntologyTerm {
   parent_slug: string | null;
 }
 
-/** One visible ontology tag. `path` is a slug chain from ancestor to leaf. */
+/** One visible ontology term. `path` retains the config-compatible slug-array shape. */
 export interface OntologyTagPath {
   path: string[];
 }
@@ -25,21 +25,24 @@ export interface Technique {
   pdfPath: string;
 }
 
+export type TaskATarget = 'ALL_HOLD' | 'FAIL_C1' | 'FAIL_C2' | 'FAIL_C3' | 'FAIL_C4';
+
 export interface TaskAVignette {
   id: string;
-  set: 'A' | 'B';
+  set: 'A';
   title: string;
   scenario: string;
+  target: TaskATarget;
   techniqueId: string;
 }
 
 export interface TaskBVignette {
   id: string;
-  set: 'A' | 'B';
+  set: 'B';
   title: string;
   scenario: string;
   techniqueIds: string[];
-  /** Placeholder ground truth for later analysis; not shown to participants. */
+  /** Ground-truth technique for later analysis; not shown to participants. */
   correctTechniqueId: string;
 }
 

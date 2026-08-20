@@ -31,4 +31,8 @@ export function summaryForFormat(technique: Technique, format: DescriptionFormat
   return format === 'ontology' ? technique.aiSummary : technique.baselineSummary;
 }
 
+export function resolvePaperPath(pdfPath: string, prefix: string): string {
+  return /^https?:\/\//i.test(pdfPath) ? pdfPath : `${prefix}${pdfPath}`;
+}
+
 export { STUDY_BANK };

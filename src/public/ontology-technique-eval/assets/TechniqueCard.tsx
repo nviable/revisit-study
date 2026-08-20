@@ -27,7 +27,7 @@ import {
   getCategoryColor, highlightTerms, resolveTagPath, titlesForTechniqueTags,
 } from './ontology';
 import { getCardDisclosureState } from './provenance';
-import { summaryForFormat } from './studyBank';
+import { resolvePaperPath, summaryForFormat } from './studyBank';
 import type {
   DescriptionFormat,
   InteractionEvent,
@@ -408,7 +408,7 @@ export function TechniqueCard({
         <Box h="75vh">
           <iframe
             title={`Full paper: ${technique.title}`}
-            src={`${PREFIX}${technique.pdfPath}`}
+            src={resolvePaperPath(technique.pdfPath, PREFIX)}
             style={{ width: '100%', height: '100%', border: 'none' }}
           />
         </Box>

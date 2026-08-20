@@ -1,17 +1,25 @@
 import { describe, expect, it } from 'vitest';
+import mirroredStudyBank from '../../../../public/ontology-technique-eval/assets/data/studyBank.json';
 import {
-  STUDY_BANK, getTaskAVignette, getTaskBVignette, getTechnique, summaryForFormat,
+  STUDY_BANK,
+  getTaskAVignette,
+  getTaskBVignette,
+  getTechnique,
+  resolvePaperPath,
+  summaryForFormat,
 } from './studyBank';
+import { getOntologyTerm } from './ontology';
 
-describe('placeholder study bank', () => {
-  it('has 8 Task A vignettes split into sets A and B', () => {
+describe('study bank', () => {
+  it('has the final technique and vignette counts and sets', () => {
+    expect(STUDY_BANK.techniques).toHaveLength(24);
     expect(STUDY_BANK.taskAVignettes).toHaveLength(8);
-    expect(STUDY_BANK.taskAVignettes.filter((vignette) => vignette.set === 'A')).toHaveLength(4);
-    expect(STUDY_BANK.taskAVignettes.filter((vignette) => vignette.set === 'B')).toHaveLength(4);
+    expect(STUDY_BANK.taskAVignettes.every((vignette) => vignette.set === 'A')).toBe(true);
+    expect(STUDY_BANK.taskBVignettes).toHaveLength(4);
+    expect(STUDY_BANK.taskBVignettes.every((vignette) => vignette.set === 'B')).toBe(true);
   });
 
   it('has 4 Task B vignettes each paired with 4 techniques', () => {
-    expect(STUDY_BANK.taskBVignettes).toHaveLength(4);
     STUDY_BANK.taskBVignettes.forEach((vignette) => {
       expect(vignette.techniqueIds).toHaveLength(4);
       expect(vignette.techniqueIds).toContain(vignette.correctTechniqueId);
@@ -21,7 +29,14 @@ describe('placeholder study bank', () => {
     });
   });
 
-  it('gives every technique title, keywords, ontology tags, abstract, summary, and a paper path', () => {
+  it('gives every Task A vignette its supplied analysis target', () => {
+    STUDY_BANK.taskAVignettes.forEach((vignette) => {
+      expect(vignette.target).toMatch(/^(ALL_HOLD|FAIL_C[1-4])$/);
+    });
+  });
+
+  it('gives every technique complete final content and a CDN paper URL', () => {
+    expect(JSON.stringify(STUDY_BANK)).not.toContain('PLACEHOLDER');
     STUDY_BANK.techniques.forEach((technique) => {
       expect(technique.title.length).toBeGreaterThan(0);
       expect(technique.keywords.length).toBeGreaterThan(0);
@@ -30,11 +45,26 @@ describe('placeholder study bank', () => {
       expect(technique.baselineSummary.length).toBeGreaterThan(0);
       expect(technique.aiSummary.length).toBeGreaterThan(0);
       expect(technique.baselineSummary).not.toBe(technique.aiSummary);
-      expect(technique.pdfPath.endsWith('.pdf')).toBe(true);
+      expect(technique.pdfPath).toMatch(
+        /^https:\/\/cdn\.defake\.app\/user-study-assets\/ontology-technique-eval\/.+\.pdf$/,
+      );
     });
   });
 
-  it('resolves Task A and Task B placeholders by id', () => {
+  it('stores each ontology term independently and resolves every slug', () => {
+    STUDY_BANK.techniques.forEach((technique) => {
+      technique.ontologyTags.forEach(({ path }) => {
+        expect(path).toHaveLength(1);
+        expect(getOntologyTerm(path[0])).toBeDefined();
+      });
+    });
+  });
+
+  it('keeps the runtime and browser-public bank mirrors identical', () => {
+    expect(STUDY_BANK).toEqual(mirroredStudyBank);
+  });
+
+  it('resolves Task A and Task B vignettes by id', () => {
     expect(getTaskAVignette('task-a-1')?.techniqueId).toBe('t-a1');
     expect(getTaskBVignette('task-b-1')?.techniqueIds).toHaveLength(4);
   });
@@ -47,5 +77,11 @@ describe('placeholder study bank', () => {
     }
     expect(summaryForFormat(technique, 'keywords')).toBe(technique.baselineSummary);
     expect(summaryForFormat(technique, 'ontology')).toBe(technique.aiSummary);
+  });
+
+  it('does not prepend the app path to CDN paper URLs', () => {
+    const cdnUrl = STUDY_BANK.techniques[0].pdfPath;
+    expect(resolvePaperPath(cdnUrl, '/app/')).toBe(cdnUrl);
+    expect(resolvePaperPath('study/paper.pdf', '/app/')).toBe('/app/study/paper.pdf');
   });
 });
