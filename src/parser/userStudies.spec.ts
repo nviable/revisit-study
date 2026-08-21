@@ -93,6 +93,14 @@ describe('user studies from production fork', () => {
       id: 'reliedOn',
       type: 'checkbox',
       required: false,
+      options: [
+        'Technique title',
+        'Keywords or ontology tags',
+        'Ontology tag definitions',
+        'AI summary',
+        'Abstract',
+        'Full paper',
+      ],
     });
     expect(taskB?.response?.find((response) => response.id === 'decisionNote')).toMatchObject({
       id: 'decisionNote',

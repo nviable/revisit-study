@@ -16,6 +16,7 @@ import {
   IconFileText,
   IconFileTypePdf,
   IconInfoCircle,
+  IconSchema,
   IconSparkles,
   IconTags,
 } from '@tabler/icons-react';
@@ -435,7 +436,7 @@ export function TechniqueCard({
         ) : (
           <Box>
             <Group gap={6} mb={6}>
-              <IconInfoCircle size={16} />
+              <IconSchema size={16} />
               <Text size="sm" fw={600} tt="uppercase" c="dimmed">Ontology tags</Text>
             </Group>
             <OntologyTagGroups

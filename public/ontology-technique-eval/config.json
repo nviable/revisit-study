@@ -214,14 +214,12 @@
           "required": false,
           "withOther": true,
           "options": [
-            "Scenario description",
             "Technique title",
             "Keywords or ontology tags",
             "Ontology tag definitions",
             "AI summary",
             "Abstract",
-            "Full paper",
-            "Nothing beyond what was visible without opening extra sections"
+            "Full paper"
           ]
         },
         {
