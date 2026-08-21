@@ -91,6 +91,39 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await answerFirstTaskA(page);
 });
 
+test('ontology technique evaluation inserts a required Task A attention check after four trials', async ({ page }) => {
+  test.setTimeout(90000);
+  await page.setViewportSize({ width: 1400, height: 900 });
+  await resetClientStudyState(page);
+  await openStudyFromLanding(
+    page,
+    'Your Studies',
+    'Ontology-supported descriptions of digital media forensic techniques',
+  );
+
+  await page.getByPlaceholder('TEST-your-name-or-run').fill('TEST-e2e-attention');
+  await page.getByRole('radio', { name: /I agree to participate/i }).click();
+  await nextClick(page);
+  await expect(page.getByText('Keyword supported')).toBeVisible();
+  await nextClick(page);
+  await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
+  await nextClick(page);
+
+  await nextClick(page);
+  await nextClick(page);
+  await nextClick(page);
+  await nextClick(page);
+
+  await expect(page.getByText('Public figure clip on a messaging app')).toBeVisible();
+  await expect(page.getByText(/set confidence to 1 for this item only/i)).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toHaveCount(0);
+  await expect(page.getByRole('radio', { name: 'Not determinable', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
+  await page.getByRole('radio', { name: 'Not determinable', exact: true }).click();
+  await page.getByRole('radio', { name: '1 — Not at all confident' }).click();
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
+});
+
 test('ontology technique evaluation captures and locks a Prolific ID', async ({ page }) => {
   await resetClientStudyState(page);
   await openStudyFromLanding(

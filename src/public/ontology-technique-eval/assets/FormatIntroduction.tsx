@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import type { StimulusParams } from '../../../store/types';
 import { getDemoTechnique } from './studyBank';
 import { TechniqueCard } from './TechniqueCard';
-import type { ProvenanceState } from './types';
+import type { FormatIntroductionParams, ProvenanceState } from './types';
 import { useInteractionProvenance } from './useInteractionProvenance';
 
 const columnStyle = {
@@ -23,11 +23,14 @@ const columnStyle = {
 };
 
 export default function FormatIntroduction({
+  parameters,
   setAnswer,
   provenanceState,
-}: StimulusParams<Record<string, never>, ProvenanceState>) {
+}: StimulusParams<FormatIntroductionParams, ProvenanceState>) {
   const { record } = useInteractionProvenance(setAnswer);
   const technique = getDemoTechnique();
+  const isRecall = parameters?.variant === 'recall';
+  const idPrefix = isRecall ? 'recall' : 'intro';
 
   useEffect(() => {
     setAnswer({
@@ -43,13 +46,13 @@ export default function FormatIntroduction({
   return (
     <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <div>
-        <Title order={3}>How technique descriptions will look</Title>
+        <Title order={3}>
+          {isRecall ? 'Sample description formats' : 'How technique descriptions will look'}
+        </Title>
         <Text size="sm" mt="xs">
-          You will see forensic techniques in one of two description formats per scenario. Both
-          formats can include the same optional materials: an AI summary, the paper abstract, and
-          the full paper. Try opening those sections on the sample cards below. When ontology
-          tags are shown, hover a tag, or the info icon next to a category name, to read its
-          definition.
+          {isRecall
+            ? 'The two cards below are the same samples you saw at the start. They are here only to remind you how keyword-supported and ontology-supported descriptions are structured. The questions under the cards ask about that structure.'
+            : 'You will see forensic techniques in one of two description formats per scenario. Both formats can include the same optional materials: an AI summary, the paper abstract, and the full paper. Try opening those sections on the sample cards below. When ontology tags are shown, hover a tag, or the info icon next to a category name, to read its definition.'}
         </Text>
       </div>
 
@@ -67,7 +70,7 @@ export default function FormatIntroduction({
           <TechniqueCard
             technique={technique}
             format="keywords"
-            idPrefix="intro-keywords"
+            idPrefix={`${idPrefix}-keywords`}
             provenanceState={provenanceState}
             onInteract={record}
           />
@@ -86,7 +89,7 @@ export default function FormatIntroduction({
           <TechniqueCard
             technique={technique}
             format="ontology"
-            idPrefix="intro-ontology"
+            idPrefix={`${idPrefix}-ontology`}
             provenanceState={provenanceState}
             onInteract={record}
           />

@@ -1302,7 +1302,7 @@
       "id": "task-b-4",
       "set": "B",
       "title": "Truck Driver Highway Accident",
-      "scenario": "You are a law enforcement investigator examining a serious highway collision involving a truck. The driver is alleged to have been distracted and failed to react when another vehicle merged into his lane. Investigators obtained a video from an in-cab camera mounted inside the truck and facing the driver. The recording clearly shows his face and upper body and includes ambient cabin audio. The driver does not speak during the relevant portion. The video appears to show him keeping his head generally facing forward while directing his eyes downward toward his lap for several seconds before the collision, as if looking at a phone. Although his appearance matches the known driver, investigators suspect the video was manipulated to make it appear that he was not watching the road.",
+      "scenario": "You are a law enforcement investigator examining a serious highway collision involving a truck. Investigators obtained the original recording from an in-cab camera mounted near the windshield and facing the driver. The recording clearly shows the driver’s face and upper body and includes ambient cab sound. The driver does not speak during the relevant portion. The person shown throughout the recording is confirmed to be the truck driver. Although the collision would be difficult to explain if he had been closely watching the road, the video shows him facing forward and apparently remaining attentive in the seconds before another vehicle merges into his lane. Investigators therefore suspect that the video may have been manipulated and need to determine whether it is authentic.",
       "techniqueIds": [
         "t-b4-target",
         "t-b4-d1",
@@ -1311,5 +1311,22 @@
       ],
       "correctTechniqueId": "t-b4-target"
     }
-  ]
+  ],
+  "attentionAVignette": {
+    "id": "attention-a",
+    "title": "Public figure clip on a messaging app",
+    "scenario": "A short video clip is circulating on a messaging app. The clip shows a public figure making a statement; the original file is unavailable and only a re-encoded copy remains. To confirm you are reading each scenario in full rather than skimming, please answer “Not determinable” and set confidence to 1 for this item only. The investigator wants to know whether the speaker's face was replaced.",
+    "techniqueId": "t-a1"
+  },
+  "attentionBVignette": {
+    "id": "attention-b",
+    "title": "Warehouse loading-bay clip",
+    "scenario": "You are reviewing a loading-bay camera clip from a warehouse. The clip shows a worker signing for a pallet; the original file is unavailable and only a compressed copy remains. To confirm you are reading each case in full rather than skimming, please select Technique 2 and set confidence to 1 for this item only. The investigator wants to know which of the listed methods would best test whether the worker’s face was inserted into the footage.",
+    "techniqueIds": [
+      "t-b1-target",
+      "t-b1-d1",
+      "t-b1-d2",
+      "t-b1-d3"
+    ]
+  }
 }

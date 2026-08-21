@@ -355,40 +355,203 @@
       "previousButton": true
     },
     "attention-check-a": {
-      "type": "questionnaire",
-      "description": "Template attention check between Task A items 4 and 5",
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/AttentionAStimulus.tsx",
+      "description": "Attention check after the 4th Task A trial",
+      "nextButtonLocation": "sidebar",
+      "previousButton": false,
+      "parameters": {
+        "format": "ontology"
+      },
+      "correctAnswer": [
+        {
+          "id": "applies",
+          "answer": "Not determinable"
+        },
+        {
+          "id": "confidence",
+          "answer": "1"
+        }
+      ],
       "response": [
         {
-          "id": "attentionA",
-          "prompt": "Attention check: please select **Somewhat agree**. This item is only to confirm you are reading the questions.",
-          "location": "aboveStimulus",
+          "id": "applies",
+          "prompt": "Could this technique be applied to produce useful evidence in this scenario?",
+          "location": "sidebar",
           "type": "radio",
           "options": [
-            "Strongly disagree",
-            "Disagree",
-            "Somewhat disagree",
-            "Somewhat agree",
-            "Agree",
-            "Strongly agree"
+            "Yes",
+            "No",
+            "Not determinable"
           ]
+        },
+        {
+          "id": "confidence",
+          "prompt": "How confident are you in this judgment?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            {
+              "label": "1 — Not at all confident",
+              "value": "1"
+            },
+            {
+              "label": "2 — Slightly confident",
+              "value": "2"
+            },
+            {
+              "label": "3 — Moderately confident",
+              "value": "3"
+            },
+            {
+              "label": "4 — Very confident",
+              "value": "4"
+            },
+            {
+              "label": "5 — Completely confident",
+              "value": "5"
+            }
+          ]
+        },
+        {
+          "id": "clickLog",
+          "prompt": "Card interaction events (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "lastInteraction",
+          "prompt": "Last card interaction (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
         }
       ]
     },
     "attention-check-b": {
-      "type": "questionnaire",
-      "description": "Template attention check between Task B items 2 and 3",
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/AttentionBStimulus.tsx",
+      "description": "Attention check after the 2nd Task B trial",
+      "nextButtonLocation": "sidebar",
+      "previousButton": false,
+      "sidebarWidth": 320,
+      "parameters": {
+        "format": "keywords"
+      },
+      "correctAnswer": [
+        {
+          "id": "chosenTechnique",
+          "answer": "2"
+        },
+        {
+          "id": "confidence",
+          "answer": "1"
+        }
+      ],
       "response": [
         {
-          "id": "attentionB",
-          "prompt": "Attention check: what is 8 + 3?",
-          "location": "aboveStimulus",
+          "id": "chosenTechnique",
+          "prompt": "Which technique is the appropriate fit for this case?",
+          "secondaryText": "The numbers match the numbered cards in the main area.",
+          "location": "sidebar",
           "type": "radio",
           "options": [
-            "9",
-            "10",
-            "11",
-            "12"
+            {
+              "label": "Technique 1",
+              "value": "1"
+            },
+            {
+              "label": "Technique 2",
+              "value": "2"
+            },
+            {
+              "label": "Technique 3",
+              "value": "3"
+            },
+            {
+              "label": "Technique 4",
+              "value": "4"
+            }
           ]
+        },
+        {
+          "id": "confidence",
+          "prompt": "How confident are you in this choice?",
+          "location": "sidebar",
+          "type": "radio",
+          "options": [
+            {
+              "label": "1 — Not at all confident",
+              "value": "1"
+            },
+            {
+              "label": "2 — Slightly confident",
+              "value": "2"
+            },
+            {
+              "label": "3 — Moderately confident",
+              "value": "3"
+            },
+            {
+              "label": "4 — Very confident",
+              "value": "4"
+            },
+            {
+              "label": "5 — Completely confident",
+              "value": "5"
+            }
+          ]
+        },
+        {
+          "id": "clickLog",
+          "prompt": "Card interaction events (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "lastInteraction",
+          "prompt": "Last card interaction (recorded automatically)",
+          "location": "sidebar",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
         }
       ]
     },
@@ -400,29 +563,22 @@
       "previousButton": true
     },
     "part-c": {
-      "type": "questionnaire",
-      "description": "Part C reflection on description formats, ontology categories, and possible applications.",
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/FormatIntroduction.tsx",
+      "description": "Part C reflection on description formats and ontology tags.",
       "withSidebar": false,
       "nextButtonLocation": "belowStimulus",
+      "previousButton": true,
+      "parameters": {
+        "variant": "recall"
+      },
       "response": [
         {
           "id": "partCIntro",
           "type": "textOnly",
           "location": "belowStimulus",
-          "prompt": "There are no right or wrong answers. We are interested in your honest impressions.",
+          "prompt": "These sample cards are here to remind you of the two description formats. The questions below refer to that structure. There are no right or wrong answers.",
           "restartEnumeration": true
-        },
-        {
-          "id": "noticedFormatDifference",
-          "prompt": "In this study, technique descriptions were shown in two different ways. Did you notice a difference between how some descriptions were presented and others?",
-          "location": "belowStimulus",
-          "type": "radio",
-          "options": [
-            "Yes",
-            "No",
-            "Not sure"
-          ],
-          "required": false
         },
         {
           "id": "ontologyCategoryRank",
@@ -442,10 +598,10 @@
         },
         {
           "id": "ontologyTagGaps",
-          "prompt": "In scenarios where the technique description was accompanied by ontology tags, was there anything you wanted to know about a technique that the tags did not tell you, such that you needed to access additional information (i.e. abstract, summary, and full paper)?",
+          "prompt": "On screens that had ontology tags, when you opened the AI summary, abstract, or full paper, what were you hoping to find that the tags had not already given you?",
           "location": "belowStimulus",
           "type": "longText",
-          "placeholder": "If nothing was missing, write none.",
+          "placeholder": "If you never opened those, say so and why.",
           "required": false
         },
         {
@@ -486,40 +642,85 @@
           "required": false
         },
         {
-          "id": "ontologyApplications",
-          "prompt": "The ontology could be useful for the following applications (Rate from Strongly Disagree 1 to Strongly Agree 5)",
+          "id": "hoverDefinitionUsefulness",
+          "prompt": "When ontology tags were shown, how useful were the hover definitions (the text that appears when you hover a tag or the info icon)?",
           "location": "belowStimulus",
-          "type": "matrix-radio",
+          "type": "radio",
           "required": false,
-          "answerOptions": [
+          "options": [
             {
-              "label": "1 Strongly disagree",
+              "label": "1 — Not at all useful",
               "value": "1"
             },
             {
-              "label": "2",
+              "label": "2 — Slightly useful",
               "value": "2"
             },
             {
-              "label": "3",
+              "label": "3 — Moderately useful",
               "value": "3"
             },
             {
-              "label": "4",
+              "label": "4 — Very useful",
               "value": "4"
             },
             {
-              "label": "5 Strongly agree",
+              "label": "5 — Extremely useful",
               "value": "5"
+            },
+            {
+              "label": "I did not hover any tags or info icons",
+              "value": "didNotHover"
             }
-          ],
-          "questionOptions": [
-            "Identifying gaps in academic research",
-            "Standardizing terminology in reports",
-            "Structuring a forensic tool's capabilities",
-            "Improving tool interpretability",
-            "Onboarding/Training new digital forensics analysts"
           ]
+        },
+        {
+          "id": "hoverDefinitionNote",
+          "prompt": "If a definition was confusing or a tag felt mislabeled, which one, and what was wrong?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "placeholder": "Optional. Skip if nothing stood out.",
+          "required": false
+        },
+        {
+          "id": "ontologyReflections",
+          "prompt": "Anything else about the ontology tags — how useful they were, what was missing, or how they compared with keywords — that you want to tell us?",
+          "location": "belowStimulus",
+          "type": "longText",
+          "placeholder": "Optional. A sentence or two is enough.",
+          "required": false
+        },
+        {
+          "id": "clickLog",
+          "prompt": "Card interaction events (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "elementDwellTimes",
+          "prompt": "Time spent on opened elements, in milliseconds (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "openedElements",
+          "prompt": "Opened elements (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
+        },
+        {
+          "id": "lastInteraction",
+          "prompt": "Last card interaction (recorded automatically)",
+          "location": "belowStimulus",
+          "type": "reactive",
+          "hidden": true,
+          "required": false
         }
       ]
     },

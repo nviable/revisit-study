@@ -1,6 +1,12 @@
 import studyBankJson from './data/studyBank.json';
 import type {
-  DescriptionFormat, StudyBank, TaskAVignette, TaskBVignette, Technique,
+  AttentionAVignette,
+  AttentionBVignette,
+  DescriptionFormat,
+  StudyBank,
+  TaskAVignette,
+  TaskBVignette,
+  Technique,
 } from './types';
 
 const STUDY_BANK = studyBankJson as StudyBank;
@@ -24,6 +30,14 @@ export function getTaskBVignette(id: string): TaskBVignette | undefined {
 
 export function getDemoTechnique(): Technique {
   return STUDY_BANK.techniques[0];
+}
+
+export function getAttentionAVignette(): AttentionAVignette {
+  return STUDY_BANK.attentionAVignette;
+}
+
+export function getAttentionBVignette(): AttentionBVignette {
+  return STUDY_BANK.attentionBVignette;
 }
 
 /** Keyword cards use the baseline summary; ontology cards use the AI summary. */

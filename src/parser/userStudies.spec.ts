@@ -34,22 +34,37 @@ describe('user studies from production fork', () => {
 
     expect(parsed.errors).toEqual([]);
     expect(partC).toMatchObject({
-      type: 'questionnaire',
-      response: [
-        { id: 'partCIntro', type: 'textOnly' },
-        { id: 'noticedFormatDifference', type: 'radio', required: false },
-        {
-          id: 'ontologyCategoryRank',
-          type: 'custom',
-          path: 'ontology-technique-eval/assets/OntologyCategoryRanking.tsx',
-          required: false,
-        },
-        { id: 'ontologyTagGaps', type: 'longText', required: false },
-        { id: 'formatPreference', type: 'radio', required: false },
-        { id: 'formatPreferenceWhy', type: 'longText', required: false },
-        { id: 'ontologyApplications', type: 'matrix-radio', required: false },
-      ],
+      type: 'react-component',
+      path: 'ontology-technique-eval/assets/FormatIntroduction.tsx',
+      parameters: { variant: 'recall' },
     });
+    expect(partC?.response?.find((response) => response.id === 'ontologyCategoryRank')).toMatchObject({
+      type: 'custom',
+      path: 'ontology-technique-eval/assets/OntologyCategoryRanking.tsx',
+      required: false,
+    });
+    expect(partC?.response?.find((response) => response.id === 'ontologyTagGaps')).toMatchObject({
+      type: 'longText',
+      required: false,
+      prompt: 'On screens that had ontology tags, when you opened the AI summary, abstract, or full paper, what were you hoping to find that the tags had not already given you?',
+    });
+    expect(partC?.response?.find((response) => response.id === 'formatPreference')).toMatchObject({
+      type: 'radio',
+      required: false,
+    });
+    expect(partC?.response?.find((response) => response.id === 'hoverDefinitionUsefulness')).toMatchObject({
+      type: 'radio',
+      required: false,
+      options: expect.arrayContaining([
+        { label: 'I did not hover any tags or info icons', value: 'didNotHover' },
+      ]),
+    });
+    expect(partC?.response?.find((response) => response.id === 'ontologyReflections')).toMatchObject({
+      type: 'longText',
+      required: false,
+    });
+    expect(partC?.response?.some((response) => response.id === 'noticedFormatDifference')).toBe(false);
+    expect(partC?.response?.some((response) => response.id === 'ontologyApplications')).toBe(false);
   });
 
   it('places Task A sidebar guidance before optional radio answers', async () => {
@@ -125,6 +140,55 @@ describe('user studies from production fork', () => {
     expect(visibleRequired(parsed.baseComponents?.taskBTrial?.response)).toEqual([]);
     expect(visibleRequired(parsed.components['part-c']?.response)).toEqual([]);
     expect(parsed.components.consent.response?.find((response) => response.id === 'consentAgree')?.required).not.toBe(false);
+  });
+
+  it('uses contextual attention checks with instructed answers', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const attentionA = parsed.components['attention-check-a'];
+    const attentionB = parsed.components['attention-check-b'];
+
+    expect(parsed.errors).toEqual([]);
+    expect(attentionA).toMatchObject({
+      type: 'react-component',
+      path: 'ontology-technique-eval/assets/AttentionAStimulus.tsx',
+    });
+    expect(attentionA?.response?.find((response) => response.id === 'applies')).toMatchObject({
+      id: 'applies',
+      type: 'radio',
+      options: ['Yes', 'No', 'Not determinable'],
+    });
+    expect(attentionA?.response?.find((response) => response.id === 'applies')?.required).not.toBe(false);
+    expect(attentionA?.response?.find((response) => response.id === 'confidence')).toMatchObject({
+      type: 'radio',
+    });
+    expect(attentionA?.response?.find((response) => response.id === 'confidence')?.required).not.toBe(false);
+    expect(attentionA?.response?.some((response) => response.id === 'reliedOn')).toBe(false);
+    expect(attentionA?.response?.some((response) => response.id === 'decisionNote')).toBe(false);
+    expect(attentionB).toMatchObject({
+      type: 'react-component',
+      path: 'ontology-technique-eval/assets/AttentionBStimulus.tsx',
+    });
+    expect(attentionB?.response?.find((response) => response.id === 'chosenTechnique')).toMatchObject({
+      type: 'radio',
+      options: [
+        { label: 'Technique 1', value: '1' },
+        { label: 'Technique 2', value: '2' },
+        { label: 'Technique 3', value: '3' },
+        { label: 'Technique 4', value: '4' },
+      ],
+    });
+    expect(attentionB?.response?.find((response) => response.id === 'chosenTechnique')?.required).not.toBe(false);
+    expect(attentionB?.response?.some((response) => response.id === 'reliedOn')).toBe(false);
+    expect(attentionB?.response?.some((response) => response.id === 'decisionNote')).toBe(false);
+    expect(attentionB?.correctAnswer).toEqual(expect.arrayContaining([
+      { id: 'chosenTechnique', answer: '2' },
+      { id: 'confidence', answer: '1' },
+    ]));
+    expect(attentionA?.correctAnswer).toEqual(expect.arrayContaining([
+      { id: 'applies', answer: 'Not determinable' },
+      { id: 'confidence', answer: '1' },
+    ]));
   });
 
   it('interleaves complementary keyword/ontology groups without repeating scenarios', async () => {

@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import mirroredStudyBank from '../../../../public/ontology-technique-eval/assets/data/studyBank.json';
 import {
   STUDY_BANK,
+  getAttentionAVignette,
+  getAttentionBVignette,
   getTaskAVignette,
   getTaskBVignette,
   getTechnique,
@@ -67,6 +69,23 @@ describe('study bank', () => {
   it('resolves Task A and Task B vignettes by id', () => {
     expect(getTaskAVignette('task-a-1')?.techniqueId).toBe('t-a1');
     expect(getTaskBVignette('task-b-1')?.techniqueIds).toHaveLength(4);
+    expect(getTaskBVignette('task-b-4')?.scenario).toMatch(/in-cab camera mounted near the windshield/);
+  });
+
+  it('stores attention-check vignettes that reuse existing techniques', () => {
+    const attentionA = getAttentionAVignette();
+    const attentionB = getAttentionBVignette();
+
+    expect(STUDY_BANK.taskAVignettes.map((vignette) => vignette.id)).not.toContain(attentionA.id);
+    expect(STUDY_BANK.taskBVignettes.map((vignette) => vignette.id)).not.toContain(attentionB.id);
+    expect(attentionA.techniqueId).toBe('t-a1');
+    expect(getTechnique(attentionA.techniqueId)).toBeDefined();
+    expect(attentionA.scenario).toMatch(/Not determinable/);
+    expect(attentionB.techniqueIds).toEqual(['t-b1-target', 't-b1-d1', 't-b1-d2', 't-b1-d3']);
+    attentionB.techniqueIds.forEach((id) => {
+      expect(getTechnique(id)).toBeDefined();
+    });
+    expect(attentionB.scenario).toMatch(/Technique 2/);
   });
 
   it('selects the baseline summary for keywords and the AI summary for ontology tags', () => {

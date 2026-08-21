@@ -46,10 +46,30 @@ export interface TaskBVignette {
   correctTechniqueId: string;
 }
 
+export interface AttentionAVignette {
+  id: string;
+  title: string;
+  scenario: string;
+  techniqueId: string;
+}
+
+export interface AttentionBVignette {
+  id: string;
+  title: string;
+  scenario: string;
+  techniqueIds: string[];
+}
+
 export interface StudyBank {
   techniques: Technique[];
   taskAVignettes: TaskAVignette[];
   taskBVignettes: TaskBVignette[];
+  attentionAVignette: AttentionAVignette;
+  attentionBVignette: AttentionBVignette;
+}
+
+export interface FormatIntroductionParams {
+  variant?: 'intro' | 'recall';
 }
 
 export interface TaskAStimulusParams {
