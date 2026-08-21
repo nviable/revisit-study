@@ -51,13 +51,27 @@ describe('user studies from production fork', () => {
     });
   });
 
+  it('places Task A sidebar guidance before required radio answers', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const taskA = parsed.baseComponents?.taskATrial;
+
+    expect(parsed.errors).toEqual([]);
+    expect(taskA?.response?.[0]).toMatchObject({ id: 'sidebarGuidance', type: 'textOnly' });
+    expect(taskA?.response?.find((response) => response.id === 'confidence')).toMatchObject({
+      id: 'confidence',
+      type: 'radio',
+    });
+  });
+
   it('records Task B choices as technique ids while keeping numbered labels', async () => {
     const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
     const parsed = await parseStudyConfig(text);
     const taskB = parsed.baseComponents?.taskBTrial;
 
     expect(parsed.errors).toEqual([]);
-    expect(taskB?.response?.[0]).toMatchObject({
+    expect(taskB?.response?.some((response) => response.id === 'sidebarGuidance')).toBe(true);
+    expect(taskB?.response?.find((response) => response.id === 'chosenTechnique')).toMatchObject({
       id: 'chosenTechnique',
       type: 'custom',
       path: 'ontology-technique-eval/assets/TaskBTechniqueChoice.tsx',
