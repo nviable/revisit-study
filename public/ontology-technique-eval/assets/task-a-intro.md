@@ -2,7 +2,7 @@
 
 In this section you will see forensic techniques described one at a time, each paired with a scenario. Your task is to decide whether that technique could be applied to produce useful evidence in that scenario.
 
-Each screen shows the scenario at the top. Below it you will see the technique's title, along with either the keywords or a set of structured tags describing the technique. Some screens use keywords and some use structured tags; you will not see the same scenario in both formats. When there are structured tags, you can select any of them to see a short definition of what it means.
+Each screen shows the scenario at the top. Below it you will see the technique's title, along with either the keywords or a set of ontology tags describing the technique. Some screens use keywords and some use ontology tags; you will not see the same scenario in both formats. When there are ontology tags, you can hover any of them to see a short definition of what it means.
 
 Below that, three further pieces of information can be opened if you want them: an AI summary, the paper's abstract, and the full paper. You can open any, all, or none of them, in whatever order you like. **Decide when you have enough to answer. You are not expected to open all of them.** Use them as much or as little as you find helpful.
 

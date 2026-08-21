@@ -51,6 +51,12 @@
       "previousButton": false,
       "response": [
         {
+          "id": "sidebarGuidance",
+          "prompt": "**Read the scenario and technique materials on the right first.** The questions below refer to that content.",
+          "location": "sidebar",
+          "type": "textOnly"
+        },
+        {
           "id": "applies",
           "prompt": "Could this technique be applied to produce useful evidence in this scenario?",
           "location": "sidebar",
@@ -64,31 +70,28 @@
         {
           "id": "confidence",
           "prompt": "How confident are you in this judgment?",
-          "secondaryText": "1 = Not at all confident. 5 = Completely confident.",
           "location": "sidebar",
-          "type": "slider",
-          "snap": true,
-          "step": 1,
+          "type": "radio",
           "options": [
             {
-              "label": "1",
-              "value": 1
+              "label": "1 — Not at all confident",
+              "value": "1"
             },
             {
-              "label": "2",
-              "value": 2
+              "label": "2 — Slightly confident",
+              "value": "2"
             },
             {
-              "label": "3",
-              "value": 3
+              "label": "3 — Moderately confident",
+              "value": "3"
             },
             {
-              "label": "4",
-              "value": 4
+              "label": "4 — Very confident",
+              "value": "4"
             },
             {
-              "label": "5",
-              "value": 5
+              "label": "5 — Completely confident",
+              "value": "5"
             }
           ]
         },
@@ -101,8 +104,8 @@
           "withOther": true,
           "options": [
             "Technique title",
-            "Keywords or structured tags",
-            "Tag definitions",
+            "Keywords or ontology tags",
+            "Ontology tag definitions",
             "AI summary",
             "Abstract",
             "Full paper"
@@ -158,6 +161,12 @@
       "sidebarWidth": 320,
       "response": [
         {
+          "id": "sidebarGuidance",
+          "prompt": "**Read the scenario and methods on the right first.** The questions below refer to that content. Technique numbers in the questions match the numbered cards.",
+          "location": "sidebar",
+          "type": "textOnly"
+        },
+        {
           "id": "chosenTechnique",
           "prompt": "Which technique is the appropriate fit for this case?",
           "secondaryText": "The numbers match the numbered cards in the main area.",
@@ -169,10 +178,29 @@
           "id": "confidence",
           "prompt": "How confident are you in this choice?",
           "location": "sidebar",
-          "type": "likert",
-          "numItems": 5,
-          "leftLabel": "Not at all confident",
-          "rightLabel": "Completely confident"
+          "type": "radio",
+          "options": [
+            {
+              "label": "1 — Not at all confident",
+              "value": "1"
+            },
+            {
+              "label": "2 — Slightly confident",
+              "value": "2"
+            },
+            {
+              "label": "3 — Moderately confident",
+              "value": "3"
+            },
+            {
+              "label": "4 — Very confident",
+              "value": "4"
+            },
+            {
+              "label": "5 — Completely confident",
+              "value": "5"
+            }
+          ]
         },
         {
           "id": "reliedOn",
@@ -184,8 +212,8 @@
           "options": [
             "Scenario description",
             "Technique title",
-            "Keywords or structured tags",
-            "Tag definitions",
+            "Keywords or ontology tags",
+            "Ontology tag definitions",
             "AI summary",
             "Abstract",
             "Full paper",

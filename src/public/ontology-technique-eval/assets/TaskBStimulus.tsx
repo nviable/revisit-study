@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useStoredAnswer } from '../../../store/hooks/useStoredAnswer';
 import { useStoreSelector } from '../../../store/store';
 import type { StimulusParams } from '../../../store/types';
-import { ScenarioPanel } from './ScenarioPanel';
+import { ScenarioPanel, SectionLabel } from './ScenarioPanel';
 import { getTaskBVignette, getTechnique } from './studyBank';
 import { resolveTaskBTechniqueOrder } from './taskBChoices';
 import { TechniqueCard } from './TechniqueCard';
@@ -72,19 +72,22 @@ export default function TaskBStimulus({
     <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <Text size="xs" c="dimmed" tt="uppercase" fw={700}>Task B</Text>
       <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
-      <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm" style={{ minWidth: 0 }}>
-        {techniques.map((technique, index) => (
-          <TechniqueCard
-            key={technique.id}
-            technique={technique}
-            format={parameters.format}
-            compact
-            index={index + 1}
-            provenanceState={provenanceState}
-            onInteract={record}
-          />
-        ))}
-      </SimpleGrid>
+      <div>
+        <SectionLabel>Methods</SectionLabel>
+        <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm" style={{ minWidth: 0 }}>
+          {techniques.map((technique, index) => (
+            <TechniqueCard
+              key={technique.id}
+              technique={technique}
+              format={parameters.format}
+              compact
+              index={index + 1}
+              provenanceState={provenanceState}
+              onInteract={record}
+            />
+          ))}
+        </SimpleGrid>
+      </div>
     </Stack>
   );
 }

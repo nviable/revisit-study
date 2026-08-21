@@ -2,9 +2,9 @@
 
 This study asks you to judge whether forensic technique descriptions fit short investigation scenarios.
 
-- Questions appear in the left sidebar. The scenario and technique materials are in the main area.
+- Questions appear in the left sidebar and refer to the scenario and technique materials in the main area. Read the main content first.
 - You can open the AI summary, the abstract, and the full paper if you want them. You do not need to open all of them.
-- On ontology-supported screens, hover a structured tag to read its definition.
+- On ontology-supported screens, hover an ontology tag to read its definition.
 - The full paper opens in a window on this page; you do not need to leave the survey.
 - After you move on from a technique or case, you cannot go back.
 

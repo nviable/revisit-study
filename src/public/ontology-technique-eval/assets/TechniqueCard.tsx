@@ -337,8 +337,8 @@ export function TechniqueCard({
               {technique.keywords.map((keyword) => (
                 <Badge
                   key={keyword}
-                  variant="outline"
-                  color="gray"
+                  variant="light"
+                  color="grape"
                   size="md"
                   styles={tagBadgeStyles}
                   data-interaction-region="keyword"
@@ -353,7 +353,7 @@ export function TechniqueCard({
           <Box>
             <Group gap={6} mb={6}>
               <IconInfoCircle size={16} />
-              <Text size="sm" fw={600} tt="uppercase" c="dimmed">Structured tags</Text>
+              <Text size="sm" fw={600} tt="uppercase" c="dimmed">Ontology tags</Text>
             </Group>
             <OntologyTagGroups
               paths={technique.ontologyTags.map((tag) => tag.path)}

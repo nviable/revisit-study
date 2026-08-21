@@ -20,7 +20,7 @@ export interface Technique {
   abstract: string;
   /** AI-generated Semantic Scholar TLDR shown with keyword-supported descriptions. */
   baselineSummary: string;
-  /** Ontology-assisted AI summary shown with structured descriptions; tag titles are highlighted. */
+  /** Ontology-assisted AI summary shown with ontology-tag descriptions; tag titles are highlighted. */
   aiSummary: string;
   pdfPath: string;
 }

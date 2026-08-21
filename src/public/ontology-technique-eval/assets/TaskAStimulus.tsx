@@ -2,7 +2,7 @@ import { Alert, Stack, Text } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import type { StimulusParams } from '../../../store/types';
-import { ScenarioPanel } from './ScenarioPanel';
+import { ScenarioPanel, SectionLabel } from './ScenarioPanel';
 import { getTaskAVignette, getTechnique } from './studyBank';
 import { TechniqueCard } from './TechniqueCard';
 import type { ProvenanceState, TaskAStimulusParams } from './types';
@@ -43,12 +43,15 @@ export default function TaskAStimulus({
     <Stack gap="md" p="md" style={{ minWidth: 0, overflow: 'hidden' }}>
       <Text size="xs" c="dimmed" tt="uppercase" fw={700}>Task A</Text>
       <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
-      <TechniqueCard
-        technique={technique}
-        format={parameters.format}
-        provenanceState={provenanceState}
-        onInteract={record}
-      />
+      <div>
+        <SectionLabel>Technique</SectionLabel>
+        <TechniqueCard
+          technique={technique}
+          format={parameters.format}
+          provenanceState={provenanceState}
+          onInteract={record}
+        />
+      </div>
     </Stack>
   );
 }

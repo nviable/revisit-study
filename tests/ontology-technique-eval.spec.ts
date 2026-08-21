@@ -9,7 +9,7 @@ async function answerFirstTaskA(page: Page) {
   const applies = page.getByRole('radio', { name: 'Yes, it applies' });
   await expect(applies).toBeVisible({ timeout: 20000 });
   await applies.click({ force: true });
-  await page.locator('#confidence .mantine-Slider-track').click();
+  await page.getByRole('radio', { name: '3 — Moderately confident' }).click();
   await page.getByRole('checkbox', { name: 'Technique title' }).click();
   await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
 }
@@ -70,8 +70,9 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
   await nextClick(page);
 
+  await expect(page.getByText('Read the scenario and technique materials on the right first')).toBeVisible();
   await expect(page.getByText('You do not need to open every section')).toBeVisible();
-  await expect(page.getByText('1 = Not at all confident. 5 = Completely confident.')).toBeVisible();
+  await expect(page.getByText('1 — Not at all confident')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
   const summary = page.getByRole('button', { name: 'AI summary' }).first();
   await summary.click();
