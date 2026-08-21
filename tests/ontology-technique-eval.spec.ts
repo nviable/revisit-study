@@ -60,9 +60,12 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(page.getByText('Ontology supported')).toBeVisible();
   await expect(page.getByText(/one of two description formats per scenario/)).toBeVisible();
   await expect(page.getByText('Media Modality', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'About Media Modality' })).toBeVisible();
   await expect(page.getByText('Forensic Goal Task', { exact: true })).toBeVisible();
   await expect(page.getByText('Search & Analysis Scope', { exact: true })).toBeVisible();
   await expect(page.getByText('Evidentiary Features', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'About Media Modality' }).hover();
+  await expect(page.getByText(/type of media that is being used/i)).toBeVisible();
   await page.getByText('Face Swap', { exact: true }).first().hover();
   await expect(page.getByText(/Forensic Goal Task → Forgery & Manipulation Detection/)).toBeVisible();
   await nextClick(page);

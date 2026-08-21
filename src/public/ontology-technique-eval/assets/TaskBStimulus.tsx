@@ -1,5 +1,5 @@
 import {
-  Alert, SimpleGrid, Stack, Text,
+  Alert, Stack, Text,
 } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -74,7 +74,7 @@ export default function TaskBStimulus({
       <ScenarioPanel title={vignette.title} scenario={vignette.scenario} />
       <div>
         <SectionLabel>Methods</SectionLabel>
-        <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="sm" style={{ minWidth: 0 }}>
+        <div className="ot-task-b-methods">
           {techniques.map((technique, index) => (
             <TechniqueCard
               key={technique.id}
@@ -86,7 +86,7 @@ export default function TaskBStimulus({
               onInteract={record}
             />
           ))}
-        </SimpleGrid>
+        </div>
       </div>
     </Stack>
   );

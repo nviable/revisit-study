@@ -48,7 +48,8 @@ export default function FormatIntroduction({
           You will see forensic techniques in one of two description formats per scenario. Both
           formats can include the same optional materials: an AI summary, the paper abstract, and
           the full paper. Try opening those sections on the sample cards below. When ontology
-          tags are shown, hover a tag to read its definition.
+          tags are shown, hover a tag, or the info icon next to a category name, to read its
+          definition.
         </Text>
       </div>
 
@@ -79,8 +80,8 @@ export default function FormatIntroduction({
           </Group>
           <Text size="sm" mb="sm" c="dimmed">
             The same title is followed by ontology tags grouped under the ontology&apos;s four
-            root branches. Hover a tag for its definition and full ontology path. Matching terms
-            are highlighted in the AI summary.
+            root branches. Hover a tag, or the info icon next to a category name, for its
+            definition and full ontology path. Matching terms are highlighted in the AI summary.
           </Text>
           <TechniqueCard
             technique={technique}

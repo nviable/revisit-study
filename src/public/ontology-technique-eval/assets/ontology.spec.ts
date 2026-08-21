@@ -74,11 +74,11 @@ describe('ontology helpers', () => {
       ['segment'],
     ]);
 
-    expect(groups.map((group) => group.root.slug)).toEqual([
-      'media-modality',
-      'forensic-goal-task',
-      'search-analysis-scope',
-      'evidentiary-features',
+    expect(groups.map((group) => group.root.title)).toEqual([
+      'Media Modality',
+      'Forensic Goal Task',
+      'Search & Analysis Scope',
+      'Evidentiary Features',
     ]);
     expect(groups[0].terms.map((term) => term.slug)).toEqual(['video', 'audio']);
     expect(groups[2].terms.map((term) => term.slug)).toEqual(['segment']);

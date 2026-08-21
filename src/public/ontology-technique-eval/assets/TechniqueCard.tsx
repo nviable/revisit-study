@@ -1,5 +1,6 @@
 import {
   Accordion,
+  ActionIcon,
   Badge,
   Box,
   Button,
@@ -92,9 +93,8 @@ function OntologyTooltipContent({ term }: { term: OntologyTerm }) {
   );
 }
 
-function OntologyTagBadge({
+function OntologyInfoIcon({
   term,
-  root = false,
   technique,
   format,
   cardIndex,
@@ -102,7 +102,56 @@ function OntologyTagBadge({
   onInteract,
 }: {
   term: OntologyTerm;
-  root?: boolean;
+  technique: Technique;
+  format: DescriptionFormat;
+  cardIndex?: number;
+  cardId: string;
+  onInteract: TechniqueCardProps['onInteract'];
+}) {
+  const color = getCategoryColor(term.slug);
+  return (
+    <Tooltip
+      label={<OntologyTooltipContent term={term} />}
+      multiline
+      w={320}
+      withArrow
+      events={{ hover: true, focus: true, touch: true }}
+    >
+      <ActionIcon
+        variant="transparent"
+        color={color}
+        size={22}
+        radius="xl"
+        aria-label={`About ${term.title}`}
+        className="ot-ontology-info-icon"
+        data-interaction-region="ontology-tag"
+        data-interaction-element={`${cardId}:tag:${term.slug}`}
+        onMouseEnter={() => onInteract({
+          type: 'hover',
+          elementId: `${cardId}:tag:${term.slug}`,
+          label: `Hover tag: ${term.title}`,
+          techniqueId: technique.id,
+          cardId,
+          format,
+          cardIndex,
+          region: 'ontology-tag',
+        })}
+      >
+        <IconInfoCircle size={14} />
+      </ActionIcon>
+    </Tooltip>
+  );
+}
+
+function OntologyTagBadge({
+  term,
+  technique,
+  format,
+  cardIndex,
+  cardId,
+  onInteract,
+}: {
+  term: OntologyTerm;
   technique: Technique;
   format: DescriptionFormat;
   cardIndex?: number;
@@ -118,7 +167,7 @@ function OntologyTagBadge({
       events={{ hover: true, focus: true, touch: true }}
     >
       <Badge
-        variant={root ? 'outline' : 'light'}
+        variant="light"
         color={getCategoryColor(term.slug)}
         size="sm"
         styles={ontologyBadgeStyles}
@@ -143,6 +192,39 @@ function OntologyTagBadge({
   );
 }
 
+function OntologyCategoryLabel({
+  term,
+  technique,
+  format,
+  cardIndex,
+  cardId,
+  onInteract,
+}: {
+  term: OntologyTerm;
+  technique: Technique;
+  format: DescriptionFormat;
+  cardIndex?: number;
+  cardId: string;
+  onInteract: TechniqueCardProps['onInteract'];
+}) {
+  const color = getCategoryColor(term.slug);
+  return (
+    <div className="ot-ontology-category">
+      <OntologyInfoIcon
+        term={term}
+        technique={technique}
+        format={format}
+        cardIndex={cardIndex}
+        cardId={cardId}
+        onInteract={onInteract}
+      />
+      <Text size="sm" fw={600} c={`${color}.8`} lh={1.3} pt={2}>
+        {term.title}
+      </Text>
+    </div>
+  );
+}
+
 function OntologyTagGroups({
   paths,
   technique,
@@ -160,30 +242,31 @@ function OntologyTagGroups({
 }) {
   const groups = groupOntologyTags(paths);
   return (
-    <Stack gap={6}>
+    <Stack gap={6} className="ot-ontology-tag-groups">
       {groups.map(({ root, terms }) => (
-        <Group key={root.slug} gap={6} wrap="wrap" align="center">
-          <OntologyTagBadge
+        <div key={root.slug} className="ot-ontology-tag-row">
+          <OntologyCategoryLabel
             term={root}
-            root
             technique={technique}
             format={format}
             cardIndex={cardIndex}
             cardId={cardId}
             onInteract={onInteract}
           />
-          {terms.map((term) => (
-            <OntologyTagBadge
-              key={term.slug}
-              term={term}
-              technique={technique}
-              format={format}
-              cardIndex={cardIndex}
-              cardId={cardId}
-              onInteract={onInteract}
-            />
-          ))}
-        </Group>
+          <Group gap={6} wrap="wrap" align="center">
+            {terms.map((term) => (
+              <OntologyTagBadge
+                key={term.slug}
+                term={term}
+                technique={technique}
+                format={format}
+                cardIndex={cardIndex}
+                cardId={cardId}
+                onInteract={onInteract}
+              />
+            ))}
+          </Group>
+        </div>
       ))}
     </Stack>
   );
