@@ -65,7 +65,8 @@
             "Yes, it applies",
             "No, it does not apply",
             "Not enough information to decide"
-          ]
+          ],
+          "required": false
         },
         {
           "id": "confidence",
@@ -93,14 +94,15 @@
               "label": "5 — Completely confident",
               "value": "5"
             }
-          ]
+          ],
+          "required": false
         },
         {
           "id": "reliedOn",
           "prompt": "What did you rely on when deciding? Select all that apply.",
           "location": "sidebar",
           "type": "checkbox",
-          "minSelections": 1,
+          "required": false,
           "withOther": true,
           "options": [
             "Technique title",
@@ -172,7 +174,8 @@
           "secondaryText": "The numbers match the numbered cards in the main area.",
           "location": "sidebar",
           "type": "custom",
-          "path": "ontology-technique-eval/assets/TaskBTechniqueChoice.tsx"
+          "path": "ontology-technique-eval/assets/TaskBTechniqueChoice.tsx",
+          "required": false
         },
         {
           "id": "confidence",
@@ -200,14 +203,15 @@
               "label": "5 — Completely confident",
               "value": "5"
             }
-          ]
+          ],
+          "required": false
         },
         {
           "id": "reliedOn",
           "prompt": "What did you rely on when choosing? Select all that apply.",
           "location": "sidebar",
           "type": "checkbox",
-          "minSelections": 1,
+          "required": false,
           "withOther": true,
           "options": [
             "Scenario description",
@@ -219,6 +223,14 @@
             "Full paper",
             "Nothing beyond what was visible without opening extra sections"
           ]
+        },
+        {
+          "id": "decisionNote",
+          "prompt": "Anything else you'd like to add about this decision?",
+          "location": "sidebar",
+          "type": "longText",
+          "placeholder": "Optional",
+          "required": false
         },
         {
           "id": "clickLog",
@@ -411,18 +423,20 @@
             "Yes",
             "No",
             "Not sure"
-          ]
+          ],
+          "required": false
         },
         {
           "id": "ontologyCategoryRank",
-          "prompt": "The ontology tags are grouped into four categories: Modality; Forensic Task & Goal; Search & Analysis Scope; Evidentiary Features. Please rank them from the most useful to least useful when you use them for making decisions.",
+          "prompt": "The ontology tags are grouped into four categories: Modality; Forensic Goal & Task; Search & Analysis Scope; Evidentiary Features. Please rank them from the most useful to least useful when you use them for making decisions.",
           "location": "belowStimulus",
           "type": "custom",
           "path": "ontology-technique-eval/assets/OntologyCategoryRanking.tsx",
+          "required": false,
           "parameters": {
             "options": [
               "Modality",
-              "Forensic Task & Goal",
+              "Forensic Goal & Task",
               "Search & Analysis Scope",
               "Evidentiary Features"
             ]
@@ -433,7 +447,8 @@
           "prompt": "In scenarios where the technique description was accompanied by ontology tags, was there anything you wanted to know about a technique that the tags did not tell you, such that you needed to access additional information (i.e. abstract, summary, and full paper)?",
           "location": "belowStimulus",
           "type": "longText",
-          "placeholder": "If nothing was missing, write none."
+          "placeholder": "If nothing was missing, write none.",
+          "required": false
         },
         {
           "id": "formatPreference",
@@ -461,20 +476,23 @@
               "label": "5 - Strongly prefer the ontology tags",
               "value": "5"
             }
-          ]
+          ],
+          "required": false
         },
         {
           "id": "formatPreferenceWhy",
           "prompt": "Why?",
           "location": "belowStimulus",
           "type": "longText",
-          "placeholder": "A sentence or two is enough."
+          "placeholder": "A sentence or two is enough.",
+          "required": false
         },
         {
           "id": "ontologyApplications",
           "prompt": "The ontology could be useful for the following applications (Rate from Strongly Disagree 1 to Strongly Agree 5)",
           "location": "belowStimulus",
           "type": "matrix-radio",
+          "required": false,
           "answerOptions": [
             {
               "label": "1 Strongly disagree",

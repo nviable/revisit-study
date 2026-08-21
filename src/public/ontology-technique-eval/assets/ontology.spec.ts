@@ -76,7 +76,7 @@ describe('ontology helpers', () => {
 
     expect(groups.map((group) => group.root.title)).toEqual([
       'Media Modality',
-      'Forensic Goal Task',
+      'Forensic Goal & Task',
       'Search & Analysis Scope',
       'Evidentiary Features',
     ]);

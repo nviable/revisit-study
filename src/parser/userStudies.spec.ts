@@ -37,21 +37,22 @@ describe('user studies from production fork', () => {
       type: 'questionnaire',
       response: [
         { id: 'partCIntro', type: 'textOnly' },
-        { id: 'noticedFormatDifference', type: 'radio' },
+        { id: 'noticedFormatDifference', type: 'radio', required: false },
         {
           id: 'ontologyCategoryRank',
           type: 'custom',
           path: 'ontology-technique-eval/assets/OntologyCategoryRanking.tsx',
+          required: false,
         },
-        { id: 'ontologyTagGaps', type: 'longText' },
-        { id: 'formatPreference', type: 'radio' },
-        { id: 'formatPreferenceWhy', type: 'longText' },
-        { id: 'ontologyApplications', type: 'matrix-radio' },
+        { id: 'ontologyTagGaps', type: 'longText', required: false },
+        { id: 'formatPreference', type: 'radio', required: false },
+        { id: 'formatPreferenceWhy', type: 'longText', required: false },
+        { id: 'ontologyApplications', type: 'matrix-radio', required: false },
       ],
     });
   });
 
-  it('places Task A sidebar guidance before required radio answers', async () => {
+  it('places Task A sidebar guidance before optional radio answers', async () => {
     const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
     const parsed = await parseStudyConfig(text);
     const taskA = parsed.baseComponents?.taskATrial;
@@ -61,6 +62,17 @@ describe('user studies from production fork', () => {
     expect(taskA?.response?.find((response) => response.id === 'confidence')).toMatchObject({
       id: 'confidence',
       type: 'radio',
+      required: false,
+    });
+    expect(taskA?.response?.find((response) => response.id === 'reliedOn')).toMatchObject({
+      id: 'reliedOn',
+      type: 'checkbox',
+      required: false,
+    });
+    expect(taskA?.response?.find((response) => response.id === 'decisionNote')).toMatchObject({
+      id: 'decisionNote',
+      type: 'longText',
+      required: false,
     });
   });
 
@@ -75,8 +87,36 @@ describe('user studies from production fork', () => {
       id: 'chosenTechnique',
       type: 'custom',
       path: 'ontology-technique-eval/assets/TaskBTechniqueChoice.tsx',
+      required: false,
+    });
+    expect(taskB?.response?.find((response) => response.id === 'reliedOn')).toMatchObject({
+      id: 'reliedOn',
+      type: 'checkbox',
+      required: false,
+    });
+    expect(taskB?.response?.find((response) => response.id === 'decisionNote')).toMatchObject({
+      id: 'decisionNote',
+      type: 'longText',
+      required: false,
     });
     expect(taskB?.response?.some((response) => response.id === 'techniqueOrder')).toBe(true);
+  });
+
+  it('keeps Task A, B, and C participant questions optional', async () => {
+    const text = readFileSync('public/ontology-technique-eval/config.json', 'utf8');
+    const parsed = await parseStudyConfig(text);
+    const visibleRequired = (responses: { id: string; type: string; hidden?: boolean; required?: boolean }[] | undefined) => (
+      responses?.filter((response) => (
+        response.type !== 'textOnly'
+        && response.hidden !== true
+        && response.required !== false
+      )).map((response) => response.id) ?? []
+    );
+
+    expect(visibleRequired(parsed.baseComponents?.taskATrial?.response)).toEqual([]);
+    expect(visibleRequired(parsed.baseComponents?.taskBTrial?.response)).toEqual([]);
+    expect(visibleRequired(parsed.components['part-c']?.response)).toEqual([]);
+    expect(parsed.components.consent.response?.find((response) => response.id === 'consentAgree')?.required).not.toBe(false);
   });
 
   it('interleaves complementary keyword/ontology groups without repeating scenarios', async () => {

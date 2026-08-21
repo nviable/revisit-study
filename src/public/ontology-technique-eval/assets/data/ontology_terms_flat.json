@@ -31,7 +31,7 @@
   },
   {
     "slug": "forensic-goal-task",
-    "title": "Forensic Goal Task",
+    "title": "Forensic Goal & Task",
     "description": "Encompasses all high-level objectives and tasks involved in digital media forensics, from detecting alterations to identifying sources and verifying integrity.",
     "parent_slug": null
   },

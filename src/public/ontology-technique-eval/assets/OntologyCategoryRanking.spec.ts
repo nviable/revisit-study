@@ -3,7 +3,7 @@ import { rankingToValue, valueToRanking } from './OntologyCategoryRanking';
 
 const OPTIONS = [
   'Modality',
-  'Forensic Task & Goal',
+  'Forensic Goal & Task',
   'Search & Analysis Scope',
   'Evidentiary Features',
 ];
@@ -13,14 +13,14 @@ describe('ontology category ranking', () => {
     const order = [
       'Evidentiary Features',
       'Modality',
-      'Forensic Task & Goal',
+      'Forensic Goal & Task',
       'Search & Analysis Scope',
     ];
 
     expect(rankingToValue(order)).toEqual({
       'Evidentiary Features': '0',
       Modality: '1',
-      'Forensic Task & Goal': '2',
+      'Forensic Goal & Task': '2',
       'Search & Analysis Scope': '3',
     });
   });
@@ -28,11 +28,11 @@ describe('ontology category ranking', () => {
   it('restores a complete ranking in rank order', () => {
     expect(valueToRanking({
       Modality: '2',
-      'Forensic Task & Goal': '0',
+      'Forensic Goal & Task': '0',
       'Search & Analysis Scope': '3',
       'Evidentiary Features': '1',
     }, OPTIONS)).toEqual([
-      'Forensic Task & Goal',
+      'Forensic Goal & Task',
       'Evidentiary Features',
       'Modality',
       'Search & Analysis Scope',
@@ -43,7 +43,7 @@ describe('ontology category ranking', () => {
     expect(valueToRanking({ Modality: '0' }, OPTIONS)).toBeNull();
     expect(valueToRanking({
       Modality: '0',
-      'Forensic Task & Goal': '0',
+      'Forensic Goal & Task': '0',
       'Search & Analysis Scope': '2',
       'Evidentiary Features': '3',
     }, OPTIONS)).toBeNull();

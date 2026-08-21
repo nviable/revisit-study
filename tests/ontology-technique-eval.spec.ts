@@ -61,13 +61,13 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
   await expect(page.getByText(/one of two description formats per scenario/)).toBeVisible();
   await expect(page.getByText('Media Modality', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'About Media Modality' })).toBeVisible();
-  await expect(page.getByText('Forensic Goal Task', { exact: true })).toBeVisible();
+  await expect(page.getByText('Forensic Goal & Task', { exact: true })).toBeVisible();
   await expect(page.getByText('Search & Analysis Scope', { exact: true })).toBeVisible();
   await expect(page.getByText('Evidentiary Features', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'About Media Modality' }).hover();
   await expect(page.getByText(/type of media that is being used/i)).toBeVisible();
   await page.getByText('Face Swap', { exact: true }).first().hover();
-  await expect(page.getByText(/Forensic Goal Task → Forgery & Manipulation Detection/)).toBeVisible();
+  await expect(page.getByText(/Forensic Goal & Task → Forgery & Manipulation Detection/)).toBeVisible();
   await nextClick(page);
 
   await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
@@ -75,6 +75,8 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
 
   await expect(page.getByText('Read the scenario and technique materials on the right first')).toBeVisible();
   await expect(page.getByText('You do not need to open every section')).toBeVisible();
+  await expect(page.getByText("Anything else you'd like to add about this decision?")).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
   await expect(page.getByText('1 — Not at all confident')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
   const summary = page.getByRole('button', { name: 'AI summary' }).first();

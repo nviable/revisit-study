@@ -16,7 +16,7 @@ interface RankingParameters {
 
 const FALLBACK_OPTIONS = [
   'Modality',
-  'Forensic Task & Goal',
+  'Forensic Goal & Task',
   'Search & Analysis Scope',
   'Evidentiary Features',
 ];
