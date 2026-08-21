@@ -5,6 +5,15 @@ import {
   resetClientStudyState,
 } from './utils';
 
+async function advanceStudyComponent(page: Page) {
+  const stimulus = page.locator('.react-component, .markdown, .website').first();
+  const previousId = await stimulus.getAttribute('id');
+  await nextClick(page);
+  await expect.poll(async () => (
+    page.locator('.react-component, .markdown, .website').first().getAttribute('id')
+  ), { timeout: 20000 }).not.toBe(previousId);
+}
+
 async function answerFirstTaskA(page: Page) {
   const applies = page.getByRole('radio', { name: 'Yes, it applies' });
   await expect(applies).toBeVisible({ timeout: 20000 });
@@ -107,13 +116,18 @@ test('ontology technique evaluation inserts a required Task A attention check af
   await expect(page.getByText('Keyword supported')).toBeVisible();
   await nextClick(page);
   await expect(page.getByRole('heading', { name: 'Task A' })).toBeVisible();
-  await nextClick(page);
+  await advanceStudyComponent(page);
+  await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toBeVisible({ timeout: 20000 });
 
-  await nextClick(page);
-  await nextClick(page);
-  await nextClick(page);
-  await nextClick(page);
+  await advanceStudyComponent(page);
+  await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toBeVisible({ timeout: 20000 });
+  await advanceStudyComponent(page);
+  await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toBeVisible({ timeout: 20000 });
+  await advanceStudyComponent(page);
+  await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toBeVisible({ timeout: 20000 });
+  await advanceStudyComponent(page);
 
+  await expect(page.locator('#attention-check-a')).toBeVisible({ timeout: 20000 });
   await expect(page.getByText('Public figure clip on a messaging app')).toBeVisible();
   await expect(page.getByText(/set confidence to 1 for this item only/i)).toBeVisible();
   await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toHaveCount(0);
