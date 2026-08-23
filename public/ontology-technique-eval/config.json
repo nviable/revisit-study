@@ -597,14 +597,6 @@
           }
         },
         {
-          "id": "ontologyTagGaps",
-          "prompt": "On screens that had ontology tags, when you opened the AI summary, abstract, or full paper, what were you hoping to find that the tags had not already given you?",
-          "location": "belowStimulus",
-          "type": "longText",
-          "placeholder": "If you never opened those, say so and why.",
-          "required": false
-        },
-        {
           "id": "formatPreference",
           "prompt": "If you were to work through more scenarios like what you just did, which would you rather have alongside each technique description?",
           "location": "belowStimulus",
@@ -688,6 +680,14 @@
           "location": "belowStimulus",
           "type": "longText",
           "placeholder": "Optional. A sentence or two is enough.",
+          "required": false
+        },
+        {
+          "id": "ontologyTagGaps",
+          "prompt": "On the screens below you said you used the AI summary, abstract, or full paper. What were you hoping to find there that the title, keywords, or ontology tags had not already given you?",
+          "location": "belowStimulus",
+          "type": "custom",
+          "path": "ontology-technique-eval/assets/OpenedMaterialsFollowup.tsx",
           "required": false
         },
         {

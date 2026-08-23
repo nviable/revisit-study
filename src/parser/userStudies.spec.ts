@@ -44,10 +44,13 @@ describe('user studies from production fork', () => {
       required: false,
     });
     expect(partC?.response?.find((response) => response.id === 'ontologyTagGaps')).toMatchObject({
-      type: 'longText',
+      type: 'custom',
+      path: 'ontology-technique-eval/assets/OpenedMaterialsFollowup.tsx',
       required: false,
-      prompt: 'On screens that had ontology tags, when you opened the AI summary, abstract, or full paper, what were you hoping to find that the tags had not already given you?',
+      prompt: 'On the screens below you said you used the AI summary, abstract, or full paper. What were you hoping to find there that the title, keywords, or ontology tags had not already given you?',
     });
+    const partCIds = partC?.response?.map((response) => response.id) ?? [];
+    expect(partCIds.indexOf('ontologyTagGaps')).toBeGreaterThan(partCIds.indexOf('ontologyReflections'));
     expect(partC?.response?.find((response) => response.id === 'formatPreference')).toMatchObject({
       type: 'radio',
       required: false,
