@@ -66,6 +66,31 @@ describe('study bank', () => {
     expect(STUDY_BANK).toEqual(mirroredStudyBank);
   });
 
+  it('uses the updated t-a1 and t-a6 ontology tag sets', () => {
+    expect(getTechnique('t-a1')?.ontologyTags.map((tag) => tag.path[0])).toEqual([
+      'video',
+      'audio',
+      'face-swap',
+      'face',
+      'segment',
+      'acoustic-features',
+      'spatial-features',
+      'movement',
+      'audio-visual',
+    ]);
+    expect(getTechnique('t-a6')?.ontologyTags.map((tag) => tag.path[0])).toEqual([
+      'video',
+      'audio',
+      'face-swap',
+      'lip-sync-reenactment',
+      'face',
+      'segment',
+      'movement',
+      'spatial-features',
+      'audio-visual',
+    ]);
+  });
+
   it('resolves Task A and Task B vignettes by id', () => {
     expect(getTaskAVignette('task-a-1')?.techniqueId).toBe('t-a1');
     expect(getTaskBVignette('task-b-1')?.techniqueIds).toHaveLength(4);

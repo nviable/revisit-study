@@ -52,6 +52,11 @@
           "path": [
             "movement"
           ]
+        },
+        {
+          "path": [
+            "audio-visual"
+          ]
         }
       ],
       "abstract": "Recent advances in deep learning and computer vision have spawned a new class of media forgeries known as deepfakes, which typically consist of artificially generated human faces or voices. The creation and distribution of deepfakes raise many legal and ethical concerns. As a result, the ability to distinguish between deepfakes and authentic media is vital. While deepfakes can create plausible video and audio, it may be challenging for them to generate content that is consistent in terms of high-level semantic features, such as emotions. Unnatural displays of emotion, measured by features such as valence and arousal, can provide significant evidence that a video has been synthesized. In this paper, we propose a novel method for detecting deepfakes of a human speaker using the emotion predicted from the speaker’s face and voice. The proposed technique leverages Long Short-Term Memory (LSTM) networks that predict emotion from audio and video Low-Level Descriptors (LLDs). Predicted emotion in time is used to classify videos as authentic or deepfakes through an additional supervised classifier.",
@@ -304,7 +309,7 @@
         },
         {
           "path": [
-            "visual-textual"
+            "audio-visual"
           ]
         }
       ],

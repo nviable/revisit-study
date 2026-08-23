@@ -50,10 +50,10 @@ describe('ontology helpers', () => {
     const faceSwap = segments.find((segment) => segment.matchedTitle === 'Face Swap');
     const video = segments.find((segment) => segment.matchedTitle === 'Video');
 
-    expect(faceSwap?.description).toMatch(/face has been superimposed/i);
+    expect(faceSwap?.description).toMatch(/facial identity was substituted/i);
     expect(faceSwap?.termSlug).toBe('face-swap');
     expect(faceSwap?.color).toBe('green');
-    expect(video?.description).toMatch(/sequence of images/i);
+    expect(video?.description).toMatch(/time-ordered sequence of frames/i);
     expect(video?.termSlug).toBe('video');
     expect(video?.color).toBe('gray');
   });
