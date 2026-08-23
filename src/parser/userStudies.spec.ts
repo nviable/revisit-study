@@ -51,6 +51,10 @@ describe('user studies from production fork', () => {
     });
     const partCIds = partC?.response?.map((response) => response.id) ?? [];
     expect(partCIds.indexOf('ontologyTagGaps')).toBeGreaterThan(partCIds.indexOf('ontologyReflections'));
+    expect(partC?.response?.some((response) => (
+      response.type === 'longText'
+      && response.prompt.includes('On screens that had ontology tags')
+    ))).toBe(false);
     expect(partC?.response?.find((response) => response.id === 'formatPreference')).toMatchObject({
       type: 'radio',
       required: false,

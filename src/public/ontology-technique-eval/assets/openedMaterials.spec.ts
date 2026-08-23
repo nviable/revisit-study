@@ -3,7 +3,9 @@ import {
   collectOpenedMaterialScreens,
   formatOpenedScreenLine,
   materialSourcesFromReliedOn,
+  openedScreensIntro,
   parseTaskComponentName,
+  screensToDisplay,
 } from './openedMaterials';
 
 describe('opened materials follow-up', () => {
@@ -63,5 +65,24 @@ describe('opened materials follow-up', () => {
     expect(formatOpenedScreenLine(screens[0])).toMatch(/AI summary, Full paper/);
     expect(formatOpenedScreenLine(screens[1])).toMatch(/keywords/);
     expect(formatOpenedScreenLine(screens[1])).toMatch(/Abstract/);
+  });
+
+  it('shows at most three screens and uses example wording when more exist', () => {
+    const manyScreens = Array.from({ length: 5 }, (_, index) => ({
+      componentName: `task-a-${index + 1}-ontology`,
+      vignetteId: `task-a-${index + 1}`,
+      task: 'A' as const,
+      title: `Scenario ${index + 1}`,
+      format: 'ontology' as const,
+      sources: ['AI summary' as const],
+    }));
+
+    expect(screensToDisplay(manyScreens).map((screen) => screen.vignetteId)).toEqual([
+      'task-a-1',
+      'task-a-2',
+      'task-a-3',
+    ]);
+    expect(openedScreensIntro(2)).toBe('You used them on:');
+    expect(openedScreensIntro(5)).toBe('For example, you used them on:');
   });
 });

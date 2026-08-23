@@ -10,6 +10,8 @@ import {
   formatOpenedScreenLine,
   isOpenedMaterialsAnswer,
   openedMaterialsAnswer,
+  openedScreensIntro,
+  screensToDisplay,
 } from './openedMaterials';
 
 export const validate: CustomResponseValidate = () => null;
@@ -25,6 +27,7 @@ export default function OpenedMaterialsFollowup({
 }: CustomResponseParams<Record<string, never>, JsonObject>) {
   const answers = useStoreSelector((state) => state.answers);
   const screens = useMemo(() => collectOpenedMaterialScreens(answers), [answers]);
+  const visibleScreens = useMemo(() => screensToDisplay(screens), [screens]);
   const note = isOpenedMaterialsAnswer(value) ? value.note : '';
 
   useEffect(() => {
@@ -50,12 +53,12 @@ export default function OpenedMaterialsFollowup({
           {response.required !== false && <Text span c="red"> *</Text>}
         </Text>
         <Text size="sm" c="dimmed" mt={4}>
-          These are the screens where you selected AI summary, abstract, or full paper.
+          {openedScreensIntro(screens.length)}
         </Text>
       </div>
 
       <List spacing="xs" size="sm" maw={720}>
-        {screens.map((screen) => (
+        {visibleScreens.map((screen) => (
           <List.Item key={screen.componentName}>
             {formatOpenedScreenLine(screen)}
           </List.Item>

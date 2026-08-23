@@ -62,6 +62,18 @@ export function formatOpenedScreenLine(screen: OpenedMaterialScreen): string {
   return `${screen.title} (${formatLabel(screen.format)}) — ${screen.sources.join(', ')}`;
 }
 
+export const MAX_DISPLAYED_OPENED_SCREENS = 3;
+
+export function screensToDisplay(screens: OpenedMaterialScreen[]): OpenedMaterialScreen[] {
+  return screens.slice(0, MAX_DISPLAYED_OPENED_SCREENS);
+}
+
+export function openedScreensIntro(totalCount: number): string {
+  return totalCount > MAX_DISPLAYED_OPENED_SCREENS
+    ? 'For example, you used them on:'
+    : 'You used them on:';
+}
+
 function titleForVignette(task: 'A' | 'B', vignetteId: string): string | undefined {
   return task === 'A'
     ? getTaskAVignette(vignetteId)?.title
