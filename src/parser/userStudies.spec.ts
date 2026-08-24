@@ -228,6 +228,13 @@ describe('user studies from production fork', () => {
     const sequences = generateSequenceArray(parsed);
     expect(sequences).toHaveLength(200);
 
+    const sampleFlat = getSequenceFlatMap(sequences[0]);
+    expect(sampleFlat[0]).toBe('consent');
+    expect(sampleFlat[1]).toBe('consent-declined');
+    expect(sampleFlat[2]).toBe('intro-formats');
+    expect(sampleFlat.at(-2)).toBe('thank-you');
+    expect(sampleFlat.at(-1)).toBe('end');
+
     const taskAGroup1 = [1, 2, 3, 5];
     const taskAGroup2 = [4, 6, 7, 8];
     const taskBGroup1 = [1, 3];
@@ -345,22 +352,27 @@ describe('user studies from production fork', () => {
           value: 'I do not agree to participate.',
           to: 'consent-declined',
         },
-      ],
-    });
-    expect(parsed.components['consent-declined']).toMatchObject({
-      type: 'markdown',
-      path: 'ontology-technique-eval/assets/consent-declined.md',
-    });
-    expect(parsed.components['consent-declined']?.response?.some((response) => response.hidden)).toBe(true);
-    expect(findNamedBlock(parsed.sequence, 'closing')).toMatchObject({
-      components: ['thank-you', 'consent-declined'],
-      skip: [
         {
-          name: 'thank-you',
-          check: 'responses',
-          to: 'end',
+          name: 'consent',
+          check: 'response',
+          responseId: 'consentAgree',
+          value: 'I have read this information and I agree to participate.',
+          to: 'intro-formats',
         },
       ],
     });
+    expect(parsed.components['consent-declined']).toMatchObject({
+      type: 'react-component',
+      path: 'ontology-technique-eval/assets/ProlificDeclinedRedirect.tsx',
+      nextButtonText: 'Return to Prolific',
+    });
+    expect(parsed.components['thank-you']).toMatchObject({
+      nextButtonText: 'Submit and return to Prolific',
+    });
+    expect(findNamedBlock(parsed.sequence, 'closing')).toBeUndefined();
+    expect(parsed.sequence.components[1]).toBe('consent-declined');
+    expect(parsed.sequence.components.at(-1)).toBe('thank-you');
+    expect(parsed.uiConfig.studyEndMsg).toMatch(/approve payment/);
+    expect(parsed.uiConfig.studyEndMsg).not.toMatch(/C1CR6OHI/);
   });
 });

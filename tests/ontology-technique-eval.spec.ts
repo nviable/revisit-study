@@ -159,7 +159,7 @@ test('ontology technique evaluation captures and locks a Prolific ID', async ({ 
   await expect(page.getByText('Testing mode', { exact: true })).toHaveCount(0);
 });
 
-test('declining consent does not send participants to the Prolific completion URL', async ({ page }) => {
+test('declining consent sends participants to the Prolific screen-out URL, not the completion URL', async ({ page }) => {
   await resetClientStudyState(page);
   await openStudyFromLanding(
     page,
@@ -171,7 +171,16 @@ test('declining consent does not send participants to the Prolific completion UR
   await page.getByRole('radio', { name: /I do not agree to participate/i }).click();
   await nextClick(page);
 
-  await expect(page.getByText('You chose not to participate')).toBeVisible({ timeout: 20000 });
+  await expect(page.getByRole('heading', { name: /chose not to participate/i })).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText(/Because you did not agree to the consent form/)).toBeVisible();
+  await expect(page.getByText(/This only records that you declined/)).toBeVisible();
+  await expect(page.getByText(/not payment for completing the study/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Return to Prolific', exact: true })).toBeEnabled();
+  await expect(page.getByRole('link', { name: 'open this Prolific link' })).toHaveAttribute(
+    'href',
+    'https://app.prolific.com/submissions/complete?cc=C1CR6OHI',
+  );
   await expect(page.getByText('C25X6SWF')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
+  await expect(page.getByText('Keyword supported')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Submit and return to Prolific', exact: true })).toHaveCount(0);
 });

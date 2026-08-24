@@ -28,7 +28,7 @@
     "urlParticipantIdParam": "PROLIFIC_PID",
     "stylesheetPath": "ontology-technique-eval/assets/style.css",
     "numSequences": 200,
-    "studyEndMsg": "Thank you for completing the study. You are being redirected to Prolific. If nothing happens, [click this completion link](https://app.prolific.com/submissions/complete?cc=C25X6SWF).",
+    "studyEndMsg": "Your answers have been submitted. You are being sent back to Prolific to record that you finished the study so we can approve payment. If nothing happens, [click this completion link](https://app.prolific.com/submissions/complete?cc=C25X6SWF).",
     "studyEndAutoRedirectURL": "https://app.prolific.com/submissions/complete?cc=C25X6SWF",
     "studyEndAutoRedirectDelay": 5000
   },
@@ -745,21 +745,15 @@
       "type": "markdown",
       "path": "ontology-technique-eval/assets/thank-you.md",
       "withSidebar": false,
+      "nextButtonText": "Submit and return to Prolific",
       "response": []
     },
     "consent-declined": {
-      "type": "markdown",
-      "path": "ontology-technique-eval/assets/consent-declined.md",
+      "type": "react-component",
+      "path": "ontology-technique-eval/assets/ProlificDeclinedRedirect.tsx",
       "withSidebar": false,
-      "response": [
-        {
-          "id": "remainOnPage",
-          "prompt": "Please stay on this page.",
-          "location": "belowStimulus",
-          "type": "shortText",
-          "hidden": true
-        }
-      ]
+      "nextButtonText": "Return to Prolific",
+      "response": []
     },
     "task-a-1-keywords": {
       "baseComponent": "taskATrial",
@@ -1115,9 +1109,18 @@
             "value": "I do not agree to participate.",
             "comparison": "equal",
             "to": "consent-declined"
+          },
+          {
+            "name": "consent",
+            "check": "response",
+            "responseId": "consentAgree",
+            "value": "I have read this information and I agree to participate.",
+            "comparison": "equal",
+            "to": "intro-formats"
           }
         ]
       },
+      "consent-declined",
       "intro-formats",
       {
         "id": "counterbalance-arms",
@@ -1328,21 +1331,7 @@
       },
       "reflection-intro",
       "part-c",
-      {
-        "id": "closing",
-        "order": "fixed",
-        "components": [
-          "thank-you",
-          "consent-declined"
-        ],
-        "skip": [
-          {
-            "name": "thank-you",
-            "check": "responses",
-            "to": "end"
-          }
-        ]
-      }
+      "thank-you"
     ]
   }
 }
