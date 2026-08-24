@@ -3,6 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { getSequenceFlatMap } from '../utils/getSequenceFlatMap';
 import { generateSequenceArray } from '../utils/handleRandomSequences';
 import { parseGlobalConfig, parseStudyConfig } from './parser';
+import { ComponentBlock } from './types';
+import { isDynamicBlock } from './utils';
+
+function findNamedBlock(sequence: ComponentBlock, id: string): ComponentBlock | undefined {
+  return sequence.components.find((component): component is ComponentBlock => (
+    typeof component !== 'string' && !isDynamicBlock(component) && component.id === id
+  ));
+}
 
 describe('user studies from production fork', () => {
   it('registers the user studies as non-test in global.json', () => {
@@ -322,11 +330,13 @@ describe('user studies from production fork', () => {
       path: 'ontology-technique-eval/assets/ParticipantIdCollector.tsx',
       paramCapture: 'PROLIFIC_PID',
     });
+    expect(isDynamicBlock(parsed.sequence)).toBe(false);
+    if (isDynamicBlock(parsed.sequence)) {
+      return;
+    }
+
     expect(parsed.components.consent).toBeDefined();
-    const consentSkip = parsed.sequence.components.find((component) => (
-      typeof component !== 'string' && component.id === 'consent-block'
-    ));
-    expect(consentSkip).toMatchObject({
+    expect(findNamedBlock(parsed.sequence, 'consent-block')).toMatchObject({
       skip: [
         {
           name: 'consent',
@@ -342,10 +352,7 @@ describe('user studies from production fork', () => {
       path: 'ontology-technique-eval/assets/consent-declined.md',
     });
     expect(parsed.components['consent-declined']?.response?.some((response) => response.hidden)).toBe(true);
-    const closing = parsed.sequence.components.find((component) => (
-      typeof component !== 'string' && component.id === 'closing'
-    ));
-    expect(closing).toMatchObject({
+    expect(findNamedBlock(parsed.sequence, 'closing')).toMatchObject({
       components: ['thank-you', 'consent-declined'],
       skip: [
         {
