@@ -1210,7 +1210,7 @@
       "id": "task-a-2",
       "set": "A",
       "title": "Disputed Hunting Lodge Photo Report",
-      "scenario": "You moderate reports for a large social network. A photo posted by an anonymous account has spread widely: it shows a popular cooking-video creator sitting at a table in a hunting lodge beside a mounted animal, holding a rifle. Her followers point out that she has been vegetarian and openly anti-hunting for years. She says she has never set foot in such a place and that either the whole picture was made up. Reshared copies are small and grainy, but the report queue shows the original post itself, large and sharp down to the stitching on her sleeve. The team has to settle whether the photograph is real.",
+      "scenario": "You moderate reports for a large social network. A photo posted by an anonymous account has spread widely: it shows a popular cooking-video creator sitting at a table in a hunting lodge beside a mounted animal, holding a rifle. Her followers point out that she has been vegetarian and openly anti-hunting for years. She says she has never set foot in such a place and that the whole picture was made up. Reshared copies are small and grainy, but the report queue shows the original post itself, large and sharp down to the stitching on her sleeve. The team has to settle whether the photograph is real.",
       "target": "ALL_HOLD",
       "techniqueId": "t-a2"
     },
@@ -1250,7 +1250,7 @@
       "id": "task-a-7",
       "set": "A",
       "title": "Disputed Dissertation Tissue Figure",
-      "scenario": "A university integrity panel is reviewing a dissertation accepted 20 years ago, after a former lab member wrote to the dean claiming misconduct. The electronic submission was lost when the campus repository was retired, so the only version anyone can obtain is the bound volume on the library shelf, run off by an old commercial printer. A panel member scanned the page carrying the disputed figure containing a wide view of a stained tissue section (a microscopic slide view of biological cells), and in that scanned copy the figure comes out as the mesh of dense printing dots that the press laid down. The letter to the dean claims the original author forged the figure by taking one patch of tissue and repeating it in the same frame to imply a second specimen. The panel must decide whether the figure is an unaltered photograph.",
+      "scenario": "A university integrity panel is reviewing a dissertation accepted 20 years ago, after a former lab member wrote to the dean claiming misconduct. The electronic submission was lost when the campus repository was retired, so the only version anyone can obtain is the bound volume on the library shelf, run off by an old commercial printer. A panel member scanned the page carrying the disputed figure containing a wide view of a stained tissue section (a microscopic slide view of biological cells), and in that scanned copy the figure comes out as the mesh of dense printing dots that the press laid down. The letter to the dean claims the original author forged the figure by taking one patch of tissue and repeating it in the same frame to imply a second specimen. With the scan copy in hand, the panel must decide whether the figure used in the dissertation is unaltered.",
       "target": "FAIL_C3",
       "techniqueId": "t-a7"
     },

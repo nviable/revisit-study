@@ -160,6 +160,11 @@ describe('user studies from production fork', () => {
       type: 'react-component',
       path: 'ontology-technique-eval/assets/AttentionAStimulus.tsx',
     });
+    expect(attentionA?.response?.find((response) => response.id === 'attentionCheckNotice')).toMatchObject({
+      type: 'textOnly',
+      location: 'sidebar',
+      prompt: '[This is an attention check]',
+    });
     expect(attentionA?.response?.find((response) => response.id === 'applies')).toMatchObject({
       id: 'applies',
       type: 'radio',
@@ -175,6 +180,11 @@ describe('user studies from production fork', () => {
     expect(attentionB).toMatchObject({
       type: 'react-component',
       path: 'ontology-technique-eval/assets/AttentionBStimulus.tsx',
+    });
+    expect(attentionB?.response?.find((response) => response.id === 'attentionCheckNotice')).toMatchObject({
+      type: 'textOnly',
+      location: 'sidebar',
+      prompt: '[This is an attention check]',
     });
     expect(attentionB?.response?.find((response) => response.id === 'chosenTechnique')).toMatchObject({
       type: 'radio',

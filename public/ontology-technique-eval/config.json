@@ -375,6 +375,12 @@
       ],
       "response": [
         {
+          "id": "attentionCheckNotice",
+          "prompt": "[This is an attention check]",
+          "location": "sidebar",
+          "type": "textOnly"
+        },
+        {
           "id": "applies",
           "prompt": "Could this technique be applied to produce useful evidence in this scenario?",
           "location": "sidebar",
@@ -468,6 +474,12 @@
         }
       ],
       "response": [
+        {
+          "id": "attentionCheckNotice",
+          "prompt": "[This is an attention check]",
+          "location": "sidebar",
+          "type": "textOnly"
+        },
         {
           "id": "chosenTechnique",
           "prompt": "Which technique is the appropriate fit for this case?",

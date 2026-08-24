@@ -128,6 +128,7 @@ test('ontology technique evaluation inserts a required Task A attention check af
   await advanceStudyComponent(page);
 
   await expect(page.locator('#attention-check-a')).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText('[This is an attention check]')).toBeVisible();
   await expect(page.getByText('Public figure clip on a messaging app')).toBeVisible();
   await expect(page.getByText(/set confidence to 1 for this item only/i)).toBeVisible();
   await expect(page.getByRole('radio', { name: 'Yes, it applies' })).toHaveCount(0);

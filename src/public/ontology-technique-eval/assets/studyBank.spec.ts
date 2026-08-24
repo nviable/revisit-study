@@ -95,6 +95,10 @@ describe('study bank', () => {
     expect(getTaskAVignette('task-a-1')?.techniqueId).toBe('t-a1');
     expect(getTaskBVignette('task-b-1')?.techniqueIds).toHaveLength(4);
     expect(getTaskBVignette('task-b-4')?.scenario).toMatch(/in-cab camera mounted near the windshield/);
+    expect(getTaskAVignette('task-a-2')?.scenario).toMatch(/never set foot in such a place and that the whole picture was made up/);
+    expect(getTaskAVignette('task-a-2')?.scenario).not.toMatch(/either the whole picture/);
+    expect(getTaskAVignette('task-a-7')?.scenario).toMatch(/With the scan copy in hand, the panel must decide whether the figure used in the dissertation is unaltered/);
+    expect(getTaskAVignette('task-a-7')?.scenario).not.toMatch(/whether the figure is an unaltered photograph/);
   });
 
   it('stores attention-check vignettes that reuse existing techniques', () => {

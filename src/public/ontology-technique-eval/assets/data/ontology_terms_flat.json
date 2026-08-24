@@ -74,7 +74,7 @@
   {
     "slug": "lip-sync-reenactment",
     "title": "Lip-sync / Reenactment",
-    "description": "Determining whether a subject's mouth movement or facial performance was re-synthesized to follow a chosen audio or driving track.",
+    "description": "Determining whether a subject's mouth movement or facial performance was re-synthesised to follow a chosen audio or driving track.",
     "parent_slug": "deepfakes"
   },
   {
@@ -368,7 +368,7 @@
   {
     "slug": "discrete-wavelet-transform-dwt",
     "title": "Discrete Wavelet Transform DWT",
-    "description": "The technique operates on a decomposition of the signal into sub-bands localized in both scale and position.",
+    "description": "The technique operates on a decomposition of the signal into sub-bands localised in both scale and position.",
     "parent_slug": "frequency-features"
   },
   {
@@ -422,7 +422,7 @@
   {
     "slug": "compression-artifacts",
     "title": "Compression Artifacts",
-    "description": "The technique examines distortions introduced by lossy coding — blocking, ringing, color banding, etc..",
+    "description": "The technique examines distortions introduced by lossy coding — blocking, ringing, color banding.",
     "parent_slug": "metadata-file-structure"
   },
   {
@@ -434,7 +434,7 @@
   {
     "slug": "movement",
     "title": "Movement",
-    "description": "The technique reads a subject's motion over time — head pose change, expression dynamics, gaze shift, blinking, lip articulation, etc..",
+    "description": "The technique reads a subject's motion over time — head pose change, expression dynamics, gaze shift, blinking, lip articulation.",
     "parent_slug": "biometric-signals"
   },
   {
@@ -662,7 +662,7 @@
   {
     "slug": "contextual-scope",
     "title": "Contextual Scope",
-    "description": "The analysis addresses material accompanying an item rather than the item itself — titles, comments, surrounding post content, etc..",
+    "description": "The analysis addresses material accompanying an item rather than the item itself — titles, comments, or surrounding post content.",
     "parent_slug": "search-analysis-scope"
   }
 ]
