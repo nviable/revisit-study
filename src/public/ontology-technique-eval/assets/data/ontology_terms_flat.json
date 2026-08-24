@@ -266,13 +266,13 @@
   {
     "slug": "spatial-features",
     "title": "Spatial Features",
-    "description": "The technique computes features from pixel values and their spatial arrangement within a single frame.",
+    "description": "The technique examines the pixels in a single image or frame — their values and the relationships among them.",
     "parent_slug": "computational-features"
   },
   {
     "slug": "texture-based",
     "title": "Texture Based",
-    "description": "The technique computes descriptors of surface appearance and structural pattern.",
+    "description": "The technique measures local patterns and variations in a single image or frame, capturing how visual detail is distributed and organized across a region.",
     "parent_slug": "spatial-features"
   },
   {
@@ -344,7 +344,7 @@
   {
     "slug": "srm-features",
     "title": "SRM Features",
-    "description": "The technique computes high-dimensional hand-crafted statistics of high-pass pixel residuals.",
+    "description": "The technique uses a fixed set of filters (the Spatial Rich Model) to suppress most of the visible image content and expose the residual traces left behind, then measures those traces.",
     "parent_slug": "noise-based"
   },
   {
@@ -356,25 +356,25 @@
   {
     "slug": "discrete-cosine-transform-dct",
     "title": "Discrete Cosine Transform DCT",
-    "description": "The technique operates on a cosine-basis frequency decomposition of the signal, the transform used blockwise in JPEG.",
+    "description": "The technique represents image data as a combination of cosine components at different spatial frequencies, capturing how much coarse versus fine variation is present. This kind of representation is also used in JPEG compression.",
     "parent_slug": "frequency-features"
   },
   {
     "slug": "discrete-fourier-transform-dft",
     "title": "Discrete Fourier Transform DFT",
-    "description": "The technique operates on a decomposition of the signal into complex sinusoids, yielding amplitude and phase spectra.",
+    "description": "The technique represents the signal as a spectrum of sinusoidal components, capturing which spatial or temporal frequencies are present, how strong they are, and their phase.",
     "parent_slug": "frequency-features"
   },
   {
     "slug": "discrete-wavelet-transform-dwt",
     "title": "Discrete Wavelet Transform DWT",
-    "description": "The technique operates on a decomposition of the signal into sub-bands localised in both scale and position.",
+    "description": "The technique operates on the image decomposed into bands of coarse and fine detail, where each band remains tied to the location in the image it came from.",
     "parent_slug": "frequency-features"
   },
   {
     "slug": "temporal-features",
     "title": "Temporal Features",
-    "description": "The technique computes features across successive frames or audio samples.",
+    "description": "The technique looks across successive video frames or stretches of audio to measure how the content changes over time.",
     "parent_slug": "computational-features"
   },
   {
@@ -404,7 +404,7 @@
   {
     "slug": "mel-frequency-cepstral-coefficients-mfcc",
     "title": "Mel-frequency Cepstral Coefficients (MFCC)",
-    "description": "The technique computes an audio frame's spectral envelope by mel-scaling the spectrum and applying a cepstral transform.",
+    "description": "The technique summarizes what a short piece of audio sounds like by measuring how much sound energy falls into different frequency ranges, scaled to roughly match how people hear. MFCCs are a widely used conventional feature representation in speech and audio processing.",
     "parent_slug": "acoustic-features"
   },
   {
@@ -416,13 +416,13 @@
   {
     "slug": "metadata-file-structure",
     "title": "Metadata & File Structure",
-    "description": "The technique examines a file's descriptive fields and structural layout — headers, internal structural fields, tags, and their ordering.",
+    "description": "The technique examines the information a file records about itself and how the file is internally organized.",
     "parent_slug": "perceptual-evidence"
   },
   {
     "slug": "compression-artifacts",
     "title": "Compression Artifacts",
-    "description": "The technique examines distortions introduced by lossy coding — blocking, ringing, color banding.",
+    "description": "The technique looks for visible distortions introduced by lossy compression.",
     "parent_slug": "metadata-file-structure"
   },
   {
@@ -434,7 +434,7 @@
   {
     "slug": "movement",
     "title": "Movement",
-    "description": "The technique reads a subject's motion over time — head pose change, expression dynamics, gaze shift, blinking, lip articulation.",
+    "description": "The technique reads a subject's motion over time.",
     "parent_slug": "biometric-signals"
   },
   {

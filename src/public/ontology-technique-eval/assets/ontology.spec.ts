@@ -58,6 +58,16 @@ describe('ontology helpers', () => {
     expect(video?.color).toBe('gray');
   });
 
+  it('uses the updated participant-facing definitions for the listed feature tags', () => {
+    expect(getOntologyTerm('spatial-features')?.description).toMatch(/pixels in a single image or frame/i);
+    expect(getOntologyTerm('srm-features')?.description).toMatch(/Spatial Rich Model/i);
+    expect(getOntologyTerm('discrete-cosine-transform-dct')?.description).toMatch(/JPEG compression/i);
+    expect(getOntologyTerm('mel-frequency-cepstral-coefficients-mfcc')?.description).toMatch(/how people hear/i);
+    expect(getOntologyTerm('metadata-file-structure')?.description).toMatch(/how the file is internally organized/i);
+    expect(getOntologyTerm('movement')?.description).toMatch(/subject's motion over time/i);
+    expect(getOntologyTerm('compression-artifacts')?.description).toMatch(/lossy compression/i);
+  });
+
   it('maps each ontology branch to the study color scheme', () => {
     expect(getCategoryColor('video')).toBe('gray');
     expect(getCategoryColor('face-swap')).toBe('green');

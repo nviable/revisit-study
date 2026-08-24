@@ -499,11 +499,6 @@
           "path": [
             "srm-features"
           ]
-        },
-        {
-          "path": [
-            "metadata-file-structure"
-          ]
         }
       ],
       "abstract": "The object-based video forgery detection aims to expose tampered regions from video sequences without any codec information. However, existing methods mainly focus on manually selected features and models for a specific task, either splicing or copy-move, while the general representation ability of deep learning models and the correlation of different forensic features have not been fully explored. In this paper, we propose a dual-stream framework to jointly discover and integrate effective features for object-based video forgery detection. First, two different types of branches are employed to extract discriminative features. Then, after the dual-stream feature fusion, a Conditional Random Field (CRF) layer is utilized to further refine segmentation results. Finally, we consider temporal consistency by incorporating the video tracking strategy. Extensive experiments on four datasets show that the proposed method achieves competitive performance against the state-of-the-art methods.",
@@ -1294,7 +1289,7 @@
       "id": "task-b-3",
       "set": "B",
       "title": "Disputed Dismissal at a Supermarket",
-      "scenario": "You are the shift supervisor at a supermarket distribution depot, and HR has handed you the appeal file of a picker dismissed last month. The evidence is a three-hour recording from the camera at the end of the chill aisle, which records HQ video but not sound. In one 30s stretch a woman lifts two trays off a cage tagged for return and sets them on the outbound belt, then walks the length of the aisle to the terminal to close the cage off on the system, standing with her face clearly visible to the camera for a few seconds, then going back to her station. She is alone in the aisle; the second picker was on break. The dismissed worker says the woman at the cage is not her, and that the footage was doctored to put her face on it. The supermarket's automated CCTV software heavily compresses footage to optimize disk space, and applies a second round of compression upon exporting the file for HR. This aggressive quantization may reset and mask the video's underlying frequency structures, limiting certain analysis strategies.",
+      "scenario": "You are the shift supervisor at a supermarket distribution depot, and HR has handed you the appeal file of a picker dismissed last month. The evidence is a three-hour recording from the camera at the end of the chill aisle, which records video but not sound. In one 30s stretch a woman lifts two trays off a cage tagged for return and sets them on the outbound belt, then walks the length of the aisle to the terminal to close the cage off on the system, standing with her face clearly visible to the camera for a few seconds, then going back to her station. She is alone in the aisle; the second picker was on break. The dismissed worker says the woman at the cage is not her, and that the footage was doctored to put her face on it. The supermarket's automated CCTV software moderately compresses footage to optimize disk space, and applies a second round of compression upon exporting the file for HR.",
       "techniqueIds": [
         "t-b3-target",
         "t-b3-d1",
