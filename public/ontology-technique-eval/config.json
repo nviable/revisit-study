@@ -115,10 +115,11 @@
         },
         {
           "id": "decisionNote",
-          "prompt": "Anything else you'd like to add about this decision?",
+          "prompt": "In one or two sentences, briefly explain the reasoning behind your judgment.",
+          "secondaryText": "If you selected ‘Not enough information to decide,’ what is the main blocker?",
           "location": "sidebar",
           "type": "longText",
-          "placeholder": "Optional",
+          "placeholder": "One or two sentences.",
           "required": false
         },
         {
@@ -224,10 +225,11 @@
         },
         {
           "id": "decisionNote",
-          "prompt": "Anything else you'd like to add about this decision?",
+          "prompt": "In one or two sentences, briefly explain the reasoning behind your judgment.",
+          "secondaryText": "If you selected ‘Not enough information to decide,’ what is the main blocker?",
           "location": "sidebar",
           "type": "longText",
-          "placeholder": "Optional",
+          "placeholder": "One or two sentences.",
           "required": false
         },
         {

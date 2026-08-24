@@ -95,6 +95,8 @@ describe('study bank', () => {
     expect(getTaskAVignette('task-a-1')?.techniqueId).toBe('t-a1');
     expect(getTaskBVignette('task-b-1')?.techniqueIds).toHaveLength(4);
     expect(getTaskBVignette('task-b-4')?.scenario).toMatch(/in-cab camera mounted near the windshield/);
+    expect(getTaskBVignette('task-b-3')?.scenario).toMatch(/automated CCTV software heavily compresses footage/);
+    expect(getTaskBVignette('task-b-3')?.scenario).toMatch(/underlying frequency structures/);
     expect(getTaskAVignette('task-a-2')?.scenario).toMatch(/never set foot in such a place and that the whole picture was made up/);
     expect(getTaskAVignette('task-a-2')?.scenario).not.toMatch(/either the whole picture/);
     expect(getTaskAVignette('task-a-7')?.scenario).toMatch(/With the scan copy in hand, the panel must decide whether the figure used in the dissertation is unaltered/);

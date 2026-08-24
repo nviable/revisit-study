@@ -94,6 +94,8 @@ describe('user studies from production fork', () => {
     expect(taskA?.response?.find((response) => response.id === 'decisionNote')).toMatchObject({
       id: 'decisionNote',
       type: 'longText',
+      prompt: 'In one or two sentences, briefly explain the reasoning behind your judgment.',
+      secondaryText: 'If you selected ‘Not enough information to decide,’ what is the main blocker?',
       required: false,
     });
   });
@@ -127,6 +129,8 @@ describe('user studies from production fork', () => {
     expect(taskB?.response?.find((response) => response.id === 'decisionNote')).toMatchObject({
       id: 'decisionNote',
       type: 'longText',
+      prompt: 'In one or two sentences, briefly explain the reasoning behind your judgment.',
+      secondaryText: 'If you selected ‘Not enough information to decide,’ what is the main blocker?',
       required: false,
     });
     expect(taskB?.response?.some((response) => response.id === 'techniqueOrder')).toBe(true);

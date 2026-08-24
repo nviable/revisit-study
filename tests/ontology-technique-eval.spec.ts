@@ -84,7 +84,8 @@ test('ontology technique evaluation study loads consent, intro, and a Task A tri
 
   await expect(page.getByText('Read the scenario and technique materials on the right first')).toBeVisible();
   await expect(page.getByText('You do not need to open every section')).toBeVisible();
-  await expect(page.getByText("Anything else you'd like to add about this decision?")).toBeVisible();
+  await expect(page.getByText('In one or two sentences, briefly explain the reasoning behind your judgment.')).toBeVisible();
+  await expect(page.getByText('If you selected ‘Not enough information to decide,’ what is the main blocker?')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeEnabled();
   await expect(page.getByText('1 — Not at all confident')).toBeVisible();
   await expect(page.getByRole('checkbox', { name: 'Scenario description' })).toHaveCount(0);
