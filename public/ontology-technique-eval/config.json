@@ -27,7 +27,10 @@
     "responseDividers": true,
     "urlParticipantIdParam": "PROLIFIC_PID",
     "stylesheetPath": "ontology-technique-eval/assets/style.css",
-    "numSequences": 200
+    "numSequences": 200,
+    "studyEndMsg": "Thank you for completing the study. You are being redirected to Prolific. If nothing happens, [click this completion link](https://app.prolific.com/submissions/complete?cc=C25X6SWF).",
+    "studyEndAutoRedirectURL": "https://app.prolific.com/submissions/complete?cc=C25X6SWF",
+    "studyEndAutoRedirectDelay": 5000
   },
   "studyRules": {
     "devices": {
@@ -744,6 +747,20 @@
       "withSidebar": false,
       "response": []
     },
+    "consent-declined": {
+      "type": "markdown",
+      "path": "ontology-technique-eval/assets/consent-declined.md",
+      "withSidebar": false,
+      "response": [
+        {
+          "id": "remainOnPage",
+          "prompt": "Please stay on this page.",
+          "location": "belowStimulus",
+          "type": "shortText",
+          "hidden": true
+        }
+      ]
+    },
     "task-a-1-keywords": {
       "baseComponent": "taskATrial",
       "parameters": {
@@ -1097,7 +1114,7 @@
             "responseId": "consentAgree",
             "value": "I do not agree to participate.",
             "comparison": "equal",
-            "to": "end"
+            "to": "consent-declined"
           }
         ]
       },
@@ -1311,7 +1328,21 @@
       },
       "reflection-intro",
       "part-c",
-      "thank-you"
+      {
+        "id": "closing",
+        "order": "fixed",
+        "components": [
+          "thank-you",
+          "consent-declined"
+        ],
+        "skip": [
+          {
+            "name": "thank-you",
+            "check": "responses",
+            "to": "end"
+          }
+        ]
+      }
     ]
   }
 }

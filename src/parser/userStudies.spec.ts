@@ -314,11 +314,46 @@ describe('user studies from production fork', () => {
     const { consent } = parsed.components;
 
     expect(parsed.uiConfig.urlParticipantIdParam).toBe('PROLIFIC_PID');
+    expect(parsed.uiConfig.studyEndAutoRedirectURL).toBe('https://app.prolific.com/submissions/complete?cc=C25X6SWF');
+    expect(parsed.uiConfig.studyEndMsg).toMatch(/C25X6SWF/);
     expect(consent.response?.[0]).toMatchObject({
       id: 'prolificId',
       type: 'custom',
       path: 'ontology-technique-eval/assets/ParticipantIdCollector.tsx',
       paramCapture: 'PROLIFIC_PID',
+    });
+    expect(parsed.components.consent).toBeDefined();
+    const consentSkip = parsed.sequence.components.find((component) => (
+      typeof component !== 'string' && component.id === 'consent-block'
+    ));
+    expect(consentSkip).toMatchObject({
+      skip: [
+        {
+          name: 'consent',
+          check: 'response',
+          responseId: 'consentAgree',
+          value: 'I do not agree to participate.',
+          to: 'consent-declined',
+        },
+      ],
+    });
+    expect(parsed.components['consent-declined']).toMatchObject({
+      type: 'markdown',
+      path: 'ontology-technique-eval/assets/consent-declined.md',
+    });
+    expect(parsed.components['consent-declined']?.response?.some((response) => response.hidden)).toBe(true);
+    const closing = parsed.sequence.components.find((component) => (
+      typeof component !== 'string' && component.id === 'closing'
+    ));
+    expect(closing).toMatchObject({
+      components: ['thank-you', 'consent-declined'],
+      skip: [
+        {
+          name: 'thank-you',
+          check: 'responses',
+          to: 'end',
+        },
+      ],
     });
   });
 });

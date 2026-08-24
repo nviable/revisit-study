@@ -158,3 +158,20 @@ test('ontology technique evaluation captures and locks a Prolific ID', async ({ 
   await expect(participantId).toBeDisabled();
   await expect(page.getByText('Testing mode', { exact: true })).toHaveCount(0);
 });
+
+test('declining consent does not send participants to the Prolific completion URL', async ({ page }) => {
+  await resetClientStudyState(page);
+  await openStudyFromLanding(
+    page,
+    'Your Studies',
+    'Ontology-supported descriptions of digital media forensic techniques',
+  );
+
+  await page.getByPlaceholder('TEST-your-name-or-run').fill('TEST-e2e-decline');
+  await page.getByRole('radio', { name: /I do not agree to participate/i }).click();
+  await nextClick(page);
+
+  await expect(page.getByText('You chose not to participate')).toBeVisible({ timeout: 20000 });
+  await expect(page.getByText('C25X6SWF')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeDisabled();
+});

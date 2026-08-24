@@ -1,3 +1,5 @@
 # Thank you!
 
-We really appreciate your time. Your answers are extremely valuable to us. Once your submission is approved, you'll receive your payment through Prolific. If you have any questions, just message us there.
+We really appreciate your time. Your answers are extremely valuable to us.
+
+Click **Next** to submit your answers. You will then be redirected to Prolific so we can approve your payment. If the redirect does not happen, use the completion link on the next screen.
