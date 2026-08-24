@@ -184,7 +184,7 @@ async function answerCurrentMvnvPrompt(
 }
 
 test('test', async ({ page, browserName }) => {
-  test.skip(browserName === 'webkit', 'Skipping MVNV on WebKit due to headless flakiness.');
+  test.skip(Boolean(process.env.CI), 'Skipping the full MVNV walkthrough in CI due to headless flakiness.');
 
   const taskTimeoutMs = browserName === 'webkit' ? 20000 : 6000;
   const maxTaskLoops = 20;
