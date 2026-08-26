@@ -1,260 +1,767 @@
-/** Authored study content for STOP&SCAN expert panel. */
+/**
+ * Authored study content for the STOP&SCAN expert panel.
+ *
+ * v4 changes from v3-pilot:
+ *  - Two-level outcome model: an EVIDENCE STATE produced by the framework
+ *    (confirmed / contradicted / unresolved), plus an ACTION selected by the
+ *    ENCOUNTER TYPE (information / request / alert).
+ *  - Runs are told from the point of view of a named fictional observer.
+ *    Each step carries the character's thought, the actions they took, and a
+ *    neutral narrator note. Real public figures keep their real names; the
+ *    observer is invented in every case.
+ *  - STOP is folded into step 1 alongside Source (four pages, five elements).
+ *  - Every case is frozen to a stated date. Some have since developed further;
+ *    this is disclosed once in orientation and again at debrief.
+ *  - Presentation order is case2 -> case3 -> case4 -> case1. Component ids are
+ *    unchanged so analysis scripts and the IRB packet still resolve.
+ */
+
+export type ActionCategory =
+  | 'pause'
+  | 'check-source'
+  | 'inspect-content'
+  | 'search'
+  | 'tool'
+  | 'contact'
+  | 'read-replies';
+
+export const ACTION_CATEGORY_LABEL: Record<ActionCategory, string> = {
+  pause: 'Paused',
+  'check-source': 'Checked the source',
+  'inspect-content': 'Inspected the content',
+  search: 'Searched',
+  tool: 'Used a tool',
+  contact: 'Contacted someone',
+  'read-replies': 'Read what others said',
+};
+
+export interface CaseAction {
+  category: ActionCategory;
+  /** What the character did. */
+  did: string;
+  /** What that action returned. Stated neutrally — no verdict. */
+  returned: string;
+  /**
+   * Whether this action ended up supporting or undermining the claim.
+   * Rendered ONLY in the after-case recap, never on the step page, so that
+   * per-step judgments are not anchored by a direction label.
+   */
+  support: 'toward' | 'against' | 'neither';
+}
 
 export interface CaseStepContent {
   key: 'source' | 'content' | 'alignment' | 'reflect';
   label: string;
   stepIndex: number;
-  evaluation: string;
+  /** The character's inner voice at this step. */
+  thought: string;
+  actions: CaseAction[];
+  /** Neutral framing. Never states the outcome. */
+  narrator: string;
 }
+
+export type EncounterType = 'information' | 'request' | 'alert';
+export type EvidenceState = 'confirmed' | 'contradicted' | 'unresolved';
 
 export interface CaseContent {
   id: string;
+  /** Presentation position, 1-based. */
+  order: number;
   title: string;
   shortLabel: string;
+  character: { name: string; blurb: string };
+  encounterType: EncounterType;
+  /** Evidence is frozen to this date. */
+  asOf: string;
   encounter: string;
+  /** The character's pre-commitment, shown inside step 1. */
+  stopReaction: string;
   steps: CaseStepContent[];
+  outcome: {
+    state: EvidenceState;
+    /** Short action label, drawn from the encounter-type action set. */
+    action: string;
+    rationale: string;
+  };
 }
+
+/* ------------------------------------------------------------------ */
+/* Framework overview                                                  */
+/* ------------------------------------------------------------------ */
 
 export const STOPSCAN_OVERVIEW = {
   intro:
-    'STOP&SCAN is a five-step habit for deciding how much to trust something you see or hear online. It does not automatically tell you whether something is true or false. Instead, it helps you slow down, check what you can, and explain what supports your judgment.',
+    'STOP&SCAN is a five-step habit for working out how far you can rely on something you have seen or heard online. It does not tell you whether something is true or false. It helps you slow down, check what can be checked, and say what your judgment rests on.',
   elements: [
     {
       id: 'stop',
       title: 'STOP',
       body: 'Before reacting or searching, pause. What do you already believe about this? What are you feeling, and what are you hoping is true?',
+      examples: '',
     },
     {
       id: 'source',
       title: 'Source',
-      body: 'Who posted or shared this? Is the source identifiable? What does knowing the source tell you, and what does it not tell you?',
+      body: 'Who made this, rather than who sent it to you? Is the origin identifiable? What does knowing it tell you, and what does it not tell you?',
+      examples:
+        'For example: the posting account and its history, a forwarded message chain, a caller’s number, or a provenance record such as a Content Credential (C2PA) or an embedded watermark where one exists.',
     },
     {
       id: 'content',
       title: 'Content',
-      body: 'What is the content asking you to believe, feel, or do? Is there anything in the content itself that you can check?',
+      body: 'What is this asking you to believe, feel, or do? Is there anything inside the content itself that you can check?',
+      examples:
+        'For example: a date, a place name, a headline or sign visible in the frame, a reflection or a shadow — and, with care, AI-detection tools. Detection tools are one kind of check, not a verdict.',
     },
     {
       id: 'alignment',
       title: 'Alignment',
-      body: 'Look for evidence that does not depend on the original source. Do other reliable sources point in the same direction?',
+      body: 'Look for evidence that does not depend on the original source. Does anything independent point the same way?',
+      examples:
+        'For example: a search, a news archive, a wire-service or agency photograph, a reverse image search, or reaching a person through a route the sender does not control.',
     },
     {
       id: 'reflect',
       title: 'Now Reflect',
-      body: 'Think again about your first reaction. Has your judgment changed? If so, what changed it?',
+      body: 'Return to your first reaction. Has your judgment moved? If it has, what moved it — evidence, or a search that carried on until something agreeable turned up?',
+      examples: '',
     },
   ],
   orderExplanation: [
-    'STOP and Now Reflect work as a pair. STOP captures your starting point. Now Reflect asks whether your judgment changed and why.',
-    'Source and Content come before Alignment because they help determine what should be checked. Searching with only the original post’s wording can lead back to copies of the same claim rather than genuinely independent evidence.',
-    'Although there are five steps, each step is meant to be a short question—not a specialist investigation. Sometimes a step will not provide useful information. That is still important to know.',
+    'STOP and Now Reflect work as a pair. STOP captures the starting point. Now Reflect asks whether the judgment moved and why.',
+    'Source and Content come before Alignment because they shape what is worth checking. Searching with the original post’s own wording tends to lead back to copies of the same claim rather than to independent evidence.',
+    'Each step is a short question, not a specialist investigation. Sometimes a step returns nothing useful. Knowing that is still worth something.',
   ],
-  outcomes: [
+
+  /* --- Two-level outcome model --- */
+  outcomeIntro:
+    'STOP&SCAN produces two things, and they are separate. First, an evidence state: what the checks actually returned. Second, an action: what to do about it, which depends on what kind of situation you are in.',
+
+  evidenceStates: [
     {
-      title: 'Trust',
-      body: 'The evidence points toward the content being authentic, and two or more independent channels agree.',
+      id: 'confirmed',
+      title: 'Confirmed',
+      body: 'Two or more independent kinds of evidence point the same way, and they support what the content represents.',
     },
     {
-      title: 'Decline to act or share',
-      body: 'The evidence points toward the content being fabricated, and two or more independent channels agree. “Act” matters because the possible harm may be sending money, calling back, voting, or doing something else—not only sharing content.',
+      id: 'contradicted',
+      title: 'Contradicted',
+      body: 'Two or more independent kinds of evidence point the same way, and they run against what the content represents.',
     },
     {
-      title: 'Withhold judgment',
-      body: 'Only one useful channel is available, or the channels conflict. This remains the outcome even when one signal feels very convincing.',
+      id: 'unresolved',
+      title: 'Unresolved',
+      body: 'Only one useful kind of evidence is available, or the evidence conflicts. This is a complete result, not a failure to decide, and it stands even when one signal felt convincing.',
     },
   ],
-  reporting:
-    'Reporting is a separate judgment about possible harm to other people. It may accompany any of the three outcomes. For example, you may report something while still withholding judgment about whether it is authentic.',
+
+  encounterTypes: [
+    {
+      id: 'information',
+      title: 'Information',
+      body: 'Nothing is being asked of you. Doing nothing costs little and can be undone.',
+      actions: {
+        confirmed: 'Rely on it. Pass it on.',
+        unresolved: 'Hold. Do not pass it on, and do not dismiss it either.',
+        contradicted: 'Do not pass it on. Correct it if you are placed to. Report it if someone could be harmed.',
+      },
+    },
+    {
+      id: 'request',
+      title: 'A request',
+      body: 'Something is being asked of you — money, a login, an action. Going along with it is costly and often cannot be undone.',
+      actions: {
+        confirmed: 'Go ahead.',
+        unresolved: 'Check through a route the person asking does not control, before doing anything.',
+        contradicted: 'Refuse. Report it.',
+      },
+    },
+    {
+      id: 'alert',
+      title: 'An alert',
+      body: 'Something may need a protective response now. Acting and not acting both carry a cost.',
+      actions: {
+        confirmed: 'Act as directed.',
+        unresolved: 'Take the protective step you can undo, and go to the official channel.',
+        contradicted: 'Stand down. Report it.',
+      },
+    },
+  ],
+
+  actionRule:
+    'One rule covers all three: Unresolved never means do nothing. It means take the option you can undo. With information, the option you can undo happens to be sitting still. With a request or an alert, it is not.',
+
   coverageRule: {
     title: 'How much evidence is enough?',
     paragraphs: [
-      'STOP&SCAN first asks whether there is enough coverage, and then asks which direction the evidence points. A strong-feeling signal cannot create a resolved outcome on its own.',
-      'The framework looks for at least two independent kinds of evidence that point in the same direction. “Independent” means that one source is not simply repeating or relying on the other. Several websites copying the same claim do not count as several independent channels.',
-      'Multiple checks of the same type still count as one channel. For example, running an image through four AI-detection tools is one detector-based channel, not four separate channels. If those tools disagree, that channel is inconclusive.',
-      'Channels are counted rather than completed steps because Source, Content, and Alignment may all rely on the same underlying evidence. Counting that evidence three times would make it seem stronger than it is.',
-      'Withhold judgment is a complete outcome, not a temporary failure to decide. STOP&SCAN uses three states rather than asking people to assign a numerical confidence level.',
+      'STOP&SCAN asks first whether there is enough coverage, and only then which way the evidence points. A signal that feels decisive cannot produce a resolved state on its own.',
+      'The framework looks for at least two independent kinds of evidence pointing the same way. Independent means one is not simply repeating or relying on the other. Several websites carrying the same claim are not several independent kinds of evidence.',
+      'Checks of the same kind count once together. Running an image through several AI-detection tools is one check, not several. If those tools disagree with each other, that check has returned nothing usable.',
     ],
   },
+
+  reporting:
+    'Reporting is an action, not a separate verdict. It is available under any evidence state and is driven by possible harm to other people rather than by what the evidence showed.',
+
+  progressive:
+    'Each case is shown one step at a time, so that the ending does not colour how you judge the earlier steps. Once you submit a step you cannot edit it, but it stays visible.',
+
+  freezeNote:
+    'Each case is presented with the evidence that was publicly available on the date shown at the top of the case. Some of these stories developed further afterwards. We say what happened in each at the end.',
+
+  roleplayNote:
+    'These are real, publicly documented cases. The person walking through each one is invented, and given a name, so that the reasoning has somebody doing it. Real public figures and organisations are named as they were reported.',
 };
 
-export const WHAT_YOU_WILL_DO = [
-  'You will review four real cases. For each case, we will show an example of how someone might use STOP&SCAN.',
-  'You are not being asked to solve the cases yourself. Instead, we want you to review the example reasoning. Tell us which parts seem useful, which parts do not, and what the framework might have missed.',
-  'Each case is shown one step at a time. This prevents the final outcome from influencing how you judge the earlier steps. After you submit your response to a step, you cannot edit it, but the step remains visible.',
-  'The examples are meant to reflect how an ordinary internet user might think—not how a trained forensic investigator would work. One example ends without a definite answer. That is intentional.',
-  'There are no correct responses. We are especially interested in criticism and disagreement.',
+/* ------------------------------------------------------------------ */
+/* Cases                                                               */
+/* ------------------------------------------------------------------ */
+
+export const CASES: CaseContent[] = [
+  /* ---------------------------------------------------------------- */
+  {
+    id: 'case2',
+    order: 1,
+    title: 'A wind forecast map',
+    shortLabel: 'Case 1',
+    character: {
+      name: 'Dana',
+      blurb: 'follows a few weather accounts and reshares the interesting ones',
+    },
+    encounterType: 'information',
+    asOf: '5 January 2026',
+    encounter:
+      'On 3 January 2026 the US National Weather Service office in Missoula posted a wind forecast map for Camas Prairie, Idaho, captioned “Hold onto your hats!” Dana sees it two days later, reshared into her feed with people in the replies laughing at some of the place names on it.',
+    stopReaction:
+      'Dana’s first thought is that it is the Weather Service, so the map is fine, and that the odd names must be small places she has never heard of. She notices a flicker of not wanting to look ignorant about somewhere she has never been.',
+    steps: [
+      {
+        key: 'source',
+        label: 'STOP and Source',
+        stepIndex: 1,
+        thought:
+          'It is a government forecast office. That is about as solid as a source gets. So why are people in the replies laughing?',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Noted her first reaction before checking anything: this is official, so it is probably fine.',
+            returned:
+              'A starting point she can compare against later. Nothing about the map itself.',
+            support: 'neither',
+          },
+          {
+            category: 'check-source',
+            did: 'Tapped through to the posting account and looked at its history.',
+            returned:
+              'It is the genuine National Weather Service office for that region, posting forecasts as it does every day.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'Confirming who posted something confirms who posted it. It does not confirm what is in the post. A trustworthy organisation can publish something wrong.',
+      },
+      {
+        key: 'content',
+        label: 'Content',
+        stepIndex: 2,
+        thought:
+          'The two names people keep quoting are “Orangeotild” and “Whata Bod”. Those do not look like place names in any language.',
+        actions: [
+          {
+            category: 'inspect-content',
+            did: 'Typed both names into a maps app, then into a plain search.',
+            returned:
+              'No match in the maps app, no gazetteer entry, no result of any kind for either name.',
+            support: 'against',
+          },
+          {
+            category: 'read-replies',
+            did: 'Read down the replies on the reshare.',
+            returned:
+              'Mostly jokes. One reply says the office has started using generative AI to build its base maps. No source given for that.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'The check that did the work here cost nothing and used only what was already visible inside the image. An unverified claim in the replies is not yet evidence of anything.',
+      },
+      {
+        key: 'alignment',
+        label: 'Alignment',
+        stepIndex: 3,
+        thought:
+          'If a national forecast office published invented towns, someone other than a reply guy will have written about it.',
+        actions: [
+          {
+            category: 'search',
+            did: 'Searched for the place names alongside “National Weather Service”.',
+            returned:
+              'Several technology and news outlets reporting the same thing independently, quoting a Weather Service spokesperson confirming a local office had used AI to generate a base map and that the map was corrected.',
+            support: 'against',
+          },
+          {
+            category: 'check-source',
+            did: 'Went back to the original post.',
+            returned: 'The post is gone.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'A deleted post on its own is ambiguous — accounts remove things for many reasons. What makes this a second independent kind of evidence is the outside reporting together with the agency’s own confirmation.',
+      },
+      {
+        key: 'reflect',
+        label: 'Now Reflect',
+        stepIndex: 4,
+        thought:
+          'I started out treating “the Weather Service posted it” as the end of the question. It was not even the beginning of it.',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Compared where she started against where she ended, and asked what actually moved her.',
+            returned:
+              'Two independent kinds of evidence: the place names checked from inside the image, and the outside reporting with the agency’s correction. The source check moved her not at all, though it had felt like the strongest thing she had.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'Nothing is being asked of Dana here, and not resharing costs her nothing. This is an information encounter.',
+      },
+    ],
+    outcome: {
+      state: 'contradicted',
+      action: 'Do not pass it on. Correct it if placed to.',
+      rationale:
+        'Two independent kinds of evidence — the place-name check inside the image, and independent reporting carrying the agency’s own correction — both run against the map. The Weather Service remains a source Dana can rely on. This particular map is not.',
+    },
+  },
+
+  /* ---------------------------------------------------------------- */
+  {
+    id: 'case3',
+    order: 2,
+    title: 'A photograph of a campaign crowd',
+    shortLabel: 'Case 2',
+    character: {
+      name: 'Marcus',
+      blurb: 'reads political news on his phone and argues about it in the replies',
+    },
+    encounterType: 'information',
+    asOf: '12 August 2024',
+    encounter:
+      'A photograph taken on 7 August 2024 shows a large crowd greeting a presidential campaign at Detroit Metro Airport, with an aircraft behind them. On 11 August, Donald Trump posted on Truth Social that the crowd “DIDN’T EXIST” and that the image was AI-generated. By the next morning Marcus’s feed is full of reposts. The one with the most traction is from a commentator with a large following, captioned “FAKE crowd photo”, with red circles drawn on the side of the aircraft.',
+    stopReaction:
+      'Marcus does not like the candidate in the photograph, and he notices — with some discomfort — that he would prefer the fake claim to be true. He writes that down before doing anything else.',
+    steps: [
+      {
+        key: 'source',
+        label: 'STOP and Source',
+        stepIndex: 1,
+        thought:
+          'I want this to be fake. That is exactly when I am worst at this. Where did the picture come from in the first place?',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Recorded his starting position: he wants the allegation to be true.',
+            returned:
+              'A recorded starting point. He will check his conclusion against it at the end.',
+            support: 'neither',
+          },
+          {
+            category: 'check-source',
+            did: 'Scrolled back to find the earliest posting of the photograph he could.',
+            returned:
+              'The earliest sharer he can identify is a political strategist who was not at the event and cannot say where she got the image.',
+            support: 'neither',
+          },
+          {
+            category: 'search',
+            did: 'Ran a reverse image search.',
+            returned: 'Copies of copies. No original, no photographer, no first publication.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'The trail runs out rather than turning up something damning. Failing to find an original is not evidence in either direction — it is the absence of evidence. Source is exhausted here, not defeated.',
+      },
+      {
+        key: 'content',
+        label: 'Content',
+        stepIndex: 2,
+        thought:
+          'The viral post circles the reflections on the plane. There is also a strange outline around people’s heads. Let me actually look instead of taking their word for what I am seeing.',
+        actions: [
+          {
+            category: 'inspect-content',
+            did: 'Zoomed into the areas the annotated posts circle — the aircraft’s body and the crowd’s edges.',
+            returned:
+              'There is a halo-like outline, but it is around every person in the frame, not just some. A selective paste-in would not be expected to behave that evenly.',
+            support: 'toward',
+          },
+          {
+            category: 'inspect-content',
+            did: 'Noticed that several people in the crowd are holding phones up, and zoomed into their screens.',
+            returned:
+              'The phone screens show the same aircraft and the same crowd from where their owners are standing.',
+            support: 'toward',
+          },
+          {
+            category: 'tool',
+            did: 'Ran the image through a free AI-detection site.',
+            returned: 'It reports the image is likely human-made, with high confidence.',
+            support: 'toward',
+          },
+        ],
+        narrator:
+          'The phone screens are evidence sitting inside the picture, available to anyone who enlarges it and costing nothing. The detector result is a different kind of thing: one check, of one kind, whose reliability Marcus has no way to assess.',
+      },
+      {
+        key: 'alignment',
+        label: 'Alignment',
+        stepIndex: 3,
+        thought:
+          'A rally at an airport with press there. If thousands of people were actually in that hangar, other cameras were too.',
+        actions: [
+          {
+            category: 'search',
+            did: 'Searched news archives for the event.',
+            returned:
+              'Wire-service photographs of the same scene taken by other photographers at a different angle, and video from a local newspaper showing the hangar before, during and after.',
+            support: 'toward',
+          },
+          {
+            category: 'search',
+            did: 'Looked for a statement from the campaign.',
+            returned:
+              'The campaign told reporters a staff member took the photograph and that it was not AI-generated.',
+            support: 'toward',
+          },
+          {
+            category: 'tool',
+            did: 'Ran the image through a second AI-detection site to see whether it agreed with the first.',
+            returned:
+              'It also leans toward human-made, but only barely — close enough to a coin flip that Marcus cannot tell what it is telling him.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'The wire photographs and the video are independent of the original poster and of each other, and the video is a different kind of record altogether. The campaign statement is not independent — it comes from the interested party. The two detectors together are one check, and a wide spread between them makes it a weak one.',
+      },
+      {
+        key: 'reflect',
+        label: 'Now Reflect',
+        stepIndex: 4,
+        thought:
+          'I wanted it to be fake. It is not. And the thing I would have leaned on first — the detector — is the thing I should trust least here.',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Compared his conclusion against the starting position he recorded.',
+            returned:
+              'His judgment moved against what he wanted, which is some reassurance he followed the evidence. The strongest evidence was the independent photographs and video, not the tools.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'Worth separating three different claims that get run together here: whether the photograph is authentic, whether the copy going around has been altered, and whether the AI allegation is true. They are not the same question.',
+      },
+    ],
+    outcome: {
+      state: 'confirmed',
+      action: 'Rely on it. Pass it on, with the correction.',
+      rationale:
+        'Independent wire-service photographs and independent video of the same scene both support the photograph, and neither depends on the account that shared it. Separately, the copy circulating has been cropped and its colour pushed — true, and a different matter from the claim that it was generated by AI.',
+    },
+  },
+
+  /* ---------------------------------------------------------------- */
+  {
+    id: 'case4',
+    order: 3,
+    title: 'A photograph shared by a senator’s office',
+    shortLabel: 'Case 3',
+    character: {
+      name: 'Ellen',
+      blurb: 'checks the news on X most evenings and rarely posts',
+    },
+    encounterType: 'information',
+    asOf: '13 July 2026',
+    encounter:
+      'In early July 2026 speculation spread online that US Senator Mitch McConnell was seriously ill or had died. On 12 July his office released a photograph of him with his wife, Elaine Chao. Ellen sees it that evening — not on the office’s own page, but as a screenshot someone has re-uploaded to X, under a thread of replies insisting it is AI-generated.',
+    stopReaction:
+      'Ellen thought the death rumours were overblown from the start, and she notices she is inclined to take the photograph as settling the matter. She writes that down: she wants this to be the end of it.',
+    steps: [
+      {
+        key: 'source',
+        label: 'STOP and Source',
+        stepIndex: 1,
+        thought:
+          'This is a screenshot of a screenshot. Where did the actual picture come from?',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Recorded her starting position: she expects the photograph to be real and wants the story closed.',
+            returned: 'A starting point to check her conclusion against.',
+            support: 'neither',
+          },
+          {
+            category: 'check-source',
+            did: 'Went looking for the original posting rather than the reshare.',
+            returned:
+              'The photograph is on the senator’s official Senate website and his official Facebook page, alongside a statement about a fall, a hospital stay and a mild case of pneumonia.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'The accounts are genuine. But the office is the subject of the claim, so what it publishes about the senator cannot independently confirm itself. Note also that the file Ellen has is not the file the office posted — hers has been through a screenshot and a re-upload.',
+      },
+      {
+        key: 'content',
+        label: 'Content',
+        stepIndex: 2,
+        thought:
+          'He is holding a newspaper. That is a date, right there in his hand. And people keep saying the shirt proves it is old.',
+        actions: [
+          {
+            category: 'inspect-content',
+            did: 'Enlarged the newspaper in his hand and read what she could of the masthead, the date and the front-page headline.',
+            returned:
+              'Legible enough to identify the paper, a date of 12 July 2026, and a front-page sports headline.',
+            support: 'toward',
+          },
+          {
+            category: 'read-replies',
+            did: 'Followed the most-quoted argument in the thread — that he is wearing the same red-checked shirt as in a 2023 photograph — and compared the two images.',
+            returned:
+              'The shirt does look like the same shirt. It establishes that he owns the shirt.',
+            support: 'neither',
+          },
+          {
+            category: 'tool',
+            did: 'Ran the copy she has — the re-uploaded screenshot from X — through three free AI-detection sites.',
+            returned:
+              'Two report no sign of AI. One reports that AI was likely used. Ellen has no way to reconcile them.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'The shirt argument is a signal that fits both explanations equally, so it separates nothing. On the detectors: Ellen is running a re-compressed copy pulled off social media, not the file the office published. She has no way of knowing whether that matters, and nothing in her tools tells her.',
+      },
+      {
+        key: 'alignment',
+        label: 'Alignment',
+        stepIndex: 3,
+        thought:
+          'The newspaper is checkable against the actual newspaper. And there is an AI assistant right here in the app.',
+        actions: [
+          {
+            category: 'search',
+            did: 'Looked up that newspaper’s edition for 12 July 2026 and compared the front page against what is visible in his hand.',
+            returned:
+              'The date, the section and the front-page headline match the published edition.',
+            support: 'toward',
+          },
+          {
+            category: 'tool',
+            did: 'Asked Grok, the AI assistant built into X, what it made of the image.',
+            returned:
+              'Grok states four things: that the image is AI-generated; that it carries a SynthID watermark from Gemini or OpenAI; that the office released only a text statement and no photograph; and that a named newspaper has already debunked it.',
+            support: 'against',
+          },
+          {
+            category: 'search',
+            did: 'Checked Grok’s claims one at a time.',
+            returned:
+              'The office did publish the photograph, on two official channels. The named newspaper was covering a different fake image entirely. The remaining two claims she cannot check at all.',
+            support: 'neither',
+          },
+          {
+            category: 'search',
+            did: 'Looked into a senator’s public remark that “a source” had told him the photograph was old.',
+            returned: 'No source named, nothing to examine.',
+            support: 'neither',
+          },
+          {
+            category: 'search',
+            did: 'Searched for independent video of the senator from the same period.',
+            returned: 'None available.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'Two of Grok’s four claims fell apart the moment Ellen looked. The other two did not, and not because they were true — because there was nothing to look at. Checking that a cited source exists is straightforward. Checking that a claimed debunk does not exist is much harder, because absence returns nothing to inspect.',
+      },
+      {
+        key: 'reflect',
+        label: 'Now Reflect',
+        stepIndex: 4,
+        thought:
+          'I came in expecting to close this. I cannot close it. I also cannot say it is fake.',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Counted what she actually has, by kind rather than by number of things she did.',
+            returned:
+              'The newspaper is one usable independent kind of evidence. The official post is not independent of the subject. The detectors disagreed with each other, so that check returned nothing. There is no independent video.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'One usable independent kind of evidence is not two. The pull to resolve is strong in both directions here — toward closing the rumour, and toward the confident-sounding assistant that said it was fake.',
+      },
+    ],
+    outcome: {
+      state: 'unresolved',
+      action: 'Hold. Do not pass it on, and do not dismiss it either.',
+      rationale:
+        'Only one independent kind of evidence returned anything usable. Ellen does not post the reply calling it fake, and she does not post that it is confirmed real. This is a complete result: with what she can reach, the question is open.',
+    },
+  },
+
+  /* ---------------------------------------------------------------- */
+  {
+    id: 'case1',
+    order: 4,
+    title: 'An urgent phone call',
+    shortLabel: 'Case 4',
+    character: {
+      name: 'Rekha',
+      blurb: 'runs a small play school in Indore',
+    },
+    encounterType: 'request',
+    asOf: 'the afternoon of the call',
+    encounter:
+      'Rekha’s phone rings in the middle of the afternoon. The caller sounds exactly like her cousin Manoj, who works for the police in another state. He says a friend of his needs urgent heart surgery, that the hospital will not start without a deposit, and that she should send the money now using a QR code he is about to share. He stays on the line while he explains.',
+    stopReaction:
+      'It is Manoj’s voice. Rekha’s chest tightens and she is already reaching for her other phone. She makes herself stop and name what is happening: she is frightened, she is being hurried, and she has not checked anything.',
+    steps: [
+      {
+        key: 'source',
+        label: 'STOP and Source',
+        stepIndex: 1,
+        thought:
+          'It is his voice and it is his number. What else do I actually know?',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Stopped before acting and named her state: frightened, hurried, not yet checking.',
+            returned:
+              'Enough of a gap to ask a question. Nothing about who is calling.',
+            support: 'neither',
+          },
+          {
+            category: 'check-source',
+            did: 'Looked at the number on the screen and listened again to the voice.',
+            returned:
+              'Both appear to be her cousin’s. Both reached her through the call itself.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'There is no account to inspect, no article, no file. Everything Rekha knows about who is calling has been supplied by the caller. A voice can be copied and a displayed number can be set.',
+      },
+      {
+        key: 'content',
+        label: 'Content',
+        stepIndex: 2,
+        thought:
+          'Why can I not speak to the person who is ill? Why does it have to be right now?',
+        actions: [
+          {
+            category: 'inspect-content',
+            did: 'Listened to what was actually being asked, rather than to who seemed to be asking.',
+            returned:
+              'Money, immediately, by a method that will be difficult to reverse. The emergency belongs to a third party she cannot speak to. The caller is keeping her on the line.',
+            support: 'against',
+          },
+        ],
+        narrator:
+          'None of this shows the voice is cloned. It shows the shape of the request: urgency, an irreversible payment, and a story arranged so that it cannot be checked without leaving the call. Something is being asked of Rekha here, and going along with it cannot be undone. That makes this a request, not information.',
+      },
+      {
+        key: 'alignment',
+        label: 'Alignment',
+        stepIndex: 3,
+        thought:
+          'I do not have to work out whether the voice is real. I just have to reach Manoj some other way.',
+        actions: [
+          {
+            category: 'contact',
+            did: 'Said she would call straight back, ended the call, and dialled the number already saved in her phone.',
+            returned: 'Manoj answers. He is at work. There is no friend in surgery.',
+            support: 'against',
+          },
+        ],
+        narrator:
+          'There is nothing here to search for and no image to examine. The useful move is reaching the person through a route the caller does not control — and it is a move Rekha can make without committing to anything.',
+      },
+      {
+        key: 'reflect',
+        label: 'Now Reflect',
+        stepIndex: 4,
+        thought:
+          'Before I called back I did not know. But not knowing did not mean doing nothing — it meant not sending the money yet.',
+        actions: [
+          {
+            category: 'pause',
+            did: 'Looked back at the point just before the callback and asked what the right move had been then.',
+            returned:
+              'At that point the evidence was unresolved: everything she had came from the caller. The callback was the step she could take without committing anything, and it produced the independent evidence she was missing.',
+            support: 'neither',
+          },
+        ],
+        narrator:
+          'Two moments, two states. Sitting still would not have been the safe option here — staying on the line while being hurried was itself the risk.',
+      },
+    ],
+    outcome: {
+      state: 'contradicted',
+      action:
+        'Before the callback: check through a route the caller does not control. After it: refuse, and report.',
+      rationale:
+        'Up to the callback the evidence was unresolved, and with a request the move under unresolved evidence is the one that can be undone — not inaction. The callback supplied an independent channel the caller could not reach, and it ran against the claim. Rekha sends nothing and reports the number to the cybercrime helpline.',
+    },
+  },
 ];
+
+/** Cases in the order participants see them. */
+export const CASE_ORDER = ['case2', 'case3', 'case4', 'case1'] as const;
+
+export const CASES_IN_ORDER: CaseContent[] = CASE_ORDER.map((id) => {
+  const found = CASES.find((c) => c.id === id);
+  if (!found) {
+    throw new Error(`Unknown case id: ${id}`);
+  }
+  return found;
+});
+
+/* ------------------------------------------------------------------ */
+/* Reference cards                                                     */
+/* ------------------------------------------------------------------ */
 
 export const REFERENCE_CARDS = {
   sift: {
     id: 'sift',
     title: 'SIFT summary',
-    body: 'SIFT is a flexible approach for checking online information. Its four moves are: Stop; Investigate the source; Find better coverage; and Trace claims, quotations, and media back to their original context. These are moves, not a required sequence. A person may use them in any order, and one move may sometimes be enough. Later guidance also discusses using language models as research tools while checking the sources and claims they provide.',
+    body: 'SIFT is a flexible approach for checking online information, developed by Mike Caulfield (2019) and set out with Sam Wineburg in “Verified” (University of Chicago Press, 2023). Its four moves are: Stop; Investigate the source; Find better coverage; and Trace claims, quotes and media back to the original context. These are moves rather than a required sequence. A person may use them in any order, and one move may sometimes be enough. Later guidance from Caulfield (2025) also discusses using language models as research tools while checking the sources and claims they provide.',
   },
   detector: {
     id: 'detector',
     title: 'Detection and provenance tools',
-    body: 'Some people begin by using an AI-detection tool or looking for a watermark, Content Credential, or other provenance record. These checks may provide useful information, but they do not always give a clear answer. A missing watermark does not prove that something is fake, and different detection tools may disagree.',
+    body: 'In practice this is where many people start: run the image through an AI detector, or look for a watermark or Content Credential, and take the answer. Each of these tools is promoted on its own terms, and none of them is presented to the public alongside the others or alongside its own error rate. They can return useful information. They also frequently return nothing conclusive: a missing watermark does not show that something is authentic, and two detectors run on the same image may disagree.',
   },
 };
 
-export const CASES: CaseContent[] = [
-  {
-    id: 'case1',
-    title: 'An urgent phone call',
-    shortLabel: 'Case 1',
-    encounter:
-      'A woman who runs a small play school in Indore, India, receives a phone call. The caller sounds like her cousin, who works for the police in another state. He says that a friend needs urgent heart surgery and asks her to send money immediately using a QR code.',
-    steps: [
-      {
-        key: 'source',
-        label: 'Source',
-        stepIndex: 1,
-        evaluation:
-          'The voice sounds familiar, and the number appears to be her cousin’s. That may feel reassuring, but both pieces of information come from the incoming call. If someone can copy a voice or disguise a phone number, neither one confirms who is calling.\n\nThere is no account, article, or file to inspect. The main thing this step reveals is that everything she currently knows about the caller comes from the caller himself.',
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        stepIndex: 2,
-        evaluation:
-          'The caller is asking for money immediately. He says the emergency involves a friend, not himself, so the woman cannot ask the supposed patient any questions. The QR payment may also be difficult to recover once it is sent.\n\nNone of this proves that the voice is fake. It does show several warning signs: urgency, pressure, a payment that may not be reversible, and a story that cannot be checked while staying on the call.',
-      },
-      {
-        key: 'alignment',
-        label: 'Alignment',
-        stepIndex: 3,
-        evaluation:
-          'The simplest check is to hang up and call her cousin using the number already saved in her phone. That call would not depend on the person who contacted her.\n\nIf her cousin does not answer, she could contact another family member. There is no image, recording, or webpage to search in this case. The useful check is reaching the person through a separate route.',
-      },
-      {
-        key: 'reflect',
-        label: 'Now Reflect',
-        stepIndex: 4,
-        evaluation:
-          'At first, the familiar voice made the call seem believable. But the voice is also the part that could have been copied.\n\nThere is not yet enough information to know who called. The outcome is Withhold judgment. She should not send money while the request remains unconfirmed.',
-      },
-    ],
-  },
-  {
-    id: 'case2',
-    title: 'A wind forecast map',
-    shortLabel: 'Case 2',
-    encounter:
-      'The US National Weather Service office in Missoula posts a wind forecast map for Camas Prairie, Idaho, on social media. The caption says, “Hold onto your hats!”',
-    steps: [
-      {
-        key: 'source',
-        label: 'Source',
-        stepIndex: 1,
-        evaluation:
-          'The post comes from the real National Weather Service account for that region. That makes it easy to trust the map immediately.\n\nHowever, confirming who posted something does not confirm that every detail in the post is correct. A reliable organization can still make a mistake.',
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        stepIndex: 2,
-        evaluation:
-          'Most of the wind figures look ordinary, but some of the place names look unusual. Names such as “Orangeotild” and “Whata Bod” do not look like real locations.\n\nA person does not need a specialist tool to notice this. The names can be checked using an ordinary map.',
-      },
-      {
-        key: 'alignment',
-        label: 'Alignment',
-        stepIndex: 3,
-        evaluation:
-          'Searching for the unusual place names on a map does not return any matching locations.\n\nThe National Weather Service later said that an AI tool had been used to create the base map. It removed the original post and published a correction. The map check and the agency’s correction point in the same direction.',
-      },
-      {
-        key: 'reflect',
-        label: 'Now Reflect',
-        stepIndex: 4,
-        evaluation:
-          'At first, the official account made the map seem trustworthy. The place-name check and the agency’s correction show that the map itself is not reliable.\n\nTwo independent channels point toward fabricated details. The outcome is Decline to act or share. The organization may still be trustworthy, but this particular map should not be relied on or passed along.',
-      },
-    ],
-  },
-  {
-    id: 'case3',
-    title: 'A photograph of a campaign crowd',
-    shortLabel: 'Case 3',
-    encounter:
-      'A photograph shared in August 2024 shows a large crowd greeting a presidential campaign at Detroit Metro Airport. An aircraft is visible behind the crowd. People online claim that the image was created or altered using AI and that the crowd was not really there.',
-    steps: [
-      {
-        key: 'source',
-        label: 'Source',
-        stepIndex: 1,
-        evaluation:
-          'The earliest person identified as having shared the photograph was a political strategist. She was not at the event and could not say where she received the image.\n\nThe trail back to the original photographer therefore stops early. This step does not provide much help.',
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        stepIndex: 2,
-        evaluation:
-          'Nothing in the photograph is obviously impossible. Faces and hands look normal. Several people are holding up phones, and their screens appear to show the same crowd and aircraft.\n\nSome people pointed to a gap in the crowd as evidence of editing. A roof above that area casts a shadow, which could explain why the gap looks unusual. These observations do not prove that the photograph is real, but they give ordinary explanations for some of the suspicious details.',
-      },
-      {
-        key: 'alignment',
-        label: 'Alignment',
-        stepIndex: 3,
-        evaluation:
-          'A reverse-image search does not provide much useful information. However, the Associated Press archive contains photographs of the same scene taken by another photographer. Video of the aircraft arriving also exists.\n\nThe campaign told the BBC that a staff member took the photograph and that it was not AI-generated. A photographer noted that the version being shared online had been cropped and had stronger colour and contrast.\n\nTwo AI-detection tools were also tried. Both leaned toward the image being human-made, but one result was only slightly more confident than chance. Because both tools are the same kind of check, they provide one weak channel rather than two independent sources.',
-      },
-      {
-        key: 'reflect',
-        label: 'Now Reflect',
-        stepIndex: 4,
-        evaluation:
-          'The strongest evidence is not the detector output. It is the other photographs and video showing the same scene.\n\nTwo or more independent channels point toward authentic. The outcome is Trust. If the detector results were the only evidence available, there would not be enough information to reach that conclusion.',
-      },
-    ],
-  },
-  {
-    id: 'case4',
-    title: 'A photograph shared by a senator’s office',
-    shortLabel: 'Case 4',
-    encounter:
-      'In July 2026, people were speculating online that a US senator was seriously ill or had died. His office then released a photograph of him with his wife. Some people claimed that the photograph was AI-generated.',
-    steps: [
-      {
-        key: 'source',
-        label: 'Source',
-        stepIndex: 1,
-        evaluation:
-          'The photograph appears on the senator’s official Senate website and Facebook page, together with a statement about a fall, a hospital stay, and pneumonia.\n\nThese are genuine official accounts, which makes the photograph seem reassuring. However, the question is whether the office released an authentic photograph. The office’s own statement cannot independently confirm that.',
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        stepIndex: 2,
-        evaluation:
-          'The senator is holding the sports section of a newspaper dated 12 July 2026. The headline and part of an article can be read in the photograph.\n\nThe image is low resolution, so small details such as skin, edges, or possible editing are difficult to inspect. Nothing looks obviously generated, but “I cannot see anything wrong” is not the same as “nothing is wrong.”',
-      },
-      {
-        key: 'alignment',
-        label: 'Alignment',
-        stepIndex: 3,
-        evaluation:
-          'The newspaper is something that can be checked. The date, headline, and article shown in the photograph match the published edition. This supports the photograph, although it is only one kind of evidence.\n\nSeveral other online claims do not hold up. One claim said the senator’s office had released only a written statement, but that claim referred to a different webpage. Other claims about an older shirt and an unnamed source could not be verified.\n\nNo SynthID watermark or C2PA record was found. That does not prove anything by itself because many authentic photographs contain neither.\n\nFour AI-detection tools were also tried. Two leaned one way and two leaned the other. Because these tools are all the same type of check and do not agree, their results are inconclusive.\n\nA chatbot also made several confident claims about the image, but those claims were false or referred to a different photograph. No independent video of the senator was available.',
-      },
-      {
-        key: 'reflect',
-        label: 'Now Reflect',
-        stepIndex: 4,
-        evaluation:
-          'The newspaper provides one useful piece of independent evidence. The official post also supports authenticity, but it comes from the senator’s own office and is not independent of the subject.\n\nThe provenance checks provide no answer, the detection tools disagree, and there is no independent video. The photograph may be real, but only one useful independent channel is available.\n\nThe outcome is Withhold judgment until another independent source becomes available.',
-      },
-    ],
-  },
-];
+/* ------------------------------------------------------------------ */
+/* SIFT route exhibits — same characters, same cases                   */
+/* ------------------------------------------------------------------ */
 
 export interface SiftRoute {
   id: string;
   label: string;
   body: string;
   moves: string[];
+  /** Researcher-only. Never rendered to participants. */
   fails: boolean;
 }
 
@@ -265,23 +772,32 @@ export interface SiftCaseBlock {
   routes: SiftRoute[];
 }
 
+const case2Content = CASES.find((c) => c.id === 'case2');
+if (!case2Content) {
+  throw new Error('Unknown case id: case2');
+}
+const case4Content = CASES.find((c) => c.id === 'case4');
+if (!case4Content) {
+  throw new Error('Unknown case id: case4');
+}
+
 export const SIFT_BLOCKS: SiftCaseBlock[] = [
   {
     caseId: 'case2',
-    title: 'Case 2 — the wind map',
-    encounter: CASES[1].encounter,
+    title: 'The wind forecast map — if Dana had used SIFT',
+    encounter: case2Content.encounter,
     routes: [
       {
         id: 'routeA',
         label: 'Route A',
-        body: 'The person notices the unusual place names and looks them up on a map. The names do not match real locations, so they decide that the forecast map is unreliable and stop. This reaches the answer more quickly than completing every STOP&SCAN step.',
+        body: 'Dana stops on the odd place names and traces them: she puts “Orangeotild” and “Whata Bod” into a maps app and a search, and neither exists anywhere. She concludes the map is not reliable and stops there. She gets to the same place faster than working through every STOP&SCAN step.',
         moves: ['Trace claims, quotes, and media to the original context'],
         fails: false,
       },
       {
         id: 'routeB',
         label: 'Route B',
-        body: 'The person checks the account that posted the map. It is the real National Weather Service office responsible for that region. They decide that the map is reliable and stop without checking the place names.',
+        body: 'Dana investigates the source. The account is the genuine National Weather Service office for that region, posting forecasts as it does every day. Satisfied that the source is what it appears to be, she stops without looking at the place names, and reshares the map.',
         moves: ['Investigate the source'],
         fails: true,
       },
@@ -289,20 +805,20 @@ export const SIFT_BLOCKS: SiftCaseBlock[] = [
   },
   {
     caseId: 'case4',
-    title: 'Case 4 — the senator’s photograph',
-    encounter: CASES[3].encounter,
+    title: 'The senator’s photograph — if Ellen had used SIFT',
+    encounter: case4Content.encounter,
     routes: [
       {
         id: 'routeA',
         label: 'Route A',
-        body: 'The person looks for other coverage. A chatbot says the image is AI-generated, contains a SynthID watermark, and has been disproved by a newspaper. They accept that summary and decide that the photograph is fake. The chatbot’s claims are incorrect or refer to another image.',
+        body: 'Ellen goes looking for better coverage without leaving the app, and asks Grok. It tells her the image is AI-generated, that it carries a SynthID watermark, and that a named newspaper has already debunked it. That reads like coverage from elsewhere, so she accepts it and concludes the photograph is fake. Every one of those claims is false or refers to a different image.',
         moves: ['Find better coverage'],
         fails: true,
       },
       {
         id: 'routeB',
         label: 'Route B',
-        body: 'The person checks the newspaper shown in the photograph. The date, headline, and article match the published edition. They decide that the photograph is probably authentic and stop. This route finds useful evidence, but SIFT does not specify how many independent sources are needed before reaching a conclusion.',
+        body: 'Ellen traces the newspaper in the senator’s hand back to its original: the date, the section and the front-page headline all match the published edition for 12 July 2026. That is real evidence, honestly obtained. She concludes the photograph is probably authentic and stops. SIFT does not tell her how many independent kinds of evidence she needed before stopping.',
         moves: ['Trace claims, quotes, and media to the original context'],
         fails: true,
       },
@@ -311,53 +827,96 @@ export const SIFT_BLOCKS: SiftCaseBlock[] = [
 ];
 
 export const SIFT_INTRO =
-  'SIFT does not require people to follow its moves in a fixed order. A person may use only the moves that seem useful and may stop after one move if they believe they have enough information. The routes below are examples written for this study. They are not the only ways someone could use SIFT. Please tell us if a route seems unrealistic or unfair.';
+  'SIFT does not ask people to work through its moves in a fixed order. A person may use only the moves that look useful, and may stop after one if they think they have enough. The routes below are examples we wrote for this study, following the same two people through the same two cases. They are not the only ways someone could use SIFT, and we would like to know if a route strikes you as unrealistic or unfair.';
 
 export const SIFT_CRITIQUE = {
   intro:
-    'Below are four concerns about using SIFT with synthetic media. Please tell us where you agree, where a concern is overstated, and where it is wrong.',
+    'Below are four concerns we hold about using SIFT with synthetic media. Please tell us where you agree, where a concern is overstated, and where it is simply wrong.',
   positions: [
     {
       id: 'stop',
       title: 'On Stop',
-      body: 'SIFT asks people to pause and notice their reaction, but it does not ask them to record their starting judgment. Without a clear starting point, it may be difficult to tell whether later evidence changed someone’s mind or whether they mainly found support for what they already believed.',
+      body: 'SIFT asks people to pause and notice their reaction, but not to record where they started. Without a starting point, it is hard to tell afterwards whether evidence changed someone’s mind or whether they gathered support for what they already thought.',
     },
     {
       id: 'investigate',
       title: 'On Investigate the source',
-      body: 'This move works best when there is a source that can be identified and researched. Some synthetic content has no clear original source. In other cases, a genuine and trustworthy organization may publish incorrect or AI-generated content. Confirming the source may then provide false reassurance.',
+      body: 'This move works best when there is a source to identify and research. Some synthetic content has no original source at all. In other cases a genuine and trustworthy organisation publishes something incorrect or AI-generated under its own name, and confirming the source then supplies false reassurance.',
     },
     {
       id: 'coverage',
       title: 'On Find better coverage',
-      body: 'Searching for other coverage assumes that the search environment contains reliable information. Search results, copied claims, and AI-generated summaries may repeat or strengthen false information. Looking elsewhere can therefore sometimes make a judgment worse rather than better.',
+      body: 'Searching for other coverage assumes the search environment holds reliable information. Results, copied claims and AI-generated summaries can repeat and reinforce a false claim, so looking elsewhere sometimes makes a judgment worse rather than better.',
     },
     {
       id: 'trace',
       title: 'On Trace to the original context',
-      body: 'Some synthetic media has no authentic original to find. Authentic media may also have an original that is difficult or impossible to reach. This move does not directly address newer provenance systems such as Content Credentials or watermarks.',
+      body: 'Some synthetic media has no authentic original to find. Authentic media may have an original that cannot be reached. And the move does not address provenance systems such as Content Credentials or watermarks, which did not exist when it was written.',
     },
   ],
   aiExtension:
-    'Newer SIFT guidance discusses using language models as research tools and checking the sources they provide. Our concern is that checking whether a cited source exists is easier than checking whether a claimed article or debunk does not exist. A language model may also shape the direction of a search before the user begins checking its claims.',
+    'Newer SIFT guidance discusses using language models as research tools and checking the sources they supply. Our concern is an asymmetry: checking whether a cited source exists is straightforward, while checking whether a claimed article or debunk does not exist is much harder, because absence returns nothing to inspect. A model can also frame the direction of a search before any checking begins.',
 };
+
+/* ------------------------------------------------------------------ */
+/* Debrief                                                             */
+/* ------------------------------------------------------------------ */
 
 export const DEBRIEF = {
   thankYou: 'Thank you. Your responses are recorded and cannot be edited.',
+  intro:
+    'Each case was frozen to the date shown at the top of it. Here is where each stands in the public record, including what happened afterwards.',
   resolutions: [
-    'Case 1 and Case 2 are as recorded in the AI Incident Database.',
-    'Case 3 was rated True by Snopes — the photograph is authentic.',
-    'Case 4 was left unrated by the fact-checkers, pending video footage, and remains unresolved.',
+    {
+      caseId: 'case2',
+      label: 'The wind forecast map (frozen to 5 January 2026)',
+      body: 'As recorded. The National Weather Service office in Missoula used a generative AI tool to build the base map, which invented the place names. The post was removed and the map corrected. The Washington Post’s enquiry to the agency is what prompted the removal — Dana would not have known that at the time.',
+      links: [
+        { label: 'AI Incident Database, Incident 1332', url: 'https://incidentdatabase.ai/cite/1332/' },
+        { label: 'The Washington Post, 6 January 2026', url: 'https://www.washingtonpost.com/weather/2026/01/06/nws-ai-map-fake-names/' },
+      ],
+    },
+    {
+      caseId: 'case3',
+      label: 'The campaign crowd photograph (frozen to 12 August 2024)',
+      body: 'Rated True by Snopes: the photograph is authentic and the crowd was there. PolitiFact rated the AI claim Pants on Fire. A digital forensics researcher who examined it found no doubt that the photograph was real, and attributed the halo effect around people to the unusual lighting in the hangar.',
+      links: [
+        { label: 'Snopes fact check', url: 'https://www.snopes.com/fact-check/harris-walz-crowd/' },
+        { label: 'PolitiFact, 12 August 2024', url: 'https://www.politifact.com/factchecks/2024/aug/12/donald-trump/why-trumps-claim-that-the-harris-campaign-used-ai' },
+      ],
+    },
+    {
+      caseId: 'case4',
+      label: 'The senator’s photograph (frozen to 13 July 2026)',
+      body: 'Two professional fact-checkers reached different endings on the same day. Snopes left the claim UNRATED, pending a response from the senator’s office and video footage, on the grounds that the image quality made lesser forms of alteration impossible to rule out. PolitiFact rated the claim False. One point worth flagging, because it is the reason our walkthrough differs from theirs: Snopes worked from the published file and ran four detection tools, all four of which pointed away from AI — two confidently, two at low probability. Ellen was working from a screenshot re-uploaded to X, and got a split. We wrote it that way deliberately. The artifact an ordinary person can reach is often not the artifact a fact-checker reaches, and nothing in the tools tells them so.',
+      links: [
+        { label: 'Snopes, 13 July 2026 (left unrated)', url: 'https://www.snopes.com/news/2026/07/13/mitch-mcconnell-photo/' },
+        { label: 'PolitiFact, 13 July 2026 (rated False)', url: 'https://politifact.com/factchecks/2026/jul/13/tweets/mitch-mcconnell-rehabilitation-photo-ai-reused/' },
+      ],
+    },
+    {
+      caseId: 'case1',
+      label: 'The urgent phone call',
+      body: 'As recorded in the AI Incident Database. In the documented incident the money was sent before any callback was made. Our walkthrough is a counterfactual: what the framework would have surfaced, not what happened.',
+      links: [
+        { label: 'AI Incident Database, Incident 1339', url: 'https://incidentdatabase.ai/cite/1339/' },
+      ],
+    },
   ],
   notes: [
-    'The evaluations you read were written by our research team as demonstrations of the framework. They are not authoritative analyses of these incidents, and they are published alongside this study so that readers can judge whether they were fair.',
-    'The positions we stated about SIFT are our arguments, and they are contested. Nothing you said was scored, and no individual’s responses will be reported.',
+    'The walkthroughs you read were written by our research team as demonstrations. They are not authoritative analyses of these incidents. They are published alongside this study so that readers can judge for themselves whether they were fair.',
+    'The people walking through each case are invented. The public figures and organisations in them are named as they were reported.',
+    'The positions we stated about SIFT are our arguments and they are contested. Nothing you said was scored, and no individual’s responses will be reported.',
   ],
   contacts: {
     pi: 'Saniat Javid Sohrawardi, Principal Investigator — john.sohrawardi@rit.edu',
     hsro: 'RIT Human Subjects Research Office — hsro@rit.edu — 585-475-7673',
   },
 };
+
+/* ------------------------------------------------------------------ */
+/* Helpers                                                             */
+/* ------------------------------------------------------------------ */
 
 export function getCase(caseId: string): CaseContent {
   const found = CASES.find((c) => c.id === caseId);
@@ -374,4 +933,12 @@ export function getStep(caseId: string, stepKey: string): CaseStepContent {
     throw new Error(`Unknown step ${stepKey} for ${caseId}`);
   }
   return step;
+}
+
+export function getSiftBlock(caseId: string): SiftCaseBlock {
+  const found = SIFT_BLOCKS.find((b) => b.caseId === caseId);
+  if (!found) {
+    throw new Error(`Unknown SIFT block for ${caseId}`);
+  }
+  return found;
 }

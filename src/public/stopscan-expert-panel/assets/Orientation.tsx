@@ -1,30 +1,16 @@
 import { useEffect, useRef } from 'react';
 import {
-  Accordion, Box, Group, List, Stack, Text, ThemeIcon, Title,
+  Accordion, Box, Group, Stack, Text, ThemeIcon, Title,
 } from '@mantine/core';
 import {
   IconBook2,
-  IconLink,
-  IconFileSearch,
-  IconScale,
-  IconRefresh,
-  IconPlayerPause,
   IconSearch,
   IconShieldExclamation,
 } from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
-import {
-  STOPSCAN_OVERVIEW, WHAT_YOU_WILL_DO, REFERENCE_CARDS,
-} from './content';
+import { REFERENCE_CARDS, STOPSCAN_OVERVIEW } from './content';
+import { StopscanCoverage, StopscanElements, StopscanOutcomeModel } from './StopscanModelSummary';
 import { useInteractionLog } from './useInteractionLog';
-
-const ELEMENT_ICONS = {
-  stop: IconPlayerPause,
-  source: IconLink,
-  content: IconFileSearch,
-  alignment: IconScale,
-  reflect: IconRefresh,
-} as const;
 
 export default function Orientation({ setAnswer }: StimulusParams<Record<string, never>>) {
   const { logEvent, ensureSeeded } = useInteractionLog(setAnswer);
@@ -45,7 +31,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             <Title order={2}>Before you begin</Title>
           </Group>
           <Text c="dimmed" size="sm">
-            First, we will explain STOP&SCAN. Then you will review four examples of how it might be used.
+            First, we will explain STOP&SCAN. Then you will review four case studies of how it might be used.
           </Text>
         </div>
 
@@ -59,22 +45,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
         >
           <Title order={3} mb="sm">What STOP&SCAN does</Title>
           <Text mb="md">{STOPSCAN_OVERVIEW.intro}</Text>
-          <Stack gap="sm">
-            {STOPSCAN_OVERVIEW.elements.map((el) => {
-              const Icon = ELEMENT_ICONS[el.id as keyof typeof ELEMENT_ICONS];
-              return (
-                <Group key={el.id} align="flex-start" wrap="nowrap" gap="sm">
-                  <ThemeIcon variant="filled" color="teal" radius="xl">
-                    <Icon size={16} />
-                  </ThemeIcon>
-                  <Box>
-                    <Text fw={700}>{el.title}</Text>
-                    <Text size="sm">{el.body}</Text>
-                  </Box>
-                </Group>
-              );
-            })}
-          </Stack>
+          <StopscanElements />
         </Box>
 
         <Box
@@ -86,8 +57,8 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
           }}
         >
           <Title order={4} mb="xs">Why this order is used</Title>
-          {STOPSCAN_OVERVIEW.orderExplanation.map((p) => (
-            <Text key={p.slice(0, 32)} size="sm" mb="sm">{p}</Text>
+          {STOPSCAN_OVERVIEW.orderExplanation.map((paragraph) => (
+            <Text key={paragraph.slice(0, 32)} size="sm" mb="sm">{paragraph}</Text>
           ))}
         </Box>
 
@@ -100,19 +71,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
           }}
         >
           <Title order={4} mb="xs">Possible outcomes</Title>
-          <Text size="sm" mb="sm">
-            After completing the steps, choose the outcome that best matches the available evidence:
-          </Text>
-          <List size="sm" spacing={8}>
-            {STOPSCAN_OVERVIEW.outcomes.map((outcome) => (
-              <List.Item key={outcome.title}>
-                <Text span fw={700}>{outcome.title}:</Text>
-                {' '}
-                {outcome.body}
-              </List.Item>
-            ))}
-          </List>
-          <Text size="sm" mt="md">{STOPSCAN_OVERVIEW.reporting}</Text>
+          <StopscanOutcomeModel />
         </Box>
 
         <Box
@@ -123,10 +82,7 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             background: '#fff',
           }}
         >
-          <Title order={4} mb="xs">{STOPSCAN_OVERVIEW.coverageRule.title}</Title>
-          {STOPSCAN_OVERVIEW.coverageRule.paragraphs.map((p) => (
-            <Text key={p.slice(0, 32)} size="sm" mb="sm">{p}</Text>
-          ))}
+          <StopscanCoverage />
         </Box>
 
         <Box
@@ -137,18 +93,16 @@ export default function Orientation({ setAnswer }: StimulusParams<Record<string,
             background: '#fff',
           }}
         >
-          <Title order={4} mb="sm">What you will be doing</Title>
-          <Stack gap="sm">
-            {WHAT_YOU_WILL_DO.map((p) => (
-              <Text key={p.slice(0, 40)} size="sm">{p}</Text>
-            ))}
-          </Stack>
+          <Title order={4} mb="sm">How this study works</Title>
+          <Text size="sm" mb="sm">{STOPSCAN_OVERVIEW.progressive}</Text>
+          <Text size="sm" mb="sm">{STOPSCAN_OVERVIEW.freezeNote}</Text>
+          <Text size="sm">{STOPSCAN_OVERVIEW.roleplayNote}</Text>
         </Box>
 
         <div>
           <Title order={4} mb="xs">For your reference</Title>
           <Text size="sm" c="dimmed" mb="sm">
-            These summaries are optional. Open them if you would like a reminder about another approach mentioned in the study.
+            These summaries stay available throughout. Open them if you would like a reminder.
           </Text>
           <Accordion
             multiple

@@ -39,6 +39,14 @@
       padding: 16px 18px;
       margin-bottom: 16px;
     }
+    .case {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 12px 0;
+      background: #fff;
+    }
+    .case h2 { margin-top: 0; }
     .contact {
       font-size: 13px;
       background: #f4f8fa;
@@ -48,6 +56,8 @@
     }
     .muted { color: var(--muted); }
     a { color: var(--accent); }
+    .links { font-size: 13px; }
+    .links a { margin-right: 10px; }
   </style>
 </head>
 <body>
@@ -57,33 +67,54 @@
       <p>Your responses are recorded and cannot be edited.</p>
     </div>
 
-    <h2>How each case actually resolved</h2>
-    <ul>
-      <li>Case 1 and Case 2 are as recorded in the AI Incident Database.</li>
-      <li>Case 3 was rated True by Snopes — the photograph is authentic.</li>
-      <li>Case 4 was left unrated by the fact-checkers, pending video footage, and remains unresolved.</li>
-    </ul>
-    <p class="muted">
-      Source links:
-      <a href="https://incidentdatabase.ai/" target="_blank" rel="noreferrer">AI Incident Database</a>
-      ·
-      <a href="https://www.snopes.com/" target="_blank" rel="noreferrer">Snopes</a>
+    <p>
+      Each case was frozen to the date shown at the top of it. Here is where each stands in the public record, including what happened afterwards.
     </p>
 
+    <div class="case">
+      <h2>The wind forecast map (frozen to 5 January 2026)</h2>
+      <p>As recorded. The National Weather Service office in Missoula used a generative AI tool to build the base map, which invented the place names. The post was removed and the map corrected. The Washington Post’s enquiry to the agency is what prompted the removal — Dana would not have known that at the time.</p>
+      <p class="links muted">
+        <a href="https://incidentdatabase.ai/cite/1332/" target="_blank" rel="noreferrer">AI Incident Database, Incident 1332</a>
+        <a href="https://www.washingtonpost.com/weather/2026/01/06/nws-ai-map-fake-names/" target="_blank" rel="noreferrer">The Washington Post, 6 January 2026</a>
+      </p>
+    </div>
+
+    <div class="case">
+      <h2>The campaign crowd photograph (frozen to 12 August 2024)</h2>
+      <p>Rated True by Snopes: the photograph is authentic and the crowd was there. PolitiFact rated the AI claim Pants on Fire. A digital forensics researcher who examined it found no doubt that the photograph was real, and attributed the halo effect around people to the unusual lighting in the hangar.</p>
+      <p class="links muted">
+        <a href="https://www.snopes.com/fact-check/harris-walz-crowd/" target="_blank" rel="noreferrer">Snopes fact check</a>
+        <a href="https://www.politifact.com/factchecks/2024/aug/12/donald-trump/why-trumps-claim-that-the-harris-campaign-used-ai" target="_blank" rel="noreferrer">PolitiFact, 12 August 2024</a>
+      </p>
+    </div>
+
+    <div class="case">
+      <h2>The senator’s photograph (frozen to 13 July 2026)</h2>
+      <p>Two professional fact-checkers reached different endings on the same day. Snopes left the claim UNRATED, pending a response from the senator’s office and video footage, on the grounds that the image quality made lesser forms of alteration impossible to rule out. PolitiFact rated the claim False. One point worth flagging, because it is the reason our walkthrough differs from theirs: Snopes worked from the published file and ran four detection tools, all four of which pointed away from AI — two confidently, two at low probability. Ellen was working from a screenshot re-uploaded to X, and got a split. We wrote it that way deliberately. The artifact an ordinary person can reach is often not the artifact a fact-checker reaches, and nothing in the tools tells them so.</p>
+      <p class="links muted">
+        <a href="https://www.snopes.com/news/2026/07/13/mitch-mcconnell-photo/" target="_blank" rel="noreferrer">Snopes, 13 July 2026 (left unrated)</a>
+        <a href="https://politifact.com/factchecks/2026/jul/13/tweets/mitch-mcconnell-rehabilitation-photo-ai-reused/" target="_blank" rel="noreferrer">PolitiFact, 13 July 2026 (rated False)</a>
+      </p>
+    </div>
+
+    <div class="case">
+      <h2>The urgent phone call</h2>
+      <p>As recorded in the AI Incident Database. In the documented incident the money was sent before any callback was made. Our walkthrough is a counterfactual: what the framework would have surfaced, not what happened.</p>
+      <p class="links muted">
+        <a href="https://incidentdatabase.ai/cite/1339/" target="_blank" rel="noreferrer">AI Incident Database, Incident 1339</a>
+      </p>
+    </div>
+
     <h2>About the materials you saw</h2>
-    <p>
-      The evaluations you read were written by our research team as demonstrations of the framework. They are not authoritative analyses of these incidents, and they are published alongside this study so that readers can judge whether they were fair.
-    </p>
-    <p>
-      The positions we stated about SIFT are our arguments, and they are contested. Nothing you said was scored, and no individual’s responses will be reported.
-    </p>
-    <p>
-      If you would like a summary of the findings, you can request one in the sidebar. If at any point you would rather a specific response of yours were not quoted, you can tell us and we will honour that without asking why.
-    </p>
+    <p>The walkthroughs you read were written by our research team as demonstrations. They are not authoritative analyses of these incidents. They are published alongside this study so that readers can judge for themselves whether they were fair.</p>
+    <p>The people walking through each case are invented. The public figures and organisations in them are named as they were reported.</p>
+    <p>The positions we stated about SIFT are our arguments and they are contested. Nothing you said was scored, and no individual’s responses will be reported.</p>
+    <p>If you would like a summary of the findings and a copy of the accepted publication, you can request that in the sidebar. If at any point you would rather a specific response of yours were not quoted, you can tell us and we will honour that without asking why.</p>
 
     <h2>Contact</h2>
     <div class="contact">
-      <div>Principal Investigator: Saniat Javid Sohrawardi — john.sohrawardi@rit.edu</div>
+      <div>Saniat Javid Sohrawardi, Principal Investigator — john.sohrawardi@rit.edu</div>
       <div>RIT Human Subjects Research Office — hsro@rit.edu — 585-475-7673</div>
     </div>
   </div>

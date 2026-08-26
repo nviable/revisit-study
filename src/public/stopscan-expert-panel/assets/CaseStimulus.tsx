@@ -1,21 +1,39 @@
 import { useEffect, useMemo } from 'react';
 import {
-  Badge, Box, Group, Stack, Text, Title, ThemeIcon,
+  Badge, Box, Divider, Group, Stack, Table, Text, Title, ThemeIcon,
 } from '@mantine/core';
-import { IconClipboardList, IconQuote } from '@tabler/icons-react';
+import {
+  IconClipboardList, IconQuote, IconBulb, IconArrowRight, IconCalendar,
+} from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
-import { CaseStepContent, getCase } from './content';
+import {
+  ACTION_CATEGORY_LABEL, CaseStepContent, STOPSCAN_OVERVIEW, getCase,
+} from './content';
 import { ReferenceHelpers } from './ReferenceHelpers';
 import { useInteractionLog } from './useInteractionLog';
 
 export type CaseStimulusParams = {
   caseId: string;
-  /** When set, shows that step's evaluation. When omitted, shows the after-case recap chrome. */
+  /** When set, shows that step. When omitted, shows the after-case recap. */
   stepKey?: 'source' | 'content' | 'alignment' | 'reflect';
   mode: 'step' | 'after';
 };
 
-function StepEvaluation({ step, current }: { step: CaseStepContent; current: boolean }) {
+const SUPPORT_LABEL: Record<string, { text: string; color: string }> = {
+  toward: { text: 'Supported the claim', color: 'teal' },
+  against: { text: 'Undermined the claim', color: 'orange' },
+  neither: { text: 'Neither', color: 'gray' },
+};
+
+const STATE_LABEL: Record<string, string> = {
+  confirmed: 'Confirmed',
+  contradicted: 'Contradicted',
+  unresolved: 'Unresolved',
+};
+
+function StepPanel({
+  step, current, characterName,
+}: { step: CaseStepContent; current: boolean; characterName: string }) {
   return (
     <Box
       p="md"
@@ -28,33 +46,60 @@ function StepEvaluation({ step, current }: { step: CaseStepContent; current: boo
         opacity: current ? 1 : 0.92,
       }}
     >
-      <Group gap="xs" mb={8} justify="space-between">
+      <Group gap="xs" mb={10} justify="space-between">
         <Group gap="xs">
           <ThemeIcon size="sm" variant={current ? 'filled' : 'light'} color="teal" radius="xl">
             <IconQuote size={14} />
           </ThemeIcon>
-          <Text fw={700}>
-            Example reasoning: Step {step.stepIndex} of 4 — {step.label}
-          </Text>
+          <Text fw={700}>{`Step ${step.stepIndex} of 4 — ${step.label}`}</Text>
         </Group>
-        {!current && (
-          <Badge size="xs" variant="outline" color="gray">Earlier step</Badge>
-        )}
-        {current && (
-          <Badge size="xs" variant="light" color="teal">Current step</Badge>
-        )}
+        <Badge size="xs" variant={current ? 'light' : 'outline'} color={current ? 'teal' : 'gray'}>
+          {current ? 'Current step' : 'Earlier step'}
+        </Badge>
       </Group>
-      <Text size="sm" style={{ whiteSpace: 'pre-wrap' }}>{step.evaluation}</Text>
+
+      <Group gap={6} align="flex-start" mb={10} wrap="nowrap">
+        <ThemeIcon size="sm" variant="light" color="grape" radius="xl" mt={2}>
+          <IconBulb size={13} />
+        </ThemeIcon>
+        <Text size="sm" fs="italic" c="#4a3a5a">
+          {`${characterName}: “${step.thought}”`}
+        </Text>
+      </Group>
+
+      <Stack gap={8} mb={10}>
+        {step.actions.map((action) => (
+          <Box
+            key={action.did}
+            pl={10}
+            style={{ borderLeft: '3px solid #cfe0f2' }}
+          >
+            <Badge size="xs" variant="light" color="blue" mb={4}>
+              {ACTION_CATEGORY_LABEL[action.category]}
+            </Badge>
+            <Text size="sm">{action.did}</Text>
+            <Group gap={5} wrap="nowrap" mt={2} align="flex-start">
+              <ThemeIcon size={14} variant="transparent" color="gray">
+                <IconArrowRight size={12} />
+              </ThemeIcon>
+              <Text size="sm" c="dimmed">{action.returned}</Text>
+            </Group>
+          </Box>
+        ))}
+      </Stack>
+
+      <Divider mb={8} />
+      <Text size="sm" c="#4a5a63">{step.narrator}</Text>
     </Box>
   );
 }
 
 export default function CaseStimulus({
-  parameters,
-  setAnswer,
+  parameters, setAnswer,
 }: StimulusParams<CaseStimulusParams>) {
   const { caseId, stepKey, mode } = parameters;
   const caseContent = useMemo(() => getCase(caseId), [caseId]);
+
   const visibleSteps = useMemo(() => {
     if (mode === 'after') {
       return caseContent.steps;
@@ -67,72 +112,60 @@ export default function CaseStimulus({
   }, [caseContent, mode, stepKey]);
 
   const { logEvent, ensureSeeded } = useInteractionLog(setAnswer);
-
   useEffect(() => {
     ensureSeeded();
   }, [ensureSeeded]);
 
+  const isFirstCaseOverall = caseContent.order === 1;
+  const isFirstPageOfCase = mode === 'step' && stepKey === 'source';
+
   return (
-    <Box maw={860} mx="auto" p="md">
+    <Box maw={880} mx="auto" p="md">
       <ReferenceHelpers onLog={logEvent} />
 
       <Stack gap="md">
-        {mode === 'step' && stepKey === 'source' && caseId === 'case1' && (
-          <Box
-            p="md"
-            style={{
-              background: '#f0f7ff',
-              border: '1px solid #cfe0f2',
-              borderRadius: 12,
-            }}
-          >
-            <Text fw={700} mb={6}>Your first case</Text>
+        {isFirstPageOfCase && isFirstCaseOverall && (
+          <Box p="md" style={{ background: '#f0f7ff', border: '1px solid #cfe0f2', borderRadius: 12 }}>
+            <Text fw={700} mb={6}>Your first case study</Text>
             <Text size="sm">
-              You will now review the first of four real cases. We will show how someone
-              might use STOP&SCAN, one step at a time. After each step, tell us whether
-              the reasoning seems fair and useful. You are reviewing our example—not
-              solving the case yourself.
+              Four documented case studies follow. In each, we show how someone might
+              work through STOP&SCAN, one step at a time, and ask what you make of the
+              reasoning.
+              {' '}
+              {STOPSCAN_OVERVIEW.roleplayNote}
+              {' '}
+              Thank you for giving us your time on this.
             </Text>
           </Box>
         )}
-        {mode === 'step' && stepKey === 'source' && caseId !== 'case1' && (
-          <Box
-            p="sm"
-            style={{
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: 10,
-            }}
-          >
-            <Text size="sm">
-              This is the next real case. As before, review the example reasoning rather
-              than solving the case yourself.
-            </Text>
+        {isFirstPageOfCase && !isFirstCaseOverall && (
+          <Box p="sm" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10 }}>
+            <Text size="sm">The next case study. As before, we would value your read on the reasoning.</Text>
           </Box>
         )}
+
         <div>
           <Group gap="xs" mb={4}>
             <Badge color="teal" variant="light">{caseContent.shortLabel}</Badge>
             {mode === 'step' && stepKey && (
               <Badge color="gray" variant="outline">
-                Reviewing: {caseContent.steps.find((s) => s.key === stepKey)?.label}
+                Reviewing:
+                {' '}
+                {caseContent.steps.find((s) => s.key === stepKey)?.label}
               </Badge>
             )}
-            {mode === 'after' && (
-              <Badge color="gray" variant="outline">After the case</Badge>
-            )}
+            {mode === 'after' && <Badge color="gray" variant="outline">After the case</Badge>}
           </Group>
           <Title order={3}>{caseContent.title}</Title>
+          <Group gap={5} mt={4}>
+            <ThemeIcon size={15} variant="transparent" color="gray"><IconCalendar size={13} /></ThemeIcon>
+            <Text size="xs" c="dimmed">
+              {`Evidence as it stood on ${caseContent.asOf}. ${caseContent.character.name} ${caseContent.character.blurb}.`}
+            </Text>
+          </Group>
         </div>
 
-        <Box
-          p="md"
-          style={{
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: 12,
-          }}
-        >
+        <Box p="md" style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12 }}>
           <Group gap="xs" mb={6}>
             <ThemeIcon size="sm" variant="light" color="gray" radius="xl">
               <IconClipboardList size={14} />
@@ -140,29 +173,72 @@ export default function CaseStimulus({
             <Text fw={600} size="sm">What happened</Text>
           </Group>
           <Text size="sm">{caseContent.encounter}</Text>
+
+          {(isFirstPageOfCase || mode === 'after') && (
+            <>
+              <Divider my={10} />
+              <Text fw={600} size="sm" mb={4}>Before checking anything (STOP)</Text>
+              <Text size="sm" fs="italic">{caseContent.stopReaction}</Text>
+            </>
+          )}
         </Box>
 
         {visibleSteps.map((step) => (
-          <StepEvaluation
+          <StepPanel
             key={step.key}
             step={step}
             current={mode === 'step' && step.key === stepKey}
+            characterName={caseContent.character.name}
           />
         ))}
 
         {mode === 'after' && (
-          <Box
-            p="md"
-            style={{
-              border: '1px solid #e2e8f0',
-              borderRadius: 12,
-              background: '#fff',
-            }}
-          >
-            <Text fw={600} mb={6}>What if someone had stopped earlier?</Text>
+          <Box p="md" style={{ border: '1px solid #e2e8f0', borderRadius: 12, background: '#fff' }}>
+            <Text fw={700} mb={4}>{`Where ${caseContent.character.name} ended up`}</Text>
+            <Group gap="xs" mb={8}>
+              <Badge color="teal" variant="filled">
+                Evidence state:
+                {' '}
+                {STATE_LABEL[caseContent.outcome.state]}
+              </Badge>
+              <Badge color="blue" variant="light">
+                Action:
+                {' '}
+                {caseContent.outcome.action}
+              </Badge>
+            </Group>
+            <Text size="sm" mb="md">{caseContent.outcome.rationale}</Text>
+
+            <Text fw={600} size="sm" mb={6}>What each action returned</Text>
+            <Box style={{ overflowX: 'auto' }}>
+              <Table striped withTableBorder fz="xs">
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th style={{ width: '18%' }}>Step</Table.Th>
+                    <Table.Th style={{ width: '52%' }}>Action</Table.Th>
+                    <Table.Th style={{ width: '30%' }}>Effect on the claim</Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                  {caseContent.steps.flatMap((s) => s.actions.map((action) => (
+                    <Table.Tr key={`${s.key}-${action.did}`}>
+                      <Table.Td>{s.label}</Table.Td>
+                      <Table.Td>{action.did}</Table.Td>
+                      <Table.Td>
+                        <Badge size="xs" variant="light" color={SUPPORT_LABEL[action.support].color}>
+                          {SUPPORT_LABEL[action.support].text}
+                        </Badge>
+                      </Table.Td>
+                    </Table.Tr>
+                  )))}
+                </Table.Tbody>
+              </Table>
+            </Box>
+
+            <Divider my="md" />
+            <Text fw={600} mb={4}>{`What if ${caseContent.character.name} had stopped earlier?`}</Text>
             <Text size="sm" c="dimmed">
-              Now think about what might have happened if the person had stopped earlier
-              or relied on only one kind of check. Please answer the questions in the sidebar.
+              Rank the five elements below, then answer the remaining questions in the sidebar.
             </Text>
           </Box>
         )}

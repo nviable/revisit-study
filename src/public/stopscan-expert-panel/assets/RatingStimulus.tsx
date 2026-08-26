@@ -12,11 +12,11 @@ export type RatingStimulusParams = {
 const SECTION_COPY: Record<RatingStimulusParams['section'], { title: string; body: string }> = {
   stopscan: {
     title: 'Rating STOP&SCAN',
-    body: 'Thinking about all four cases, rate how much you agree or disagree with each statement. You may explain any rating in the optional text box.',
+    body: 'Thinking about all four cases, rate how much you agree or disagree with each statement below. Optional comments are in the sidebar.',
   },
   sift: {
     title: 'Rating SIFT',
-    body: 'Now consider SIFT. These questions appear before we show you our own criticisms of it. Use the reference buttons if you would like to review the SIFT summary.',
+    body: 'Now consider SIFT. These questions appear before we show you our own criticisms of it. Rate the statements below. Use the reference buttons if you would like to review the SIFT summary.',
   },
   open: {
     title: 'Open critique',
@@ -24,7 +24,7 @@ const SECTION_COPY: Record<RatingStimulusParams['section'], { title: string; bod
   },
   critique: {
     title: 'Concerns about using SIFT with synthetic media',
-    body: 'Read each concern below, then tell us where you agree, where it is overstated, and where it is wrong.',
+    body: 'Read each concern below, then tell us where you agree, where it is overstated, and where it is wrong. Remaining questions are in the sidebar.',
   },
   compare: {
     title: 'Final comparison',

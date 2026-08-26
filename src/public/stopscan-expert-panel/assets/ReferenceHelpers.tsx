@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react';
 import {
-  Button, Group, Modal, Stack, Text, Title, List, ThemeIcon, Divider, Box,
+  Box, Button, Divider, Group, Modal, Stack, Text,
 } from '@mantine/core';
 import {
   IconBook2,
   IconSearch,
   IconShieldExclamation,
-  IconPlayerPause,
-  IconLink,
-  IconFileSearch,
-  IconScale,
-  IconRefresh,
 } from '@tabler/icons-react';
-import { STOPSCAN_OVERVIEW, REFERENCE_CARDS } from './content';
+import { REFERENCE_CARDS, STOPSCAN_OVERVIEW } from './content';
+import { StopscanCoverage, StopscanElements, StopscanOutcomeModel } from './StopscanModelSummary';
 
 type ModalId = 'stopscan' | 'sift' | 'detector';
 
@@ -21,14 +17,6 @@ type ReferenceHelpersProps = {
   onReady?: () => void;
   compact?: boolean;
 };
-
-const ELEMENT_ICONS = {
-  stop: IconPlayerPause,
-  source: IconLink,
-  content: IconFileSearch,
-  alignment: IconScale,
-  reflect: IconRefresh,
-} as const;
 
 export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceHelpersProps) {
   const [opened, setOpened] = useState<ModalId | null>(null);
@@ -103,42 +91,10 @@ export function ReferenceHelpers({ onLog, onReady, compact = false }: ReferenceH
       >
         <Stack gap="md">
           <Text size="sm">{STOPSCAN_OVERVIEW.intro}</Text>
-          <Stack gap="sm">
-            {STOPSCAN_OVERVIEW.elements.map((el) => {
-              const Icon = ELEMENT_ICONS[el.id as keyof typeof ELEMENT_ICONS];
-              return (
-                <Group key={el.id} align="flex-start" wrap="nowrap" gap="sm">
-                  <ThemeIcon variant="light" color="teal" radius="xl">
-                    <Icon size={16} />
-                  </ThemeIcon>
-                  <Box>
-                    <Text fw={600} size="sm">{el.title}</Text>
-                    <Text size="sm">{el.body}</Text>
-                  </Box>
-                </Group>
-              );
-            })}
-          </Stack>
+          <StopscanElements compact />
           <Divider />
-          <div>
-            <Text fw={600} size="sm" mb={4}>Outcomes</Text>
-            <List size="sm" spacing={4}>
-              {STOPSCAN_OVERVIEW.outcomes.map((outcome) => (
-                <List.Item key={outcome.title}>
-                  <Text span fw={700}>{outcome.title}:</Text>
-                  {' '}
-                  {outcome.body}
-                </List.Item>
-              ))}
-            </List>
-            <Text size="sm" mt="sm">{STOPSCAN_OVERVIEW.reporting}</Text>
-          </div>
-          <div>
-            <Title order={5}>{STOPSCAN_OVERVIEW.coverageRule.title}</Title>
-            {STOPSCAN_OVERVIEW.coverageRule.paragraphs.map((p) => (
-              <Text key={p.slice(0, 24)} size="sm" mt="xs">{p}</Text>
-            ))}
-          </div>
+          <StopscanOutcomeModel />
+          <StopscanCoverage />
         </Stack>
       </Modal>
 

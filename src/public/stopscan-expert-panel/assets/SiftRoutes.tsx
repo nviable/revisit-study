@@ -4,7 +4,7 @@ import {
 } from '@mantine/core';
 import { IconRoute, IconClipboardList } from '@tabler/icons-react';
 import { StimulusParams } from '../../../store/types';
-import { SIFT_BLOCKS, SIFT_INTRO } from './content';
+import { SIFT_INTRO, getSiftBlock } from './content';
 import { ReferenceHelpers } from './ReferenceHelpers';
 import { useInteractionLog } from './useInteractionLog';
 
@@ -17,7 +17,7 @@ export default function SiftRoutes({
   setAnswer,
 }: StimulusParams<SiftRoutesParams>) {
   const block = useMemo(
-    () => SIFT_BLOCKS.find((b) => b.caseId === parameters.caseId),
+    () => getSiftBlock(parameters.caseId),
     [parameters.caseId],
   );
   const { logEvent, ensureSeeded } = useInteractionLog(setAnswer);
@@ -27,17 +27,13 @@ export default function SiftRoutes({
     ensureSeeded();
   }, [ensureSeeded]);
 
-  if (!block) {
-    return <Text>Unknown SIFT case block.</Text>;
-  }
-
   return (
     <Box maw={860} mx="auto" p="md">
       <ReferenceHelpers onLog={logEvent} />
 
       <Stack gap="md">
         <div>
-          <Badge color="blue" variant="light" mb={6}>Block 3b — How else this could have gone</Badge>
+          <Badge color="blue" variant="light" mb={6}>How else this could have gone</Badge>
           <Title order={3}>{block.title}</Title>
           <Text size="sm" mt="sm">{SIFT_INTRO}</Text>
         </div>
@@ -82,7 +78,7 @@ export default function SiftRoutes({
               <Accordion.Panel>
                 <Text size="sm">{route.body}</Text>
                 <Text size="xs" c="dimmed" mt="sm">
-                  SIFT move used: {route.moves.join('; ')}
+                  {`SIFT move used: ${route.moves.join('; ')}`}
                 </Text>
               </Accordion.Panel>
             </Accordion.Item>
